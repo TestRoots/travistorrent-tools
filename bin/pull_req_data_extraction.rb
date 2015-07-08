@@ -19,8 +19,6 @@ require 'trollop'
 require 'java'
 require 'ruby'
 require 'scala'
-require 'c'
-require 'javascript'
 require 'python'
 
 class PullReqDataExtraction
@@ -119,6 +117,15 @@ Extract data for pull requests for a given repository
         builds << if build.pull_request?
                     STDERR.write "\rBuild for PR: #{build[:pull_request_number]}"
                     jobs = build.jobs
+                    jobs.each do |job|
+                      log = job.log.body
+                      parent_dir = File.join('cache', repo.gsub(/\//, '-'))
+                      name = File.join(parent_dir,
+                                       build[:pull_request_number].to_s + '_' + job.number.to_s +  '.log')
+
+                      FileUtils::mkdir_p(parent_dir)
+                      File.open(name, 'w'){|f| f.puts log}
+                    end
                     commits = jobs.map { |x| x.commit }
                     jobs.zip(commits).map do |y|
                       {
@@ -1343,11 +1350,11 @@ Extract data for pull requests for a given repository
     begin
       repo = Rugged::Repository.new(checkout_dir)
       if update
-        #spawn("cd #{checkout_dir} && git pull")
+        spawn("cd #{checkout_dir} && git pull")
       end
       repo
     rescue
-      #spawn("git clone git://github.com/#{user}/#{repo}.git #{checkout_dir}")
+      spawn("git clone git://github.com/#{user}/#{repo}.git #{checkout_dir}")
       Rugged::Repository.new(checkout_dir)
     end
   end
