@@ -121,10 +121,10 @@ Extract data for pull requests for a given repository
                       log = job.log.body
                       parent_dir = File.join('cache', repo.gsub(/\//, '-'))
                       name = File.join(parent_dir,
-                                       build[:pull_request_number].to_s + '_' + job.number.to_s +  '.log')
+                                       build[:pull_request_number].to_s + '_' + job.number.to_s + '.log')
 
                       FileUtils::mkdir_p(parent_dir)
-                      File.open(name, 'w'){|f| f.puts log}
+                      File.open(name, 'w') { |f| f.puts log }
                     end
                     commits = jobs.map { |x| x.commit }
                     jobs.zip(commits).map do |y|
@@ -138,13 +138,13 @@ Extract data for pull requests for a given repository
                   end
       end
       builds = builds.select { |x| !x.nil? }.flatten
-      File.open(save_file, 'w'){|f| f.puts builds.to_json}
+      File.open(save_file, 'w') { |f| f.puts builds.to_json }
       builds
     end
   end
 
   def travis
-    @travis_builds ||= (Proc.new {get_travis(ARGV[0] + '/' + ARGV[1])}).call
+    @travis_builds ||= (Proc.new { get_travis(ARGV[0] + '/' + ARGV[1]) }).call
     @travis_builds
   end
 
@@ -206,12 +206,18 @@ Extract data for pull requests for a given repository
     end
 
     case ARGV[2]
-      when /ruby/i then self.extend(RubyData)
-      when /java/i then self.extend(JavaData)
-      when /scala/i then self.extend(ScalaData)
-      when /javascript/i then self.extend(JavascriptData)
-      when /c/i then self.extend(CData)
-      when /python/i then self.extend(PythonData)
+      when /ruby/i then
+        self.extend(RubyData)
+      when /java/i then
+        self.extend(JavaData)
+      when /scala/i then
+        self.extend(ScalaData)
+      when /javascript/i then
+        self.extend(JavascriptData)
+      when /c/i then
+        self.extend(CData)
+      when /python/i then
+        self.extend(PythonData)
     end
 
     # Update the repo
@@ -259,7 +265,7 @@ Extract data for pull requests for a given repository
             end
           end
           result
-        end.select{|x| !x.empty?}.reduce({}){|acc, x| acc.merge(x)}
+        end.select { |x| !x.empty? }.reduce({}) { |acc, x| acc.merge(x) }
 
     @prs = pull_reqs(repo_entry)
 
@@ -308,8 +314,8 @@ Extract data for pull requests for a given repository
       do_pr.call(pr)
     end.select { |x| !x.nil? }
 
-    puts results.first.keys.map{|x| x.to_s}.join(',')
-    results.sort{|a,b| b[:github_id]<=>a[:github_id]}.each{|x| puts x.values.join(',')}
+    puts results.first.keys.map { |x| x.to_s }.join(',')
+    results.sort { |a, b| b[:github_id]<=>a[:github_id] }.each { |x| puts x.values.join(',') }
 
   end
 
@@ -357,74 +363,91 @@ Extract data for pull requests for a given repository
     # Count number of src/comment lines
     src = src_lines(pr[:id].to_f)
 
-    if src == 0 then raise Exception.new("Bad src lines: 0, pr: #{pr[:github_id]}, id: #{pr[:id]}") end
+    if src == 0 then
+      raise Exception.new("Bad src lines: 0, pr: #{pr[:github_id]}, id: #{pr[:id]}")
+    end
 
     months_back = 3
     commits_incl_prs = commits_last_x_months(pr, false, months_back)
-    prev_pull_reqs = prev_pull_requests(pr,'opened')
+    prev_pull_reqs = prev_pull_requests(pr, 'opened')
 
     # Create line for a pull request
     {
-        :pull_req_id              => pr[:id],
-        :project_name             => "#{pr[:login]}/#{pr[:project_name]}",
-        :lang                     => lang,
-        :github_id                => pr[:github_id],
-        :created_at               => Time.at(pr[:created_at]).to_i,
-        :merged_at                => merge_time(pr, merged, git_merged),
-        :closed_at                => Time.at(pr[:closed_at]).to_i,
-        :lifetime_minutes         => pr[:lifetime_minutes],
-        :mergetime_minutes        => merge_time_minutes(pr, merged, git_merged),
-        :merged_using             => merge_reason.to_s,
-        :conflict                 => conflict?(pr),
-        :forward_links            => forward_links?(pr),
-        :team_size                => team_size_at_open(pr, months_back),
-        :num_commits              => num_commits(pr),
-        :num_commits_open         => num_commits_at_open(pr),
-        :num_pr_comments          => num_pr_comments(pr),
-        :num_issue_comments       => num_issue_comments(pr),
-        :num_commit_comments      => num_commit_comments(pr),
-        :num_comments             => num_pr_comments(pr) + num_issue_comments(pr) + num_commit_comments(pr),
-        :num_participants         => num_participants(pr),
-        :files_added              => stats[:files_added],
-        :files_deleted            => stats[:files_removed],
-        :files_modified           => stats[:files_modified],
-        :files_changed            => stats[:files_added] + stats[:files_modified] + stats[:files_removed],
-        :src_files                => stats[:src_files],
-        :doc_files                => stats[:doc_files],
-        :other_files              => stats[:other_files],
-        :perc_external_contribs   => commits_last_x_months(pr, true, months_back) / commits_incl_prs,
-        :sloc                     => src,
-        :src_churn                => stats[:lines_added] + stats[:lines_deleted],
-        :test_churn               => stats[:test_lines_added] + stats[:test_lines_deleted],
+        # :pull_req_id              => pr[:id],
+        # :project_name             => "#{pr[:login]}/#{pr[:project_name]}",
+        :lang => lang,
+        # :github_id                => pr[:github_id],
+        :created_at => Time.at(pr[:created_at]).to_i,
+        # :merged_at                => merge_time(pr, merged, git_merged),
+        # :closed_at                => Time.at(pr[:closed_at]).to_i,
+        # :lifetime_minutes         => pr[:lifetime_minutes],
+        # :mergetime_minutes        => merge_time_minutes(pr, merged, git_merged),
+        # :merged_using             => merge_reason.to_s,
+        # :conflict                 => conflict?(pr),
+        # :forward_links            => forward_links?(pr),
+        :team_size => team_size_at_open(pr, months_back),
+        :num_commits => num_commits(pr),
+        :num_commits_open => num_commits_at_open(pr),
+        # :num_pr_comments          => num_pr_comments(pr),
+        :num_issue_comments => num_issue_comments(pr),
+        # :num_commit_comments      => num_commit_comments(pr),
+        # :num_comments             => num_pr_comments(pr) + num_issue_comments(pr) + num_commit_comments(pr),
+        # :num_participants         => num_participants(pr),
+        :files_added => stats[:files_added],
+        :files_deleted => stats[:files_removed],
+        :files_modified => stats[:files_modified],
+        :files_changed => stats[:files_added] + stats[:files_modified] + stats[:files_removed],
+
+        :tests_added => 0, # e.g. for Java, @Test annotations
+        :tests_deleted => 0,
+        :tests_modified => 0,
+        :tests_changed => 0,
+
+        :src_files => stats[:src_files],
+        :doc_files => stats[:doc_files],
+        :other_files => stats[:other_files],
+        # :perc_external_contribs   => commits_last_x_months(pr, true, months_back) / commits_incl_prs,
+        :sloc => src,
+        :src_churn => stats[:lines_added] + stats[:lines_deleted],
+        :test_churn => stats[:test_lines_added] + stats[:test_lines_deleted],
         :commits_on_files_touched => commits_on_files_touched(pr, months_back),
-        :commits_to_hottest_file   => commits_to_hottest_file(pr, months_back),
-        :test_lines_per_kloc      => (test_lines(pr[:id]).to_f / src.to_f) * 1000,
-        :test_cases_per_kloc      => (num_test_cases(pr[:id]).to_f / src.to_f) * 1000,
-        :asserts_per_kloc         => (num_assertions(pr[:id]).to_f / src.to_f) * 1000,
-        :watchers                 => watchers(pr),
-        :requester                => requester(pr),
-        :closer                   => closer(pr),
-        :merger                   => merge_person,
-        :prev_pullreqs            => prev_pull_reqs,
-        :requester_succ_rate      => if prev_pull_reqs > 0 then prev_pull_requests(pr, 'merged').to_f / prev_pull_reqs.to_f else 0 end,
-        :followers                => followers(pr),
-        :intra_branch             => if intra_branch?(pr) == 1 then true else false end,
-        :main_team_member         => main_team_member?(pr, months_back),
-        :social_connection_tsay   => social_connection_tsay?(pr),
-        :hotness_vasilescu        => hotness_vasilescu(pr, months_back),
-        :team_size_vasilescu      => team_size_vasilescu(pr, months_back),
-        :description_complexity   => description_complexity(pr),
-        :workload                 => workload(pr),
-        :prior_interaction_issue_events    => prior_interaction_issue_events(pr, months_back),
-        :prior_interaction_issue_comments  => prior_interaction_issue_comments(pr, months_back),
-        :prior_interaction_pr_events       => prior_interaction_pr_events(pr, months_back),
-        :prior_interaction_pr_comments     => prior_interaction_pr_comments(pr, months_back),
-        :prior_interaction_commits         => prior_interaction_commits(pr, months_back),
-        :prior_interaction_commit_comments => prior_interaction_commit_comments(pr, months_back),
-        :first_response           => first_response(pr),
-        :ci_latency               => ci_latency(pr),
-        :ci_errors                => ci_errors?(pr),
-        :ci_test_failures         => ci_test_failures?(pr),
+        :commits_to_hottest_file => commits_to_hottest_file(pr, months_back),
+        :test_lines_per_kloc => (test_lines(pr[:id]).to_f / src.to_f) * 1000,
+        :test_cases_per_kloc => (num_test_cases(pr[:id]).to_f / src.to_f) * 1000,
+        :asserts_per_kloc => (num_assertions(pr[:id]).to_f / src.to_f) * 1000,
+        # :watchers                 => watchers(pr),
+        # :requester                => requester(pr),
+        # :closer                   => closer(pr),
+        # :merger                   => merge_person,
+        # :prev_pullreqs            => prev_pull_reqs,
+
+        :author_build_breakerrate => 0, # (how many times commits of this author already broke the build)
+
+        # :requester_succ_rate      => if prev_pull_reqs > 0 then prev_pull_requests(pr, 'merged').to_f / prev_pull_reqs.to_f else 0 end,
+        # :followers                => followers(pr),
+        :intra_branch =>
+            if intra_branch?(pr) == 1 then
+              true
+            else
+              false
+            end,
+        :main_team_member => main_team_member?(pr, months_back),
+        # :social_connection_tsay   => social_connection_tsay?(pr),
+        # :hotness_vasilescu        => hotness_vasilescu(pr, months_back),
+        # :team_size_vasilescu      => team_size_vasilescu(pr, months_back),
+        :description_complexity => description_complexity(pr),
+        :workload => workload(pr),
+        # :prior_interaction_issue_events    => prior_interaction_issue_events(pr, months_back),
+        # :prior_interaction_issue_comments  => prior_interaction_issue_comments(pr, months_back),
+        # :prior_interaction_pr_events       => prior_interaction_pr_events(pr, months_back),
+        # :prior_interaction_pr_comments     => prior_interaction_pr_comments(pr, months_back),
+        # :prior_interaction_commits         => prior_interaction_commits(pr, months_back),
+        # :prior_interaction_commit_comments => prior_interaction_commit_comments(pr, months_back),
+        :first_response => first_response(pr),
+        # what is ci_latency?
+        :ci_latency => ci_latency(pr),
+        :ci_errors => ci_errors?(pr),
+        :ci_test_failures => ci_test_failures?(pr),
     }
   end
 
@@ -483,11 +506,11 @@ Extract data for pull requests for a given repository
       # 3. Last comment contains a commit number
       last.scan(/([0-9a-f]{6,40})/m).each do |x|
         # Commit is identified as merged
-        if last.match(/merg(?:ing|ed)/i) or 
-          last.match(/appl(?:ying|ied)/i) or
-          last.match(/pull[?:ing|ed]/i) or
-          last.match(/push[?:ing|ed]/i) or
-          last.match(/integrat[?:ing|ed]/i) 
+        if last.match(/merg(?:ing|ed)/i) or
+            last.match(/appl(?:ying|ied)/i) or
+            last.match(/pull[?:ing|ed]/i) or
+            last.match(/push[?:ing|ed]/i) or
+            last.match(/integrat[?:ing|ed]/i)
           return [true, :commit_sha_in_comments]
         else
           # Commit appears in master branch
@@ -498,11 +521,11 @@ Extract data for pull requests for a given repository
       end
 
       # 4. Merg[ing|ed] or appl[ing|ed] as last comment of pull request
-      if last.match(/merg(?:ing|ed)/i) or 
-        last.match(/appl(?:ying|ed)/i) or
-        last.match(/pull[?:ing|ed]/i) or
-        last.match(/push[?:ing|ed]/i) or
-        last.match(/integrat[?:ing|ed]/i) 
+      if last.match(/merg(?:ing|ed)/i) or
+          last.match(/appl(?:ying|ed)/i) or
+          last.match(/pull[?:ing|ed]/i) or
+          last.match(/push[?:ing|ed]/i) or
+          last.match(/integrat[?:ing|ed]/i)
         return [true, :merged_in_comments]
       end
     end
@@ -909,7 +932,7 @@ Extract data for pull requests for a given repository
   # Median number of commits to files touched by the pull request relative to
   # all project commits during the last three months
   def hotness_vasilescu(pr, months_back)
-    commits_per_file = commits_on_pr_files(pr, months_back).map{|x| x[1].size}.sort
+    commits_per_file = commits_on_pr_files(pr, months_back).map { |x| x[1].size }.sort
     med = commits_per_file[commits_per_file.size/2]
     med / commits_last_x_months(pr, true, months_back).to_f
   end
@@ -937,14 +960,14 @@ Extract data for pull requests for a given repository
   # People that merged (not through pull requests) up to months_back
   # from the time the PR was created.
   def merger_team(pr, months_back)
-    @close_reason.map do |k,v|
-      created_at = @prs.find{|x| x[:github_id] == k}
+    @close_reason.map do |k, v|
+      created_at = @prs.find { |x| x[:github_id] == k }
       [created_at[:created_at], v[2]]
     end.find_all do |x|
-      x[0].to_i > (pr[:created_at].to_i  - months_back * 30 * 24 * 3600)
+      x[0].to_i > (pr[:created_at].to_i - months_back * 30 * 24 * 3600)
     end.map do |x|
       x[1]
-    end.select{|x| x != ''}.uniq
+    end.select { |x| x != '' }.uniq
   end
 
   # Number of integrators active during x months prior to pull request
@@ -1000,7 +1023,7 @@ Extract data for pull requests for a given repository
 
   # Time between PR arrival and last CI run
   def ci_latency(pr)
-    last_run = travis.find_all{|b| b[:pull_req] == pr[:github_id]}.sort_by { |x| Time.parse(x[:finished_at]).to_i }[-1]
+    last_run = travis.find_all { |b| b[:pull_req] == pr[:github_id] }.sort_by { |x| Time.parse(x[:finished_at]).to_i }[-1]
     unless last_run.nil?
       Time.parse(last_run[:finished_at]) - pr[:created_at]
     else
@@ -1010,12 +1033,12 @@ Extract data for pull requests for a given repository
 
   # Did the build result in errors?
   def ci_errors?(pr)
-    not travis.find_all{|b| b[:pull_req] == pr[:github_id] and b[:status] == 'errored'}.empty?
+    not travis.find_all { |b| b[:pull_req] == pr[:github_id] and b[:status] == 'errored' }.empty?
   end
 
   # Did the build result in test failuers?
   def ci_test_failures?(pr)
-    not travis.find_all{|b| b[:pull_req] == pr[:github_id] and b[:status] == 'failed'}.empty?
+    not travis.find_all { |b| b[:pull_req] == pr[:github_id] and b[:status] == 'failed' }.empty?
   end
 
   # Total number of words in the pull request title and description
@@ -1072,7 +1095,11 @@ Extract data for pull requests for a given repository
     def file_count(commits, status)
       commits.map do |c|
         c['files'].reduce(Array.new) do |acc, y|
-          if y['status'] == status then acc << y['filename'] else acc end
+          if y['status'] == status then
+            acc << y['filename']
+          else
+            acc
+          end
         end
       end.flatten.uniq.size
     end
@@ -1087,13 +1114,21 @@ Extract data for pull requests for a given repository
 
     def file_type(f)
       lang = Linguist::Language.find_by_filename(f)
-      if lang.empty? then :data else lang[0].type end
+      if lang.empty? then
+        :data
+      else
+        lang[0].type
+      end
     end
 
     def file_type_count(commits, type)
       commits.map do |c|
         c['files'].reduce(Array.new) do |acc, y|
-          if file_type(y['filename']) == type then acc << y['filename'] else acc end
+          if file_type(y['filename']) == type then
+            acc << y['filename']
+          else
+            acc
+          end
         end
       end.flatten.uniq.size
     end
@@ -1119,7 +1154,7 @@ Extract data for pull requests for a given repository
                      end
 
         acc += unless y['patch'].nil?
-                 y['patch'].lines.select{|x| x.start_with?(diff_start)}.size
+                 y['patch'].lines.select { |x| x.start_with?(diff_start) }.size
                else
                  0
                end
@@ -1127,7 +1162,7 @@ Extract data for pull requests for a given repository
       end
     end
 
-    raw_commits.each{ |x|
+    raw_commits.each { |x|
       next if x.nil?
       result[:lines_added] += lines(x, :src, :added)
       result[:lines_deleted] += lines(x, :src, :deleted)
@@ -1160,12 +1195,12 @@ Extract data for pull requests for a given repository
       c['files'].map { |f|
         [c['sha'], f['filename']]
       }
-    }.group_by {|c|
+    }.group_by { |c|
       c[1]
     }
 
     commits_per_file.keys.reduce({}) do |acc, filename|
-      commits_in_pr = commits_per_file[filename].map{|x| x[0]}
+      commits_in_pr = commits_per_file[filename].map { |x| x[0] }
 
       walker = Rugged::Walker.new(repo)
       walker.sorting(Rugged::SORT_DATE)
@@ -1196,7 +1231,7 @@ Extract data for pull requests for a given repository
   # Number of commits to the hottest file between the time the PR was created
   # and `months_back`
   def commits_to_hottest_file(pr, months_back)
-    a = commits_on_pr_files(pr, months_back).map{|x| x}.sort_by { |x| x[1].size}
+    a = commits_on_pr_files(pr, months_back).map { |x| x }.sort_by { |x| x[1].size }
     a.last[1].size
   end
 
@@ -1254,16 +1289,16 @@ Extract data for pull requests for a given repository
     QUERY
     commits = db.fetch(q, pr_id).all
 
-    commits.reduce([]){ |acc, x|
+    commits.reduce([]) { |acc, x|
       a = mongo['commits'].find_one({:sha => x[:sha]})
       acc << a unless a.nil?
       acc
-    }.select{|c| c['parents'].size <= 1}
+    }.select { |c| c['parents'].size <= 1 }
   end
 
   # List of files in a project checkout. Filter is an optional binary function
   # that takes a file entry and decides whether to include it in the result.
-  def files_at_commit(pr_id, filter = lambda{true})
+  def files_at_commit(pr_id, filter = lambda { true })
     q = <<-QUERY
     select c.sha
     from pull_requests p, commits c
@@ -1273,7 +1308,7 @@ Extract data for pull requests for a given repository
 
     def lslr(tree, path = '')
       all_files = []
-      for f in tree.map{|x| x}
+      for f in tree.map { |x| x }
         f[:path] = path + '/' + f[:name]
         if f[:type] == :tree
           begin
@@ -1292,7 +1327,7 @@ Extract data for pull requests for a given repository
     base_commit = db.fetch(q, pr_id).all[0][:sha]
     begin
       files = lslr(repo.lookup(base_commit).tree)
-      files.select{|x| filter.call(x)}
+      files.select { |x| filter.call(x) }
     rescue Exception => e
       STDERR.puts "Cannot find commit #{base_commit} in base repo"
       []
@@ -1314,20 +1349,20 @@ Extract data for pull requests for a given repository
           {'owner' => owner, 'repo' => repo, 'issue_id' => pr_id.to_i},
           {:fields => {'body' => 1, 'created_at' => 1, '_id' => 0},
            :sort => {'created_at' => :asc}}
-      ).map {|x| x}
+      ).map { |x| x }
 
     }.call
     Thread.current[:issue_cmnt]
   end
 
-  def count_lines(files, include_filter = lambda{|x| true})
-    files.map{ |f|
-      stripped(f).lines.select{|x|
+  def count_lines(files, include_filter = lambda { |x| true })
+    files.map { |f|
+      stripped(f).lines.select { |x|
         not x.strip.empty?
-      }.select{ |x|
+      }.select { |x|
         include_filter.call(x)
       }.size
-    }.reduce(0){|acc,x| acc + x}
+    }.reduce(0) { |acc, x| acc + x }
   end
 
   # Clone or update, if already cloned, a git repository
@@ -1362,12 +1397,14 @@ Extract data for pull requests for a given repository
   # [buff] is an array of file lines, with empty lines stripped
   # [regexp] is a regexp or an array of regexps to match multiline comments
   def count_multiline_comments(buff, regexp)
-    unless regexp.is_a?(Array) then regexp = [regexp] end
+    unless regexp.is_a?(Array) then
+      regexp = [regexp]
+    end
 
     regexp.reduce(0) do |acc, regexp|
-      acc + buff.reduce(''){|acc,x| acc + x}.scan(regexp).map { |x|
-        x.map{|y| y.lines.count}.reduce(0){|acc,y| acc + y}
-      }.reduce(0){|acc, x| acc + x}
+      acc + buff.reduce('') { |acc, x| acc + x }.scan(regexp).map { |x|
+        x.map { |y| y.lines.count }.reduce(0) { |acc, y| acc + y }
+      }.reduce(0) { |acc, x| acc + x }
     end
   end
 
