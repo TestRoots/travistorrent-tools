@@ -11,7 +11,6 @@ require 'thread'
 require 'rugged'
 require 'parallel'
 require 'mongo'
-require 'travis'
 require 'json'
 require 'sequel'
 require 'trollop'
@@ -97,51 +96,6 @@ Extract data for pull requests for a given repository
     Thread.current[:mongo_db]
   end
 
-  def get_travis(repo)
-    save_file = File.join('cache', repo.gsub(/\//, '-') + '.travis.json')
-    if File.exists?(save_file)
-      builds = File.open(save_file, 'r').read
-      JSON.parse(builds, :symbolize_names => true)
-    else
-      # Get PR build status from Travis
-      begin
-        repository = Travis::Repository.find(repo)
-      rescue Exception => e
-        STDERR.puts "Error getting Travis builds for #{repo}: #{e.message}"
-        return []
-      end
-
-      STDERR.puts "Getting Travis information for #{repo}"
-      builds = []
-      repository.each_build do |build|
-        builds << if build.pull_request?
-                    STDERR.write "\rBuild for PR: #{build[:pull_request_number]}"
-                    jobs = build.jobs
-                    jobs.each do |job|
-                      log = job.log.body
-                      parent_dir = File.join('cache', repo.gsub(/\//, '-'))
-                      name = File.join(parent_dir,
-                                       build[:pull_request_number].to_s + '_' + job.number.to_s +  '.log')
-
-                      FileUtils::mkdir_p(parent_dir)
-                      File.open(name, 'w'){|f| f.puts log}
-                    end
-                    commits = jobs.map { |x| x.commit }
-                    jobs.zip(commits).map do |y|
-                      {
-                          :pull_req => build[:pull_request_number],
-                          :status => y[0][:state],
-                          :commit => y[1][:sha],
-                          :finished_at => y[0][:finished_at].to_s
-                      }
-                    end
-                  end
-      end
-      builds = builds.select { |x| !x.nil? }.flatten
-      File.open(save_file, 'w'){|f| f.puts builds.to_json}
-      builds
-    end
-  end
 
   def travis
     @travis_builds ||= (Proc.new {get_travis(ARGV[0] + '/' + ARGV[1])}).call
