@@ -13,17 +13,16 @@ end
 
 
 def analyze_projects_on_travis
-  results = Array.new
-  CSV.foreach("projects-travis-sorted.txt") do |row|
-    curRow = row
-    curRow << is_project_active_on_travis("#{row[0]}/#{row[1]}").to_s
-    results << curRow.to_csv
-  end
-
+  i = 0
   File.open('results.csv', 'w') { |file|
-    results.each do |line|
-      file.write(line)
-    end }
+    CSV.foreach(ARGV[0]) do |row|
+      curRow = row
+      curRow << is_project_active_on_travis("#{row[0]}/#{row[1]}").to_s
+      file.write(curRow.to_csv)
+      i += 1
+      file.flush if i%50 == 0
+    end
+  }
 
 end
 
