@@ -7,40 +7,38 @@ def get_travis(repo)
   error_file = File.join(parent_dir, 'errors')
   FileUtils::mkdir_p(parent_dir)
 
-  if File.exists?(save_file)
-    builds = File.open(save_file, 'r').read
-    JSON.parse(builds, :symbolize_names => true)
-  else
-    begin
-      repository = Travis::Repository.find(repo)
-    rescue Exception => e
-      error_message = "Error getting Travis builds for #{repo}: #{e.message}"
-      STDERR.puts error_message
-      File.open(error_file, 'a') { |f| f.puts error_message }
-      return []
-    end
+  builds = []
 
-    STDERR.puts "Harvesting Travis build logs for #{repo}"
+  begin
+    repository = Travis::Repository.find(repo)
+
+    puts "Harvesting Travis build logs for #{repo}"
     highest_build = repository.last_build_number
-    builds = []
     repository.each_build do |build|
-
-      STDERR.write "\rBuild id: #{build.number}/#{highest_build}"
       jobs = build.jobs
       jobs.each do |job|
         name = File.join(parent_dir, build.number + '_' + build.commit.sha + '_' + job.id.to_s + '.log')
-        next if File.exists? name
+        next if File.exists?(name)
 
         begin
-          log = job.log.body
-          # Workaround if log.body results in error.
-          #log_url = "https://s3.amazonaws.com/archive.travis-ci.org/jobs/#{job.id}/log.txt"
-          #log = Net::HTTP.get_response(URI.parse(log_url)).body
+          begin
+            log = job.log.body
+          rescue
+            begin
+              # Give Travis CI some time before trying once more
+              sleep(0.5)
+              log = job.log.body
+            rescue
+              # Workaround if log.body results in error.
+              log_url = "http://s3.amazonaws.com/archive.travis-ci.org/jobs/#{job.id}/log.txt"
+              log = Net::HTTP.get_response(URI.parse(log_url)).body
+            end
+          end
 
           File.open(name, 'w') { |f| f.puts log }
         rescue
-          error_message = "Could not get #{log_url}"
-          STDERR.puts error_message
+          error_message = "Could not get log #{name}"
+          puts error_message
           File.open(error_file, 'a') { |f| f.puts error_message }
           next
         end
@@ -62,7 +60,13 @@ def get_travis(repo)
     File.open(save_file, 'w') { |f| f.puts builds.to_json }
     builds
   end
+rescue Exception => e
+  error_message = "Error getting Travis builds for #{repo}: #{e.message}"
+  puts error_message
+  File.open(error_file, 'a') { |f| f.puts error_message }
+  return []
 end
+
 
 if (ARGV[0].nil? || ARGV[1].nil?)
   puts 'Missing argument(s)!'
