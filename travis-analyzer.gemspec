@@ -2,10 +2,10 @@
 require 'rake'
 
 Gem::Specification.new do |gem|
-  gem.authors       = ["Georgios Gousios"]
-  gem.email         = ["gousiosg@gmail.com"]
-  gem.description   = %q{A framework for the analysis of Github pull requests}
-  gem.summary       = %q{Analyze Github pull requests}
+  gem.authors       = ["Moritz Beller", "Georgios Gousios"]
+  gem.email         = ["moritzbeller@gmx.de", "gousiosg@gmail.com"]
+  gem.description   = %q{A framework for the retrieval and the analysis of Travis CI build logs}
+  gem.summary       = %q{Retrieve and analyze Travis CI builds}
   gem.homepage      = ""
 
   gem.files         = `git ls-files`.split($\)
@@ -20,9 +20,9 @@ Gem::Specification.new do |gem|
   gem.add_dependency "rugged", ['>= 0.22']
   gem.add_dependency 'parallel', ['>= 0.7.1']
   gem.add_dependency 'mongo', ['>= 1.12', '< 2.0' ]
-  gem.add_dependency 'travis', ['>= 1.7']
   gem.add_dependency 'sequel', ['>= 4.23']
   gem.add_dependency 'trollop', ['>= 2.1.2']
   gem.add_dependency 'mysql2', ['>= 0.3']
+  gem.add_dependency 'travis', ['>= 1.7','< 1.9']
 
 end

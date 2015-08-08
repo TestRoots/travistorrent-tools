@@ -22,11 +22,11 @@ def get_travis(repo)
 
         begin
           begin
-            log = job.log.body
+            log_url = "http://s3.amazonaws.com/archive.travis-ci.org/jobs/#{job.id}/log.txt"
+            log = Net::HTTP.get_response(URI.parse(log_url)).body
           rescue
             begin
               # Give Travis CI some time before trying once more
-              sleep(0.15)
               log = job.log.body
             rescue
               # Workaround if log.body results in error.
@@ -36,6 +36,7 @@ def get_travis(repo)
           end
 
           File.open(name, 'w') { |f| f.puts log }
+          log = '' # necessary to enable GC of previously stored value, otherwise: memory leak
         rescue
           error_message = "Could not get log #{name}"
           puts error_message
