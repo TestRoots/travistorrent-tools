@@ -1,5 +1,6 @@
 cache/
 build_logs/
+.idea/
 
 *.gem
 *.rbc
