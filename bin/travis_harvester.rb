@@ -26,7 +26,7 @@ def get_travis(repo)
           rescue
             begin
               # Give Travis CI some time before trying once more
-              sleep(0.5)
+              sleep(0.15)
               log = job.log.body
             rescue
               # Workaround if log.body results in error.
