@@ -22,7 +22,7 @@ def get_travis(repo)
 
         begin
           begin
-            log_url = "http://s3.amazonaws.com/archive.travis-ci.org/jobs/#{job.id}/log.txt"
+            log_url = "https://api.travis-ci.org/jobs/#{job.id}/logs"
             log = Net::HTTP.get_response(URI.parse(log_url)).body
           rescue
             begin
