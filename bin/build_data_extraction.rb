@@ -420,6 +420,9 @@ usage:
       }
     end.select { |x| !x.nil? }
 
+    @builds = @builds.select{|b| !@build_diffs.find{|bd| bd[:build_id] == b[:build_id]}.nil?}
+    STDERR.puts "After calculating build stats: #{@builds.size} builds for #{owner}/#{repo}"
+
     results = Parallel.map(@builds, :in_threads => threads) do |build|
       begin
         r = process_build(build, owner, repo, language.downcase)
@@ -457,18 +460,20 @@ usage:
     # prev_pull_reqs = prev_pull_requests(pr, 'opened')
 
     # Create line for build
+    bd = @build_diffs.find{|b| b[:build_id] == build[:build_id]}
     {
         :build_id                 => build[:build_id],
         :project_name             => "#{owner}/#{repo}",
         :is_pr                    => if build[:pull_req].nil? then false else true end,
+        :pullreq_id               => build[:pull_req],
         :merged_with              => @close_reason[build[:pull_req_id]],
         :lang                     => lang,
         :github_id                => unless build[:pull_req].nil? then build[:pull_req] end,
         :branch                   => build[:branch],
         :first_commit_created_at  => Time.parse(build[:started_at]).to_i, # TODO commit that triggered the build
         # :team_size                => team_size_vasilescu(build, months_back),
-        # :commits                  => 0, # TODO commit shas for the commits in the build
-        # :num_commits              => num_commits(build), # TODO
+        :commits                  => bd[:commits].to_s, # TODO commit shas for the commits in the build
+        :num_commits              => bd[:commits].size
         # :num_issue_comments       => num_issue_comments(build), #TODO number of comments prior to this build (if it is a pr)
         # :num_commit_comments      => num_commit_comments(build), #TODO number of code comments prior to this build (if it is a pr)
         # :num_pr_comments          => num_pr_comments(build), #TODO number of code comments prior to this build (if it is a pr)
