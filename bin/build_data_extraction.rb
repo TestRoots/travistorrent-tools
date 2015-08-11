@@ -166,11 +166,13 @@ usage:
     url = "https://api.github.com/repos/#{owner}/#{repo}/commits/#{sha}"
     STDERR.puts("Requesting #{url} (#{@remaining} remaining)")
 
+    contents = nil
     begin
       r = open(url, 'User-Agent' => 'ghtorrent', :http_basic_authentication => [@token, 'x-oauth-basic'])
       @remaining = r.meta['x-ratelimit-remaining'].to_i
       @reset = r.meta['x-ratelimit-reset'].to_i
-      JSON.parse r.string, :symbolize_names => true
+      contents = r.read
+      JSON.parse contents, :symbolize_names => true
     rescue OpenURI::HTTPError => e
       @remaining = e.io.meta['x-ratelimit-remaining'].to_i
       @reset = e.io.meta['x-ratelimit-reset'].to_i
@@ -181,7 +183,7 @@ usage:
       {}
     ensure
       File.open(commit_json, 'w') do |f|
-        f.write r.string unless r.nil?
+        f.write contents unless r.nil?
         f.write '' if r.nil?
       end
 
@@ -252,7 +254,7 @@ usage:
       STDERR.puts "#{@builds.size} builds for #{owner}/#{repo}"
     end
 
-    STDERR.puts "\nCalculating GHTorrent PR ids:"
+    STDERR.puts "\nCalculating GHTorrent PR ids"
     @builds = @builds.reduce([]) do |acc, build|
       if build[:pull_req].nil?
         acc << build
@@ -266,7 +268,7 @@ usage:
         and p.owner_id = u.id
         and pr.base_repo_id = p.id
         QUERY
-        STDERR.write "\r #{build[:pull_req]}"
+        #STDERR.write "\r #{build[:pull_req]}"
         r = db.fetch(q, owner, repo, build[:pull_req].to_i).first
         unless r.nil?
           build[:pull_req_id] = r[:id]
@@ -278,11 +280,11 @@ usage:
       end
     end
 
-    STDERR.puts "\nAfter resolving GHT pullreqs: #{@builds.size} builds for #{owner}/#{repo}"
+    STDERR.puts "After resolving GHT pullreqs: #{@builds.size} builds for #{owner}/#{repo}"
     # Update the repo
     clone(owner, repo, true)
 
-    STDERR.puts "\nRetrieving all commits for the project"
+    STDERR.puts "Retrieving all commits for the project"
     walker = Rugged::Walker.new(git)
     walker.sorting(Rugged::SORT_DATE)
     walker.push(git.head.target)
@@ -302,7 +304,7 @@ usage:
 
     fixre = /(?:fixe[sd]?|close[sd]?|resolve[sd]?)(?:[^\/]*?|and)#([0-9]+)/mi
 
-    STDERR.puts 'Calculating PRs closed by commits:'
+    STDERR.puts 'Calculating PRs closed by commits'
     @closed_by_commit ={}
     commits_in_prs = db.fetch(q, repo_entry[:id]).all
     @closed_by_commit =
@@ -311,7 +313,7 @@ usage:
           result = {}
           mongo['commits'].find({:sha => sha},
                                 {:fields => {'commit.message' => 1, '_id' => 0}}).map do |x|
-            STDERR.write "\r #{sha}"
+            #STDERR.write "\r #{sha}"
             comment = x['commit']['message']
 
             comment.match(fixre) do |m|
@@ -323,16 +325,16 @@ usage:
           result
         end.select{|x| !x.empty?}.reduce({}){|acc, x| acc.merge(x)}
 
-    STDERR.puts "\nCalculating close reasons:"
+    STDERR.puts "\nCalculating PR close reasons"
     @close_reason = {}
     @close_reason = @builds.select{|b| not b[:pull_req].nil?}.reduce({}) do |acc, build|
-      STDERR.write "\rPR #{build[:pull_req]}"
+      #STDERR.write "\rPR #{build[:pull_req]}"
 
       acc[build[:pull_req_id]] = merged_with(owner, repo, build)
       acc
     end
 
-    STDERR.puts "\nRetrieving actual built commits for pull requests:"
+    STDERR.puts "Retrieving actual built commits for pull requests"
     # When building pull requests, travis creates artifical commits by merging
     # the commit to be built with the branch to be built. By default, it reports
     # those commits instead of the latest built PR commit.
@@ -344,7 +346,7 @@ usage:
         unless c.empty?
           shas = c[:commit][:message].match(/Merge (.*) into (.*)/i).captures
           if shas.size == 2
-            STDERR.write "\r Replacing Travis commit #{build[:commit]} with actual #{shas[0]}"
+            STDERR.puts "Replacing Travis commit #{build[:commit]} with actual #{shas[0]}"
             build[:commit] = shas[0]
           end
           build
@@ -356,14 +358,67 @@ usage:
       end
     end.select{ |x| !x.nil? }
 
-    STDERR.puts "\nAfter resolving PR commits: #{@builds.size} builds for #{owner}/#{repo}"
+    STDERR.puts "After resolving PR commits: #{@builds.size} builds for #{owner}/#{repo}"
 
-  # previous_builds = @builds.map do |build|
-    #   walker = Rugged::Walker.new(repo)
-    #   walker.sorting(Rugged::SORT_DATE)
-    #   walker.push(repo.head.target)
-    # end
+    STDERR.puts "Calculating build diff information"
+    @build_diffs = @builds.map do |build|
 
+      begin
+        build_commit = git.lookup(build[:commit])
+      rescue
+        next
+      end
+      next if build_commit.nil?
+
+      walker = Rugged::Walker.new(git)
+      walker.sorting(Rugged::SORT_TOPO)
+      walker.push(build_commit)
+
+      # Get all previous commits up to a branch point
+      prev_commits = []
+      walker.each do |commit|
+        prev_commits << commit
+        break if commit.parents.size > 1
+      end
+
+      # Remove current commit from list of previous commits
+      unless prev_commits.nil?
+        prev_commits = prev_commits.select{|c| c.oid != build_commit.oid}
+      end
+
+      # TODO: What happens if the build commit is a merge commit?
+      if prev_commits.nil? or prev_commits.empty?
+        STDERR.puts "Build #{build[:build_id]} is on a merge commit #{build[:commit]}"
+        next
+      end
+
+      # Find the first commit that was built prior to the commit that triggered
+      # the current build
+      prev_build_commit_idx = prev_commits.find_index do |c|
+        not @builds.find do |b|
+          b[:build_id] < build[:build_id] and c.oid.start_with? b[:commit]
+        end.nil?
+      end
+
+      if prev_build_commit_idx.nil?
+        STDERR.puts "No previous build on the same branch for build #{build[:build_id]}"
+        next
+      end
+      prev_build_commit = prev_commits[prev_build_commit_idx]
+
+      # Get diff between the current build commit and previous one
+      diff = build_commit.diff(prev_build_commit)
+      diff
+
+      {
+          :build_id => build[:build_id],
+          :commits => prev_commits[0..prev_build_commit_idx].map{|c| c.oid},
+          :authors => prev_commits[0..prev_build_commit_idx].map{|c| c.author[:email]},
+          :files => diff.deltas.map { |d| d.old_file }.map { |f| f[:path] },
+          :lines_added => diff.stat[1],
+          :lines_deleted => diff.stat[2]
+      }
+    end.select { |x| !x.nil? }
 
     results = Parallel.map(@builds, :in_threads => threads) do |build|
       begin
@@ -409,8 +464,8 @@ usage:
         :merged_with              => @close_reason[build[:pull_req_id]],
         :lang                     => lang,
         :github_id                => unless build[:pull_req].nil? then build[:pull_req] end,
-        :branch                   => build[:branch], # TODO
-        #:first_commit_created_at  => Time.at(build[:created_at]).to_i, # TODO commit that triggerd the build
+        :branch                   => build[:branch],
+        :first_commit_created_at  => Time.parse(build[:started_at]).to_i, # TODO commit that triggered the build
         # :team_size                => team_size_vasilescu(build, months_back),
         # :commits                  => 0, # TODO commit shas for the commits in the build
         # :num_commits              => num_commits(build), # TODO
