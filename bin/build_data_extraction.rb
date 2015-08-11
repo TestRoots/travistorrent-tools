@@ -361,7 +361,7 @@ usage:
     STDERR.puts "After resolving PR commits: #{@builds.size} builds for #{owner}/#{repo}"
 
     STDERR.puts "Calculating build diff information"
-    @build_diffs = @builds.map do |build|
+    @build_stats = @builds.map do |build|
 
       begin
         build_commit = git.lookup(build[:commit])
@@ -413,14 +413,14 @@ usage:
       {
           :build_id => build[:build_id],
           :commits => prev_commits[0..prev_build_commit_idx].map{|c| c.oid},
-          :authors => prev_commits[0..prev_build_commit_idx].map{|c| c.author[:email]},
+          :authors => prev_commits[0..prev_build_commit_idx].map{|c| c.author[:email]}.uniq,
           :files => diff.deltas.map { |d| d.old_file }.map { |f| f[:path] },
           :lines_added => diff.stat[1],
           :lines_deleted => diff.stat[2]
       }
     end.select { |x| !x.nil? }
 
-    @builds = @builds.select{|b| !@build_diffs.find{|bd| bd[:build_id] == b[:build_id]}.nil?}
+    @builds = @builds.select{|b| !@build_stats.find{|bd| bd[:build_id] == b[:build_id]}.nil?}
     STDERR.puts "After calculating build stats: #{@builds.size} builds for #{owner}/#{repo}"
 
     results = Parallel.map(@builds, :in_threads => threads) do |build|
@@ -445,9 +445,6 @@ usage:
   # Process a single build
   def process_build(build, owner, repo, lang)
 
-    # # Statistics across pull request commits
-    # stats = pr_stats(pr)
-    #
     # # Count number of src/comment lines
     # src = src_lines(pr[:id].to_f)
     #
@@ -455,48 +452,49 @@ usage:
     #   raise Exception.new("Bad src lines: 0, pr: #{pr[:github_id]}, id: #{pr[:id]}")
     # end
 
-    # months_back = 3
+    months_back = 3
     # commits_incl_prs = commits_last_x_months(pr, false, months_back)
     # prev_pull_reqs = prev_pull_requests(pr, 'opened')
 
     # Create line for build
-    bd = @build_diffs.find{|b| b[:build_id] == build[:build_id]}
+    bs = @build_stats.find{|b| b[:build_id] == build[:build_id]}
+    stats = build_stats(bs[:commits])
+
     {
         :build_id                 => build[:build_id],
         :project_name             => "#{owner}/#{repo}",
         :is_pr                    => if build[:pull_req].nil? then false else true end,
-        :pullreq_id               => build[:pull_req],
         :merged_with              => @close_reason[build[:pull_req_id]],
         :lang                     => lang,
-        :github_id                => unless build[:pull_req].nil? then build[:pull_req] end,
+        :pullreq_id                => unless build[:pull_req].nil? then build[:pull_req] end,
         :branch                   => build[:branch],
-        :first_commit_created_at  => Time.parse(build[:started_at]).to_i, # TODO commit that triggered the build
-        # :team_size                => team_size_vasilescu(build, months_back),
-        :commits                  => bd[:commits].to_s, # TODO commit shas for the commits in the build
-        :num_commits              => bd[:commits].size
+        :first_commit_created_at  => Time.parse(build[:started_at]).to_i,
+        #:team_size                => team_size_vasilescu(build, months_back),
+        :commits                  => bs[:commits].to_s,
+        :num_commits              => bs[:commits].size,
         # :num_issue_comments       => num_issue_comments(build), #TODO number of comments prior to this build (if it is a pr)
         # :num_commit_comments      => num_commit_comments(build), #TODO number of code comments prior to this build (if it is a pr)
         # :num_pr_comments          => num_pr_comments(build), #TODO number of code comments prior to this build (if it is a pr)
         # :num_participants         => num_participants(build), #TODO number of people that discussed the PR prior to build
-        # :committer_set            => 0,
-        #
-        # :src_churn                => stats[:lines_added] + stats[:lines_deleted],
-        # :test_churn               => stats[:test_lines_added] + stats[:test_lines_deleted],
-        #
-        # :files_added              => stats[:files_added],
-        # :files_deleted            => stats[:files_removed],
-        # :files_modified           => stats[:files_modified],
+        :committer_set            => bs[:authors].to_s,
+
+        :src_churn                => stats[:lines_added] + stats[:lines_deleted],
+        :test_churn               => stats[:test_lines_added] + stats[:test_lines_deleted],
+
+        :files_added              => stats[:files_added],
+        :files_deleted            => stats[:files_removed],
+        :files_modified           => stats[:files_modified],
         #
         # :tests_added              => 0, # e.g. for Java, @Test annotations
         # :tests_deleted            => 0,
         # :tests_modified           => 0,
         # :tests_changed            => 0,
         #
-        # :src_files                => stats[:src_files],
-        # :doc_files                => stats[:doc_files],
-        # :other_files              => stats[:other_files],
-        #
-        # :commits_on_files_touched => commits_on_files_touched(build, months_back),
+        :src_files                => stats[:src_files],
+        :doc_files                => stats[:doc_files],
+        :other_files              => stats[:other_files]
+
+        #:commits_on_files_touched => commits_on_files_touched(build, months_back),
         #
         # :sloc                     => src,
         # :test_lines_per_kloc      => (test_lines(build[:id]).to_f / src.to_f) * 1000,
@@ -510,26 +508,6 @@ usage:
         #
         # :ci_latency               => ci_latency(build) # TODO time between push even for triggering commit and build time
     }
-  end
-
-  def merge_time(pr, merged, git_merged)
-    if merged
-      Time.at(pr[:merged_at]).to_i
-    elsif git_merged
-      Time.at(pr[:closed_at]).to_i
-    else
-      ''
-    end
-  end
-
-  def merge_time_minutes(pr, merged, git_merged)
-    if merged
-      Time.at(pr[:mergetime_minutes]).to_i
-    elsif git_merged
-      pr[:lifetime_minutes].to_i
-    else
-      ''
-    end
   end
 
   # Checks how a merge occured
@@ -600,59 +578,6 @@ usage:
     end
 
     :unknown
-  end
-
-  def conflict?(pr)
-    issue_comments(pr[:owner], pr[:project_name], pr[:id]).reduce(false) do |acc, x|
-      acc || (not x['body'].match(/conflict/i).nil?)
-    end
-  end
-
-  def forward_links?(pr)
-    owner = pr[:login]
-    repo = pr[:project_name]
-    pr_id = pr[:github_id]
-    issue_comments(owner, repo, pr_id).reduce(false) do |acc, x|
-      # Try to find pull_requests numbers referenced in each comment
-      a = x['body'].scan(/\#([0-9]+)/m).reduce(false) do |acc1, m|
-        if m[0].to_i > pr_id.to_i
-          # See if it is a pull request (if not the number is an issue)
-          q = <<-QUERY
-            select *
-            from pull_requests pr, projects p, users u
-            where u.id = p.owner_id
-              and pr.base_repo_id = p.id
-              and u.login = ?
-              and p.name = ?
-              and pr.pullreq_id = ?
-          QUERY
-          acc1 || db.fetch(q, owner, repo, m[0]).all.size > 0
-        else
-          acc1
-        end
-      end
-      acc || a
-    end
-  end
-
-  # Number of developers that have committed at least once in the interval
-  # between the pull request open up to +interval_months+ back
-  def team_size_at_open(pr, interval_months)
-    q = <<-QUERY
-    select count(distinct author_id) as teamsize
-    from projects p, commits c, project_commits pc, pull_requests pr,
-         pull_request_history prh
-    where p.id = pc.project_id
-      and pc.commit_id = c.id
-      and p.id = pr.base_repo_id
-      and prh.pull_request_id = pr.id
-      and not exists (select * from pull_request_commits prc1 where prc1.commit_id = c.id)
-      and prh.action = 'opened'
-      and c.created_at < prh.created_at
-      and c.created_at > DATE_SUB(prh.created_at, INTERVAL #{interval_months} MONTH)
-      and pr.id=?;
-    QUERY
-    db.fetch(q, pr[:id]).first[:teamsize]
   end
 
   def num_commits_at_open(pr)
@@ -1041,18 +966,8 @@ usage:
 
   # Number of integrators active during x months prior to pull request
   # creation.
-  def team_size_vasilescu(pr, months_back)
+  def main_team(pr, months_back)
     (committer_team(pr, months_back) + merger_team(pr, months_back)).uniq.size
-  end
-
-  def social_distance_vasilescu(pr_id)
-    # 1. get all PRs or issues for which the submitter of this PR appears as a commenter or actor
-    # 2. for each of those, get all other commenters and actors that are members of the core team and add them to a set
-    # 3. divide size of 2. to main team size (always < 1)
-  end
-
-  def availability(pr_id)
-
   end
 
   # Time interval in minutes from pull request creation to first response
@@ -1153,12 +1068,12 @@ usage:
     (committer_team(pr, months_back) + merger_team(pr, months_back)).uniq.include? requester(pr)
   end
 
-  # Various statistics for the pull request. Returned as Hash with the following
+  # Various statistics for the build. Returned as Hash with the following
   # keys: :lines_added, :lines_deleted, :files_added, :files_removed,
   # :files_modified, :files_touched, :src_files, :doc_files, :other_files.
-  def pr_stats(pr)
-    pr_id = pr[:id]
-    raw_commits = commit_entries(pr_id)
+  def build_stats(commits)
+
+    raw_commits = commit_entries(commits)
     result = Hash.new(0)
 
     def file_count(commits, status)
@@ -1231,21 +1146,21 @@ usage:
       end
     end
 
-    raw_commits.each { |x|
+    raw_commits.each do |x|
       next if x.nil?
-      result[:lines_added] += lines(x, :src, :added)
-      result[:lines_deleted] += lines(x, :src, :deleted)
-      result[:test_lines_added] += lines(x, :test, :added)
+      result[:lines_added]        += lines(x, :src, :added)
+      result[:lines_deleted]      += lines(x, :src, :deleted)
+      result[:test_lines_added]   += lines(x, :test, :added)
       result[:test_lines_deleted] += lines(x, :test, :deleted)
-    }
+    end
 
-    result[:files_added] += file_count(raw_commits, "added")
-    result[:files_removed] += file_count(raw_commits, "removed")
+    result[:files_added]    += file_count(raw_commits, "added")
+    result[:files_removed]  += file_count(raw_commits, "removed")
     result[:files_modified] += file_count(raw_commits, "modified")
-    result[:files_touched] += files_touched(raw_commits)
+    result[:files_touched]  += files_touched(raw_commits)
 
-    result[:src_files] += file_type_count(raw_commits, :programming)
-    result[:doc_files] += file_type_count(raw_commits, :markup)
+    result[:src_files]   += file_type_count(raw_commits, :programming)
+    result[:doc_files]   += file_type_count(raw_commits, :markup)
     result[:other_files] += file_type_count(raw_commits, :data)
 
     result
@@ -1304,7 +1219,6 @@ usage:
     a.last[1].size
   end
 
-
   # Total number of commits on the project in the period up to `months` before
   # the pull request was opened. `exclude_pull_req` controls whether commits
   # from pull requests should be accounted for.
@@ -1330,8 +1244,6 @@ usage:
     db.fetch(q, pr[:id]).first[:num_commits]
   end
 
-  private
-
   def pull_req_entry(pr_id)
     q = <<-QUERY
     select u.login as user, p.name as name, pr.pullreq_id as pullreq_id
@@ -1348,18 +1260,9 @@ usage:
   end
 
   # JSON objects for the commits included in the pull request
-  def commit_entries(pr_id)
-    q = <<-QUERY
-    select c.sha as sha
-    from pull_requests pr, pull_request_commits prc, commits c
-    where pr.id = prc.pull_request_id
-    and prc.commit_id = c.id
-    and pr.id = ?
-    QUERY
-    commits = db.fetch(q, pr_id).all
-
+  def commit_entries(commits)
     commits.reduce([]) { |acc, x|
-      a = mongo['commits'].find_one({:sha => x[:sha]})
+      a = mongo['commits'].find_one({:sha => x})
       acc << a unless a.nil?
       acc
     }.select { |c| c['parents'].size <= 1 }
