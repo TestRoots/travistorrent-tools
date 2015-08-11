@@ -7,10 +7,10 @@ where
     p.forked_from is null and
     p.deleted is false and
     w.repo_id = p.id and
-    u.id = p.owned_id and
-    p.language in ('Java', 'Ruby', 'Python', 'Scala')
+    u.id = p.owner_id
 group by p.id
 having count(*) > 50
+order by count(*) desc
 ```
 You can then call the Travis Poker to see whether these projects use Travis CI or not. Projects will be annotated with a binary flag indicating this.
 
