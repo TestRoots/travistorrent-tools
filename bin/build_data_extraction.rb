@@ -278,6 +278,7 @@ usage:
       end
     end
 
+    STDERR.puts "\nAfter resolving GHT pullreqs: #{@builds.size} builds for #{owner}/#{repo}"
     # Update the repo
     clone(owner, repo, true)
 
@@ -331,13 +332,33 @@ usage:
       acc
     end
 
-    STDERR.puts "\nRetrieving commit information for pull requests:"
-    fake_commits = Parallel.map(@builds.select{|b| not b[:pull_req].nil?}, :in_threads => threads) do |build|
-      STDERR.write "\r build #{build[:build_id]}, pr #{build[:pull_req]}"
-      github_commit(owner, repo, build[:commit])
-    end
+    STDERR.puts "\nRetrieving actual built commits for pull requests:"
+    # When building pull requests, travis creates artifical commits by merging
+    # the commit to be built with the branch to be built. By default, it reports
+    # those commits instead of the latest built PR commit.
+    # The algorithm below attempts to resolve the actual PR commit. If the
+    # PR commit (or the PR) cannot be retrieved, the build is skipped from further processing.
+    @builds = Parallel.map(@builds, :in_threads => threads) do |build|
+      unless build[:pull_req].nil?
+        c = github_commit(owner, repo, build[:commit])
+        unless c.empty?
+          shas = c[:commit][:message].match(/Merge (.*) into (.*)/i).captures
+          if shas.size == 2
+            STDERR.write "\r Replacing Travis commit #{build[:commit]} with actual #{shas[0]}"
+            build[:commit] = shas[0]
+          end
+          build
+        else
+          nil
+        end
+      else
+        build
+      end
+    end.select{ |x| !x.nil? }
 
-    # previous_builds = @builds.map do |build|
+    STDERR.puts "\nAfter resolving PR commits: #{@builds.size} builds for #{owner}/#{repo}"
+
+  # previous_builds = @builds.map do |build|
     #   walker = Rugged::Walker.new(repo)
     #   walker.sorting(Rugged::SORT_DATE)
     #   walker.push(repo.head.target)
