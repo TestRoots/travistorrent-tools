@@ -498,7 +498,7 @@ usage:
         :doc_files                => stats[:doc_files],
         :other_files              => stats[:other_files],
 
-        #:commits_on_files_touched => commits_on_files_touched(build, months_back),
+        :commits_on_files_touched => commits_on_files_touched(owner, repo, build, months_back),
 
         :sloc                     => sloc,
         :test_lines_per_kloc      => (test_lines(build[:commit]).to_f / sloc.to_f) * 1000,
@@ -507,7 +507,7 @@ usage:
         #
         :main_team_member         => (committers - main_team).empty?,
         :description_complexity   => if is_pr then description_complexity(build) else nil end
-        :workload                 => workload(build)
+        #:workload                 => workload(owner, repo, build)
         # :ci_latency               => ci_latency(build) # TODO time between push even for triggering commit and build time
     }
   end
@@ -695,7 +695,7 @@ usage:
     (pull_req['title'] + ' ' + pull_req['body']).gsub(/[\n\r]\s+/, ' ').split(/\s+/).size
   end
 
-  # Total number of pull requests still open in each project at pull
+  # Total number of pull requests/branches still open in each project at pull
   # request creation time.
   def workload(owner, repo, build)
     q = <<-QUERY
@@ -821,8 +821,8 @@ usage:
   # results do not include the commits comming from the PR.
   def commits_on_build_files(owner, repo, build, months_back)
 
-    oldest = Time.at(Time.parse(build[:started_at]).to_i - 3600 * 24 * 30 * months_back)
-    commits = commit_entries(owner, repo, build[:id])
+    oldest = Time.at(build[:started_at].to_i - 3600 * 24 * 30 * months_back)
+    commits = commit_entries(owner, repo, @build_stats.find{|b| b[:build_id] == build[:build_id]}[:commits])
 
     commits_per_file = commits.flat_map { |c|
       c['files'].map { |f|
