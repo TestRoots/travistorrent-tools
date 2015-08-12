@@ -254,6 +254,8 @@ usage:
       STDERR.puts "#{@builds.size} builds for #{owner}/#{repo}"
     end
 
+    @builds.map{|b| b[:started_at] = Time.parse(b[:started_at]); b}
+
     STDERR.puts "\nCalculating GHTorrent PR ids"
     @builds = @builds.reduce([]) do |acc, build|
       if build[:pull_req].nil?
@@ -411,11 +413,12 @@ usage:
       diff
 
       {
-          :build_id => build[:build_id],
-          :commits => prev_commits[0..prev_build_commit_idx].map{|c| c.oid},
-          :authors => prev_commits[0..prev_build_commit_idx].map{|c| c.author[:email]}.uniq,
-          :files => diff.deltas.map { |d| d.old_file }.map { |f| f[:path] },
-          :lines_added => diff.stat[1],
+          :build_id      => build[:build_id],
+          :prev_build    => @builds.find{|b| b[:build_id] < build[:build_id] and prev_build_commit.oid.start_with? b[:commit]},
+          :commits       => prev_commits[0..prev_build_commit_idx].map{|c| c.oid},
+          :authors       => prev_commits[0..prev_build_commit_idx].map{|c| c.author[:email]}.uniq,
+          :files         => diff.deltas.map { |d| d.old_file }.map { |f| f[:path] },
+          :lines_added   => diff.stat[1],
           :lines_deleted => diff.stat[2]
       }
     end.select { |x| !x.nil? }
@@ -453,14 +456,14 @@ usage:
     end
 
     months_back = 3
-    # commits_incl_prs = commits_last_x_months(pr, false, months_back)
-    # prev_pull_reqs = prev_pull_requests(pr, 'opened')
 
     # Create line for build
     bs = @build_stats.find{|b| b[:build_id] == build[:build_id]}
     stats = build_stats(owner, repo, bs[:commits])
     is_pr = if build[:pull_req].nil? then false else true end
     pr_id = unless build[:pull_req].nil? then build[:pull_req] end
+    committers = bs[:authors].map{|a| github_login(a)}.select{|x| not x.nil?}
+    main_team = main_team(owner, repo, build, months_back)
 
     {
         :build_id                 => build[:build_id],
@@ -470,15 +473,14 @@ usage:
         :merged_with              => @close_reason[pr_id],
         :lang                     => lang,
         :branch                   => build[:branch],
-        :first_commit_created_at  => Time.parse(build[:started_at]).to_i,
-        #:team_size                => team_size_vasilescu(build, months_back),
+        :first_commit_created_at  => build[:started_at].to_i,
+        :team_size                => main_team.size,
         :commits                  => bs[:commits].to_s,
         :num_commits              => bs[:commits].size,
-        # :num_issue_comments       => num_issue_comments(build), #TODO number of comments prior to this build (if it is a pr)
-        # :num_commit_comments      => num_commit_comments(build), #TODO number of code comments prior to this build (if it is a pr)
-        # :num_pr_comments          => num_pr_comments(build), #TODO number of code comments prior to this build (if it is a pr)
-        # :num_participants         => num_participants(build), #TODO number of people that discussed the PR prior to build
-        :committer_set            => bs[:authors].to_s,
+        :num_issue_comments       => num_issue_comments(build, bs[:prev_build][:started_at], bs[:started_at]),
+        :num_commit_comments      => num_commit_comments(owner, repo, bs[:prev_build][:started_at], bs[:started_at]),
+        :num_pr_comments          => num_pr_comments(build, bs[:prev_build][:started_at], bs[:started_at]),
+        :committers               => bs[:authors],
 
         :src_churn                => stats[:lines_added] + stats[:lines_deleted],
         :test_churn               => stats[:test_lines_added] + stats[:test_lines_deleted],
@@ -497,17 +499,15 @@ usage:
         :other_files              => stats[:other_files],
 
         #:commits_on_files_touched => commits_on_files_touched(build, months_back),
-        #
+
         :sloc                     => sloc,
         :test_lines_per_kloc      => (test_lines(build[:commit]).to_f / sloc.to_f) * 1000,
         :test_cases_per_kloc      => (num_test_cases(build[:commit]).to_f / sloc.to_f) * 1000,
-        :asserts_per_kloc         => (num_assertions(build[:commit]).to_f / sloc.to_f) * 1000
+        :asserts_per_kloc         => (num_assertions(build[:commit]).to_f / sloc.to_f) * 1000,
         #
-        # :main_team_members        => 0, # TODO whether at least one author is in the core team
-        #
-        # :description_complexity   => description_complexity(build),
-        # :workload                 => workload(build),
-        #
+        :main_team_member         => (committers - main_team).empty?,
+        :description_complexity   => if is_pr then description_complexity(build) else nil end
+        :workload                 => workload(build)
         # :ci_latency               => ci_latency(build) # TODO time between push even for triggering commit and build time
     }
   end
@@ -582,53 +582,19 @@ usage:
     :unknown
   end
 
-  def num_commits_at_open(pr)
-    q = <<-QUERY
-    select count(*) as commit_count
-    from pull_requests pr, pull_request_commits prc, commits c, pull_request_history prh
-    where pr.id = prc.pull_request_id
-      and pr.id=?
-      and prc.commit_id = c.id
-      and prh.action = 'opened'
-      and prh.pull_request_id = pr.id
-      and c.created_at <= prh.created_at
-    group by prc.pull_request_id
-    QUERY
-    begin
-      db.fetch(q, pr[:id]).first[:commit_count]
-    rescue
-      0
-    end
-  end
-
-  # Number of commits in pull request
-  def num_commits(pr)
-    q = <<-QUERY
-    select count(*) as commit_count
-    from pull_requests pr, pull_request_commits prc
-    where pr.id = prc.pull_request_id
-      and pr.id=?
-    group by prc.pull_request_id
-    QUERY
-    db.fetch(q, pr[:id]).first[:commit_count]
-  end
-
   # Number of pull request code review comments in pull request
-  def num_pr_comments(pr)
+  def num_pr_comments(build, from, to)
     q = <<-QUERY
     select count(*) as comment_count
     from pull_request_comments prc
     where prc.pull_request_id = ?
-    and prc.created_at < (
-      select max(created_at)
-      from pull_request_history
-      where action = 'closed' and pull_request_id = ?)
+    and prc.created_at between ? and ?
     QUERY
-    db.fetch(q, pr[:id], pr[:id]).first[:comment_count]
+    db.fetch(q, build[:pull_req_id], from, to).first[:comment_count]
   end
 
   # Number of pull request discussion comments
-  def num_issue_comments(pr)
+  def num_issue_comments(build, from, to)
     q = <<-QUERY
     select count(*) as issue_comment_count
     from pull_requests pr, issue_comments ic, issues i
@@ -636,250 +602,81 @@ usage:
     and i.issue_id=pr.pullreq_id
     and pr.base_repo_id = i.repo_id
     and pr.id = ?
-    and ic.created_at < (
-      select max(created_at)
-      from pull_request_history
-      where action = 'closed' and pull_request_id = ?)
+    and ic.created_at between ? and ?
     QUERY
-    db.fetch(q, pr[:id], pr[:id]).first[:issue_comment_count]
+    db.fetch(q, build[:pull_req_id], from, to).first[:issue_comment_count]
   end
 
-  # Number of commit comments on commits composing the pull request
-  def num_commit_comments(pr)
+  # Number of commit comments on commits composing between builds in the same branch
+  def num_commit_comments(onwer, repo, from, to)
     q = <<-QUERY
     select count(*) as commit_comment_count
-    from pull_request_commits prc, commit_comments cc
-    where prc.commit_id = cc.commit_id
-      and prc.pull_request_id = ?
+    from project_commits pc, projects p, users u, commit_comments cc
+    where pc.commit_id = cc.commit_id
+      and p.id = pc.project_id
+      and p.owner_id = u.id
+      and u.login = ?
+      and p.name = ?
+      and cc.created_at between ? and ?
     QUERY
-    db.fetch(q, pr[:id]).first[:commit_comment_count]
-  end
-
-  def num_participants(pr)
-    q = <<-QUERY
-    select count(distinct(user_id)) as participants from
-      (select user_id
-       from pull_request_comments
-       where pull_request_id = ?
-       union
-       select user_id
-       from issue_comments ic, issues i
-       where i.id = ic.issue_id and i.pull_request_id = ?) as num_participants
-    QUERY
-    db.fetch(q, pr[:id], pr[:id]).first[:participants]
-  end
-
-  # Number of followers of the person that created the pull request
-  def followers(pr)
-    q = <<-QUERY
-    select count(f.follower_id) as num_followers
-    from pull_requests pr, followers f, pull_request_history prh
-    where prh.actor_id = f.user_id
-      and prh.pull_request_id = pr.id
-      and prh.action = 'opened'
-      and f.created_at < prh.created_at
-      and pr.id = ?
-    QUERY
-    db.fetch(q, pr[:id]).first[:num_followers]
-  end
-
-  # Number of project watchers/stargazers at the time the pull request was made
-  def watchers(pr)
-    q = <<-QUERY
-    select count(w.user_id) as num_watchers
-    from watchers w, pull_requests pr, pull_request_history prh
-    where prh.pull_request_id = pr.id
-      and w.created_at < prh.created_at
-      and w.repo_id = pr.base_repo_id
-      and prh.action='opened'
-      and pr.id = ?
-    QUERY
-    db.fetch(q, pr[:id]).first[:num_watchers]
-  end
-
-  # Person that first closed the pull request
-  def closer(pr)
-    q = <<-QUERY
-    select u.login as login
-    from pull_request_history prh, users u
-    where prh.pull_request_id = ?
-      and prh.actor_id = u.id
-      and prh.action = 'closed'
-    QUERY
-    closer = db.fetch(q, pr[:id]).first
-
-    if closer.nil?
-      q = <<-QUERY
-      select u.login as login
-      from issues i, issue_events ie, users u
-      where i.pull_request_id = ?
-        and ie.issue_id = i.id
-        and (ie.action = 'closed' or ie.action = 'merged')
-        and u.id = ie.actor_id
-      QUERY
-      closer = db.fetch(q, pr[:id]).first
-    end
-
-    unless closer.nil?
-      closer[:login]
-    else
-      ''
-    end
-  end
-
-  # Person that first merged the pull request
-  def merger(pr)
-    q = <<-QUERY
-    select u.login as login
-    from issues i, issue_events ie, users u
-    where i.pull_request_id = ?
-      and ie.issue_id = i.id
-      and ie.action = 'merged'
-      and u.id = ie.actor_id
-    QUERY
-    merger = db.fetch(q, pr[:id]).first
-
-    if merger.nil?
-      # If the PR was merged, then it is safe to assume that the
-      # closer is also the merger
-      if not @close_reason[pr[:github_id]].nil? and @close_reason[pr[:github_id]][1] != :unknown
-        closer(pr)
-      else
-        ''
-      end
-    else
-      merger[:login]
-    end
-  end
-
-  # Number of followers of the person that created the pull request
-  def requester(pr)
-    q = <<-QUERY
-    select u.login as login
-    from users u, pull_request_history prh
-    where prh.actor_id = u.id
-      and action = 'opened'
-      and prh.pull_request_id = ?
-    QUERY
-    db.fetch(q, pr[:id]).first[:login]
-  end
-
-  # Number of previous pull requests for the pull requester
-  def prev_pull_requests(pr, action)
-
-    if action == 'merged'
-      q = <<-QUERY
-      select pr.pullreq_id, prh.pull_request_id as num_pull_reqs
-      from pull_request_history prh, pull_requests pr
-      where prh.action = 'opened'
-        and prh.created_at < (select min(created_at) from pull_request_history prh1 where prh1.pull_request_id = ? and prh1.action = 'opened')
-        and prh.actor_id = (select min(actor_id) from pull_request_history prh1 where prh1.pull_request_id = ? and prh1.action = 'opened')
-        and prh.pull_request_id = pr.id
-        and pr.base_repo_id = (select pr1.base_repo_id from pull_requests pr1 where pr1.id = ?);
-      QUERY
-
-      pull_reqs = db.fetch(q, pr[:id], pr[:id], pr[:id]).all
-      pull_reqs.reduce(0) do |acc, pull_req|
-        if not @close_reason[pull_req[:pullreq_id]].nil? and @close_reason[pull_req[:pullreq_id]][1] != :unknown
-          acc += 1
-        end
-        acc
-      end
-    else
-      q = <<-QUERY
-      select pr.pullreq_id, prh.pull_request_id as num_pull_reqs
-      from pull_request_history prh, pull_requests pr
-      where prh.action = ?
-        and prh.created_at < (select min(created_at) from pull_request_history prh1 where prh1.pull_request_id = ?)
-        and prh.actor_id = (select min(actor_id) from pull_request_history prh1 where prh1.pull_request_id = ? and action = ?)
-        and prh.pull_request_id = pr.id
-        and pr.base_repo_id = (select pr1.base_repo_id from pull_requests pr1 where pr1.id = ?);
-      QUERY
-      db.fetch(q, action, pr[:id], pr[:id], action, pr[:id]).all.size
-    end
-  end
-
-
-  # Median number of commits to files touched by the pull request relative to
-  # all project commits during the last three months
-  def hotness_vasilescu(pr, months_back)
-    commits_per_file = commits_on_build_files(pr, months_back).map { |x| x[1].size }.sort
-    med = commits_per_file[commits_per_file.size/2]
-    med / commits_last_x_months(pr, true, months_back).to_f
+    db.fetch(q, onwer, repo, from, to).first[:commit_comment_count]
   end
 
   # People that committed (not through pull requests) up to months_back
-  # from the time the PR was created.
-  def committer_team(pr, months_back)
+  # from the time the build was started.
+  def committer_team(owner, repo, build, months_back)
     q = <<-QUERY
-    select distinct(u.login)
-    from commits c, project_commits pc, pull_requests pr, users u, pull_request_history prh
-    where pr.base_repo_id = pc.project_id
+    select distinct(u1.login)
+    from commits c, project_commits pc, users u, projects p, users u1
+    where
+      pc.project_id = p.id
       and not exists (select * from pull_request_commits where commit_id = c.id)
       and pc.commit_id = c.id
-      and pr.id = ?
-      and u.id = c.committer_id
-      and u.fake is false
-      and prh.pull_request_id = pr.id
-      and prh.action = 'opened'
-      and c.created_at > DATE_SUB(prh.created_at, INTERVAL #{months_back} MONTH)
-      and c.created_at < prh.created_at;
+      and u.login = ?
+      and p.name = ?
+      and c.author_id = u1.id
+      and u1.fake is false
+      and c.created_at > DATE_SUB(?, INTERVAL #{months_back} MONTH)
+      and c.created_at < ?;
     QUERY
-    db.fetch(q, pr[:id]).all
+    db.fetch(q, owner, repo, build[:started_at], build[:started_at]).all
   end
 
   # People that merged (not through pull requests) up to months_back
   # from the time the PR was created.
-  def merger_team(pr, months_back)
-    @close_reason.map do |k, v|
-      created_at = @prs.find { |x| x[:github_id] == k }
-      [created_at[:created_at], v[2]]
-    end.find_all do |x|
-      x[0].to_i > (pr[:created_at].to_i - months_back * 30 * 24 * 3600)
-    end.map do |x|
-      x[1]
-    end.select { |x| x != '' }.uniq
+  def merger_team(owner, repo, build, months_back)
+
+    recently_merged = @builds.find_all do |b|
+      @close_reason[b[:pull_req]] != :unknown and
+          b[:started_at].to_i > (build[:started_at].to_i - months_back * 30 * 24 * 3600)
+    end.map do |b|
+      b[:pull_req]
+    end
+
+    q = <<-QUERY
+    select u1.login as merger
+    from users u, projects p, pull_requests pr, pull_request_history prh, users u1
+    where prh.action = 'closed'
+      and prh.actor_id = u1.id
+      and prh.pull_request_id = pr.id
+      and pr.base_repo_id = p.id
+      and p.owner_id = u.id
+      and u.login = ?
+      and p.name = ?
+      and pr.pullreq_id = ?
+    QUERY
+
+    recently_merged.map do |pr_id|
+      a = db.fetch(q, owner, repo, pr_id).first
+      if not a.nil? then a[:merger] else nil end
+    end.select {|x| not x.nil?}.uniq
+
   end
 
   # Number of integrators active during x months prior to pull request
   # creation.
-  def main_team(pr, months_back)
-    (committer_team(pr, months_back) + merger_team(pr, months_back)).uniq.size
-  end
-
-  # Time interval in minutes from pull request creation to first response
-  # by reviewers
-  def first_response(pr)
-    q = <<-QUERY
-      select min(created) as first_resp from (
-        select min(prc.created_at) as created
-        from pull_request_comments prc, users u
-        where prc.pull_request_id = ?
-          and u.id = prc.user_id
-          and u.login not in ('travis-ci', 'cloudbees')
-          and prc.created_at < (
-            select max(created_at)
-            from pull_request_history
-            where action = 'closed' and pull_request_id = ?)
-        union
-        select min(ic.created_at) as created
-        from issues i, issue_comments ic, users u
-        where i.pull_request_id = ?
-          and i.id = ic.issue_id
-          and u.id = ic.user_id
-          and u.login not in ('travis-ci', 'cloudbees')
-          and ic.created_at < (
-            select max(created_at)
-            from pull_request_history
-            where action = 'closed' and pull_request_id = ?)
-      ) as a;
-    QUERY
-    resp = db.fetch(q, pr[:id], pr[:id], pr[:id], pr[:id]).first[:first_resp]
-    unless resp.nil?
-      (resp - pr[:created_at]).to_i / 60
-    else
-      -1
-    end
+  def main_team(owner, repo, build, months_back)
+    (committer_team(owner, repo, build, months_back) + merger_team(owner, repo, build, months_back)).uniq
   end
 
   # Time between PR arrival and last CI run
@@ -892,25 +689,15 @@ usage:
     end
   end
 
-  # Did the build result in errors?
-  def ci_errors?(pr)
-    not travis.find_all { |b| b[:pull_req] == pr[:github_id] and b[:status] == 'errored' }.empty?
-  end
-
-  # Did the build result in test failuers?
-  def ci_test_failures?(pr)
-    not travis.find_all { |b| b[:pull_req] == pr[:github_id] and b[:status] == 'failed' }.empty?
-  end
-
   # Total number of words in the pull request title and description
-  def description_complexity(pr)
-    pull_req = pull_req_entry(pr[:id])
+  def description_complexity(build)
+    pull_req = pull_req_entry(build[:pull_req_id])
     (pull_req['title'] + ' ' + pull_req['body']).gsub(/[\n\r]\s+/, ' ').split(/\s+/).size
   end
 
   # Total number of pull requests still open in each project at pull
   # request creation time.
-  def workload(pr)
+  def workload(owner, repo, build)
     q = <<-QUERY
     select count(distinct(prh.pull_request_id)) as num_open
     from pull_request_history prh, pull_requests pr, pull_request_history prh3
@@ -928,21 +715,7 @@ usage:
     )
     and pr.base_repo_id = (select pr3.base_repo_id from pull_requests pr3 where pr3.id = ?)
     QUERY
-    db.fetch(q, pr[:id], pr[:id]).first[:num_open]
-  end
-
-  # Check if the pull request is intra_branch
-  def intra_branch?(pr)
-    q = <<-QUERY
-    select IF(base_repo_id = head_repo_id, true, false) as intra_branch
-    from pull_requests where id = ?
-    QUERY
-    db.fetch(q, pr[:id]).first[:intra_branch]
-  end
-
-  # Check if the requester is part of the project's main team
-  def main_team_member?(pr, months_back)
-    (committer_team(pr, months_back) + merger_team(pr, months_back)).uniq.include? requester(pr)
+    db.fetch(q, owner, repo, build[:started_at]).first[:num_open]
   end
 
   # Various statistics for the build. Returned as Hash with the following
@@ -1125,6 +898,17 @@ usage:
     mongo['pull_requests'].find_one({:owner => pullreq[:user],
                                      :repo => pullreq[:name],
                                      :number => pullreq[:pullreq_id]})
+  end
+
+  def github_login(email)
+    q = <<-QUERY
+    select u.login as login
+    from users u
+    where u.email = ?
+    and u.fake is false
+    QUERY
+    l = db.fetch(q, email).first
+    unless l.nil? then l[:login] else nil end
   end
 
   # JSON objects for the commits included in the pull request
