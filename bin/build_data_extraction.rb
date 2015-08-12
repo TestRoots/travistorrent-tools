@@ -130,7 +130,7 @@ usage:
     unless @stripped.has_key? f
       semaphore.synchronize do
         unless @stripped.has_key? f
-          @stripped[f] = strip_comments(repo.read(f[:oid]).data)
+          @stripped[f] = strip_comments(git.read(f[:oid]).data)
         end
       end
     end
@@ -155,7 +155,7 @@ usage:
     r = nil
     if File.exists? commit_json
       r = begin
-        JSON.parse File.open(commit_json).read, :symbolize_names => true
+        JSON.parse File.open(commit_json).read
       rescue
         # This means that the retrieval operation resulted in no commit being retrieved
         {}
@@ -172,7 +172,7 @@ usage:
       @remaining = r.meta['x-ratelimit-remaining'].to_i
       @reset = r.meta['x-ratelimit-reset'].to_i
       contents = r.read
-      JSON.parse contents, :symbolize_names => true
+      JSON.parse contents
     rescue OpenURI::HTTPError => e
       @remaining = e.io.meta['x-ratelimit-remaining'].to_i
       @reset = e.io.meta['x-ratelimit-reset'].to_i
@@ -344,7 +344,7 @@ usage:
       unless build[:pull_req].nil?
         c = github_commit(owner, repo, build[:commit])
         unless c.empty?
-          shas = c[:commit][:message].match(/Merge (.*) into (.*)/i).captures
+          shas = c['commit']['message'].match(/Merge (.*) into (.*)/i).captures
           if shas.size == 2
             STDERR.puts "Replacing Travis commit #{build[:commit]} with actual #{shas[0]}"
             build[:commit] = shas[0]
@@ -445,12 +445,12 @@ usage:
   # Process a single build
   def process_build(build, owner, repo, lang)
 
-    # # Count number of src/comment lines
-    # src = src_lines(pr[:id].to_f)
-    #
-    # if src == 0 then
-    #   raise Exception.new("Bad src lines: 0, pr: #{pr[:github_id]}, id: #{pr[:id]}")
-    # end
+    # Count number of src/comment lines
+    sloc = src_lines(build[:commit])
+
+    if sloc == 0 then
+      raise Exception.new("Bad src lines: 0, build: #{build[:build_id]}")
+    end
 
     months_back = 3
     # commits_incl_prs = commits_last_x_months(pr, false, months_back)
@@ -458,15 +458,17 @@ usage:
 
     # Create line for build
     bs = @build_stats.find{|b| b[:build_id] == build[:build_id]}
-    stats = build_stats(bs[:commits])
+    stats = build_stats(owner, repo, bs[:commits])
+    is_pr = if build[:pull_req].nil? then false else true end
+    pr_id = unless build[:pull_req].nil? then build[:pull_req] end
 
     {
         :build_id                 => build[:build_id],
         :project_name             => "#{owner}/#{repo}",
-        :is_pr                    => if build[:pull_req].nil? then false else true end,
-        :merged_with              => @close_reason[build[:pull_req_id]],
+        :is_pr                    => is_pr,
+        :pullreq_id               => pr_id,
+        :merged_with              => @close_reason[pr_id],
         :lang                     => lang,
-        :pullreq_id                => unless build[:pull_req].nil? then build[:pull_req] end,
         :branch                   => build[:branch],
         :first_commit_created_at  => Time.parse(build[:started_at]).to_i,
         #:team_size                => team_size_vasilescu(build, months_back),
@@ -484,7 +486,7 @@ usage:
         :files_added              => stats[:files_added],
         :files_deleted            => stats[:files_removed],
         :files_modified           => stats[:files_modified],
-        #
+
         # :tests_added              => 0, # e.g. for Java, @Test annotations
         # :tests_deleted            => 0,
         # :tests_modified           => 0,
@@ -492,14 +494,14 @@ usage:
         #
         :src_files                => stats[:src_files],
         :doc_files                => stats[:doc_files],
-        :other_files              => stats[:other_files]
+        :other_files              => stats[:other_files],
 
         #:commits_on_files_touched => commits_on_files_touched(build, months_back),
         #
-        # :sloc                     => src,
-        # :test_lines_per_kloc      => (test_lines(build[:id]).to_f / src.to_f) * 1000,
-        # :test_cases_per_kloc      => (num_test_cases(build[:id]).to_f / src.to_f) * 1000,
-        # :asserts_per_kloc         => (num_assertions(build[:id]).to_f / src.to_f) * 1000,
+        :sloc                     => sloc,
+        :test_lines_per_kloc      => (test_lines(build[:commit]).to_f / sloc.to_f) * 1000,
+        :test_cases_per_kloc      => (num_test_cases(build[:commit]).to_f / sloc.to_f) * 1000,
+        :asserts_per_kloc         => (num_assertions(build[:commit]).to_f / sloc.to_f) * 1000
         #
         # :main_team_members        => 0, # TODO whether at least one author is in the core team
         #
@@ -797,136 +799,11 @@ usage:
     end
   end
 
-  def social_connection_tsay?(pr)
-    q = <<-QUERY
-    select *
-    from followers
-    where user_id = (
-      select min(prh.actor_id)
-      from pull_request_history prh
-      where prh.pull_request_id = ?
-        and prh.action = 'closed'
-        )
-    and follower_id = (
-      select min(prh.actor_id)
-      from pull_request_history prh
-      where prh.pull_request_id = ?
-        and prh.action = 'opened'
-        )
-    and created_at < (
-      select min(created_at)
-        from pull_request_history
-        where pull_request_id = ?
-        and action = 'opened'
-    )
-    QUERY
-    db.fetch(q, pr[:id], pr[:id], pr[:id]).all.size > 0
-  end
-
-  # The number of events before a particular pull request that the user has
-  # participated in for this project.
-  def prior_interaction_issue_events(pr, months_back)
-    q = <<-QUERY
-      select count(distinct(i.id)) as num_issue_events
-      from issue_events ie, pull_request_history prh, pull_requests pr, issues i
-      where ie.actor_id = prh.actor_id
-        and i.repo_id = pr.base_repo_id
-        and i.id = ie.issue_id
-        and prh.pull_request_id = pr.id
-        and prh.action = 'opened'
-        and ie.created_at > DATE_SUB(prh.created_at, INTERVAL #{months_back} MONTH)
-        and ie.created_at < prh.created_at
-        and prh.pull_request_id = ?
-    QUERY
-    db.fetch(q, pr[:id]).first[:num_issue_events]
-  end
-
-  def prior_interaction_issue_comments(pr, months_back)
-    q = <<-QUERY
-    select count(distinct(ic.comment_id)) as issue_comment_count
-    from pull_request_history prh, pull_requests pr, issues i, issue_comments ic
-    where ic.user_id = prh.actor_id
-      and i.repo_id = pr.base_repo_id
-      and i.id = ic.issue_id
-      and prh.pull_request_id = pr.id
-      and prh.action = 'opened'
-      and ic.created_at > DATE_SUB(prh.created_at, INTERVAL #{months_back} MONTH)
-      and ic.created_at < prh.created_at
-      and prh.pull_request_id = ?;
-    QUERY
-    db.fetch(q, pr[:id]).first[:issue_comment_count]
-  end
-
-  def prior_interaction_pr_events(pr, months_back)
-    q = <<-QUERY
-    select count(distinct(prh1.id)) as count_pr
-    from  pull_request_history prh1, pull_request_history prh, pull_requests pr1, pull_requests pr
-    where prh1.actor_id = prh.actor_id
-      and pr1.base_repo_id = pr.base_repo_id
-      and pr1.id = prh1.pull_request_id
-      and pr.id = prh.pull_request_id
-      and prh.action = 'opened'
-      and prh1.created_at > DATE_SUB(prh.created_at, INTERVAL #{months_back} MONTH)
-      and prh1.created_at < prh.created_at
-      and prh.pull_request_id = ?
-    QUERY
-    db.fetch(q, pr[:id]).first[:count_pr]
-  end
-
-  def prior_interaction_pr_comments(pr, months_back)
-    q = <<-QUERY
-    select count(prc.comment_id) as count_pr_comments
-    from pull_request_history prh, pull_requests pr1, pull_requests pr, pull_request_comments prc
-    where prh.actor_id = prc.user_id
-      and pr1.base_repo_id = pr.base_repo_id
-      and pr1.id = prh.pull_request_id
-      and pr.id = prc.pull_request_id
-      and prh.action = 'opened'
-      and prc.created_at > DATE_SUB(prh.created_at, INTERVAL #{months_back} MONTH)
-      and prc.created_at < prh.created_at
-      and prh.pull_request_id = ?
-    QUERY
-    db.fetch(q, pr[:id]).first[:count_pr_comments]
-  end
-
-  def prior_interaction_commits(pr, months_back)
-    q = <<-QUERY
-    select count(distinct(c.id)) as count_commits
-    from pull_request_history prh, pull_requests pr, commits c, project_commits pc
-    where (c.author_id = prh.actor_id or c.committer_id = prh.actor_id)
-      and pc.project_id = pr.base_repo_id
-      and c.id = pc.commit_id
-      and prh.pull_request_id = pr.id
-      and prh.action = 'opened'
-      and c.created_at > DATE_SUB(prh.created_at, INTERVAL #{months_back} MONTH)
-      and c.created_at < prh.created_at
-      and prh.pull_request_id = ?;
-    QUERY
-    db.fetch(q, pr[:id]).first[:count_commits]
-  end
-
-  def prior_interaction_commit_comments(pr, months_back)
-    q = <<-QUERY
-    select count(distinct(cc.id)) as count_commits
-    from pull_request_history prh, pull_requests pr, commits c, project_commits pc, commit_comments cc
-    where cc.commit_id = c.id
-      and cc.user_id = prh.actor_id
-      and pc.project_id = pr.base_repo_id
-      and c.id = pc.commit_id
-      and prh.pull_request_id = pr.id
-      and prh.action = 'opened'
-      and cc.created_at > DATE_SUB(prh.created_at, INTERVAL #{months_back} MONTH)
-      and cc.created_at < prh.created_at
-      and prh.pull_request_id = ?;
-
-    QUERY
-    db.fetch(q, pr[:id]).first[:count_commits]
-  end
 
   # Median number of commits to files touched by the pull request relative to
   # all project commits during the last three months
   def hotness_vasilescu(pr, months_back)
-    commits_per_file = commits_on_pr_files(pr, months_back).map { |x| x[1].size }.sort
+    commits_per_file = commits_on_build_files(pr, months_back).map { |x| x[1].size }.sort
     med = commits_per_file[commits_per_file.size/2]
     med / commits_last_x_months(pr, true, months_back).to_f
   end
@@ -1071,9 +948,9 @@ usage:
   # Various statistics for the build. Returned as Hash with the following
   # keys: :lines_added, :lines_deleted, :files_added, :files_removed,
   # :files_modified, :files_touched, :src_files, :doc_files, :other_files.
-  def build_stats(commits)
+  def build_stats(owner, repo, commits)
 
-    raw_commits = commit_entries(commits)
+    raw_commits = commit_entries(owner, repo, commits)
     result = Hash.new(0)
 
     def file_count(commits, status)
@@ -1169,11 +1046,10 @@ usage:
   # Return a hash of file names and commits on those files in the
   # period between pull request open and months_back. The returned
   # results do not include the commits comming from the PR.
-  def commits_on_pr_files(pr, months_back)
+  def commits_on_build_files(owner, repo, build, months_back)
 
-    oldest = Time.at(Time.at(pr[:created_at]).to_i - 3600 * 24 * 30 * months_back)
-    pr_against = pull_req_entry(pr[:id])['base']['sha']
-    commits = commit_entries(pr[:id])
+    oldest = Time.at(Time.parse(build[:started_at]).to_i - 3600 * 24 * 30 * months_back)
+    commits = commit_entries(owner, repo, build[:id])
 
     commits_per_file = commits.flat_map { |c|
       c['files'].map { |f|
@@ -1186,9 +1062,9 @@ usage:
     commits_per_file.keys.reduce({}) do |acc, filename|
       commits_in_pr = commits_per_file[filename].map { |x| x[0] }
 
-      walker = Rugged::Walker.new(repo)
+      walker = Rugged::Walker.new(git)
       walker.sorting(Rugged::SORT_DATE)
-      walker.push(pr_against)
+      walker.push(build[:commit])
 
       commit_list = walker.take_while do |c|
         c.time > oldest
@@ -1203,20 +1079,12 @@ usage:
     end
   end
 
-  # Number of unique commits on the files changed by the pull request
-  # between the time the PR was created and `months_back`
-  # excluding those created by the PR
-  def commits_on_files_touched(pr, months_back)
-    commits_on_pr_files(pr, months_back).reduce([]) do |acc, commit_list|
+  # Number of unique commits on the files changed by the build commits
+  # between the time the build was created and `months_back`
+  def commits_on_files_touched(owner, repo, build, months_back)
+    commits_on_build_files(owner, repo, build, months_back).reduce([]) do |acc, commit_list|
       acc + commit_list[1]
     end.flatten.uniq.size
-  end
-
-  # Number of commits to the hottest file between the time the PR was created
-  # and `months_back`
-  def commits_to_hottest_file(pr, months_back)
-    a = commits_on_pr_files(pr, months_back).map { |x| x }.sort_by { |x| x[1].size }
-    a.last[1].size
   end
 
   # Total number of commits on the project in the period up to `months` before
@@ -1260,23 +1128,22 @@ usage:
   end
 
   # JSON objects for the commits included in the pull request
-  def commit_entries(commits)
-    commits.reduce([]) { |acc, x|
+  def commit_entries(owner, repo ,shas)
+    shas.reduce([]) { |acc, x|
       a = mongo['commits'].find_one({:sha => x})
-      acc << a unless a.nil?
+
+      if a.nil?
+        a = github_commit(owner, repo, x)
+      end
+
+      acc << a unless a.nil? or a.empty?
       acc
-    }.select { |c| c['parents'].size <= 1 }
+    }.select { |c| c['parents'] }
   end
 
   # List of files in a project checkout. Filter is an optional binary function
   # that takes a file entry and decides whether to include it in the result.
-  def files_at_commit(pr_id, filter = lambda { true })
-    q = <<-QUERY
-    select c.sha
-    from pull_requests p, commits c
-    where c.id = p.base_commit_id
-    and p.id = ?
-    QUERY
+  def files_at_commit(sha, filter = lambda { true })
 
     def lslr(tree, path = '')
       all_files = []
@@ -1284,7 +1151,7 @@ usage:
         f[:path] = path + '/' + f[:name]
         if f[:type] == :tree
           begin
-            all_files << lslr(repo.lookup(f[:oid]), f[:path])
+            all_files << lslr(git.lookup(f[:oid]), f[:path])
           rescue Exception => e
             STDERR.puts e
             all_files
@@ -1296,12 +1163,14 @@ usage:
       all_files.flatten
     end
 
-    base_commit = db.fetch(q, pr_id).all[0][:sha]
     begin
-      files = lslr(repo.lookup(base_commit).tree)
+      files = lslr(git.lookup(sha).tree)
+      if files.size <= 0
+        STDERR.puts "No files for commit #{sha}"
+      end
       files.select { |x| filter.call(x) }
     rescue Exception => e
-      STDERR.puts "Cannot find commit #{base_commit} in base repo"
+      STDERR.puts "Cannot find commit #{sha} in base repo"
       []
     end
   end
@@ -1388,27 +1257,27 @@ usage:
     a
   end
 
-  def src_files(pr_id)
+  def src_files(sha)
     raise Exception.new("Unimplemented")
   end
 
-  def src_lines(pr_id)
+  def src_lines(sha)
     raise Exception.new("Unimplemented")
   end
 
-  def test_files(pr_id)
+  def test_files(sha)
     raise Exception.new("Unimplemented")
   end
 
-  def test_lines(pr_id)
+  def test_lines(sha)
     raise Exception.new("Unimplemented")
   end
 
-  def num_test_cases(pr_id)
+  def num_test_cases(sha)
     raise Exception.new("Unimplemented")
   end
 
-  def num_assertions(pr_id)
+  def num_assertions(sha)
     raise Exception.new("Unimplemented")
   end
 

@@ -10,8 +10,8 @@ module ScalaData
 
   include CommentStripper
 
-  def num_test_cases(pr_id)
-    count_lines(test_files(pr_id), lambda{|l|
+  def num_test_cases(sha)
+    count_lines(test_files(sha), lambda{|l|
       not l.match(/@Test/).nil? or           # JUnit
           not l.match(/ in\s*{/).nil? or     # specs2
           not l.match(/ it[\s({]+"/).nil? or # scalatest bdd tests
@@ -19,24 +19,24 @@ module ScalaData
     })
   end
 
-  def num_assertions(pr_id)
-    count_lines(test_files(pr_id), lambda{|l|
+  def num_assertions(sha)
+    count_lines(test_files(sha), lambda{|l|
       not l.match(/[.\s]assert[\s({]+/).nil? or          # JUnit, scalatest
           not l.match(/[.\s]must[\s({]+/).nil? or        # scalatest
           not l.match(/[.\s]should[\s({]+/).nil?        # scalatest, specs2
     })
   end
 
-  def test_lines(pr_id)
-    count_lines(test_files(pr_id))
+  def test_lines(sha)
+    count_lines(test_files(sha))
   end
 
-  def test_files(pr_id)
-    files_at_commit(pr_id, test_file_filter)
+  def test_files(sha)
+    files_at_commit(sha, test_file_filter)
   end
 
-  def src_files(pr_id)
-    files_at_commit(pr_id,
+  def src_files(sha)
+    files_at_commit(sha,
       lambda { |f|
         path = if f.class == Hash then f[:path] else f end
         not path.include?('/test/') and
@@ -45,8 +45,8 @@ module ScalaData
     )
   end
 
-  def src_lines(pr_id)
-    count_lines(src_files(pr_id))
+  def src_lines(sha)
+    count_lines(src_files(sha))
   end
 
   def test_file_filter

@@ -10,29 +10,24 @@ module JavaData
 
   include CommentStripper
 
-  def src_files(pr_id)
-    files_at_commit(pr_id,
-                    lambda { |f|
-                      f[:path].end_with?('.java') and
-                      not f[:path].include?("/test/")
-                    }
-    )
+  def src_files(sha)
+    files_at_commit(sha, src_file_filter)
   end
 
-  def src_lines(pr_id)
-    count_lines(src_files(pr_id))
+  def src_lines(sha)
+    count_lines(src_files(sha))
   end
 
-  def test_files(pr_id)
-    files_at_commit(pr_id, test_file_filter)
+  def test_files(sha)
+    files_at_commit(sha, test_file_filter)
   end
 
-  def test_lines(pr_id)
-    count_lines(test_files(pr_id))
+  def test_lines(sha)
+    count_lines(test_files(sha))
   end
 
-  def num_test_cases(pr_id)
-    test_files(pr_id).map {|f|
+  def num_test_cases(sha)
+    test_files(sha).map {|f|
       buff = stripped(f)
 
       junit4 = buff.lines.select{|l| not l.match(/@Test/).nil?}.size
@@ -53,10 +48,18 @@ module JavaData
     count_lines(test_files(pr_id), lambda{|l| not l.match(/assert/).nil?})
   end
 
+  def src_file_filter
+    lambda { |f|
+      path = if f.class == Hash then f[:path] else f end
+      path.end_with?('.java')and not test_file_filter.call(f)
+    }
+  end
+
   def test_file_filter
     lambda { |f|
       path = if f.class == Hash then f[:path] else f end
-      path.end_with?('.java') and not path.match(/tests?\//).nil?
+      path.end_with?('.java') and
+          (not path.match(/tests?\//).nil? or not path.match(/[tT]est.java/).nil?)
     }
   end
 

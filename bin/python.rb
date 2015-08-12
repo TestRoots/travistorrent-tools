@@ -10,8 +10,8 @@ module PythonData
 
   include CommentStripper
 
-  def num_test_cases(pr_id)
-      ds_tests = docstrings(pr_id).reduce(0) do |acc, docstring|
+  def num_test_cases(sha)
+      ds_tests = docstrings(sha).reduce(0) do |acc, docstring|
         in_test = false
         tests = 0
         docstring.lines.each do |x|
@@ -28,15 +28,15 @@ module PythonData
         acc + tests
       end
 
-    normal_tests = test_files(pr_id).reduce(0) do |acc, f|
+    normal_tests = test_files(sha).reduce(0) do |acc, f|
       cases = stripped(f).scan(/\s*def\s* test_(.*)\(.*\):/).size
       acc + cases
     end
     ds_tests + normal_tests
   end
 
-  def num_assertions(pr_id)
-    ds_tests = docstrings(pr_id).reduce(0) do |acc, docstring|
+  def num_assertions(sha)
+    ds_tests = docstrings(sha).reduce(0) do |acc, docstring|
       in_test = false
       asserts = 0
       docstring.lines.each do |x|
@@ -53,7 +53,7 @@ module PythonData
       acc + asserts
     end
 
-    normal_tests = test_files(pr_id).reduce(0) do |acc, f|
+    normal_tests = test_files(sha).reduce(0) do |acc, f|
       cases = stripped(f).lines.select{|l| not l.match(/assert/).nil?}
       acc + cases.size
     end
@@ -61,27 +61,27 @@ module PythonData
     ds_tests + normal_tests
   end
 
-  def test_lines(pr_id)
-    count_lines(test_files(pr_id))
+  def test_lines(sha)
+    count_lines(test_files(sha))
   end
 
-  def test_files(pr_id)
-    files_at_commit(pr_id,
+  def test_files(sha)
+    files_at_commit(sha,
       lambda { |f|
         f[:path].end_with?('.py') and test_file_filter.call(f[:path])
       })
   end
 
-  def src_files(pr_id)
-    files_at_commit(pr_id,
+  def src_files(sha)
+    files_at_commit(sha,
       lambda { |f|
         f[:path].end_with?('.py') and not test_file_filter.call(f[:path])
       }
     )
   end
 
-  def src_lines(pr_id)
-    count_lines(src_files(pr_id))
+  def src_lines(sha)
+    count_lines(src_files(sha))
   end
 
   def test_file_filter
@@ -128,15 +128,15 @@ module PythonData
 
   private
 
-  def docstrings(pr_id)
+  def docstrings(sha)
     Thread.current[:ds_cache] ||= {}
-    if Thread.current[:ds_cache][pr_id].nil?
-      docstr = (src_files(pr_id) + test_files(pr_id)).flat_map do |f|
+    if Thread.current[:ds_cache][sha].nil?
+      docstr = (src_files(sha) + test_files(sha)).flat_map do |f|
           buff = repo.read(f[:oid]).data
           buff.scan(ml_comment_regexps[0])
           end
-      Thread.current[:ds_cache][pr_id] = docstr.flatten
+      Thread.current[:ds_cache][sha] = docstr.flatten
     end
-    Thread.current[:ds_cache][pr_id]
+    Thread.current[:ds_cache][sha]
   end
 end
