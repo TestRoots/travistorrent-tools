@@ -330,8 +330,6 @@ usage:
     STDERR.puts "\nCalculating PR close reasons"
     @close_reason = {}
     @close_reason = @builds.select{|b| not b[:pull_req].nil?}.reduce({}) do |acc, build|
-      #STDERR.write "\rPR #{build[:pull_req]}"
-
       acc[build[:pull_req_id]] = merged_with(owner, repo, build)
       acc
     end
@@ -410,7 +408,6 @@ usage:
 
       # Get diff between the current build commit and previous one
       diff = build_commit.diff(prev_build_commit)
-      diff
 
       {
           :build_id      => build[:build_id],
@@ -434,7 +431,7 @@ usage:
         end
         STDERR.puts r
         r
-      rescue Exception => e
+      rescue StandardError => e
         STDERR.puts "Error processing build #{build[:build_id]}: #{e.message}"
         STDERR.puts e.backtrace
       end
@@ -492,8 +489,7 @@ usage:
         # :tests_added              => 0, # e.g. for Java, @Test annotations
         # :tests_deleted            => 0,
         # :tests_modified           => 0,
-        # :tests_changed            => 0,
-        #
+
         :src_files                => stats[:src_files],
         :doc_files                => stats[:doc_files],
         :other_files              => stats[:other_files],
@@ -507,8 +503,8 @@ usage:
         #
         :main_team_member         => (committers - main_team).empty?,
         :description_complexity   => if is_pr then description_complexity(build) else nil end
-        #:workload                 => workload(owner, repo, build)
-        # :ci_latency               => ci_latency(build) # TODO time between push even for triggering commit and build time
+        #:workload                => workload(owner, repo, build)
+        # :ci_latency             => ci_latency(build) # TODO time between push even for triggering commit and build time
     }
   end
 
@@ -549,7 +545,11 @@ usage:
       end
     end
 
-    comments = issue_comments(owner, repo, build[:pull_req])
+    comments = mongo['issue_comments'].find(
+        {'owner' => owner, 'repo' => repo, 'issue_id' => build[:pull_req_id].to_i},
+        {:fields => {'body' => 1, 'created_at' => 1, '_id' => 0},
+         :sort => {'created_at' => :asc}}
+    ).map{|x| x}
 
     comments.reverse.take(3).map { |x| x['body'] }.uniq.each do |last|
       # 3. Last comment contains a commit number
@@ -860,31 +860,6 @@ usage:
     end.flatten.uniq.size
   end
 
-  # Total number of commits on the project in the period up to `months` before
-  # the pull request was opened. `exclude_pull_req` controls whether commits
-  # from pull requests should be accounted for.
-  def commits_last_x_months(pr, exclude_pull_req, months_back)
-    q = <<-QUERY
-    select count(c.id) as num_commits
-    from projects p, commits c, project_commits pc, pull_requests pr,
-         pull_request_history prh
-    where p.id = pc.project_id
-      and pc.commit_id = c.id
-      and p.id = pr.base_repo_id
-      and prh.pull_request_id = pr.id
-      and prh.action = 'opened'
-      and c.created_at < prh.created_at
-      and c.created_at > DATE_SUB(prh.created_at, INTERVAL #{months_back} MONTH)
-      and pr.id=?
-    QUERY
-
-    if exclude_pull_req
-      q << ' and not exists (select * from pull_request_commits prc1 where prc1.commit_id = c.id)'
-    end
-
-    db.fetch(q, pr[:id]).first[:num_commits]
-  end
-
   def pull_req_entry(pr_id)
     q = <<-QUERY
     select u.login as user, p.name as name, pr.pullreq_id as pullreq_id
@@ -925,27 +900,29 @@ usage:
     }.select { |c| c['parents'] }
   end
 
+  # Recursively get information from all files given a rugged Git tree
+  def lslr(tree, path = '')
+    all_files = []
+    for f in tree.map { |x| x }
+      f[:path] = path + '/' + f[:name]
+      if f[:type] == :tree
+        begin
+          all_files << lslr(git.lookup(f[:oid]), f[:path])
+        rescue StandardError => e
+          STDERR.puts e
+          all_files
+        end
+      else
+        all_files << f
+      end
+    end
+    all_files.flatten
+  end
+
+
   # List of files in a project checkout. Filter is an optional binary function
   # that takes a file entry and decides whether to include it in the result.
   def files_at_commit(sha, filter = lambda { true })
-
-    def lslr(tree, path = '')
-      all_files = []
-      for f in tree.map { |x| x }
-        f[:path] = path + '/' + f[:name]
-        if f[:type] == :tree
-          begin
-            all_files << lslr(git.lookup(f[:oid]), f[:path])
-          rescue Exception => e
-            STDERR.puts e
-            all_files
-          end
-        else
-          all_files << f
-        end
-      end
-      all_files.flatten
-    end
 
     begin
       files = lslr(git.lookup(sha).tree)
@@ -953,41 +930,10 @@ usage:
         STDERR.puts "No files for commit #{sha}"
       end
       files.select { |x| filter.call(x) }
-    rescue Exception => e
+    rescue StandardError => e
       STDERR.puts "Cannot find commit #{sha} in base repo"
       []
     end
-  end
-
-  # Returns all comments for the issue sorted by creation date ascending
-  def issue_comments(owner, repo, pr_id)
-    Thread.current[:issue_id] ||= pr_id
-
-    if pr_id != Thread.current[:issue_id]
-      Thread.current[:issue_id] = pr_id
-      Thread.current[:issue_cmnt] = nil
-    end
-
-    Thread.current[:issue_cmnt] ||= Proc.new {
-      issue_comments = mongo['issue_comments']
-      ic = issue_comments.find(
-          {'owner' => owner, 'repo' => repo, 'issue_id' => pr_id.to_i},
-          {:fields => {'body' => 1, 'created_at' => 1, '_id' => 0},
-           :sort => {'created_at' => :asc}}
-      ).map { |x| x }
-
-    }.call
-    Thread.current[:issue_cmnt]
-  end
-
-  def count_lines(files, include_filter = lambda { |x| true })
-    files.map { |f|
-      stripped(f).lines.select { |x|
-        not x.strip.empty?
-      }.select { |x|
-        include_filter.call(x)
-      }.size
-    }.reduce(0) { |acc, x| acc + x }
   end
 
   # Clone or update, if already cloned, a git repository
