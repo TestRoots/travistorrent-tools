@@ -9,7 +9,7 @@ module PythonData
   include CommentStripper
 
   def docstring_tests(sha)
-    ds_tests = docstrings(sha).reduce(0) do |acc, docstring|
+    docstrings(sha).reduce(0) do |acc, docstring|
       in_test = false
       tests = 0
       docstring.lines.each do |x|
@@ -28,7 +28,7 @@ module PythonData
   end
 
   def num_test_cases(sha)
-    ds_tests(sha) + normal_tests(sha)
+    docstring_tests(sha) + normal_tests(sha)
   end
 
   def normal_tests(sha)

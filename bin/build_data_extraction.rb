@@ -176,10 +176,10 @@ usage:
     rescue OpenURI::HTTPError => e
       @remaining = e.io.meta['x-ratelimit-remaining'].to_i
       @reset = e.io.meta['x-ratelimit-reset'].to_i
-      STDERR.puts("Cannot get #{url}. Error #{e.io.status[0].to_i}")
+      STDERR.puts "Cannot get #{url}. Error #{e.io.status[0].to_i}"
       {}
     rescue StandardError => e
-      STDERR.puts("Cannot get #{url}. General error: #{e.message}")
+      STDERR.puts "Cannot get #{url}. General error: #{e.message}"
       {}
     ensure
       File.open(commit_json, 'w') do |f|
@@ -189,7 +189,7 @@ usage:
 
       if 5000 - @remaining >= @req_limit
         to_sleep = @reset - Time.now.to_i + 2
-        debug "Request limit reached, sleeping for #{to_sleep} secs"
+        STDERR.puts "Request limit reached, sleeping for #{to_sleep} secs"
         sleep(to_sleep)
       end
     end
