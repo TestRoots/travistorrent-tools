@@ -1,5 +1,7 @@
 cache/
 build_logs/
+commits/
+repos/
 .idea/
 
 *.gem

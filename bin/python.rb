@@ -1,7 +1,5 @@
 #
-# (c) 2012 -- 2014 Georgios Gousios <gousiosg@gmail.com>
-#
-# BSD licensed, see LICENSE in top level dir
+# (c) 2012 -- 2015 Georgios Gousios <gousiosg@gmail.com>
 #
 
 require 'comment_stripper'
@@ -10,33 +8,38 @@ module PythonData
 
   include CommentStripper
 
-  def num_test_cases(pr_id)
-      ds_tests = docstrings(pr_id).reduce(0) do |acc, docstring|
-        in_test = false
-        tests = 0
-        docstring.lines.each do |x|
+  def docstring_tests(sha)
+    ds_tests = docstrings(sha).reduce(0) do |acc, docstring|
+      in_test = false
+      tests = 0
+      docstring.lines.each do |x|
 
-          if in_test == false
-            if x.match(/^\s+>>>/)
-              in_test = true
-              tests += 1
-            end
-          else
-            in_test = false unless x.match(/^\s+>>>/)
+        if in_test == false
+          if x.match(/^\s+>>>/)
+            in_test = true
+            tests += 1
           end
+        else
+          in_test = false unless x.match(/^\s+>>>/)
         end
-        acc + tests
       end
+      acc + tests
+    end
+  end
 
-    normal_tests = test_files(pr_id).reduce(0) do |acc, f|
+  def num_test_cases(sha)
+    ds_tests(sha) + normal_tests(sha)
+  end
+
+  def normal_tests(sha)
+    test_files(sha).reduce(0) do |acc, f|
       cases = stripped(f).scan(/\s*def\s* test_(.*)\(.*\):/).size
       acc + cases
     end
-    ds_tests + normal_tests
   end
 
-  def num_assertions(pr_id)
-    ds_tests = docstrings(pr_id).reduce(0) do |acc, docstring|
+  def num_assertions(sha)
+    ds_tests = docstrings(sha).reduce(0) do |acc, docstring|
       in_test = false
       asserts = 0
       docstring.lines.each do |x|
@@ -53,35 +56,12 @@ module PythonData
       acc + asserts
     end
 
-    normal_tests = test_files(pr_id).reduce(0) do |acc, f|
+    normal_tests = test_files(sha).reduce(0) do |acc, f|
       cases = stripped(f).lines.select{|l| not l.match(/assert/).nil?}
       acc + cases.size
     end
     Thread.current[:ds_cache] = {} # Hacky optimization to avoid memory problems
     ds_tests + normal_tests
-  end
-
-  def test_lines(pr_id)
-    count_lines(test_files(pr_id))
-  end
-
-  def test_files(pr_id)
-    files_at_commit(pr_id,
-      lambda { |f|
-        f[:path].end_with?('.py') and test_file_filter.call(f[:path])
-      })
-  end
-
-  def src_files(pr_id)
-    files_at_commit(pr_id,
-      lambda { |f|
-        f[:path].end_with?('.py') and not test_file_filter.call(f[:path])
-      }
-    )
-  end
-
-  def src_lines(pr_id)
-    count_lines(src_files(pr_id))
   end
 
   def test_file_filter
@@ -100,6 +80,22 @@ module PythonData
           )
       )
     }
+  end
+
+  def src_file_filter
+    lambda { |f|
+      f[:path].end_with?('.py') and not test_file_filter.call(f[:path])
+    }
+  end
+
+  def test_case_filter
+    lambda {|l|
+      not l.match(/\s*def\s* test_(.*)\(.*\):/).nil?
+    }
+  end
+
+  def assertion_filter
+    lambda{|l| not l.match(/assert/).nil?}
   end
 
   def strip_comments(buff)
@@ -128,15 +124,15 @@ module PythonData
 
   private
 
-  def docstrings(pr_id)
+  def docstrings(sha)
     Thread.current[:ds_cache] ||= {}
-    if Thread.current[:ds_cache][pr_id].nil?
-      docstr = (src_files(pr_id) + test_files(pr_id)).flat_map do |f|
+    if Thread.current[:ds_cache][sha].nil?
+      docstr = (src_files(sha) + test_files(sha)).flat_map do |f|
           buff = repo.read(f[:oid]).data
           buff.scan(ml_comment_regexps[0])
           end
-      Thread.current[:ds_cache][pr_id] = docstr.flatten
+      Thread.current[:ds_cache][sha] = docstr.flatten
     end
-    Thread.current[:ds_cache][pr_id]
+    Thread.current[:ds_cache][sha]
   end
 end
