@@ -7,17 +7,15 @@
 
 parallel=1
 dir='.'
-ip=`/sbin/ifconfig |grep "inet add"|grep -v "127.0.0"|head -n 1|cut -f2 -d':'|cut -f1 -d' '`
 
 usage()
 {
   echo ""
 	echo "Usage: $0 [-p num_processes] [-d output_dir] file"
-  echo "Runs pull_req_data_extraction for an input file using multiple processes"
+  echo "Runs build_data_extraction for an input file using multiple processes"
   echo "Options:"
   echo "  -p Number of processes to run in parallel (default: $parallel)"
   echo "  -d Output directory (default: $dir)"
-  echo "  -a IP address to use for outgoing requests (default: $ip)"
   exit 1
 }
 
@@ -59,6 +57,6 @@ cat $input |
 grep -v "^#"|
 while read pr; do
   name=`echo $pr|cut -f1,2 -d' '|tr ' ' '@'`
-  echo "ruby -Ibin bin/build_data_extraction.rb -a $ip -c config.yaml $pr |grep -v '^[DUG]' |grep -v Overrid | grep -v 'unknown\ header'|grep -v '^$' 1>$dir/$name.csv 2>$dir/$name.err"
+  echo "ruby -Ibin bin/build_data_extraction.rb -c config.yaml $pr |grep -v '^[DUG]' |grep -v Overrid | grep -v 'unknown\ header'|grep -v '^$' 1>$dir/$name.csv 2>$dir/$name.err"
 done | xargs -P $parallel -Istr sh -c str
 
