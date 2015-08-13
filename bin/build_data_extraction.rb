@@ -254,7 +254,15 @@ usage:
       STDERR.puts "#{@builds.size} builds for #{owner}/#{repo}"
     end
 
-    @builds.map{|b| b[:started_at] = Time.parse(b[:started_at]); b}
+    @builds = @builds.reduce([]) do |acc, b|
+      unless b[:started_at].nil?
+        b[:started_at] = Time.parse(b[:started_at])
+        acc << b
+      else
+        acc
+      end
+    end
+    STDERR.puts "#{@builds.size} builds after filtering out empty build dates"
 
     STDERR.puts "\nCalculating GHTorrent PR ids"
     @builds = @builds.reduce([]) do |acc, build|
