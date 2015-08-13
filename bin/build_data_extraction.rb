@@ -330,7 +330,7 @@ usage:
     STDERR.puts "\nCalculating PR close reasons"
     @close_reason = {}
     @close_reason = @builds.select{|b| not b[:pull_req].nil?}.reduce({}) do |acc, build|
-      acc[build[:pull_req_id]] = merged_with(owner, repo, build)
+      acc[build[:pull_req]] = merged_with(owner, repo, build)
       acc
     end
 
@@ -461,6 +461,7 @@ usage:
     pr_id = unless build[:pull_req].nil? then build[:pull_req] end
     committers = bs[:authors].map{|a| github_login(a)}.select{|x| not x.nil?}
     main_team = main_team(owner, repo, build, months_back)
+    test_diff = test_diff_stats(bs[:prev_build][:commit], build[:commit])
 
     {
         :build_id                 => build[:build_id],
@@ -472,12 +473,12 @@ usage:
         :branch                   => build[:branch],
         :first_commit_created_at  => build[:started_at].to_i,
         :team_size                => main_team.size,
-        :commits                  => bs[:commits].to_s,
+        :commits                  => bs[:commits].join('#'),
         :num_commits              => bs[:commits].size,
-        :num_issue_comments       => num_issue_comments(build, bs[:prev_build][:started_at], bs[:started_at]),
-        :num_commit_comments      => num_commit_comments(owner, repo, bs[:prev_build][:started_at], bs[:started_at]),
-        :num_pr_comments          => num_pr_comments(build, bs[:prev_build][:started_at], bs[:started_at]),
-        :committers               => bs[:authors],
+        :num_issue_comments       => num_issue_comments(build, bs[:prev_build][:started_at], build[:started_at]),
+        :num_commit_comments      => num_commit_comments(owner, repo, bs[:prev_build][:started_at], build[:started_at]),
+        :num_pr_comments          => num_pr_comments(build, bs[:prev_build][:started_at], build[:started_at]),
+        :committers               => bs[:authors].join('#'),
 
         :src_churn                => stats[:lines_added] + stats[:lines_deleted],
         :test_churn               => stats[:test_lines_added] + stats[:test_lines_deleted],
@@ -500,7 +501,7 @@ usage:
         :test_lines_per_kloc      => (test_lines(build[:commit]).to_f / sloc.to_f) * 1000,
         :test_cases_per_kloc      => (num_test_cases(build[:commit]).to_f / sloc.to_f) * 1000,
         :asserts_per_kloc         => (num_assertions(build[:commit]).to_f / sloc.to_f) * 1000,
-        #
+
         :main_team_member         => (committers - main_team).empty?,
         :description_complexity   => if is_pr then description_complexity(build) else nil end
         #:workload                => workload(owner, repo, build)
@@ -588,7 +589,7 @@ usage:
     select count(*) as comment_count
     from pull_request_comments prc
     where prc.pull_request_id = ?
-    and prc.created_at between ? and ?
+    and prc.created_at between timestamp(?) and timestamp(?)
     QUERY
     db.fetch(q, build[:pull_req_id], from, to).first[:comment_count]
   end
@@ -602,7 +603,7 @@ usage:
     and i.issue_id=pr.pullreq_id
     and pr.base_repo_id = i.repo_id
     and pr.id = ?
-    and ic.created_at between ? and ?
+    and ic.created_at between timestamp(?) and timestamp(?)
     QUERY
     db.fetch(q, build[:pull_req_id], from, to).first[:issue_comment_count]
   end
@@ -617,7 +618,7 @@ usage:
       and p.owner_id = u.id
       and u.login = ?
       and p.name = ?
-      and cc.created_at between ? and ?
+      and cc.created_at between timestamp(?) and timestamp(?)
     QUERY
     db.fetch(q, onwer, repo, from, to).first[:commit_comment_count]
   end
@@ -636,17 +637,18 @@ usage:
       and p.name = ?
       and c.author_id = u1.id
       and u1.fake is false
-      and c.created_at > DATE_SUB(?, INTERVAL #{months_back} MONTH)
-      and c.created_at < ?;
+      and c.created_at between DATE_SUB(timestamp(?), INTERVAL #{months_back} MONTH) and timestamp(?);
     QUERY
     db.fetch(q, owner, repo, build[:started_at], build[:started_at]).all
   end
 
-  # People that merged (not through pull requests) up to months_back
-  # from the time the PR was created.
+  # People that merged (not necessarily through pull requests) up to months_back
+  # from the time the built PR was created.
   def merger_team(owner, repo, build, months_back)
 
-    recently_merged = @builds.find_all do |b|
+    recently_merged = @builds.select do |b|
+      not b[:pull_req].nil?
+    end.find_all do |b|
       @close_reason[b[:pull_req]] != :unknown and
           b[:started_at].to_i > (build[:started_at].to_i - months_back * 30 * 24 * 3600)
     end.map do |b|
@@ -814,6 +816,18 @@ usage:
     result[:other_files] += file_type_count(raw_commits, :data)
 
     result
+  end
+
+
+  def test_diff_stats(from_sha, to_sha)
+
+    from = git.lookup(from_sha)
+    to = git.lookup(to_sha)
+
+    diff = to.diff(from)
+    test_files = diff.deltas.select{|x| test_file_filter.call(x.old_file[:path])}
+    test_files
+
   end
 
   # Return a hash of file names and commits on those files in the
