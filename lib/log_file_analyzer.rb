@@ -3,7 +3,7 @@ load 'travis_fold.rb'
 class LogFileAnalyzer
   attr_reader :logFile
   attr_reader :status, :primary_language
-  attr_reader :tests_run, :tests_failed, :tests_ok, :tests_skipped
+  attr_reader :num_tests_run, :num_tests_failed, :num_tests_ok, :num_tests_skipped
 
   @folds
   @test_lines
@@ -18,10 +18,10 @@ class LogFileAnalyzer
     logFile = logFile.encode(logFile.encoding, :universal_newline => true)
     @logFile = logFile.lines
 
-    @tests_run = 0
-    @tests_failed = 0
-    @tests_ok = 0
-    @tests_skipped = 0
+    @num_tests_run = 0
+    @num_tests_failed = 0
+    @num_tests_ok = 0
+    @num_tests_skipped = 0
   end
 
   def anaylze_status
