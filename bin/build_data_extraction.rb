@@ -495,8 +495,8 @@ usage:
         :files_deleted            => stats[:files_removed],
         :files_modified           => stats[:files_modified],
 
-        # :tests_added              => 0, # e.g. for Java, @Test annotations
-        # :tests_deleted            => 0,
+        :tests_added              => test_diff[:tests_added], # e.g. for Java, @Test annotations
+        :tests_deleted            => test_diff[:tests_deleted],
         # :tests_modified           => 0,
 
         :src_files                => stats[:src_files],
@@ -833,9 +833,40 @@ usage:
     to = git.lookup(to_sha)
 
     diff = to.diff(from)
-    test_files = diff.deltas.select{|x| test_file_filter.call(x.old_file[:path])}
-    test_files
 
+    added = deleted = 0
+    state = :none
+    diff.patch.lines.each do |line|
+      if line.start_with? '---'
+        file_path = line.strip.split(/---/)[1]
+        next if file_path.nil?
+
+        file_path = file_path[2..-1]
+        next if file_path.nil?
+
+        if test_file_filter.call(file_path)
+          state = :in_test
+        end
+      end
+
+      if line.start_with? '- ' and state == :in_test
+        if test_case_filter.call(line)
+          deleted += 1
+        end
+      end
+
+      if line.start_with? '+ ' and state == :in_test
+        if test_case_filter.call(line)
+          added += 1
+        end
+      end
+
+      if line.start_with? 'diff --'
+        state = :none
+      end
+    end
+
+    {:tests_added => added, :tests_deleted => deleted}
   end
 
   # Return a hash of file names and commits on those files in the
