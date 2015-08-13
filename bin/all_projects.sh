@@ -53,6 +53,8 @@ else
   input=${@:$OPTIND:1}
 fi
 
+mkdir -p $dir
+
 cat $input |
 grep -v "^#"|
 while read pr; do
