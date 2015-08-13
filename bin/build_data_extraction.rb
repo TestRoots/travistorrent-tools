@@ -1019,55 +1019,61 @@ usage:
     end
   end
 
-  # [buff] is an array of file lines, with empty lines stripped
-  # [regexp] is a regexp or an array of regexps to match multiline comments
-  def count_multiline_comments(buff, regexp)
-    unless regexp.is_a?(Array) then
-      regexp = [regexp]
-    end
-
-    regexp.reduce(0) do |acc, regexp|
-      acc + buff.reduce('') { |acc, x| acc + x }.scan(regexp).map { |x|
-        x.map { |y| y.lines.count }.reduce(0) { |acc, y| acc + y }
-      }.reduce(0) { |acc, x| acc + x }
-    end
-  end
-
-  # [buff] is an array of file lines, with empty lines stripped
-  def count_single_line_comments(buff, comment_regexp)
-    a = buff.select { |l|
-      not l.match(comment_regexp).nil?
-    }.size
-    a
+  def count_lines(files, include_filter = lambda { |x| true })
+    files.map { |f|
+      stripped(f).lines.select { |x|
+        not x.strip.empty?
+      }.select { |x|
+        include_filter.call(x)
+      }.size
+    }.reduce(0) { |acc, x| acc + x }
   end
 
   def src_files(sha)
-    raise Exception.new("Unimplemented")
+    files_at_commit(sha, src_file_filter)
   end
 
   def src_lines(sha)
-    raise Exception.new("Unimplemented")
+    count_lines(src_files(sha))
   end
 
   def test_files(sha)
-    raise Exception.new("Unimplemented")
+    files_at_commit(sha, test_file_filter)
   end
 
   def test_lines(sha)
-    raise Exception.new("Unimplemented")
+    count_lines(test_files(sha))
   end
 
   def num_test_cases(sha)
-    raise Exception.new("Unimplemented")
+    count_lines(test_files(sha), test_case_filter)
   end
 
   def num_assertions(sha)
-    raise Exception.new("Unimplemented")
+    count_lines(test_files(sha), assertion_filter)
   end
 
   # Return a f: filename -> Boolean, that determines whether a
   # filename is a test file
   def test_file_filter
+    raise Exception.new("Unimplemented")
+  end
+
+  # Return a f: filename -> Boolean, that determines whether a
+  # filename is a src file
+  def src_file_filter
+    raise Exception.new("Unimplemented")
+  end
+
+  # Return a f: buff -> Boolean, that determines whether a
+  # line represents a test case declaration
+  def test_case_filter
+    raise Exception.new("Unimplemented")
+  end
+
+  # Return a f: buff -> Boolean, that determines whether a
+  # line represents an assertion
+  def assertion_filter
     raise Exception.new("Unimplemented")
   end
 
