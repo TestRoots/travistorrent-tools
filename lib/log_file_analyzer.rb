@@ -27,6 +27,7 @@ class LogFileAnalyzer
     logFile = logFile.encode(logFile.encoding, :universal_newline => true)
     @logFile = logFile.lines
 
+    @primary_language = 'unknwon'
     @analyzer = 'plain'
     @tests_run = false
     @status = 'unknown'
@@ -47,7 +48,12 @@ class LogFileAnalyzer
   end
 
   def anaylze_primary_language
-    @folds['system_info'].content.each do |line|
+    system_info = 'system_info'
+    if @folds[system_info].nil?
+      return
+    end
+
+    @folds[system_info].content.each do |line|
       unless (line =~/^Build language: (.*)/).nil?
         @primary_language = $1
       end

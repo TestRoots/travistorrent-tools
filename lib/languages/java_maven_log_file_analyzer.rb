@@ -28,7 +28,7 @@ class JavaMavenLogFileAnalyzer < LogFileAnalyzer
     line_marker = 0
     current_section = ''
 
-    # Possible future improvement: We could even get all executed tests here (also the ones which succeed)
+    # Possible future improvement: We could even get all executed tests (also the ones which succeed)
     @folds[OUT_OF_FOLD].content.each do |line|
       if !(line =~ /-------------------------------------------------------/).nil? && line_marker == 0
         line_marker = 1
@@ -58,6 +58,7 @@ class JavaMavenLogFileAnalyzer < LogFileAnalyzer
 
       if test_section_started
         @test_lines << line
+        puts line
       elsif reactor_started
         @reactor_lines << line
       end
@@ -76,8 +77,8 @@ class JavaMavenLogFileAnalyzer < LogFileAnalyzer
   end
 
   def convert_maven_time_to_seconds(string)
-    if !(string =~ /(\d+)(\.\d*)? s/).nil?
-      return $1.to_i
+    if !(string =~ /((\d+)(\.\d*)?) s/).nil?
+      return $1.to_f.round(2)
     elsif !(string =~ /(\d+):(\d+) min/).nil?
       return $1.to_i * 60 + $2.to_i
     end
