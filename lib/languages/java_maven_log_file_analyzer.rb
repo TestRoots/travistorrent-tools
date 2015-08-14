@@ -21,18 +21,14 @@ class JavaMavenLogFileAnalyzer < LogFileAnalyzer
     analyze_reactor
   end
 
+  def print_tests_failed
+    tests_failed.join(';')
+  end
+
   def output
-    puts @primary_language
-    puts @status
-    puts tests_broke_build?
-    puts @num_tests_ok
-    puts @num_tests_failed
-    puts @num_tests_run
-    puts @num_tests_skipped
-    puts @tests_failed
-    puts @test_duration
-    puts @pure_build_duration
-    puts @setup_time_before_build
+    string = [tests_broke_build?, @num_tests_ok, @num_tests_failed, @num_tests_run, @num_tests_skipped,
+              print_tests_failed, @test_duration, @pure_build_duration, @setup_time_before_build].join(',') 
+    super + ',' + string
   end
 
   def extract_tests
