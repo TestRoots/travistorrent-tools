@@ -11,12 +11,35 @@ class JavaMavenLogFileAnalyzer < LogFileAnalyzer
     @test_duration = 0
   end
 
+  def analyze
+    super
+
+    extract_tests
+    analyze_tests
+
+    getOffendingTests
+    analyze_reactor
+  end
+
+  def output
+    puts @primary_language
+    puts @status
+    puts tests_broke_build?
+    puts @num_tests_ok
+    puts @num_tests_failed
+    puts @num_tests_run
+    puts @num_tests_skipped
+    puts @tests_failed
+    puts @test_duration
+    puts @pure_build_duration
+    puts @setup_time_before_build
+  end
+
   def extract_tests
     test_section_started = false
     reactor_started = false
     line_marker = 0
     current_section = ''
-
 
     @folds[OUT_OF_FOLD].content.each do |line|
       if !(line =~ /-------------------------------------------------------/).nil? && line_marker == 0
@@ -55,21 +78,20 @@ class JavaMavenLogFileAnalyzer < LogFileAnalyzer
 
   def analyze_reactor()
     @reactor_lines.each do |line|
-      if !(line =~ /\[INFO\] .*test.*? (\w+) \[ (.*)\]/i).nil?
+      if !(line =~ /\[INFO\] .*test.*? (\w+) \[ (.+)\]/i).nil?
         @test_duration = @test_duration + convert_maven_time_to_seconds($2)
-      elsif !(line =~ /Total time: (.*)/i).nil?
+      elsif !(line =~ /Total time: (.+)/i).nil?
         @pure_build_duration = convert_maven_time_to_seconds($1)
       end
     end
   end
 
   def convert_maven_time_to_seconds(string)
-    if !(string =~ /(\d+) s/).nil?
+    if !(string =~ /(\d+)(\.\d*)? s/).nil?
       return $1.to_i
     elsif !(string =~ /(\d+):(\d+) min/).nil?
       return $1.to_i * 60 + $2.to_i
     end
-
   end
 
   def extractTestNameAndMethod(string)

@@ -4,6 +4,7 @@ class LogFileAnalyzer
   attr_reader :logFile
   attr_reader :status, :primary_language
   attr_reader :num_tests_run, :num_tests_failed, :num_tests_ok, :num_tests_skipped
+  attr_reader :setup_time_before_build
 
   @folds
   @test_lines
@@ -22,6 +23,7 @@ class LogFileAnalyzer
     @num_tests_failed = 0
     @num_tests_ok = 0
     @num_tests_skipped = 0
+    @setup_time_before_build = 0
   end
 
   def anaylze_status
@@ -55,12 +57,27 @@ class LogFileAnalyzer
       end
 
       if !(line =~ /travis_time:.*?,duration=(\d*)/).nil?
-        @folds[currentFold].duration = $1.to_i #/1000/1000/1000  to convert to seconds
+        @folds[currentFold].duration = ($1.to_f/1000/1000/1000).round # to convert to seconds
         next
       end
 
       @folds[currentFold].content << line
     end
+  end
+
+  def analyzeSetupTimeBeforeBuild
+    @folds.each do |foldname, fold|
+      if !(fold.fold =~ /(system_info|git.checkout|services|before.install)/).nil?
+        @setup_time_before_build += fold.duration if !fold.duration.nil?
+      end
+    end
+  end
+
+  def analyze
+    split
+    anaylze_primary_language
+    anaylze_status
+    analyzeSetupTimeBeforeBuild
   end
 end
 
