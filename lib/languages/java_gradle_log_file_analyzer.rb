@@ -1,4 +1,4 @@
-# Supports any JUnit-driven test execution with Gradle
+# Supports any test execution with Gradle
 class JavaGradleLogFileAnalyzer < LogFileAnalyzer
   attr_reader :tests_failed, :test_duration, :reactor_lines, :pure_build_duration
 
@@ -59,17 +59,19 @@ class JavaGradleLogFileAnalyzer < LogFileAnalyzer
       end
 
       if !(line =~ /(\d*) tests completed, (\d*) failed, (\d*) skipped/).nil?
+        init_tests
         @tests_run = true
-        @num_tests_run = $1.to_i
-        @num_tests_failed = $2.to_i
-        @num_tests_ok = @num_tests_run.to_i - @num_tests_failed.to_i
-        @num_tests_skipped = $3.to_i
+        @num_tests_run += $1.to_i
+        @num_tests_failed += $2.to_i
+        @num_tests_skipped += $3.to_i
       end
 
       if !(line =~ /Total time: (.*)/).nil?
         @pure_build_duration = convert_gradle_time_to_seconds($1)
       end
     end
+
+    uninit_ok_tests
   end
 
   def convert_gradle_time_to_seconds(string)

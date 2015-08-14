@@ -1,5 +1,4 @@
-require 'json'
-
+# Supports TestUnit and RSPEC
 class RubyLogFileAnalyzer < LogFileAnalyzer
   attr_reader :tests_failed, :test_duration, :reactor_lines, :pure_build_duration
 
@@ -14,6 +13,7 @@ class RubyLogFileAnalyzer < LogFileAnalyzer
     @num_tests_failed = 0
 
     @test_failed = false
+    @analyzer = 'ruby'
   end
 
   def analyze
@@ -34,7 +34,7 @@ class RubyLogFileAnalyzer < LogFileAnalyzer
     current_section = ''
 
     @folds[OUT_OF_FOLD].content.each do |line|
-      if !(line =~ /\A:(test|integrationTest)/).nil?
+      if !(line =~ /\A# Running:/).nil?
         line_marker = 1
         test_section_started = true
         @tests_run = true
@@ -50,43 +50,56 @@ class RubyLogFileAnalyzer < LogFileAnalyzer
   end
 
   def extractTestNameAndMethod(string)
-    string.split(' > ').map { |t| t.split }
+    string.split(' ')[0].split('#').map { |t| t.split }
   end
 
   def analyze_tests
     failed_tests_started = false
 
+
     @test_lines.each do |line|
-      if !(line =~ /.* > .* FAILED/).nil?
-        @tests_failed_lines << line
-        @test_failed = true
-      end
-
-      if !(line =~ /(\d*) tests completed, (\d*) failed, (\d*) skipped/).nil?
+      # TestUnit
+      if !(line =~ /(\d+) runs?, (\d+) assertions, (\d+) failures, (\d+) errors(, (\d+) skips)?/).nil?
+        init_tests
         @tests_run = true
-        @num_tests_run = $1.to_i
-        @num_tests_failed = $2.to_i
-        @num_tests_ok = @num_tests_run.to_i - @num_tests_failed.to_i
-        @num_tests_skipped = $3.to_i
+        @num_tests_run += $1.to_i
+        @num_tests_failed += $3.to_i + $4.to_i
+        @num_tests_skipped += $6.to_i if !$6.nil?
+      elsif !(line =~ /Finished in (.*)/).nil?
+        init_tests
+        @test_duration += convert_testunit_time_to_seconds($1)
+      elsif !(line =~ / Failure:/).nil?
+        failed_tests_started = true
+      elsif failed_tests_started
+        @tests_failed << extractTestNameAndMethod(line)[0]
+        failed_tests_started = false
       end
 
-      if !(line =~ /Total time: (.*)/).nil?
-        @pure_build_duration = convert_gradle_time_to_seconds($1)
+      # RSPEC
+      if !(line =~ /(\d+) examples?, (\d+) failures?(, (\d+) pending)?/).nil?
+        init_tests
+        @tests_run = true
+        @num_tests_run += $1.to_i
+        @num_tests_failed += $2.to_i
+        @num_tests_ok += @num_tests_run - @num_tests_failed
+        @num_tests_skipped += $4.to_i
       end
     end
-  end
 
-  def convert_gradle_time_to_seconds(string)
-    if !(string =~ /((\d+) mins)? (\d+)(\.\d+) secs/).nil?
-      return $2.to_i * 60 + $3.to_i
-    end
+    uninit_ok_tests
   end
+end
 
-  def getOffendingTests
-    @tests_failed_lines.each { |l| @tests_failed << extractTestNameAndMethod(l)[0] }
+def convert_testunit_time_to_seconds(string)
+  if !(string =~ /(\d+\.\d*)( )?s/).nil?
+    return $1.to_f.round(2)
   end
+end
 
-  def tests_broke_build?
-    return @num_tests_failed > 0 || !@tests_failed.empty? || @test_failed
-  end
+def getOffendingTests
+  @tests_failed_lines.each { |l| @tests_failed << extractTestNameAndMethod(l)[0] }
+end
+
+def tests_broke_build?
+  return @num_tests_failed > 0 || !@tests_failed.empty? || @test_failed
 end

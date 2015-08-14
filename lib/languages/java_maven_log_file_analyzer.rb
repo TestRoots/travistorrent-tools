@@ -1,4 +1,4 @@
-# Supports any JUnit-driven test execution with Maven
+# Supports any test execution with Maven
 class JavaMavenLogFileAnalyzer < LogFileAnalyzer
   attr_reader :tests_failed, :test_duration, :reactor_lines, :pure_build_duration
 
@@ -98,15 +98,16 @@ class JavaMavenLogFileAnalyzer < LogFileAnalyzer
       end
 
       if !(line =~ /Tests run: (\d*), Failures: (\d*), Errors: (\d*), Skipped: (\d*)/).nil?
+        init_tests
         @tests_run = true
-        @num_tests_run = $1.to_i
-        @num_tests_failed = $2.to_i + $3.to_i
-        @num_tests_ok = @num_tests_run.to_i - @num_tests_failed.to_i
-        @num_tests_skipped = $4.to_i
+        @num_tests_run += $1.to_i
+        @num_tests_failed += $2.to_i + $3.to_i
+        @num_tests_skipped += $4.to_i
       elsif !(line =~ /Failed tests:/).nil?
         failed_tests_started = true
       end
     end
+    uninit_ok_tests
   end
 
   def getOffendingTests

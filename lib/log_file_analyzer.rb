@@ -9,6 +9,7 @@ class LogFileAnalyzer
   attr_reader :status, :primary_language
   attr_reader :tests_run
   attr_reader :num_tests_run, :num_tests_failed, :num_tests_ok, :num_tests_skipped
+  attr_reader :test_duration
   attr_reader :setup_time_before_build
 
   @folds
@@ -88,17 +89,34 @@ class LogFileAnalyzer
     end
   end
 
+  # pre-init values so we can sum-up in case of aggregated test sessions (always use calc_ok_tests when you use this)
+  def init_tests
+    unless @init_tests
+      @test_duration = 0
+      @num_tests_run = 0
+      @num_tests_failed = 0
+      @num_tests_ok = 0
+      @num_tests_skipped = 0
+      @init_tests = true
+    end
+  end
+
+  # For non-aggregated reporting, at the end (always use this when you use init_tests)
+  def uninit_ok_tests
+    @num_tests_ok += @num_tests_run - @num_tests_failed
+  end
 
   def print_tests_failed
     tests_failed.join(';')
   end
 
-
   def output
     keys = ['build_id', 'commit', 'build_number', 'lan', 'status', 'setup_time',
+            'analyzer',
             'tests_run?', 'broke_build', 'ok', 'failed', 'run', 'skipped', 'tests', 'testduration',
             'purebuildduration']
     values = [@build_id, @commit, @build_number, @primary_language, @status, @setup_time_before_build,
+              @analyzer,
               @tests_run, tests_broke_build?, @num_tests_ok, @num_tests_failed, @num_tests_run, @num_tests_skipped, print_tests_failed, @test_duration,
               @pure_build_duration]
     keys.zip(values).flat_map { |k, v| "#{k}:#{v}" }.join(',')
