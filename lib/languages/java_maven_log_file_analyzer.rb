@@ -1,16 +1,19 @@
 class JavaMavenLogFileAnalyzer < LogFileAnalyzer
-  attr_reader :tests_failed, :test_duration
+  attr_reader :tests_failed, :test_duration, :reactor_lines, :pure_build_duration
 
   @test_failed_lines
 
   def initialize(file)
     super(file)
+    @reactor_lines = Array.new
     @tests_failed_lines = Array.new
     @tests_failed = Array.new
+    @test_duration = 0
   end
 
   def extract_tests
     test_section_started = false
+    reactor_started = false
     line_marker = 0
     current_section = ''
 
@@ -18,11 +21,16 @@ class JavaMavenLogFileAnalyzer < LogFileAnalyzer
     @folds[OUT_OF_FOLD].content.each do |line|
       if !(line =~ /-------------------------------------------------------/).nil? && line_marker == 0
         line_marker = 1
+      elsif !(line =~ /\[INFO\] Reactor Summary:/).nil?
+        reactor_started = true
+        test_section_started = false
+      elsif reactor_started && (line =~ /\[.*\]/).nil?
+        reactor_started = false
       elsif !(line =~ / T E S T S/).nil? && line_marker == 1
         line_marker = 2
       elsif (line_marker == 1)
         line =~ /Building ([^ ]*)/
-        if(!$1.nil? && !$1.strip.empty?)
+        if (!$1.nil? && !$1.strip.empty?)
           current_section = $1
         end
         line_marker = 0
@@ -39,21 +47,32 @@ class JavaMavenLogFileAnalyzer < LogFileAnalyzer
 
       if test_section_started
         @test_lines << line
+      elsif reactor_started
+        @reactor_lines << line
       end
-
-      # TODO parse Maven reactor summary
-      if !(test_section.nil?)
-        puts "TestSection #{test_section}"
-        if !(line =~ /#{test_section}/).nil?
-          puts "yup"
-          @test_duration = $1
-        end
-      end
-
     end
   end
 
-  def extractTestNameMethod(string)
+  def analyze_reactor()
+    @reactor_lines.each do |line|
+      if !(line =~ /\[INFO\] .*test.*? (\w+) \[ (.*)\]/i).nil?
+        @test_duration = @test_duration + convert_maven_time_to_seconds($2)
+      elsif !(line =~ /Total time: (.*)/i).nil?
+        @pure_build_duration = convert_maven_time_to_seconds($1)
+      end
+    end
+  end
+
+  def convert_maven_time_to_seconds(string)
+    if !(string =~ /(\d+) s/).nil?
+      return $1.to_i
+    elsif !(string =~ /(\d+):(\d+) min/).nil?
+      return $1.to_i * 60 + $2.to_i
+    end
+
+  end
+
+  def extractTestNameAndMethod(string)
     string.split(':')[0].split('.').map { |t| t.split }
   end
 
@@ -80,7 +99,7 @@ class JavaMavenLogFileAnalyzer < LogFileAnalyzer
   end
 
   def getOffendingTests
-    @tests_failed_lines.each { |l| @tests_failed << extractTestNameMethod(l)[0] }
+    @tests_failed_lines.each { |l| @tests_failed << extractTestNameAndMethod(l)[0] }
   end
 
   def tests_broke_build?

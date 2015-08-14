@@ -20,6 +20,8 @@ puts a.num_tests_ok
 
 a.getOffendingTests
 puts a.tests_failed
-puts a.test_duration
 
+a.analyze_reactor
+puts a.pure_build_duration
+puts a.test_duration
 puts a.tests_broke_build?
