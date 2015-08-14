@@ -1,9 +1,12 @@
 load 'travis_fold.rb'
 
 class LogFileAnalyzer
+  attr_reader :build_number, :build_id, :commit
+
   attr_reader :logFile
   attr_reader :status, :primary_language
   attr_reader :num_tests_run, :num_tests_failed, :num_tests_ok, :num_tests_skipped
+  attr_reader :setup_time_before_build
 
   @folds
   @test_lines
@@ -13,7 +16,8 @@ class LogFileAnalyzer
   def initialize(file)
     @folds = Hash.new
     @test_lines = Array.new
-    puts "reading file #{file}"
+
+    get_build_info(file)
     logFile = File.read(file)
     logFile = logFile.encode(logFile.encoding, :universal_newline => true)
     @logFile = logFile.lines
@@ -22,11 +26,23 @@ class LogFileAnalyzer
     @num_tests_failed = 0
     @num_tests_ok = 0
     @num_tests_skipped = 0
+    @setup_time_before_build = 0
+
+    @status = 'unknown'
+  end
+
+  def get_build_info(file)
+    @build_number, @commit, @build_id = File.basename(file, '.log').split('_')
   end
 
   def anaylze_status
-    @folds[OUT_OF_FOLD].content.last =~/^Done. Your build exited with (\d*)\./
-    @status = ($1 === 0 ? "ok" : "broken")
+    unless (@folds[OUT_OF_FOLD].content.last =~/^Done: Job Cancelled/).nil?
+      @status = 'cancelled'
+    end
+    unless (@folds[OUT_OF_FOLD].content.last =~/^Done. Your build exited with (\d*)\./).nil?
+      @status = $1 === 0 ? 'ok' : 'broken'
+    end
+
   end
 
   def anaylze_primary_language
@@ -55,12 +71,31 @@ class LogFileAnalyzer
       end
 
       if !(line =~ /travis_time:.*?,duration=(\d*)/).nil?
-        @folds[currentFold].duration = $1.to_i #/1000/1000/1000  to convert to seconds
+        @folds[currentFold].duration = ($1.to_f/1000/1000/1000).round # to convert to seconds
         next
       end
 
       @folds[currentFold].content << line
     end
+  end
+
+  def analyzeSetupTimeBeforeBuild
+    @folds.each do |foldname, fold|
+      if !(fold.fold =~ /(system_info|git.checkout|services|before.install)/).nil?
+        @setup_time_before_build += fold.duration if !fold.duration.nil?
+      end
+    end
+  end
+
+  def analyze
+    split
+    anaylze_primary_language
+    anaylze_status
+    analyzeSetupTimeBeforeBuild
+  end
+
+  def output
+    "#{@build_id},#{@commit},#{build_number},#{@primary_language},#{@status}"
   end
 end
 

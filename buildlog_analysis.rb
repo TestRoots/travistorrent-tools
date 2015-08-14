@@ -6,20 +6,6 @@ load 'lib/languages/java_maven_log_file_analyzer.rb'
 
 
 a = JavaMavenLogFileAnalyzer.new "build_logs/TestRoots@watchdog/476_a49d782ea2e7f8c22ae5650c6374d151d8165c04_67596271.log"
-a.split
-a.anaylze_status
-a.anaylze_primary_language
-
-a.extract_tests
-a.analyze_tests
-
-
-puts a.status
-puts a.primary_language
-puts a.num_tests_ok
-
-a.getOffendingTests
-puts a.tests_failed
-puts a.test_duration
-
-puts a.tests_broke_build?
+#a = JavaMavenLogFileAnalyzer.new "build_logs/TestRoots@watchdog/510_5004d140afc87adcc8ee122f7945ad5da4597f56_74267343.log"
+a.analyze
+puts a.output
