@@ -20,9 +20,33 @@ grep "true" results.csv > travis_enabled
 sed -i 's/\([^,]*\),\([^,]*\).*/\1 \2/' travis_enabled
 ```
 
-This list can now be passed to the Traivs Harvester, for which we use parallel.
+This list can now be passed to the Travis Harvester, for which we use parallel.
 
 Retrieve build logs of 20 GH project simultaneously (beware, depending on your network connection this puts a heavy load on Travis-CI!)
 ```bash
 cat travis-enabled | parallel -j 20 --colsep ' ' ruby bin/travis_harvester.rb
 ```
+
+### Extracting features about each build
+
+To extract features for one project, do
+
+ ```bash
+ ruby -Ibin bin/build_data_extraction.rb stripe brushfire github-token
+ ```
+ where `github-token` is a valid GitHub OAuth token used to download information about commits
+
+To extract features for multiple projects in parallel, you need
+
+* A file (`project-list`) of projects, in the format specified above
+* A file (`token-list`) of one or more Github tokens, one token per line
+
+Then, run
+```ruby
+./bin/project_token.rb project-list token-list | sort -R > projects-tokens
+./bin/all_projects.sh -p 4 -d data projects-tokens
+```
+
+this will create a file with tokens equi-distributed to projects
+a directory `data`, and start 4 instanced of the `build_data_extraction.rb` script
+

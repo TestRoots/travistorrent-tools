@@ -9,7 +9,7 @@ module PythonData
   include CommentStripper
 
   def docstring_tests(sha)
-    ds_tests = docstrings(sha).reduce(0) do |acc, docstring|
+    docstrings(sha).reduce(0) do |acc, docstring|
       in_test = false
       tests = 0
       docstring.lines.each do |x|
@@ -28,7 +28,7 @@ module PythonData
   end
 
   def num_test_cases(sha)
-    ds_tests(sha) + normal_tests(sha)
+    docstring_tests(sha) + normal_tests(sha)
   end
 
   def normal_tests(sha)
@@ -128,7 +128,7 @@ module PythonData
     Thread.current[:ds_cache] ||= {}
     if Thread.current[:ds_cache][sha].nil?
       docstr = (src_files(sha) + test_files(sha)).flat_map do |f|
-          buff = repo.read(f[:oid]).data
+          buff = git.read(f[:oid]).data
           buff.scan(ml_comment_regexps[0])
           end
       Thread.current[:ds_cache][sha] = docstr.flatten

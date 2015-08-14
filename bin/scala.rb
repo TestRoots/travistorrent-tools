@@ -37,7 +37,8 @@ module ScalaData
     lambda{ |l|
       not l.match(/[.\s]assert[\s({]+/).nil? or          # JUnit, scalatest
           not l.match(/[.\s]must[\s({]+/).nil? or        # scalatest
-          not l.match(/[.\s]should[\s({]+/).nil?        # scalatest, specs2
+          not l.match(/[.\s]should[\s({]+/).nil? or      # scalatest, specs2
+          not l.match(/[.\s]shouldBe[\s({]+/).nil?       # scalacheck
     }
   end
 
