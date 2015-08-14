@@ -32,7 +32,7 @@ class JavaGradleLogFileAnalyzer < LogFileAnalyzer
     keys = ['broke_build', 'ok', 'failed', 'run', 'skipped', 'tests', 'testduration', 'purebuildduration']
     values = [tests_broke_build?, @num_tests_ok, @num_tests_failed, @num_tests_run, @num_tests_skipped,
               print_tests_failed, @test_duration, @pure_build_duration]
-    flattened_values = keys.zip(values).flat_map {|k,v| "#{k}:#{v}"}.join(',')
+    flattened_values = keys.zip(values).flat_map { |k, v| "#{k}:#{v}" }.join(',')
     super + ',' + flattened_values
   end
 
@@ -57,14 +57,6 @@ class JavaGradleLogFileAnalyzer < LogFileAnalyzer
     end
   end
 
-  def convert_maven_time_to_seconds(string)
-    if !(string =~ /(\d+)(\.\d*)? s/).nil?
-      return $1.to_i
-    elsif !(string =~ /(\d+):(\d+) min/).nil?
-      return $1.to_i * 60 + $2.to_i
-    end
-  end
-
   def extractTestNameAndMethod(string)
     string.split(' > ').map { |t| t.split }
   end
@@ -85,6 +77,16 @@ class JavaGradleLogFileAnalyzer < LogFileAnalyzer
         @num_tests_ok = @num_tests_run.to_i - @num_tests_failed.to_i
         @num_tests_skipped = $3.to_i
       end
+
+      if !(line =~ /Total time: (.*)/).nil?
+        @pure_build_duration = convert_gradle_time_to_seconds($1)
+      end
+    end
+  end
+
+  def convert_gradle_time_to_seconds(string)
+    if !(string =~ /((\d+) mins)? (\d+)(\.\d+) secs/).nil?
+      return $2.to_i * 60 + $3.to_i
     end
   end
 
