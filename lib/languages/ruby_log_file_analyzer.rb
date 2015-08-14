@@ -38,6 +38,10 @@ class RubyLogFileAnalyzer < LogFileAnalyzer
         line_marker = 1
         test_section_started = true
         @tests_run = true
+      elsif !(line =~ /rspec/).nil?
+        line_marker = 2 # rspec tests do not stop
+        test_section_started = true
+        @tests_run = true
       elsif !(line =~ /\A:(\w*)/).nil? && line_marker == 1
         line_marker = 0
         test_section_started = false
@@ -54,8 +58,8 @@ class RubyLogFileAnalyzer < LogFileAnalyzer
   end
 
   def analyze_tests
-    failed_tests_started = false
-
+    failed_unit_tests_started = false
+    failed_rspec_tests_started = false
 
     @test_lines.each do |line|
       # TestUnit
@@ -65,24 +69,34 @@ class RubyLogFileAnalyzer < LogFileAnalyzer
         @num_tests_run += $1.to_i
         @num_tests_failed += $3.to_i + $4.to_i
         @num_tests_skipped += $6.to_i if !$6.nil?
-      elsif !(line =~ /Finished in (.*)/).nil?
-        init_tests
-        @test_duration += convert_testunit_time_to_seconds($1)
       elsif !(line =~ / Failure:/).nil?
-        failed_tests_started = true
-      elsif failed_tests_started
+        failed_unit_tests_started = true
+      elsif failed_unit_tests_started
         @tests_failed << extractTestNameAndMethod(line)[0]
-        failed_tests_started = false
+        failed_unit_tests_started = false
       end
 
-      # RSPEC
+      # shared between TestUnit and RSpec
+      if !(line =~ /Finished in (.*)/).nil?
+        init_tests
+        @test_duration += convert_testunit_time_to_seconds($1)
+      end
+
+      # RSpec
       if !(line =~ /(\d+) examples?, (\d+) failures?(, (\d+) pending)?/).nil?
         init_tests
         @tests_run = true
         @num_tests_run += $1.to_i
         @num_tests_failed += $2.to_i
-        @num_tests_ok += @num_tests_run - @num_tests_failed
         @num_tests_skipped += $4.to_i
+      elsif !(line =~ /Failed examples:/).nil?
+        failed_rspec_tests_started = true
+      elsif failed_rspec_tests_started
+        if (line =~ /rspec (.*\.rb):\d+/).nil?
+          failed_rspec_tests_started = false
+        else
+          @tests_failed << $1
+        end
       end
     end
 

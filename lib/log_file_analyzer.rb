@@ -103,7 +103,9 @@ class LogFileAnalyzer
 
   # For non-aggregated reporting, at the end (always use this when you use init_tests)
   def uninit_ok_tests
-    @num_tests_ok += @num_tests_run - @num_tests_failed
+    if (!@num_tests_run.nil? && !@num_tests_failed.nil?)
+      @num_tests_ok += @num_tests_run - @num_tests_failed
+    end
   end
 
   def print_tests_failed

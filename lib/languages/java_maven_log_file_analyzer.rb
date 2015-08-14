@@ -28,6 +28,7 @@ class JavaMavenLogFileAnalyzer < LogFileAnalyzer
     line_marker = 0
     current_section = ''
 
+    # Possible future improvement: We could even get all executed tests here (also the ones which succeed)
     @folds[OUT_OF_FOLD].content.each do |line|
       if !(line =~ /-------------------------------------------------------/).nil? && line_marker == 0
         line_marker = 1
