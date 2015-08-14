@@ -1,5 +1,4 @@
-require 'json'
-
+# Supports any JUnit-driven test execution with Gradle
 class JavaGradleLogFileAnalyzer < LogFileAnalyzer
   attr_reader :tests_failed, :test_duration, :reactor_lines, :pure_build_duration
 
@@ -14,6 +13,7 @@ class JavaGradleLogFileAnalyzer < LogFileAnalyzer
     @num_tests_failed = 0
 
     @test_failed = false
+    @analyzer = 'java-gradle'
   end
 
   def analyze
@@ -22,18 +22,6 @@ class JavaGradleLogFileAnalyzer < LogFileAnalyzer
     extract_tests
     analyze_tests
     getOffendingTests
-  end
-
-  def print_tests_failed
-    tests_failed.join(';')
-  end
-
-  def output
-    keys = ['broke_build', 'ok', 'failed', 'run', 'skipped', 'tests', 'testduration', 'purebuildduration']
-    values = [tests_broke_build?, @num_tests_ok, @num_tests_failed, @num_tests_run, @num_tests_skipped,
-              print_tests_failed, @test_duration, @pure_build_duration]
-    flattened_values = keys.zip(values).flat_map { |k, v| "#{k}:#{v}" }.join(',')
-    super + ',' + flattened_values
   end
 
   def extract_tests

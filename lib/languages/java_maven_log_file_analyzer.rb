@@ -1,3 +1,4 @@
+# Supports any JUnit-driven test execution with Maven
 class JavaMavenLogFileAnalyzer < LogFileAnalyzer
   attr_reader :tests_failed, :test_duration, :reactor_lines, :pure_build_duration
 
@@ -8,6 +9,7 @@ class JavaMavenLogFileAnalyzer < LogFileAnalyzer
     @reactor_lines = Array.new
     @tests_failed_lines = Array.new
     @tests_failed = Array.new
+    @analyzer = 'java-maven'
   end
 
   def analyze
@@ -18,18 +20,6 @@ class JavaMavenLogFileAnalyzer < LogFileAnalyzer
 
     getOffendingTests
     analyze_reactor
-  end
-
-  def print_tests_failed
-    tests_failed.join('#')
-  end
-
-  def output
-    keys = ['broke_build', 'num_tests', 'failed', 'run', 'skipped', 'tests', 'testduration', 'purebuildduration']
-    values = [tests_broke_build?, @num_tests_ok, @num_tests_failed, @num_tests_run, @num_tests_skipped,
-              print_tests_failed, @test_duration, @pure_build_duration]
-    flattened_values = keys.zip(values).flat_map {|k,v| "#{k}:#{v}"}.join(',')
-    super + ',' + flattened_values
   end
 
   def extract_tests

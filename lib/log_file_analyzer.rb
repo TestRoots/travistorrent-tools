@@ -13,6 +13,7 @@ class LogFileAnalyzer
 
   @folds
   @test_lines
+  @analyzer
 
   OUT_OF_FOLD = 'out_of_fold'
 
@@ -25,6 +26,7 @@ class LogFileAnalyzer
     logFile = logFile.encode(logFile.encoding, :universal_newline => true)
     @logFile = logFile.lines
 
+    @analyzer = 'plain'
     @tests_run = false
     @status = 'unknown'
   end
@@ -86,16 +88,27 @@ class LogFileAnalyzer
     end
   end
 
+
+  def print_tests_failed
+    tests_failed.join(';')
+  end
+
+
+  def output
+    keys = ['build_id', 'commit', 'build_number', 'lan', 'status', 'setup_time',
+            'tests_run?', 'broke_build', 'ok', 'failed', 'run', 'skipped', 'tests', 'testduration',
+            'purebuildduration']
+    values = [@build_id, @commit, @build_number, @primary_language, @status, @setup_time_before_build,
+              @tests_run, tests_broke_build?, @num_tests_ok, @num_tests_failed, @num_tests_run, @num_tests_skipped, print_tests_failed, @test_duration,
+              @pure_build_duration]
+    keys.zip(values).flat_map { |k, v| "#{k}:#{v}" }.join(',')
+  end
+
+
   def analyze
     split
     anaylze_primary_language
     anaylze_status
     analyzeSetupTimeBeforeBuild
-  end
-
-  def output
-    keys = ['build_id', 'commit', 'build_number', 'lan', 'status', 'setup_time', 'tests_run?',]
-    values = [@build_id, @commit, @build_number, @primary_language, @status, @setup_time_before_build, @tests_run]
-    flattened_values = keys.zip(values).flat_map { |k, v| "#{k}:#{v}" }.join(',')
   end
 end
