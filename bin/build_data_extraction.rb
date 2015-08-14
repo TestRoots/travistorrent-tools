@@ -644,6 +644,7 @@ usage:
       and u.login = ?
       and p.name = ?
       and c.author_id = u1.id
+      and p.owner_id = u.id
       and u1.fake is false
       and c.created_at between DATE_SUB(timestamp(?), INTERVAL #{months_back} MONTH) and timestamp(?);
     QUERY
