@@ -8,7 +8,6 @@ class JavaMavenLogFileAnalyzer < LogFileAnalyzer
     @reactor_lines = Array.new
     @tests_failed_lines = Array.new
     @tests_failed = Array.new
-    @test_duration = 0
   end
 
   def analyze
@@ -22,13 +21,15 @@ class JavaMavenLogFileAnalyzer < LogFileAnalyzer
   end
 
   def print_tests_failed
-    tests_failed.join(';')
+    tests_failed.join('#')
   end
 
   def output
-    string = [tests_broke_build?, @num_tests_ok, @num_tests_failed, @num_tests_run, @num_tests_skipped,
-              print_tests_failed, @test_duration, @pure_build_duration, @setup_time_before_build].join(',') 
-    super + ',' + string
+    keys = ['broke_build', 'num_tests', 'failed', 'run', 'skipped', 'tests', 'testduration', 'purebuildduration']
+    values = [tests_broke_build?, @num_tests_ok, @num_tests_failed, @num_tests_run, @num_tests_skipped,
+              print_tests_failed, @test_duration, @pure_build_duration]
+    flattened_values = keys.zip(values).flat_map {|k,v| "#{k}:#{v}"}.join(',')
+    super + ',' + flattened_values
   end
 
   def extract_tests
@@ -75,6 +76,7 @@ class JavaMavenLogFileAnalyzer < LogFileAnalyzer
   def analyze_reactor()
     @reactor_lines.each do |line|
       if !(line =~ /\[INFO\] .*test.*? (\w+) \[ (.+)\]/i).nil?
+        @test_duration = 0 if @test_duration.nil?
         @test_duration = @test_duration + convert_maven_time_to_seconds($2)
       elsif !(line =~ /Total time: (.+)/i).nil?
         @pure_build_duration = convert_maven_time_to_seconds($1)
@@ -106,6 +108,7 @@ class JavaMavenLogFileAnalyzer < LogFileAnalyzer
       end
 
       if !(line =~ /Tests run: (\d*), Failures: (\d*), Errors: (\d*), Skipped: (\d*)/).nil?
+        @tests_run = true
         @num_tests_run = $1.to_i
         @num_tests_failed = $2.to_i + $3.to_i
         @num_tests_ok = @num_tests_run.to_i - @num_tests_failed.to_i
@@ -121,6 +124,6 @@ class JavaMavenLogFileAnalyzer < LogFileAnalyzer
   end
 
   def tests_broke_build?
-    return @num_tests_failed > 0 || !@tests_failed.empty?
+    return !@tests_failed.empty? || (!@num_tests_failed.nil? && @num_tests_failed > 0)
   end
 end

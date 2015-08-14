@@ -1,10 +1,13 @@
 load 'travis_fold.rb'
 
+# A language-independent analyzer for travis logfiles
+# Provides basic statistics about any build process on Travis.
 class LogFileAnalyzer
   attr_reader :build_number, :build_id, :commit
 
   attr_reader :logFile
   attr_reader :status, :primary_language
+  attr_reader :tests_run
   attr_reader :num_tests_run, :num_tests_failed, :num_tests_ok, :num_tests_skipped
   attr_reader :setup_time_before_build
 
@@ -22,12 +25,7 @@ class LogFileAnalyzer
     logFile = logFile.encode(logFile.encoding, :universal_newline => true)
     @logFile = logFile.lines
 
-    @num_tests_run = 0
-    @num_tests_failed = 0
-    @num_tests_ok = 0
-    @num_tests_skipped = 0
-    @setup_time_before_build = 0
-
+    @tests_run = false
     @status = 'unknown'
   end
 
@@ -40,7 +38,7 @@ class LogFileAnalyzer
       @status = 'cancelled'
     end
     unless (@folds[OUT_OF_FOLD].content.last =~/^Done. Your build exited with (\d*)\./).nil?
-      @status = $1 === 0 ? 'ok' : 'broken'
+      @status = $1.to_i === 0 ? 'ok' : 'broken'
     end
 
   end
@@ -82,6 +80,7 @@ class LogFileAnalyzer
   def analyzeSetupTimeBeforeBuild
     @folds.each do |foldname, fold|
       if !(fold.fold =~ /(system_info|git.checkout|services|before.install)/).nil?
+        @setup_time_before_build = 0 if @setup_time_before_build.nil?
         @setup_time_before_build += fold.duration if !fold.duration.nil?
       end
     end
@@ -95,8 +94,8 @@ class LogFileAnalyzer
   end
 
   def output
-    "#{@build_id},#{@commit},#{build_number},#{@primary_language},#{@status}"
+    keys = ['build_id', 'commit', 'build_number', 'lan', 'status', 'setup_time', 'tests_run?',]
+    values = [@build_id, @commit, @build_number, @primary_language, @status, @setup_time_before_build, @tests_run]
+    flattened_values = keys.zip(values).flat_map { |k, v| "#{k}:#{v}" }.join(',')
   end
 end
-
-# todo: add Done: Job Cancelled
