@@ -6,6 +6,7 @@ class JavaMavenLogFileAnalyzer < LogFileAnalyzer
 
   def initialize(file)
     super(file)
+
     @reactor_lines = Array.new
     @tests_failed_lines = Array.new
     @tests_failed = Array.new
@@ -58,7 +59,6 @@ class JavaMavenLogFileAnalyzer < LogFileAnalyzer
 
       if test_section_started
         @test_lines << line
-        puts line
       elsif reactor_started
         @reactor_lines << line
       end
