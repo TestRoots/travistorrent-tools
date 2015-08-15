@@ -116,7 +116,7 @@ class JavaMavenLogFileAnalyzer < LogFileAnalyzer
     @tests_failed_lines.each { |l| @tests_failed << extractTestNameAndMethod(l)[0].strip }
   end
 
-  def tests_broke_build?
+  def tests_failed?
     return !@tests_failed.empty? || (!@num_tests_failed.nil? && @num_tests_failed > 0)
   end
 end

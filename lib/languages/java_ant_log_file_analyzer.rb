@@ -2,8 +2,6 @@
 class JavaAntLogFileAnalyzer < LogFileAnalyzer
   attr_reader :tests_failed, :pure_build_duration
 
-  @test_failed_lines
-
   def initialize(file)
     super(file)
     @reactor_lines = Array.new
@@ -77,7 +75,7 @@ class JavaAntLogFileAnalyzer < LogFileAnalyzer
     @tests_failed_lines.each { |l| @tests_failed << extractTestName(l) }
   end
 
-  def tests_broke_build?
+  def tests_failed?
     return !@tests_failed.empty? || (!@num_tests_failed.nil? && @num_tests_failed > 0)
   end
 

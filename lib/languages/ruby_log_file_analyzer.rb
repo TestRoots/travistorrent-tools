@@ -114,6 +114,6 @@ def getOffendingTests
   @tests_failed_lines.each { |l| @tests_failed << extractTestNameAndMethod(l)[0] }
 end
 
-def tests_broke_build?
+def tests_failed?
   return @num_tests_failed > 0 || !@tests_failed.empty? || @test_failed
 end

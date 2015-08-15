@@ -13,13 +13,10 @@ class JavaLogFileAnalyzerDispatcher
     logFile = logFile.encode(logFile.encoding, :universal_newline => true)
 
     if logFile.scan(/Reactor Summary/m).size >= 1
-      puts "maven!"
       @wrappedAnalyzer = JavaMavenLogFileAnalyzer.new file
     elsif logFile.scan(/gradle/m).size >= 2
-      puts "gradle!"
       @wrappedAnalyzer = JavaGradleLogFileAnalyzer.new file
     elsif logFile.scan(/ant/m).size >= 2
-      puts "ant!"
       @wrappedAnalyzer = JavaAntLogFileAnalyzer.new file
     else
       # default back to Ant if nothing else found

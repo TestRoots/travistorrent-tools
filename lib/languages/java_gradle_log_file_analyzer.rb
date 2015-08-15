@@ -2,8 +2,6 @@
 class JavaGradleLogFileAnalyzer < LogFileAnalyzer
   attr_reader :tests_failed, :test_duration, :reactor_lines, :pure_build_duration
 
-  @test_failed_lines
-
   @test_failed
 
   def initialize(file)
@@ -84,7 +82,7 @@ class JavaGradleLogFileAnalyzer < LogFileAnalyzer
     @tests_failed_lines.each { |l| @tests_failed << extractTestNameAndMethod(l)[0] }
   end
 
-  def tests_broke_build?
+  def tests_failed?
     return @num_tests_failed > 0 || !@tests_failed.empty? || @test_failed
   end
 end

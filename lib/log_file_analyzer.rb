@@ -125,9 +125,9 @@ class LogFileAnalyzer
             'purebuildduration']
     values = [@build_id, @commit, @build_number, @primary_language, @status, @setup_time_before_build,
               @analyzer,
-              @tests_run, tests_broke_build?, @num_tests_ok, @num_tests_failed, @num_tests_run, @num_tests_skipped, print_tests_failed, @test_duration,
+              @tests_run, tests_failed?, @num_tests_ok, @num_tests_failed, @num_tests_run, @num_tests_skipped, print_tests_failed, @test_duration,
               @pure_build_duration]
-    keys.zip(values).flat_map { |k, v| "#{k}:#{v}" }.join(',')
+    Hash[keys.zip values]
   end
 
 
