@@ -115,7 +115,7 @@ class LogFileAnalyzer
   end
 
   def print_tests_failed
-    tests_failed.join(';')
+    tests_failed.join('#')
   end
 
   def output

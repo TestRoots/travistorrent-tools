@@ -14,7 +14,9 @@ load 'lib/languages/ruby_log_file_analyzer.rb'
 #a = JavaGradleLogFileAnalyzer.new "dev_logs//mockito@mockito/1_asdffs45_12.log"
 #a = RubyLogFileAnalyzer.new "dev_logs/TestRoots@watchdog/ruby_510_5004d140afc87adcc8ee122f7945ad5da4597f56_74267343.log"
 #a = RubyLogFileAnalyzer.new "dev_logs/rails@rails/r1_ghcommit_75652687.log"
-a = JavaAntLogFileAnalyzer.new "dev_logs/ant@ant/123_ghcom_12.log"
+#a = JavaAntLogFileAnalyzer.new "dev_logs/ant@ant/123_ghcom_12.log"
+a = JavaAntLogFileAnalyzer.new "dev_logs/ant@ant/failing_ant_tests.log"
+
 a.analyze
 puts a.output
 

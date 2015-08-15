@@ -85,7 +85,7 @@ class JavaMavenLogFileAnalyzer < LogFileAnalyzer
   end
 
   def extractTestNameAndMethod(string)
-    string.split(':')[0].split('.').map { |t| t.split }
+    string.split(':')[0].split('.')
   end
 
   def analyze_tests
@@ -99,12 +99,12 @@ class JavaMavenLogFileAnalyzer < LogFileAnalyzer
         end
       end
 
-      if !(line =~ /Tests run: (\d*), Failures: (\d*), Errors: (\d*), Skipped: (\d*)/).nil?
+      if !(line =~ /Tests run: (\d*), Failures: (\d*), Errors: (\d*)(, Skipped: (\d*))?/).nil?
         init_tests
         @tests_run = true
         @num_tests_run += $1.to_i
         @num_tests_failed += $2.to_i + $3.to_i
-        @num_tests_skipped += $4.to_i
+        @num_tests_skipped += $5.to_i unless $4.nil?
       elsif !(line =~ /Failed tests:/).nil?
         failed_tests_started = true
       end
@@ -113,7 +113,7 @@ class JavaMavenLogFileAnalyzer < LogFileAnalyzer
   end
 
   def getOffendingTests
-    @tests_failed_lines.each { |l| @tests_failed << extractTestNameAndMethod(l)[0] }
+    @tests_failed_lines.each { |l| @tests_failed << extractTestNameAndMethod(l)[0].strip }
   end
 
   def tests_broke_build?

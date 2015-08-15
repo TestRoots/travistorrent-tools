@@ -29,12 +29,10 @@ class JavaAntLogFileAnalyzer < LogFileAnalyzer
 
     # Possible future improvement: We could even get all executed tests (also the ones which succeed)
     @folds[OUT_OF_FOLD].content.each do |line|
-      if !(line =~ /\[junit\] /).nil?
+      if !(line =~ /\[(junit|testng|test)\] /).nil?
         test_section_started = true
       elsif !(line =~ /Total time: (.+)/i).nil?
         @pure_build_duration = convert_ant_time_to_seconds($1)
-      else
-        test_section_started = false
       end
 
       if test_section_started
@@ -51,37 +49,32 @@ class JavaAntLogFileAnalyzer < LogFileAnalyzer
     end
   end
 
-  def extractTestNameAndMethod(string)
-    string.split(':')[0].split('.').map { |t| t.split }
+  def extractTestName(string)
+    string.split(':')[0].split('.')[1]
   end
 
   def analyze_tests
     failed_tests_started = false
 
     @test_lines.each do |line|
-      puts line
-      if failed_tests_started
-        @tests_failed_lines << line
-        if line.strip.empty?
-          failed_tests_started = false
-        end
-      end
-
-      if !(line =~ /Tests run: (\d*), Failures: (\d*), Errors: (\d*), Time elapsed: (.*)/).nil?
+      if !(line =~ /Tests run: (\d*), Failures: (\d*), Errors: (\d*), (Skipped: (\d*), )?Time elapsed: (.*)/).nil?
         init_tests
         @tests_run = true
         @num_tests_run = $1.to_i
         @num_tests_failed = $2.to_i + $3.to_i
-        @test_duration = convert_ant_time_to_seconds($4)
+        @num_tests_skipped += $5.to_i unless $4.nil?
+        @test_duration = convert_ant_time_to_seconds($6)
       elsif !(line =~ /Failed tests:/).nil?
         failed_tests_started = true
+      elsif !(line =~ /Test (.*) failed/).nil?
+        @tests_failed_lines << $1
       end
     end
     uninit_ok_tests
   end
 
   def getOffendingTests
-    @tests_failed_lines.each { |l| @tests_failed << extractTestNameAndMethod(l)[0] }
+    @tests_failed_lines.each { |l| @tests_failed << extractTestName(l) }
   end
 
   def tests_broke_build?
