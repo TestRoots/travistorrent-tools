@@ -6,14 +6,22 @@ load 'log_file_analyzer.rb'
 load 'languages/java_log_file_analyzer_dispatcher.rb'
 load 'languages/ruby_log_file_analyzer.rb'
 
-file = ARGV[0]
+directory = ARGV[0]
 lang = ARGV[1]
 
-if lang == 'Ruby'
-  analyzer = RubyLogFileAnalyzer.new file
-elsif lang == 'Java'
-  analyzer = JavaLogFileAnalyzerDispatcher.new file
+# dir foreach is much faster than Dir.glob, because the latter builds an array of matched files up-front
+Dir.foreach(directory) do |logfile|
+  next if logfile == '.' or logfile == '..' or File.extname(logfile) != '.log'
+
+  file = "#{directory}/#{logfile}"
+  puts "#{file}"
+  if lang == 'Ruby'
+    analyzer = RubyLogFileAnalyzer.new file
+  elsif lang == 'Java'
+    analyzer = JavaLogFileAnalyzerDispatcher.new file
+  end
+
+  analyzer.analyze
+  puts analyzer.output
 end
 
-analyzer.analyze
-puts analyzer.output

@@ -22,7 +22,8 @@ class JavaLogFileAnalyzerDispatcher
       puts "ant!"
       @wrappedAnalyzer = JavaAntLogFileAnalyzer.new file
     else
-      puts "unrecognized!"
+      # default back to Ant if nothing else found
+      @wrappedAnalyzer = JavaAntLogFileAnalyzer.new file
     end
   end
 
