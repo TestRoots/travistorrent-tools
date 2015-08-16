@@ -66,13 +66,16 @@ class JavaMavenLogFileAnalyzer < LogFileAnalyzer
   end
 
   def analyze_reactor()
+    reactor_time = 0
     @reactor_lines.each do |line|
       if !(line =~ /\[INFO\] .*test.*? (\w+) \[ (.+)\]/i).nil?
-        @test_duration = 0 if @test_duration.nil?
-        @test_duration = @test_duration + convert_maven_time_to_seconds($2)
+        reactor_time += convert_maven_time_to_seconds($2)
       elsif !(line =~ /Total time: (.+)/i).nil?
         @pure_build_duration = convert_maven_time_to_seconds($1)
       end
+    end
+    if @test_duration.nil? || reactor_time > @test_duration
+      @test_duration = reactor_time
     end
   end
 
@@ -85,7 +88,7 @@ class JavaMavenLogFileAnalyzer < LogFileAnalyzer
   end
 
   def extractTestNameAndMethod(string)
-    string.split(':')[0].split('.')
+    string.split(':')[0].split('.')[0].split('(')
   end
 
   def analyze_tests
@@ -98,14 +101,18 @@ class JavaMavenLogFileAnalyzer < LogFileAnalyzer
           failed_tests_started = false
         end
       end
-
-      if !(line =~ /Tests run: (\d*), Failures: (\d*), Errors: (\d*)(, Skipped: (\d*))?/).nil?
+      if !(line =~ /Tests run: .*? Time elapsed: (.* sec)/).nil?
         init_tests
         @tests_run = true
         add_framework 'junit'
-        @num_tests_run += $1.to_i
-        @num_tests_failed += $2.to_i + $3.to_i
-        @num_tests_skipped += $5.to_i unless $4.nil?
+        @test_duration += convert_maven_time_to_seconds $1
+      elsif !(line =~ /Tests run: (\d*), Failures: (\d*), Errors: (\d*)(, Skipped: (\d*))?/).nil?
+        init_tests
+        @tests_run = true
+        add_framework 'junit'
+        @num_tests_run = $1.to_i
+        @num_tests_failed = $2.to_i + $3.to_i
+        @num_tests_skipped = $5.to_i unless $4.nil?
       elsif !(line =~ /Total tests run:(\d+), Failures: (\d+), Skips: (\d+)/).nil?
         init_tests
         add_framework 'testng'
@@ -113,7 +120,7 @@ class JavaMavenLogFileAnalyzer < LogFileAnalyzer
         @num_tests_run += $1.to_i
         @num_tests_failed += $2.to_i
         @num_tests_skipped += $3.to_i
-      elsif !(line =~ /Failed tests:/).nil?
+      elsif !(line =~ /(Failed tests:)|(Tests in error:)/).nil?
         failed_tests_started = true
       end
     end
