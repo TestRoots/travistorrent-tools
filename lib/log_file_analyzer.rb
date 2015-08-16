@@ -33,7 +33,8 @@ class LogFileAnalyzer
         :invalid => :replace, # Replace invalid byte sequences
         :undef => :replace, # Replace anything not defined in ASCII
         :replace => '', # Use a blank for those replacements
-        :universal_newline => true, # Always break lines with \n
+        # fix for ruby version > 2.0, otherwise uncomment on ruby 1.9
+        #:universal_newline => true, # Always break lines with \n
         :UNIVERSAL_NEWLINE_DECORATOR => true
     }
     @logFile = logFile.encode(Encoding.find('ASCII'), encoding_options)
