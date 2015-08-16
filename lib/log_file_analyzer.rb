@@ -34,7 +34,7 @@ class LogFileAnalyzer
         :undef => :replace, # Replace anything not defined in ASCII
         :replace => '', # Use a blank for those replacements
         # fix for ruby version > 2.0, otherwise uncomment on ruby 1.9
-        #:universal_newline => true, # Always break lines with \n
+        :universal_newline => true, # Always break lines with \n
         :UNIVERSAL_NEWLINE_DECORATOR => true
     }
     @logFile = logFile.encode(Encoding.find('ASCII'), encoding_options)
@@ -60,15 +60,21 @@ class LogFileAnalyzer
 
   end
 
-  def anaylze_primary_language
+  def analyze_primary_language
     system_info = 'system_info'
-    if @folds[system_info].nil?
-      return
-    end
-
-    @folds[system_info].content.each do |line|
-      unless (line =~/^Build language: (.*)/).nil?
-        @primary_language = $1
+    if !@folds[system_info].nil?
+      @folds[system_info].content.each do |line|
+        unless (line =~/^Build language: (.*)/).nil?
+          @primary_language = $1
+          return
+        end
+      end
+    else
+      # in case folding does not work, make educated guess at language
+      if @logFile.scan(/java/m).size >= 3
+        @primary_language = 'java'
+      elsif @logFile.scan(/ruby/m).size >= 3
+        @primary_language = 'ruby'
       end
     end
   end
@@ -149,7 +155,7 @@ class LogFileAnalyzer
 
   def analyze
     split
-    anaylze_primary_language
+    analyze_primary_language
     anaylze_status
     analyzeSetupTimeBeforeBuild
   end

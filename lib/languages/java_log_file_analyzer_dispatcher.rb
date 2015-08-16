@@ -9,7 +9,7 @@ class JavaLogFileAnalyzerDispatcher
   @wrappedAnalyzer
 
   def initialize(file, content)
-    if content.scan(/Reactor Summary/m).size >= 1
+    if content.scan(/(Reactor Summary|mvn test)/m).size >= 2
       @wrappedAnalyzer = JavaMavenLogFileAnalyzer.new file
     elsif content.scan(/gradle/m).size >= 2
       @wrappedAnalyzer = JavaGradleLogFileAnalyzer.new file
