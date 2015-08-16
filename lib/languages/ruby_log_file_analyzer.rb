@@ -130,10 +130,11 @@ class RubyLogFileAnalyzer < LogFileAnalyzer
         @tests_run = true
         add_framework 'cucumber'
         @num_tests_run += $1.to_i
-        puts line
-        if !(line =~ /\d+ scenarios? \(.*?(\d+) failed, (\d+) passed\)/).nil?
-          puts 'fuck'
+        if !(line =~ /(\d+) failed/).nil?
           @num_tests_failed += $1.to_i
+        end
+        if !(line =~ /(\d+) skipped/).nil?
+          @num_tests_skipped += $1.to_i
         end
       elsif !(line =~ /Failing Scenarios:/).nil?
         cucumber_failing_tests_started = true

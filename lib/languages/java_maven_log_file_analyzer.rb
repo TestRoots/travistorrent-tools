@@ -106,6 +106,13 @@ class JavaMavenLogFileAnalyzer < LogFileAnalyzer
         @num_tests_run += $1.to_i
         @num_tests_failed += $2.to_i + $3.to_i
         @num_tests_skipped += $5.to_i unless $4.nil?
+      elsif !(line =~ /Total tests run:(\d+), Failures: (\d+), Skips: (\d+)/).nil?
+        init_tests
+        add_framework 'testng'
+        @tests_run = true
+        @num_tests_run += $1.to_i
+        @num_tests_failed += $2.to_i
+        @num_tests_skipped += $3.to_i
       elsif !(line =~ /Failed tests:/).nil?
         failed_tests_started = true
       end

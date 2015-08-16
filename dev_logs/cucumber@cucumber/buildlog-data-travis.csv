@@ -1,3 +1,4 @@
 build_id,commit,build_number,lan,status,setup_time,analyzer,frameworks,tests_run?,broke_build,ok,failed,run,skipped,tests,testduration,purebuildduration
 job,commit,2,ruby,broken,0,ruby,rspec#cucumber,true,true,1317,1,1318,0,features/docs/wire_protocol/invoke_message.feature,120.77,
+job,commit,3,ruby,broken,0,ruby,cucumber,true,true,0,2,2,0,features/rails_integration.feature#features/rails_integration.feature,12.1,
 job,commit,1,ruby,ok,0,ruby,rspec#cucumber,true,false,1318,0,1318,0,"",108.33,
