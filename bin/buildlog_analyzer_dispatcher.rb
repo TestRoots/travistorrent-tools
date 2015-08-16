@@ -2,9 +2,9 @@
 # analyzers
 require 'csv'
 
-load 'log_file_analyzer.rb'
-load 'languages/java_log_file_analyzer_dispatcher.rb'
-load 'languages/ruby_log_file_analyzer.rb'
+load 'lib/log_file_analyzer.rb'
+load 'lib/languages/java_log_file_analyzer_dispatcher.rb'
+load 'lib/languages/ruby_log_file_analyzer.rb'
 
 
 def array_of_hashes_to_csv(array_of_hashes)
