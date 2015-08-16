@@ -15,6 +15,8 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
   gem.version       = 0.1
 
+  gem.required_ruby_version = '~> 2.1'
+
   gem.add_dependency "sequel", ['>= 3.35']
   gem.add_dependency "github-linguist", ['>= 4.5']
   gem.add_dependency "rugged", ['>= 0.22']

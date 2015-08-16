@@ -30,10 +30,11 @@ class LogFileAnalyzer
     get_build_info(file)
     logFile = File.read(file)
     encoding_options = {
-        :invalid           => :replace,  # Replace invalid byte sequences
-        :undef             => :replace,  # Replace anything not defined in ASCII
-        :replace           => '',        # Use a blank for those replacements
-        :universal_newline => true       # Always break lines with \n
+        :invalid => :replace, # Replace invalid byte sequences
+        :undef => :replace, # Replace anything not defined in ASCII
+        :replace => '', # Use a blank for those replacements
+        :universal_newline => true, # Always break lines with \n
+        :UNIVERSAL_NEWLINE_DECORATOR => true
     }
     @logFile = logFile.encode(Encoding.find('ASCII'), encoding_options)
     @logFileLines = @logFile.lines
