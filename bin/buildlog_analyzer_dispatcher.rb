@@ -38,7 +38,7 @@ Dir.foreach(directory) do |logfile|
   if lang == 'ruby'
     analyzer = RubyLogFileAnalyzer.new file
   elsif lang == 'java'
-    analyzer = JavaLogFileAnalyzerDispatcher.new file
+    analyzer = JavaLogFileAnalyzerDispatcher.new file, base.logFile
   else
     next
   end

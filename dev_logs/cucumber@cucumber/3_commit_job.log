@@ -1,0 +1,955 @@
+Using worker: worker-linux-226df11e-2.bb.travis-ci.org:travis-linux-4
+
+travis_fold:start:system_info
+[0K[33;1mBuild system information[0m
+Build language: ruby
+[34m[1mBuild image provisioning date and time[0m
+Wed Feb  4 18:22:50 UTC 2015
+[34m[1mOperating System Details[0m
+Distributor ID:	Ubuntu
+Description:	Ubuntu 12.04 LTS
+Release:	12.04
+Codename:	precise
+[34m[1mLinux Version[0m
+2.6.32-042stab090.5
+[34m[1mCookbooks Version[0m
+23bb455 https://github.com/travis-ci/travis-cookbooks/tree/23bb455
+[34m[1mGCC version[0m
+gcc (Ubuntu/Linaro 4.6.3-1ubuntu5) 4.6.3
+Copyright (C) 2011 Free Software Foundation, Inc.
+This is free software; see the source for copying conditions.  There is NO
+warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+[34m[1mLLVM version[0m
+clang version 3.4 (tags/RELEASE_34/final)
+Target: x86_64-unknown-linux-gnu
+Thread model: posix
+[34m[1mPre-installed Ruby versions[0m
+ruby-1.9.3-p551
+[34m[1mPre-installed Node.js versions[0m
+v0.10.36
+[34m[1mPre-installed Go versions[0m
+1.4.1
+[34m[1mRedis version[0m
+redis-server 2.8.19
+[34m[1mriak version[0m
+2.0.2
+[34m[1mMongoDB version[0m
+MongoDB 2.4.12
+[34m[1mCouchDB version[0m
+couchdb 1.6.1
+[34m[1mNeo4j version[0m
+1.9.4
+[34m[1mCassandra version[0m
+2.0.9
+[34m[1mRabbitMQ Version[0m
+3.4.3
+[34m[1mElasticSearch version[0m
+1.4.0
+[34m[1mInstalled Sphinx versions[0m
+2.0.10
+2.1.9
+2.2.6
+[34m[1mDefault Sphinx version[0m
+2.2.6
+[34m[1mInstalled Firefox version[0m
+firefox 31.0esr
+[34m[1mPhantomJS version[0m
+1.9.8
+[34m[1mant -version[0m
+Apache Ant(TM) version 1.8.2 compiled on December 3 2011
+[34m[1mmvn -version[0m
+Apache Maven 3.2.5 (12a6b3acb947671f09b81f49094c53f426d8cea1; 2014-12-14T17:29:23+00:00)
+Maven home: /usr/local/maven
+Java version: 1.7.0_76, vendor: Oracle Corporation
+Java home: /usr/lib/jvm/java-7-oracle/jre
+Default locale: en, platform encoding: UTF-8
+OS name: "linux", version: "2.6.32-042stab090.5", arch: "amd64", family: "unix"
+travis_fold:end:system_info
+[0K
+travis_fold:start:git.checkout
+[0Ktravis_time:start:07076f68
+[0K$ git clone --depth=50 git://github.com/thoughtbot/shoulda.git thoughtbot/shoulda
+Cloning into 'thoughtbot/shoulda'...
+remote: Counting objects: 343, done.[K
+remote: Compressing objects:   0% (1/178)   [K
+remote: Compressing objects:   1% (2/178)   [K
+remote: Compressing objects:   2% (4/178)   [K
+remote: Compressing objects:   3% (6/178)   [K
+remote: Compressing objects:   4% (8/178)   [K
+remote: Compressing objects:   5% (9/178)   [K
+remote: Compressing objects:   6% (11/178)   [K
+remote: Compressing objects:   7% (13/178)   [K
+remote: Compressing objects:   8% (15/178)   [K
+remote: Compressing objects:   9% (17/178)   [K
+remote: Compressing objects:  10% (18/178)   [K
+remote: Compressing objects:  11% (20/178)   [K
+remote: Compressing objects:  12% (22/178)   [K
+remote: Compressing objects:  13% (24/178)   [K
+remote: Compressing objects:  14% (25/178)   [K
+remote: Compressing objects:  15% (27/178)   [K
+remote: Compressing objects:  16% (29/178)   [K
+remote: Compressing objects:  17% (31/178)   [K
+remote: Compressing objects:  18% (33/178)   [K
+remote: Compressing objects:  19% (34/178)   [K
+remote: Compressing objects:  20% (36/178)   [K
+remote: Compressing objects:  21% (38/178)   [K
+remote: Compressing objects:  22% (40/178)   [K
+remote: Compressing objects:  23% (41/178)   [K
+remote: Compressing objects:  24% (43/178)   [K
+remote: Compressing objects:  25% (45/178)   [K
+remote: Compressing objects:  26% (47/178)   [K
+remote: Compressing objects:  27% (49/178)   [K
+remote: Compressing objects:  28% (50/178)   [K
+remote: Compressing objects:  29% (52/178)   [K
+remote: Compressing objects:  30% (54/178)   [K
+remote: Compressing objects:  31% (56/178)   [K
+remote: Compressing objects:  32% (57/178)   [K
+remote: Compressing objects:  33% (59/178)   [K
+remote: Compressing objects:  34% (61/178)   [K
+remote: Compressing objects:  35% (63/178)   [K
+remote: Compressing objects:  36% (65/178)   [K
+remote: Compressing objects:  37% (66/178)   [K
+remote: Compressing objects:  38% (68/178)   [K
+remote: Compressing objects:  39% (70/178)   [K
+remote: Compressing objects:  40% (72/178)   [K
+remote: Compressing objects:  41% (73/178)   [K
+remote: Compressing objects:  42% (75/178)   [K
+remote: Compressing objects:  43% (77/178)   [K
+remote: Compressing objects:  44% (79/178)   [K
+remote: Compressing objects:  45% (81/178)   [K
+remote: Compressing objects:  46% (82/178)   [K
+remote: Compressing objects:  47% (84/178)   [K
+remote: Compressing objects:  48% (86/178)   [K
+remote: Compressing objects:  49% (88/178)   [K
+remote: Compressing objects:  50% (89/178)   [K
+remote: Compressing objects:  51% (91/178)   [K
+remote: Compressing objects:  52% (93/178)   [K
+remote: Compressing objects:  53% (95/178)   [K
+remote: Compressing objects:  54% (97/178)   [K
+remote: Compressing objects:  55% (98/178)   [K
+remote: Compressing objects:  56% (100/178)   [K
+remote: Compressing objects:  57% (102/178)   [K
+remote: Compressing objects:  58% (104/178)   [K
+remote: Compressing objects:  59% (106/178)   [K
+remote: Compressing objects:  60% (107/178)   [K
+remote: Compressing objects:  61% (109/178)   [K
+remote: Compressing objects:  62% (111/178)   [K
+remote: Compressing objects:  63% (113/178)   [K
+remote: Compressing objects:  64% (114/178)   [K
+remote: Compressing objects:  65% (116/178)   [K
+remote: Compressing objects:  66% (118/178)   [K
+remote: Compressing objects:  67% (120/178)   [K
+remote: Compressing objects:  68% (122/178)   [K
+remote: Compressing objects:  69% (123/178)   [K
+remote: Compressing objects:  70% (125/178)   [K
+remote: Compressing objects:  71% (127/178)   [K
+remote: Compressing objects:  72% (129/178)   [K
+remote: Compressing objects:  73% (130/178)   [K
+remote: Compressing objects:  74% (132/178)   [K
+remote: Compressing objects:  75% (134/178)   [K
+remote: Compressing objects:  76% (136/178)   [K
+remote: Compressing objects:  77% (138/178)   [K
+remote: Compressing objects:  78% (139/178)   [K
+remote: Compressing objects:  79% (141/178)   [K
+remote: Compressing objects:  80% (143/178)   [K
+remote: Compressing objects:  81% (145/178)   [K
+remote: Compressing objects:  82% (146/178)   [K
+remote: Compressing objects:  83% (148/178)   [K
+remote: Compressing objects:  84% (150/178)   [K
+remote: Compressing objects:  85% (152/178)   [K
+remote: Compressing objects:  86% (154/178)   [K
+remote: Compressing objects:  87% (155/178)   [K
+remote: Compressing objects:  88% (157/178)   [K
+remote: Compressing objects:  89% (159/178)   [K
+remote: Compressing objects:  90% (161/178)   [K
+remote: Compressing objects:  91% (162/178)   [K
+remote: Compressing objects:  92% (164/178)   [K
+remote: Compressing objects:  93% (166/178)   [K
+remote: Compressing objects:  94% (168/178)   [K
+remote: Compressing objects:  95% (170/178)   [K
+remote: Compressing objects:  96% (171/178)   [K
+remote: Compressing objects:  97% (173/178)   [K
+remote: Compressing objects:  98% (175/178)   [K
+remote: Compressing objects:  99% (177/178)   [K
+remote: Compressing objects: 100% (178/178)   [K
+remote: Compressing objects: 100% (178/178), done.[K
+Receiving objects:   0% (1/343)   
+Receiving objects:   1% (4/343)   
+Receiving objects:   2% (7/343)   
+Receiving objects:   3% (11/343)   
+Receiving objects:   4% (14/343)   
+Receiving objects:   5% (18/343)   
+Receiving objects:   6% (21/343)   
+Receiving objects:   7% (25/343)   
+Receiving objects:   8% (28/343)   
+Receiving objects:   9% (31/343)   
+Receiving objects:  10% (35/343)   
+Receiving objects:  11% (38/343)   
+Receiving objects:  12% (42/343)   
+Receiving objects:  13% (45/343)   
+Receiving objects:  14% (49/343)   
+Receiving objects:  15% (52/343)   
+Receiving objects:  16% (55/343)   
+Receiving objects:  17% (59/343)   
+Receiving objects:  18% (62/343)   
+Receiving objects:  19% (66/343)   
+Receiving objects:  20% (69/343)   
+Receiving objects:  21% (73/343)   
+Receiving objects:  22% (76/343)   
+Receiving objects:  23% (79/343)   
+Receiving objects:  24% (83/343)   
+Receiving objects:  25% (86/343)   
+Receiving objects:  26% (90/343)   
+Receiving objects:  27% (93/343)   
+Receiving objects:  28% (97/343)   
+Receiving objects:  29% (100/343)   
+Receiving objects:  30% (103/343)   
+Receiving objects:  31% (107/343)   
+Receiving objects:  32% (110/343)   
+Receiving objects:  33% (114/343)   
+Receiving objects:  34% (117/343)   
+Receiving objects:  35% (121/343)   
+Receiving objects:  36% (124/343)   
+Receiving objects:  37% (127/343)   
+Receiving objects:  38% (131/343)   
+Receiving objects:  39% (134/343)   
+remote: Total 343 (delta 123), reused 338 (delta 120), pack-reused 0[K
+Receiving objects:  40% (138/343)   
+Receiving objects:  41% (141/343)   
+Receiving objects:  42% (145/343)   
+Receiving objects:  43% (148/343)   
+Receiving objects:  44% (151/343)   
+Receiving objects:  45% (155/343)   
+Receiving objects:  46% (158/343)   
+Receiving objects:  47% (162/343)   
+Receiving objects:  48% (165/343)   
+Receiving objects:  49% (169/343)   
+Receiving objects:  50% (172/343)   
+Receiving objects:  51% (175/343)   
+Receiving objects:  52% (179/343)   
+Receiving objects:  53% (182/343)   
+Receiving objects:  54% (186/343)   
+Receiving objects:  55% (189/343)   
+Receiving objects:  56% (193/343)   
+Receiving objects:  57% (196/343)   
+Receiving objects:  58% (199/343)   
+Receiving objects:  59% (203/343)   
+Receiving objects:  60% (206/343)   
+Receiving objects:  61% (210/343)   
+Receiving objects:  62% (213/343)   
+Receiving objects:  63% (217/343)   
+Receiving objects:  64% (220/343)   
+Receiving objects:  65% (223/343)   
+Receiving objects:  66% (227/343)   
+Receiving objects:  67% (230/343)   
+Receiving objects:  68% (234/343)   
+Receiving objects:  69% (237/343)   
+Receiving objects:  70% (241/343)   
+Receiving objects:  71% (244/343)   
+Receiving objects:  72% (247/343)   
+Receiving objects:  73% (251/343)   
+Receiving objects:  74% (254/343)   
+Receiving objects:  75% (258/343)   
+Receiving objects:  76% (261/343)   
+Receiving objects:  77% (265/343)   
+Receiving objects:  78% (268/343)   
+Receiving objects:  79% (271/343)   
+Receiving objects:  80% (275/343)   
+Receiving objects:  81% (278/343)   
+Receiving objects:  82% (282/343)   
+Receiving objects:  83% (285/343)   
+Receiving objects:  84% (289/343)   
+Receiving objects:  85% (292/343)   
+Receiving objects:  86% (295/343)   
+Receiving objects:  87% (299/343)   
+Receiving objects:  88% (302/343)   
+Receiving objects:  89% (306/343)   
+Receiving objects:  90% (309/343)   
+Receiving objects:  91% (313/343)   
+Receiving objects:  92% (316/343)   
+Receiving objects:  93% (319/343)   
+Receiving objects:  94% (323/343)   
+Receiving objects:  95% (326/343)   
+Receiving objects:  96% (330/343)   
+Receiving objects:  97% (333/343)   
+Receiving objects:  98% (337/343)   
+Receiving objects:  99% (340/343)   
+Receiving objects: 100% (343/343)   
+Receiving objects: 100% (343/343), 62.29 KiB | 0 bytes/s, done.
+Resolving deltas:   0% (0/123)   
+Resolving deltas:   1% (2/123)   
+Resolving deltas:   2% (3/123)   
+Resolving deltas:   4% (5/123)   
+Resolving deltas:  18% (23/123)   
+Resolving deltas:  20% (25/123)   
+Resolving deltas:  21% (26/123)   
+Resolving deltas:  26% (32/123)   
+Resolving deltas:  34% (43/123)   
+Resolving deltas:  35% (44/123)   
+Resolving deltas:  40% (50/123)   
+Resolving deltas:  44% (55/123)   
+Resolving deltas:  53% (66/123)   
+Resolving deltas:  56% (69/123)   
+Resolving deltas:  58% (72/123)   
+Resolving deltas:  60% (74/123)   
+Resolving deltas:  61% (76/123)   
+Resolving deltas:  62% (77/123)   
+Resolving deltas:  63% (78/123)   
+Resolving deltas:  65% (81/123)   
+Resolving deltas:  66% (82/123)   
+Resolving deltas:  77% (95/123)   
+Resolving deltas:  78% (96/123)   
+Resolving deltas:  80% (99/123)   
+Resolving deltas:  87% (108/123)   
+Resolving deltas:  93% (115/123)   
+Resolving deltas:  94% (116/123)   
+Resolving deltas:  95% (118/123)   
+Resolving deltas:  99% (122/123)   
+Resolving deltas: 100% (123/123)   
+Resolving deltas: 100% (123/123), done.
+Checking connectivity... done.
+travis_time:end:07076f68:start=1435754593279893601,finish=1435754593417530833,duration=137637232
+[0K$ cd thoughtbot/shoulda
+travis_time:start:0119b17f
+[0K$ git fetch origin +refs/pull/257/merge:
+remote: Counting objects: 12, done.[K
+remote: Compressing objects:  16% (1/6)   [K
+remote: Compressing objects:  33% (2/6)   [K
+remote: Compressing objects:  50% (3/6)   [K
+remote: Compressing objects:  66% (4/6)   [K
+remote: Compressing objects:  83% (5/6)   [K
+remote: Compressing objects: 100% (6/6)   [K
+remote: Compressing objects: 100% (6/6), done.[K
+remote: Total 12 (delta 6), reused 11 (delta 6), pack-reused 0[K
+Unpacking objects:   8% (1/12)   
+Unpacking objects:  16% (2/12)   
+Unpacking objects:  25% (3/12)   
+Unpacking objects:  33% (4/12)   
+Unpacking objects:  41% (5/12)   
+Unpacking objects:  50% (6/12)   
+Unpacking objects:  58% (7/12)   
+Unpacking objects:  66% (8/12)   
+Unpacking objects:  75% (9/12)   
+Unpacking objects:  83% (10/12)   
+Unpacking objects:  91% (11/12)   
+Unpacking objects: 100% (12/12)   
+Unpacking objects: 100% (12/12), done.
+From git://github.com/thoughtbot/shoulda
+ * branch            refs/pull/257/merge -> FETCH_HEAD
+travis_time:end:0119b17f:start=1435754593427184977,finish=1435754593558780934,duration=131595957
+[0K$ git checkout -qf FETCH_HEAD
+travis_fold:end:git.checkout
+[0Ktravis_fold:start:rvm
+[0Ktravis_time:start:2227808b
+[0K$ rvm use 1.9.3 --install --binary --fuzzy
+[32mUsing /home/travis/.rvm/gems/ruby-1.9.3-p551[0m
+travis_time:end:2227808b:start=1435754593578275854,finish=1435754593839895762,duration=261619908
+[0Ktravis_fold:end:rvm
+[0K$ export BUNDLE_GEMFILE=$PWD/Gemfile
+$ ruby --version
+ruby 1.9.3p551 (2014-11-13 revision 48407) [x86_64-linux]
+$ rvm --version
+rvm 1.26.10 (latest-minor) by Wayne E. Seguin <wayneeseguin@gmail.com>, Michal Papis <mpapis@gmail.com> [https://rvm.io/]
+$ bundle --version
+Bundler version 1.7.6
+$ gem --version
+2.4.5
+travis_fold:start:install.bundler
+[0Ktravis_time:start:079bfdb9
+[0K$ bundle install --jobs=3 --retry=3
+Fetching gem metadata from https://rubygems.org/.........
+Resolving dependencies....
+[32mInstalling abstract 1.0.0[0m
+[32mInstalling rake 10.4.2[0m
+[32mInstalling builder 2.1.2[0m
+[32mInstalling activesupport 3.0.12[0m
+[32mInstalling i18n 0.5.4[0m
+[32mInstalling rack 1.2.8[0m
+[32mInstalling mime-types 1.25.1[0m
+[32mInstalling tzinfo 0.3.44[0m
+[32mInstalling polyglot 0.3.5[0m
+Using bundler 1.7.6
+[32mInstalling arel 2.0.10[0m
+[32mInstalling diff-lcs 1.2.5[0m
+[32mInstalling json 1.8.3[0m
+[32mInstalling tins 1.5.4[0m
+[32mInstalling rspec-support 3.3.0[0m
+[32mInstalling thor 0.14.6[0m
+[32mInstalling shoulda-context 1.2.1[0m
+[32mInstalling ffi 1.9.10[0m
+[32mInstalling erubis 2.6.6[0m
+[32mInstalling sqlite3 1.3.10[0m
+[32mInstalling shoulda-matchers 2.8.0[0m
+[32mInstalling activemodel 3.0.12[0m
+[32mInstalling rack-mount 0.6.14[0m
+[32mInstalling rack-test 0.5.7[0m
+[32mInstalling treetop 1.4.15[0m
+[32mInstalling appraisal 0.4.1[0m
+[32mInstalling rdoc 3.12.2[0m
+[32mInstalling term-ansicolor 1.3.2[0m
+[32mInstalling rspec-core 3.3.1[0m
+[32mInstalling rspec-expectations 3.3.0[0m
+[32mInstalling rspec-mocks 3.3.1[0m
+[32mInstalling childprocess 0.5.6[0m
+Using shoulda 3.5.0 from source at .
+[32mInstalling activerecord 3.0.12[0m
+[32mInstalling activeresource 3.0.12[0m
+[32mInstalling actionpack 3.0.12[0m
+[32mInstalling mail 2.2.20[0m
+[32mInstalling rspec 3.3.0[0m
+[32mInstalling railties 3.0.12[0m
+[32mInstalling actionmailer 3.0.12[0m
+[32mInstalling rspec-rails 3.3.2[0m
+[32mInstalling rails 3.0.12[0m
+[32mInstalling gherkin 2.9.3[0m
+[32mInstalling cucumber 1.1.9[0m
+[32mInstalling aruba 0.4.11[0m
+[32mYour bundle is complete![0m
+[32mUse `bundle show [gemname]` to see where a bundled gem is installed.[0m
+[32mPost-install message from rdoc:[0m
+Depending on your version of ruby, you may need to install ruby rdoc/ri data:
+
+<= 1.8.6 : unsupported
+ = 1.8.7 : gem install rdoc-data; rdoc-data --install
+ = 1.9.1 : gem install rdoc-data; rdoc-data --install
+>= 1.9.2 : nothing to do! Yay!
+[32mPost-install message from cucumber:[0m
+
+(::) (::) (::) (::) (::) (::) (::) (::) (::) (::) (::) (::) (::) (::) (::)
+
+Thank you for installing cucumber-1.1.9.
+Please be sure to read http://wiki.github.com/cucumber/cucumber/upgrading
+for important information about this release. Happy cuking!
+
+(::) (::) (::) (::) (::) (::) (::) (::) (::) (::) (::) (::) (::) (::) (::)
+
+travis_time:end:079bfdb9:start=1435754594464691738,finish=1435754650279056035,duration=55814364297
+[0Ktravis_fold:end:install.bundler
+[0Ktravis_time:start:19c318c4
+[0K$ bundle exec rake
+>> bundle install --gemfile=/home/travis/build/thoughtbot/shoulda/gemfiles/3.0.gemfile
+[33mYour Gemfile lists the gem rails (= 3.0.12) more than once.
+You should probably keep only one of them.
+While it's not a problem now, it could cause errors if you change the version of just one of them later.[0m
+Fetching gem metadata from https://rubygems.org/.........
+Resolving dependencies...
+Using rake 10.4.2
+Using abstract 1.0.0
+Using activesupport 3.0.12
+Using builder 2.1.2
+Using i18n 0.5.4
+Using activemodel 3.0.12
+Using erubis 2.6.6
+Using rack 1.2.8
+Using rack-mount 0.6.14
+Using rack-test 0.5.7
+Using tzinfo 0.3.44
+Using actionpack 3.0.12
+Using mime-types 1.25.1
+Using polyglot 0.3.5
+Using treetop 1.4.15
+Using mail 2.2.20
+Using actionmailer 3.0.12
+Using arel 2.0.10
+Using activerecord 3.0.12
+Using activeresource 3.0.12
+Using bundler 1.7.6
+Using appraisal 0.4.1
+Using ffi 1.9.10
+Using childprocess 0.5.6
+Using diff-lcs 1.2.5
+Using json 1.8.3
+Using gherkin 2.9.3
+Using tins 1.5.4
+Using term-ansicolor 1.3.2
+Using cucumber 1.1.9
+Using rspec-support 3.3.0
+Using rspec-core 3.3.1
+Using rspec-expectations 3.3.0
+Using rspec-mocks 3.3.1
+Using rspec 3.3.0
+Using aruba 0.4.11
+Using rdoc 3.12.2
+Using thor 0.14.6
+Using railties 3.0.12
+Using rails 3.0.12
+Using rspec-rails 3.3.2
+Using shoulda-context 1.2.1
+Using shoulda-matchers 2.8.0
+Using shoulda 3.5.0 from source at ../
+Using sqlite3 1.3.10
+[32mYour bundle is complete![0m
+[32mUse `bundle show [gemname]` to see where a bundled gem is installed.[0m
+>> bundle install --gemfile=/home/travis/build/thoughtbot/shoulda/gemfiles/3.1.gemfile
+Fetching gem metadata from https://rubygems.org/............
+Fetching additional metadata from https://rubygems.org/..
+Resolving dependencies...
+Using rake 10.4.2
+[32mInstalling multi_json 1.11.1[0m
+[32mInstalling activesupport 3.1.4[0m
+[32mInstalling builder 3.0.4[0m
+[32mInstalling i18n 0.7.0[0m
+[32mInstalling activemodel 3.1.4[0m
+[32mInstalling erubis 2.7.0[0m
+[32mInstalling rack 1.3.10[0m
+[32mInstalling rack-cache 1.2[0m
+[32mInstalling rack-mount 0.8.3[0m
+[32mInstalling rack-test 0.6.3[0m
+[32mInstalling hike 1.2.3[0m
+[32mInstalling tilt 1.4.1[0m
+[32mInstalling sprockets 2.0.5[0m
+[32mInstalling actionpack 3.1.4[0m
+Using mime-types 1.25.1
+Using polyglot 0.3.5
+Using treetop 1.4.15
+[32mInstalling mail 2.3.3[0m
+[32mInstalling actionmailer 3.1.4[0m
+[32mInstalling arel 2.2.3[0m
+Using tzinfo 0.3.44
+[32mInstalling activerecord 3.1.4[0m
+[32mInstalling activeresource 3.1.4[0m
+Using bundler 1.7.6
+Using appraisal 0.4.1
+Using ffi 1.9.10
+Using childprocess 0.5.6
+Using diff-lcs 1.2.5
+Using json 1.8.3
+Using gherkin 2.9.3
+Using tins 1.5.4
+Using term-ansicolor 1.3.2
+Using cucumber 1.1.9
+Using rspec-support 3.3.0
+Using rspec-core 3.3.1
+Using rspec-expectations 3.3.0
+Using rspec-mocks 3.3.1
+Using rspec 3.3.0
+Using aruba 0.4.11
+[32mInstalling rack-ssl 1.3.4[0m
+Using rdoc 3.12.2
+Using thor 0.14.6
+[32mInstalling railties 3.1.4[0m
+[32mInstalling jquery-rails 3.1.3[0m
+[32mInstalling rails 3.1.4[0m
+Using rspec-rails 3.3.2
+[32mInstalling sass 3.4.15[0m
+[32mInstalling sass-rails 3.1.0[0m
+Using shoulda-context 1.2.1
+Using shoulda-matchers 2.8.0
+Using shoulda 3.5.0 from source at ../
+Using sqlite3 1.3.10
+[32mYour bundle is complete![0m
+[32mUse `bundle show [gemname]` to see where a bundled gem is installed.[0m
+>> bundle install --gemfile=/home/travis/build/thoughtbot/shoulda/gemfiles/3.2.gemfile
+Fetching gem metadata from https://rubygems.org/............
+Fetching additional metadata from https://rubygems.org/..
+Resolving dependencies...
+Using rake 10.4.2
+Using i18n 0.7.0
+Using multi_json 1.11.1
+[32mInstalling activesupport 3.2.3[0m
+Using builder 3.0.4
+[32mInstalling activemodel 3.2.3[0m
+Using erubis 2.7.0
+[32mInstalling journey 1.0.4[0m
+[32mInstalling rack 1.4.7[0m
+Using rack-cache 1.2
+Using rack-test 0.6.3
+Using hike 1.2.3
+Using tilt 1.4.1
+[32mInstalling sprockets 2.1.4[0m
+[32mInstalling actionpack 3.2.3[0m
+Using mime-types 1.25.1
+Using polyglot 0.3.5
+Using treetop 1.4.15
+[32mInstalling mail 2.4.4[0m
+[32mInstalling actionmailer 3.2.3[0m
+[32mInstalling arel 3.0.3[0m
+Using tzinfo 0.3.44
+[32mInstalling activerecord 3.2.3[0m
+[32mInstalling activeresource 3.2.3[0m
+Using bundler 1.7.6
+Using appraisal 0.4.1
+Using ffi 1.9.10
+Using childprocess 0.5.6
+Using diff-lcs 1.2.5
+Using json 1.8.3
+Using gherkin 2.9.3
+Using tins 1.5.4
+Using term-ansicolor 1.3.2
+Using cucumber 1.1.9
+Using rspec-support 3.3.0
+Using rspec-core 3.3.1
+Using rspec-expectations 3.3.0
+Using rspec-mocks 3.3.1
+Using rspec 3.3.0
+Using aruba 0.4.11
+Using rack-ssl 1.3.4
+Using rdoc 3.12.2
+Using thor 0.14.6
+[32mInstalling railties 3.2.3[0m
+Using jquery-rails 3.1.3
+[32mInstalling rails 3.2.3[0m
+Using rspec-rails 3.3.2
+Using sass 3.4.15
+[32mInstalling sass-rails 3.2.6[0m
+Using shoulda-context 1.2.1
+Using shoulda-matchers 2.8.0
+Using shoulda 3.5.0 from source at ../
+Using sqlite3 1.3.10
+[32mYour bundle is complete![0m
+[32mUse `bundle show [gemname]` to see where a bundled gem is installed.[0m
+>> BUNDLE_GEMFILE=/home/travis/build/thoughtbot/shoulda/gemfiles/3.0.gemfile bundle exec /home/travis/.rvm/gems/ruby-1.9.3-p551/bin/rake cucumber
+[33mYour Gemfile lists the gem rails (= 3.0.12) more than once.
+You should probably keep only one of them.
+While it's not a problem now, it could cause errors if you change the version of just one of them later.[0m
+/home/travis/.rvm/rubies/ruby-1.9.3-p551/bin/ruby -S bundle exec cucumber --format progress
+DEPRECATION: Using `should` from rspec-expectations' old `:should` syntax without explicitly enabling the syntax is deprecated. Use the new `:expect` syntax or explicitly enable `:should` with `config.expect_with(:rspec) { |c| c.syntax = :should }` instead. Called from /home/travis/.rvm/gems/ruby-1.9.3-p551/gems/aruba-0.4.11/lib/aruba/api.rb:219:in `assert_exit_status'.
+[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[31mF[0m[36m-[0m[36m-[0m[36m-[0m[36m-[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[31mF[0m[36m-[0m[36m-[0m[36m-[0m[36m-[0m[36m-[0m[36m-[0m
+
+[31m(::) failed steps (::)[0m
+
+[31mExit status was 1 but expected it to be 0. Output:[0m
+[31m[0m
+[31m      create  [0m
+[31m      create  README[0m
+[31m      create  Rakefile[0m
+[31m      create  config.ru[0m
+[31m      create  .gitignore[0m
+[31m      create  Gemfile[0m
+[31m      create  app[0m
+[31m      create  app/controllers/application_controller.rb[0m
+[31m      create  app/helpers/application_helper.rb[0m
+[31m      create  app/mailers[0m
+[31m      create  app/models[0m
+[31m      create  app/views/layouts/application.html.erb[0m
+[31m      create  config[0m
+[31m      create  config/routes.rb[0m
+[31m      create  config/application.rb[0m
+[31m      create  config/environment.rb[0m
+[31m      create  config/environments[0m
+[31m      create  config/environments/development.rb[0m
+[31m      create  config/environments/production.rb[0m
+[31m      create  config/environments/test.rb[0m
+[31m      create  config/initializers[0m
+[31m      create  config/initializers/backtrace_silencers.rb[0m
+[31m      create  config/initializers/inflections.rb[0m
+[31m      create  config/initializers/mime_types.rb[0m
+[31m      create  config/initializers/secret_token.rb[0m
+[31m      create  config/initializers/session_store.rb[0m
+[31m      create  config/locales[0m
+[31m      create  config/locales/en.yml[0m
+[31m      create  config/boot.rb[0m
+[31m      create  config/database.yml[0m
+[31m      create  db[0m
+[31m      create  db/seeds.rb[0m
+[31m      create  doc[0m
+[31m      create  doc/README_FOR_APP[0m
+[31m      create  lib[0m
+[31m      create  lib/tasks[0m
+[31m      create  lib/tasks/.gitkeep[0m
+[31m      create  log[0m
+[31m      create  log/server.log[0m
+[31m      create  log/production.log[0m
+[31m      create  log/development.log[0m
+[31m      create  log/test.log[0m
+[31m      create  public[0m
+[31m      create  public/404.html[0m
+[31m      create  public/422.html[0m
+[31m      create  public/500.html[0m
+[31m      create  public/favicon.ico[0m
+[31m      create  public/index.html[0m
+[31m      create  public/robots.txt[0m
+[31m      create  public/images[0m
+[31m      create  public/images/rails.png[0m
+[31m      create  public/stylesheets[0m
+[31m      create  public/stylesheets/.gitkeep[0m
+[31m      create  public/javascripts[0m
+[31m      create  public/javascripts/application.js[0m
+[31m      create  public/javascripts/controls.js[0m
+[31m      create  public/javascripts/dragdrop.js[0m
+[31m      create  public/javascripts/effects.js[0m
+[31m      create  public/javascripts/prototype.js[0m
+[31m      create  public/javascripts/rails.js[0m
+[31m      create  script[0m
+[31m      create  script/rails[0m
+[31m      create  test[0m
+[31m      create  test/fixtures[0m
+[31m      create  test/functional[0m
+[31m      create  test/integration[0m
+[31m      create  test/performance/browsing_test.rb[0m
+[31m      create  test/test_helper.rb[0m
+[31m      create  test/unit[0m
+[31m      create  tmp[0m
+[31m      create  tmp/sessions[0m
+[31m      create  tmp/sockets[0m
+[31m      create  tmp/cache[0m
+[31m      create  tmp/pids[0m
+[31m      create  vendor/plugins[0m
+[31m      create  vendor/plugins/.gitkeep[0m
+[31mResolving dependencies...[0m
+[31mUsing rake 10.4.2[0m
+[31mUsing abstract 1.0.0[0m
+[31mUsing activesupport 3.0.12[0m
+[31mUsing builder 2.1.2[0m
+[31mUsing i18n 0.5.4[0m
+[31mUsing activemodel 3.0.12[0m
+[31mUsing erubis 2.6.6[0m
+[31mUsing rack 1.2.8[0m
+[31mUsing rack-mount 0.6.14[0m
+[31mUsing rack-test 0.5.7[0m
+[31mUsing tzinfo 0.3.44[0m
+[31mUsing actionpack 3.0.12[0m
+[31mUsing mime-types 1.25.1[0m
+[31mUsing polyglot 0.3.5[0m
+[31mUsing treetop 1.4.15[0m
+[31mUsing mail 2.2.20[0m
+[31mUsing actionmailer 3.0.12[0m
+[31mUsing arel 2.0.10[0m
+[31mUsing activerecord 3.0.12[0m
+[31mUsing activeresource 3.0.12[0m
+[31mUsing bundler 1.7.6[0m
+[31mUsing json 1.8.3[0m
+[31mUsing rdoc 3.12.2[0m
+[31mUsing thor 0.14.6[0m
+[31mUsing railties 3.0.12[0m
+[31mUsing rails 3.0.12[0m
+[31mUsing sqlite3 1.3.10[0m
+[31mYour bundle is complete![0m
+[31mUse `bundle show [gemname]` to see where a bundled gem is installed.[0m
+[31m==  CreateUsers: migrating ====================================================[0m
+[31m-- create_table(:users)[0m
+[31m   -> 0.0010s[0m
+[31m==  CreateUsers: migrated (0.0010s) ===========================================[0m
+[31m[0m
+[31mResolving dependencies...[0m
+[31mCould not find gem 'shoulda-matchers (~> 1.0) ruby' in the gems available on[0m
+[31mthis machine.[0m
+[31mBundler is using a binstub that was created for a different gem.[0m
+[31mThis is deprecated, in future versions you may need to `bundle binstub railties` to work around a system/bundle conflict.[0m
+[31m** Invoke db:migrate (first_time)[0m
+[31m** Invoke environment (first_time)[0m
+[31m** Execute environment[0m
+[31m** Execute db:migrate[0m
+[31m** Invoke db:schema:dump (first_time)[0m
+[31m** Invoke environment [0m
+[31m** Execute db:schema:dump[0m
+[31m/home/travis/.rvm/gems/ruby-1.9.3-p551@global/gems/bundler-1.7.6/lib/bundler/resolver.rb:357:in `resolve': Could not find gem 'shoulda-matchers (~> 1.0) ruby' in the gems available on this machine. (Bundler::GemNotFound)[0m
+[31m	from /home/travis/.rvm/gems/ruby-1.9.3-p551@global/gems/bundler-1.7.6/lib/bundler/resolver.rb:164:in `start'[0m
+[31m	from /home/travis/.rvm/gems/ruby-1.9.3-p551@global/gems/bundler-1.7.6/lib/bundler/resolver.rb:129:in `resolve'[0m
+[31m	from /home/travis/.rvm/gems/ruby-1.9.3-p551@global/gems/bundler-1.7.6/lib/bundler/definition.rb:193:in `resolve'[0m
+[31m	from /home/travis/.rvm/gems/ruby-1.9.3-p551@global/gems/bundler-1.7.6/lib/bundler/definition.rb:132:in `specs'[0m
+[31m	from /home/travis/.rvm/gems/ruby-1.9.3-p551@global/gems/bundler-1.7.6/lib/bundler/definition.rb:177:in `specs_for'[0m
+[31m	from /home/travis/.rvm/gems/ruby-1.9.3-p551@global/gems/bundler-1.7.6/lib/bundler/definition.rb:166:in `requested_specs'[0m
+[31m	from /home/travis/.rvm/gems/ruby-1.9.3-p551@global/gems/bundler-1.7.6/lib/bundler/environment.rb:18:in `requested_specs'[0m
+[31m	from /home/travis/.rvm/gems/ruby-1.9.3-p551@global/gems/bundler-1.7.6/lib/bundler/runtime.rb:13:in `setup'[0m
+[31m	from /home/travis/.rvm/gems/ruby-1.9.3-p551@global/gems/bundler-1.7.6/lib/bundler.rb:121:in `setup'[0m
+[31m	from /home/travis/.rvm/gems/ruby-1.9.3-p551@global/gems/bundler-1.7.6/lib/bundler/setup.rb:17:in `<top (required)>'[0m
+[31m	from /home/travis/.rvm/rubies/ruby-1.9.3-p551/lib/ruby/site_ruby/1.9.1/rubygems/core_ext/kernel_require.rb:54:in `require'[0m
+[31m	from /home/travis/.rvm/rubies/ruby-1.9.3-p551/lib/ruby/site_ruby/1.9.1/rubygems/core_ext/kernel_require.rb:54:in `require'[0m
+[31m[0m
+[31m (RSpec::Expectations::ExpectationNotMetError)[0m
+[31mfeatures/rails_integration.feature:57:in `When I successfully run `bundle exec rake test TESTOPTS='-v' --trace`'[0m
+
+[31mExit status was 1 but expected it to be 0. Output:[0m
+[31m[0m
+[31m      create  [0m
+[31m      create  README[0m
+[31m      create  Rakefile[0m
+[31m      create  config.ru[0m
+[31m      create  .gitignore[0m
+[31m      create  Gemfile[0m
+[31m      create  app[0m
+[31m      create  app/controllers/application_controller.rb[0m
+[31m      create  app/helpers/application_helper.rb[0m
+[31m      create  app/mailers[0m
+[31m      create  app/models[0m
+[31m      create  app/views/layouts/application.html.erb[0m
+[31m      create  config[0m
+[31m      create  config/routes.rb[0m
+[31m      create  config/application.rb[0m
+[31m      create  config/environment.rb[0m
+[31m      create  config/environments[0m
+[31m      create  config/environments/development.rb[0m
+[31m      create  config/environments/production.rb[0m
+[31m      create  config/environments/test.rb[0m
+[31m      create  config/initializers[0m
+[31m      create  config/initializers/backtrace_silencers.rb[0m
+[31m      create  config/initializers/inflections.rb[0m
+[31m      create  config/initializers/mime_types.rb[0m
+[31m      create  config/initializers/secret_token.rb[0m
+[31m      create  config/initializers/session_store.rb[0m
+[31m      create  config/locales[0m
+[31m      create  config/locales/en.yml[0m
+[31m      create  config/boot.rb[0m
+[31m      create  config/database.yml[0m
+[31m      create  db[0m
+[31m      create  db/seeds.rb[0m
+[31m      create  doc[0m
+[31m      create  doc/README_FOR_APP[0m
+[31m      create  lib[0m
+[31m      create  lib/tasks[0m
+[31m      create  lib/tasks/.gitkeep[0m
+[31m      create  log[0m
+[31m      create  log/server.log[0m
+[31m      create  log/production.log[0m
+[31m      create  log/development.log[0m
+[31m      create  log/test.log[0m
+[31m      create  public[0m
+[31m      create  public/404.html[0m
+[31m      create  public/422.html[0m
+[31m      create  public/500.html[0m
+[31m      create  public/favicon.ico[0m
+[31m      create  public/index.html[0m
+[31m      create  public/robots.txt[0m
+[31m      create  public/images[0m
+[31m      create  public/images/rails.png[0m
+[31m      create  public/stylesheets[0m
+[31m      create  public/stylesheets/.gitkeep[0m
+[31m      create  public/javascripts[0m
+[31m      create  public/javascripts/application.js[0m
+[31m      create  public/javascripts/controls.js[0m
+[31m      create  public/javascripts/dragdrop.js[0m
+[31m      create  public/javascripts/effects.js[0m
+[31m      create  public/javascripts/prototype.js[0m
+[31m      create  public/javascripts/rails.js[0m
+[31m      create  script[0m
+[31m      create  script/rails[0m
+[31m      create  test[0m
+[31m      create  test/fixtures[0m
+[31m      create  test/functional[0m
+[31m      create  test/integration[0m
+[31m      create  test/performance/browsing_test.rb[0m
+[31m      create  test/test_helper.rb[0m
+[31m      create  test/unit[0m
+[31m      create  tmp[0m
+[31m      create  tmp/sessions[0m
+[31m      create  tmp/sockets[0m
+[31m      create  tmp/cache[0m
+[31m      create  tmp/pids[0m
+[31m      create  vendor/plugins[0m
+[31m      create  vendor/plugins/.gitkeep[0m
+[31mResolving dependencies...[0m
+[31mUsing rake 10.4.2[0m
+[31mUsing abstract 1.0.0[0m
+[31mUsing activesupport 3.0.12[0m
+[31mUsing builder 2.1.2[0m
+[31mUsing i18n 0.5.4[0m
+[31mUsing activemodel 3.0.12[0m
+[31mUsing erubis 2.6.6[0m
+[31mUsing rack 1.2.8[0m
+[31mUsing rack-mount 0.6.14[0m
+[31mUsing rack-test 0.5.7[0m
+[31mUsing tzinfo 0.3.44[0m
+[31mUsing actionpack 3.0.12[0m
+[31mUsing mime-types 1.25.1[0m
+[31mUsing polyglot 0.3.5[0m
+[31mUsing treetop 1.4.15[0m
+[31mUsing mail 2.2.20[0m
+[31mUsing actionmailer 3.0.12[0m
+[31mUsing arel 2.0.10[0m
+[31mUsing activerecord 3.0.12[0m
+[31mUsing activeresource 3.0.12[0m
+[31mUsing bundler 1.7.6[0m
+[31mUsing json 1.8.3[0m
+[31mUsing rdoc 3.12.2[0m
+[31mUsing thor 0.14.6[0m
+[31mUsing railties 3.0.12[0m
+[31mUsing rails 3.0.12[0m
+[31mUsing sqlite3 1.3.10[0m
+[31mYour bundle is complete![0m
+[31mUse `bundle show [gemname]` to see where a bundled gem is installed.[0m
+[31m==  CreateUsers: migrating ====================================================[0m
+[31m-- create_table(:users)[0m
+[31m   -> 0.0010s[0m
+[31m==  CreateUsers: migrated (0.0010s) ===========================================[0m
+[31m[0m
+[31mResolving dependencies...[0m
+[31mUsing rake 10.4.2[0m
+[31mUsing abstract 1.0.0[0m
+[31mUsing activesupport 3.0.12[0m
+[31mUsing builder 2.1.2[0m
+[31mUsing i18n 0.5.4[0m
+[31mUsing activemodel 3.0.12[0m
+[31mUsing erubis 2.6.6[0m
+[31mUsing rack 1.2.8[0m
+[31mUsing rack-mount 0.6.14[0m
+[31mUsing rack-test 0.5.7[0m
+[31mUsing tzinfo 0.3.44[0m
+[31mUsing actionpack 3.0.12[0m
+[31mUsing mime-types 1.25.1[0m
+[31mUsing polyglot 0.3.5[0m
+[31mUsing treetop 1.4.15[0m
+[31mUsing mail 2.2.20[0m
+[31mUsing actionmailer 3.0.12[0m
+[31mUsing arel 2.0.10[0m
+[31mUsing activerecord 3.0.12[0m
+[31mUsing activeresource 3.0.12[0m
+[31mUsing bundler 1.7.6[0m
+[31mUsing diff-lcs 1.2.5[0m
+[31mUsing json 1.8.3[0m
+[31mUsing rdoc 3.12.2[0m
+[31mUsing thor 0.14.6[0m
+[31mUsing railties 3.0.12[0m
+[31mUsing rails 3.0.12[0m
+[31mUsing rspec-support 3.3.0[0m
+[31mUsing rspec-core 3.3.1[0m
+[31mUsing rspec-expectations 3.3.0[0m
+[31mUsing rspec-mocks 3.3.1[0m
+[31mUsing rspec-rails 3.3.2[0m
+[31mUsing sqlite3 1.3.10[0m
+[31mYour bundle is complete![0m
+[31mUse `bundle show [gemname]` to see where a bundled gem is installed.[0m
+[31mResolving dependencies...[0m
+[31mCould not find gem 'shoulda-matchers (~> 1.0) ruby' in the gems available on[0m
+[31mthis machine.[0m
+[31mBundler is using a binstub that was created for a different gem.[0m
+[31mThis is deprecated, in future versions you may need to `bundle binstub railties` to work around a system/bundle conflict.[0m
+[31m** Invoke db:migrate (first_time)[0m
+[31m** Invoke environment (first_time)[0m
+[31m** Execute environment[0m
+[31m** Execute db:migrate[0m
+[31m** Invoke db:schema:dump (first_time)[0m
+[31m** Invoke environment [0m
+[31m** Execute db:schema:dump[0m
+[31m/home/travis/.rvm/gems/ruby-1.9.3-p551@global/gems/bundler-1.7.6/lib/bundler/resolver.rb:357:in `resolve': Could not find gem 'shoulda-matchers (~> 1.0) ruby' in the gems available on this machine. (Bundler::GemNotFound)[0m
+[31m	from /home/travis/.rvm/gems/ruby-1.9.3-p551@global/gems/bundler-1.7.6/lib/bundler/resolver.rb:164:in `start'[0m
+[31m	from /home/travis/.rvm/gems/ruby-1.9.3-p551@global/gems/bundler-1.7.6/lib/bundler/resolver.rb:129:in `resolve'[0m
+[31m	from /home/travis/.rvm/gems/ruby-1.9.3-p551@global/gems/bundler-1.7.6/lib/bundler/definition.rb:193:in `resolve'[0m
+[31m	from /home/travis/.rvm/gems/ruby-1.9.3-p551@global/gems/bundler-1.7.6/lib/bundler/definition.rb:132:in `specs'[0m
+[31m	from /home/travis/.rvm/gems/ruby-1.9.3-p551@global/gems/bundler-1.7.6/lib/bundler/definition.rb:177:in `specs_for'[0m
+[31m	from /home/travis/.rvm/gems/ruby-1.9.3-p551@global/gems/bundler-1.7.6/lib/bundler/definition.rb:166:in `requested_specs'[0m
+[31m	from /home/travis/.rvm/gems/ruby-1.9.3-p551@global/gems/bundler-1.7.6/lib/bundler/environment.rb:18:in `requested_specs'[0m
+[31m	from /home/travis/.rvm/gems/ruby-1.9.3-p551@global/gems/bundler-1.7.6/lib/bundler/runtime.rb:13:in `setup'[0m
+[31m	from /home/travis/.rvm/gems/ruby-1.9.3-p551@global/gems/bundler-1.7.6/lib/bundler.rb:121:in `setup'[0m
+[31m	from /home/travis/.rvm/gems/ruby-1.9.3-p551@global/gems/bundler-1.7.6/lib/bundler/setup.rb:17:in `<top (required)>'[0m
+[31m	from /home/travis/.rvm/rubies/ruby-1.9.3-p551/lib/ruby/site_ruby/1.9.1/rubygems/core_ext/kernel_require.rb:54:in `require'[0m
+[31m	from /home/travis/.rvm/rubies/ruby-1.9.3-p551/lib/ruby/site_ruby/1.9.1/rubygems/core_ext/kernel_require.rb:54:in `require'[0m
+[31m	from /home/travis/build/thoughtbot/shoulda/tmp/aruba/testapp/config/boot.rb:6:in `<top (required)>'[0m
+[31m	from /home/travis/.rvm/rubies/ruby-1.9.3-p551/lib/ruby/site_ruby/1.9.1/rubygems/core_ext/kernel_require.rb:54:in `require'[0m
+[31m	from /home/travis/.rvm/rubies/ruby-1.9.3-p551/lib/ruby/site_ruby/1.9.1/rubygems/core_ext/kernel_require.rb:54:in `require'[0m
+[31m	from script/rails:5:in `<main>'[0m
+[31m[0m
+[31m (RSpec::Expectations::ExpectationNotMetError)[0m
+[31mfeatures/rails_integration.feature:66:in `And I run the rspec generator'[0m
+
+[31mFailing Scenarios:[0m
+[31mcucumber features/rails_integration.feature:34[0m[90m # Scenario: generate a rails application and use matchers in Test::Unit[0m
+[31mcucumber features/rails_integration.feature:63[0m[90m # Scenario: generate a rails application and use matchers in Rspec[0m
+
+2 scenarios ([31m2 failed[0m)
+29 steps ([31m2 failed[0m, [36m10 skipped[0m, [32m17 passed[0m)
+0m12.104s
+rake aborted!
+Command failed with status (1): [/home/travis/.rvm/rubies/ruby-1.9.3-p551/b...]
+/home/travis/.rvm/gems/ruby-1.9.3-p551/gems/cucumber-1.1.9/lib/cucumber/rake/task.rb:104:in `run'
+/home/travis/.rvm/gems/ruby-1.9.3-p551/gems/cucumber-1.1.9/lib/cucumber/rake/task.rb:193:in `block in define_task'
+/home/travis/.rvm/gems/ruby-1.9.3-p551/bin/ruby_executable_hooks:15:in `eval'
+/home/travis/.rvm/gems/ruby-1.9.3-p551/bin/ruby_executable_hooks:15:in `<main>'
+Tasks: TOP => cucumber
+(See full trace by running task with --trace)
+travis_time:end:19c318c4:start=1435754650290193545,finish=1435754723460227750,duration=73170034205
+[0K
+[31;1mThe command "bundle exec rake" exited with 1.[0m
+
+Done. Your build exited with 1.

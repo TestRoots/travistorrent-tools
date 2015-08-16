@@ -8,15 +8,12 @@ load 'languages/java_gradle_log_file_analyzer.rb'
 class JavaLogFileAnalyzerDispatcher
   @wrappedAnalyzer
 
-  def initialize(file)
-    logFile = File.read(file)
-    logFile = logFile.encode(logFile.encoding, :universal_newline => true)
-
-    if logFile.scan(/Reactor Summary/m).size >= 1
+  def initialize(file, content)
+    if content.scan(/Reactor Summary/m).size >= 1
       @wrappedAnalyzer = JavaMavenLogFileAnalyzer.new file
-    elsif logFile.scan(/gradle/m).size >= 2
+    elsif content.scan(/gradle/m).size >= 2
       @wrappedAnalyzer = JavaGradleLogFileAnalyzer.new file
-    elsif logFile.scan(/ant/m).size >= 2
+    elsif content.scan(/ant/m).size >= 2
       @wrappedAnalyzer = JavaAntLogFileAnalyzer.new file
     else
       # default back to Ant if nothing else found

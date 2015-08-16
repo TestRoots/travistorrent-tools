@@ -1,0 +1,3 @@
+build_id,commit,build_number,lan,status,setup_time,analyzer,frameworks,tests_run?,broke_build,ok,failed,run,skipped,tests,testduration,purebuildduration
+12,asdffs45,1,java,broken,1,java-gradle,junit,true,true,1453,1,1454,48,org.mockitousage.verification.VerificationAfterDelayTest,0,86
+12,asdffs45,2,java,ok,2,java-gradle,junit,true,false,,0,,,"",,

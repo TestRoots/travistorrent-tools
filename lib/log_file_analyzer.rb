@@ -35,9 +35,8 @@ class LogFileAnalyzer
         :replace           => '',        # Use a blank for those replacements
         :universal_newline => true       # Always break lines with \n
     }
-    logFile = logFile.encode(Encoding.find('ASCII'), encoding_options)
-
-    @logFile = logFile.lines
+    @logFile = logFile.encode(Encoding.find('ASCII'), encoding_options)
+    @logFileLines = @logFile.lines
 
     @primary_language = 'unknwon'
     @analyzer = 'plain'
@@ -74,7 +73,7 @@ class LogFileAnalyzer
 
   def split
     currentFold = OUT_OF_FOLD
-    @logFile.each do |line|
+    @logFileLines.each do |line|
       line = line.uncolorize
 
       if !(line =~ /travis_fold:start:([\w\.]*)/).nil?
@@ -135,7 +134,7 @@ class LogFileAnalyzer
   def output
     keys = ['build_id', 'commit', 'build_number', 'lan', 'status', 'setup_time',
             'analyzer', 'frameworks',
-            'tests_run?', 'broke_build', 'ok', 'failed', 'run', 'skipped', 'tests', 'testduration',
+            'tests_run?', 'tests_failed?', 'ok', 'failed', 'run', 'skipped', 'tests', 'testduration',
             'purebuildduration']
     values = [@build_id, @commit, @build_number, @primary_language, @status, @setup_time_before_build,
               @analyzer, @frameworks.join('#'),
