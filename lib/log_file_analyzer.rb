@@ -1,6 +1,6 @@
 require 'colorize'
 
-load 'travis_fold.rb'
+load 'lib/travis_fold.rb'
 
 
 # A language-independent analyzer for travis logfiles

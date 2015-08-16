@@ -1,6 +1,6 @@
-load 'languages/java_ant_log_file_analyzer.rb'
-load 'languages/java_maven_log_file_analyzer.rb'
-load 'languages/java_gradle_log_file_analyzer.rb'
+load 'lib/languages/java_ant_log_file_analyzer.rb'
+load 'lib/languages/java_maven_log_file_analyzer.rb'
+load 'lib/languages/java_gradle_log_file_analyzer.rb'
 
 # A wrapper that decides what is the correct sub Java analyzer to call by quickly browsing through its contents.
 # This has minimal overhead compared to directly calling the correct sub analyzer through lazy initializing the
