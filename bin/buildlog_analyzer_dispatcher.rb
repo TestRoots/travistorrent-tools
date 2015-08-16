@@ -48,8 +48,9 @@ Dir.foreach(directory) do |logfile|
 
     analyzer.analyze
     results << analyzer.output
-  rescue 
+  rescue Exception => e
     puts "Error analyzing #{logfile}, rescued"
+    puts e
   end
 
 end
