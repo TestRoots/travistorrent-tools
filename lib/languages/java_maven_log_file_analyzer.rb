@@ -102,6 +102,7 @@ class JavaMavenLogFileAnalyzer < LogFileAnalyzer
       if !(line =~ /Tests run: (\d*), Failures: (\d*), Errors: (\d*)(, Skipped: (\d*))?/).nil?
         init_tests
         @tests_run = true
+        add_framework 'junit'
         @num_tests_run += $1.to_i
         @num_tests_failed += $2.to_i + $3.to_i
         @num_tests_skipped += $5.to_i unless $4.nil?

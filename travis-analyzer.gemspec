@@ -24,5 +24,5 @@ Gem::Specification.new do |gem|
   gem.add_dependency 'trollop', ['>= 2.1.2']
   gem.add_dependency 'mysql2', ['>= 0.3']
   gem.add_dependency 'travis', ['>= 1.7','< 1.9']
-
+  gem.add_dependency 'colorize', ['>= 0.7']
 end

@@ -32,6 +32,7 @@ class JavaGradleLogFileAnalyzer < LogFileAnalyzer
         line_marker = 1
         test_section_started = true
         @tests_run = true
+        add_framework 'junit'
       elsif !(line =~ /\A:(\w*)/).nil? && line_marker == 1
         line_marker = 0
         test_section_started = false
@@ -58,7 +59,6 @@ class JavaGradleLogFileAnalyzer < LogFileAnalyzer
 
       if !(line =~ /(\d*) tests completed, (\d*) failed, (\d*) skipped/).nil?
         init_tests
-        @tests_run = true
         @num_tests_run += $1.to_i
         @num_tests_failed += $2.to_i
         @num_tests_skipped += $3.to_i

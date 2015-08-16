@@ -1,4 +1,7 @@
+require 'colorize'
+
 load 'travis_fold.rb'
+
 
 # A language-independent analyzer for travis logfiles
 # Provides basic statistics about any build process on Travis.
@@ -15,16 +18,25 @@ class LogFileAnalyzer
   @folds
   @test_lines
   @analyzer
+  @frameworks
 
   OUT_OF_FOLD = 'out_of_fold'
 
   def initialize(file)
     @folds = Hash.new
     @test_lines = Array.new
+    @frameworks = Array.new
 
     get_build_info(file)
     logFile = File.read(file)
-    logFile = logFile.encode(logFile.encoding, :universal_newline => true)
+    encoding_options = {
+        :invalid           => :replace,  # Replace invalid byte sequences
+        :undef             => :replace,  # Replace anything not defined in ASCII
+        :replace           => '',        # Use a blank for those replacements
+        :universal_newline => true       # Always break lines with \n
+    }
+    logFile = logFile.encode(Encoding.find('ASCII'), encoding_options)
+
     @logFile = logFile.lines
 
     @primary_language = 'unknwon'
@@ -63,6 +75,8 @@ class LogFileAnalyzer
   def split
     currentFold = OUT_OF_FOLD
     @logFile.each do |line|
+      line = line.uncolorize
+
       if !(line =~ /travis_fold:start:([\w\.]*)/).nil?
         currentFold = $1
         next
@@ -95,6 +109,10 @@ class LogFileAnalyzer
     end
   end
 
+  def add_framework framework
+    @frameworks << framework unless @frameworks.include? framework
+  end
+
   # pre-init values so we can sum-up in case of aggregated test sessions (always use calc_ok_tests when you use this)
   def init_tests
     unless @init_tests
@@ -114,18 +132,15 @@ class LogFileAnalyzer
     end
   end
 
-  def print_tests_failed
-    tests_failed.join('#')
-  end
-
   def output
     keys = ['build_id', 'commit', 'build_number', 'lan', 'status', 'setup_time',
-            'analyzer',
+            'analyzer', 'frameworks',
             'tests_run?', 'broke_build', 'ok', 'failed', 'run', 'skipped', 'tests', 'testduration',
             'purebuildduration']
     values = [@build_id, @commit, @build_number, @primary_language, @status, @setup_time_before_build,
-              @analyzer,
-              @tests_run, tests_failed?, @num_tests_ok, @num_tests_failed, @num_tests_run, @num_tests_skipped, print_tests_failed, @test_duration,
+              @analyzer, @frameworks.join('#'),
+              @tests_run, tests_failed?, @num_tests_ok, @num_tests_failed, @num_tests_run,
+              @num_tests_skipped, @tests_failed.join('#'), @test_duration,
               @pure_build_duration]
     Hash[keys.zip values]
   end

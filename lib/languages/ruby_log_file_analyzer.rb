@@ -45,6 +45,9 @@ class RubyLogFileAnalyzer < LogFileAnalyzer
       elsif !(line =~ /\A:(\w*)/).nil? && line_marker == 1
         line_marker = 0
         test_section_started = false
+      elsif !(line =~ /\A:(\d) scenarios?/).nil?
+        line_marker = 2 # cucumber tests do not stop
+        test_section_started = true
       end
 
       if test_section_started
@@ -60,12 +63,15 @@ class RubyLogFileAnalyzer < LogFileAnalyzer
   def analyze_tests
     failed_unit_tests_started = false
     failed_rspec_tests_started = false
+    cucumber_failing_tests_started = false
+    expect_cucumber_time = false
 
     @test_lines.each do |line|
-      # TestUnit
+      # MiniTest and TestUnit
       if !(line =~ /(\d+) runs?, (\d+) assertions, (\d+) failures, (\d+) errors(, (\d+) skips)?/).nil?
         init_tests
         @tests_run = true
+        add_framework 'testunit'
         @num_tests_run += $1.to_i
         @num_tests_failed += $3.to_i + $4.to_i
         @num_tests_skipped += $6.to_i if !$6.nil?
@@ -79,13 +85,14 @@ class RubyLogFileAnalyzer < LogFileAnalyzer
       # shared between TestUnit and RSpec
       if !(line =~ /Finished in (.*)/).nil?
         init_tests
-        @test_duration += convert_testunit_time_to_seconds($1)
+        @test_duration += convert_time_to_seconds($1)
       end
 
       # RSpec
       if !(line =~ /(\d+) examples?, (\d+) failures?(, (\d+) pending)?/).nil?
         init_tests
         @tests_run = true
+        add_framework 'rspec'
         @num_tests_run += $1.to_i
         @num_tests_failed += $2.to_i
         @num_tests_skipped += $4.to_i
@@ -98,15 +105,60 @@ class RubyLogFileAnalyzer < LogFileAnalyzer
           @tests_failed << $1
         end
       end
+
+      # RSpec
+      if !(line =~ /(\d+) examples?, (\d+) failures?(, (\d+) pending)?/).nil?
+        init_tests
+        @tests_run = true
+        add_framework 'rspec'
+        @num_tests_run += $1.to_i
+        @num_tests_failed += $2.to_i
+        @num_tests_skipped += $4.to_i
+      elsif !(line =~ /Failed examples:/).nil?
+        failed_rspec_tests_started = true
+      elsif failed_rspec_tests_started
+        if (line =~ /rspec (.*\.rb):\d+/).nil?
+          failed_rspec_tests_started = false
+        else
+          @tests_failed << $1
+        end
+      end
+
+      # cucumber
+      if !(line =~ /(\d+) scenarios?/).nil?
+        init_tests
+        @tests_run = true
+        add_framework 'cucumber'
+        @num_tests_run += $1.to_i
+        puts line
+        if !(line =~ /\d+ scenarios? \(.*?(\d+) failed, (\d+) passed\)/).nil?
+          puts 'fuck'
+          @num_tests_failed += $1.to_i
+        end
+      elsif !(line =~ /Failing Scenarios:/).nil?
+        cucumber_failing_tests_started = true
+      elsif (cucumber_failing_tests_started)
+        if !(line =~ /cucumber (.*?):(\d*)/).nil?
+          init_tests
+          @tests_failed << $1
+        else
+          cucumber_failing_tests_started = false
+        end
+      elsif !(line =~ /\d steps?/).nil?
+        expect_cucumber_time = true
+      elsif expect_cucumber_time
+        @test_duration += convert_time_to_seconds line
+        expect_cucumber_time = false
+      end
     end
 
     uninit_ok_tests
   end
 end
 
-def convert_testunit_time_to_seconds(string)
-  if !(string =~ /(\d+\.\d*)( )?s/).nil?
-    return $1.to_f.round(2)
+def convert_time_to_seconds(string)
+  if !(string =~ /((\d+)m)?(\d+\.\d*)( )?s/).nil?
+    return $2.to_f * 60 + $3.to_f.round(2)
   end
 end
 

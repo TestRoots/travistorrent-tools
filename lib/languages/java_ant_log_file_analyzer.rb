@@ -57,6 +57,7 @@ class JavaAntLogFileAnalyzer < LogFileAnalyzer
     @test_lines.each do |line|
       if !(line =~ /Tests run: (\d*), Failures: (\d*), Errors: (\d*), (Skipped: (\d*), )?Time elapsed: (.*)/).nil?
         init_tests
+        add_framework 'junit'
         @tests_run = true
         @num_tests_run = $1.to_i
         @num_tests_failed = $2.to_i + $3.to_i

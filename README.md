@@ -27,7 +27,7 @@ Retrieve build logs of 20 GH project simultaneously (beware, depending on your n
 cat travis-enabled | parallel -j 20 --colsep ' ' ruby bin/travis_harvester.rb
 ```
 
-### Extracting features about each build
+### Extracting GitHub features about each build
 
 To extract features for one project, do
 
@@ -50,3 +50,19 @@ Then, run
 this will create a file with tokens equi-distributed to projects
 a directory `data`, and start 4 instanced of the `build_data_extraction.rb` script
 
+
+### Analyzing Buildlogs
+A dispatcher automatically finds the correct buildlog analyzer. You can invoke via
+```ruby
+ruby bin/buildlog_analyzer_dispatcher.rb directory-of-project-to-analyze Language
+```
+
+So, one concrete invokation could be
+```ruby
+ruby bin/buildlog_analyzer_dispatcher.rb TestRoots@watchdog Java
+```
+
+To start to analyze all buildlogs, parallel helps us:
+```bash
+ls build_logs/ | parallel -j 10 --colsep ' ' ruby bin/buildlog_analyzer_dispatcher.rb
+```

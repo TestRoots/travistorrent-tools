@@ -6,17 +6,22 @@ load 'log_file_analyzer.rb'
 load 'languages/java_log_file_analyzer_dispatcher.rb'
 load 'languages/ruby_log_file_analyzer.rb'
 
-if (ARGV[0].nil? || ARGV[1].nil?)
+
+def array_of_hashes_to_csv(array_of_hashes)
+  CSV.generate do |csv|
+    csv << array_of_hashes.first.keys
+    array_of_hashes.each { |hash| csv << hash.values }
+  end
+end
+
+if (ARGV[0].nil?)
   puts 'Missing argument(s)!'
   puts ''
-  puts 'usage: buildlog_analyzer_dispatcher.rb directory lang'
+  puts 'usage: buildlog_analyzer_dispatcher.rb directory'
   exit(1)
 end
 
-
 directory = ARGV[0]
-lang = ARGV[1]
-
 results = Array.new
 
 # dir foreach is much faster than Dir.glob, because the latter builds an array of matched files up-front
@@ -24,9 +29,15 @@ Dir.foreach(directory) do |logfile|
   next if logfile == '.' or logfile == '..' or File.extname(logfile) != '.log'
 
   file = "#{directory}/#{logfile}"
-  if lang == 'Ruby'
+
+  base = LogFileAnalyzer.new file
+  base.split
+  base.anaylze_primary_language
+  lang = base.primary_language.downcase
+
+  if lang == 'ruby'
     analyzer = RubyLogFileAnalyzer.new file
-  elsif lang == 'Java'
+  elsif lang == 'java'
     analyzer = JavaLogFileAnalyzerDispatcher.new file
   else
     next
@@ -36,16 +47,10 @@ Dir.foreach(directory) do |logfile|
   results << analyzer.output
 end
 
-def array_of_hashes_to_csv(array_of_hashes)
-  CSV.generate do |csv|
-    csv << array_of_hashes.first.keys
-    array_of_hashes.each { |hash| csv << hash.values }
-  end
-end
 
 if !results.empty?
   csv = array_of_hashes_to_csv results
-  File.open("#{directory}/repo-data-travis.csv", 'w') { |file|
+  File.open("#{directory}/buildlog-data-travis.csv", 'w') { |file|
     file.puts csv
   }
 end
