@@ -30,27 +30,27 @@ puts "Starting to analyze buildlogs from #{ARGV[0]} ..."
 Dir.foreach(directory) do |logfile|
   next if logfile == '.' or logfile == '..' or File.extname(logfile) != '.log'
 
-  begin
-    file = "#{directory}/#{logfile}"
+  # begin
+  file = "#{directory}/#{logfile}"
 
-    analyzer = LogFileAnalyzer.new file
-    analyzer.split
-    analyzer.analyze_primary_language
-    lang = analyzer.primary_language.downcase
+  analyzer = LogFileAnalyzer.new file
+  analyzer.split
+  analyzer.analyze_primary_language
+  lang = analyzer.primary_language.downcase
 
-    if lang == 'ruby'
-      analyzer = RubyLogFileAnalyzer.new file
-    elsif lang == 'java'
-      analyzer = JavaLogFileAnalyzerDispatcher.new file, analyzer.logFile
-    else
-      next
-    end
-
-    analyzer.analyze
-    results << analyzer.output
-  rescue Exception => e
-    puts "Error analyzing #{logfile}, rescued: #{e}"
+  if lang == 'ruby'
+    analyzer = RubyLogFileAnalyzer.new file
+  elsif lang == 'java'
+    analyzer = JavaLogFileAnalyzerDispatcher.new file, analyzer.logFile
+  else
+    next
   end
+
+  analyzer.analyze
+  results << analyzer.output
+  #rescue Exception => e
+  #  puts "Error analyzing #{logfile}, rescued: #{e}"
+  #end
 end
 
 if !results.empty?

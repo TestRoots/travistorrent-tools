@@ -161,6 +161,7 @@ def convert_time_to_seconds(string)
   if !(string =~ /((\d+)m)?(\d+\.\d*)( )?s/).nil?
     return $2.to_f * 60 + $3.to_f.round(2)
   end
+  return 0
 end
 
 def getOffendingTests

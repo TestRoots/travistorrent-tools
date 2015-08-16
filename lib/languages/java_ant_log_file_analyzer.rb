@@ -45,6 +45,7 @@ class JavaAntLogFileAnalyzer < LogFileAnalyzer
     elsif !(string =~ /(\d+):(\d+) min/).nil?
       return $1.to_i * 60 + $2.to_i
     end
+    return 0
   end
 
   def extractTestName(string)

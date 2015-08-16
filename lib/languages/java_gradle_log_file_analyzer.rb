@@ -84,6 +84,7 @@ class JavaGradleLogFileAnalyzer < LogFileAnalyzer
     if !(string =~ /((\d+) mins)? (\d+)(\.\d+) secs/).nil?
       return $2.to_i * 60 + $3.to_i
     end
+    return 0
   end
 
   def getOffendingTests
