@@ -132,11 +132,11 @@ class LogFileAnalyzer
   end
 
   def output
-    keys = ['build_id', 'commit', 'build_number', 'lan', 'status', 'setup_time',
+    keys = ['build_number', 'commit', 'build_id', 'lan', 'status', 'setup_time',
             'analyzer', 'frameworks',
             'tests_run?', 'tests_failed?', 'ok', 'failed', 'run', 'skipped', 'tests', 'testduration',
             'purebuildduration']
-    values = [@build_id, @commit, @build_number, @primary_language, @status, @setup_time_before_build,
+    values = [@build_number, @commit, @build_id, @primary_language, @status, @setup_time_before_build,
               @analyzer, @frameworks.join('#'),
               @tests_run, tests_failed?, @num_tests_ok, @num_tests_failed, @num_tests_run,
               @num_tests_skipped, @tests_failed.join('#'), @test_duration,
