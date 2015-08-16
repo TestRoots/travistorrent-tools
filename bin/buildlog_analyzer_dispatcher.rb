@@ -24,6 +24,8 @@ end
 directory = ARGV[0]
 results = Array.new
 
+puts "Starting to analyze buildlogs from #{ARGV[0]} ..."
+
 # dir foreach is much faster than Dir.glob, because the latter builds an array of matched files up-front
 Dir.foreach(directory) do |logfile|
   next if logfile == '.' or logfile == '..' or File.extname(logfile) != '.log'
