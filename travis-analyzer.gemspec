@@ -15,6 +15,8 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
   gem.version       = 0.1
 
+  gem.required_ruby_version = '= 1.9.3'
+
   gem.add_dependency "sequel", ['>= 3.35']
   gem.add_dependency "github-linguist", ['>= 4.5']
   gem.add_dependency "rugged", ['>= 0.22']
@@ -24,5 +26,5 @@ Gem::Specification.new do |gem|
   gem.add_dependency 'trollop', ['>= 2.1.2']
   gem.add_dependency 'mysql2', ['>= 0.3']
   gem.add_dependency 'travis', ['>= 1.7','< 1.9']
-
+  gem.add_dependency 'colorize', ['>= 0.7']
 end

@@ -27,7 +27,7 @@ Retrieve build logs of 20 GH project simultaneously (beware, depending on your n
 cat travis-enabled | parallel -j 20 --colsep ' ' ruby bin/travis_harvester.rb
 ```
 
-### Extracting features about each build
+### Extracting GitHub features about each build
 
 To extract features for one project, do
 
@@ -49,4 +49,50 @@ Then, run
 
 this will create a file with tokens equi-distributed to projects
 a directory `data`, and start 4 instanced of the `build_data_extraction.rb` script
+
+
+### Analyzing Buildlogs
+Our buildlog dispatcher handles everything that you typically want: It generates on convenient CSV per project directory, and invokes an automatically dispatched correct buildlog analyzer. You can start the per-project analysis (typically on a directory structured checkedout through travis-harvester) via
+```ruby
+ruby bin/buildlog_analyzer_dispatcher.rb directory-of-project-to-analyze 
+```
+
+
+To start to analyze all buildlogs, parallel helps us again:
+```bash
+ls build_logs | parallel -j 5 ruby bin/buildlog_analyzer_dispatcher.rb "build_logs/{}"
+```
+
+
+###Travis Breaking the Build
+http://docs.travis-ci.com/user/customizing-the-build/
+
+broken <- (errored|failed)
+errored <- infrastructure
+failed <- tests
+canceled <- user abort
+
+-----------------------------------------------
+
+Breaking the Build #
+
+If any of the commands in the first four stages returns a non-zero exit code, Travis CI considers the build to be broken.
+
+When any of the steps in the before_install, install or before_script stages fails with a non-zero exit code, the build is marked as errored.
+
+When any of the steps in the script stage fails with a non-zero exit code, the build is marked as failed.
+
+Note that the script section has different semantics to the other steps. When a step defined in script fails, the build doesn’t end right away, it continues to run the remaining steps before it fails the build.
+
+Currently, neither the after_success nor after_failure have any influence on the build result. We have plans to change this behaviour
+
+before_install -> errored
+install -> errored
+before_script  -> errored
+script -> failed
+after_success or after_failure
+after_script
+OPTIONAL before_deploy
+OPTIONAL deploy
+OPTIONAL after_deploy
 

@@ -1,0 +1,139 @@
+Using worker: worker-linux-4-1.bb.travis-ci.org:travis-linux-2
+
+travis_fold:start:git.1
+$ git clone --depth=50 --branch=master git://github.com/mplacona/java-junit-template-project.git mplacona/java-junit-template-project
+Cloning into 'mplacona/java-junit-template-project'...
+remote: Counting objects: 48, done.[K
+remote: Compressing objects:   3% (1/33)   [K
+remote: Compressing objects:   6% (2/33)   [K
+remote: Compressing objects:   9% (3/33)   [K
+remote: Compressing objects:  12% (4/33)   [K
+remote: Compressing objects:  15% (5/33)   [K
+remote: Compressing objects:  18% (6/33)   [K
+remote: Compressing objects:  21% (7/33)   [K
+remote: Compressing objects:  24% (8/33)   [K
+remote: Compressing objects:  27% (9/33)   [K
+remote: Compressing objects:  30% (10/33)   [K
+remote: Compressing objects:  33% (11/33)   [K
+remote: Compressing objects:  36% (12/33)   [K
+remote: Compressing objects:  39% (13/33)   [K
+remote: Compressing objects:  42% (14/33)   [K
+remote: Compressing objects:  45% (15/33)   [K
+remote: Compressing objects:  48% (16/33)   [K
+remote: Compressing objects:  51% (17/33)   [K
+remote: Compressing objects:  54% (18/33)   [K
+remote: Compressing objects:  57% (19/33)   [K
+remote: Compressing objects:  60% (20/33)   [K
+remote: Compressing objects:  63% (21/33)   [K
+remote: Compressing objects:  66% (22/33)   [K
+remote: Compressing objects:  69% (23/33)   [K
+remote: Compressing objects:  72% (24/33)   [K
+remote: Compressing objects:  75% (25/33)   [K
+remote: Compressing objects:  78% (26/33)   [K
+remote: Compressing objects:  81% (27/33)   [K
+remote: Compressing objects:  84% (28/33)   [K
+remote: Compressing objects:  87% (29/33)   [K
+remote: Compressing objects:  90% (30/33)   [K
+remote: Compressing objects:  93% (31/33)   [K
+remote: Compressing objects:  96% (32/33)   [K
+remote: Compressing objects: 100% (33/33)   [K
+remote: Compressing objects: 100% (33/33), done.[K
+Receiving objects:   2% (1/48)   
+Receiving objects:   4% (2/48)   
+Receiving objects:   6% (3/48)   
+Receiving objects:   8% (4/48)   
+Receiving objects:  10% (5/48)   
+Receiving objects:  12% (6/48)   
+Receiving objects:  14% (7/48)   
+Receiving objects:  16% (8/48)   
+Receiving objects:  18% (9/48)   
+Receiving objects:  20% (10/48)   
+Receiving objects:  22% (11/48)   
+Receiving objects:  25% (12/48)   
+Receiving objects:  27% (13/48)   
+Receiving objects:  29% (14/48)   
+Receiving objects:  31% (15/48)   
+Receiving objects:  33% (16/48)   
+Receiving objects:  35% (17/48)   
+Receiving objects:  37% (18/48)   
+Receiving objects:  39% (19/48)   
+Receiving objects:  41% (20/48)   
+Receiving objects:  43% (21/48)   
+Receiving objects:  45% (22/48)   
+Receiving objects:  47% (23/48)   
+Receiving objects:  50% (24/48)   
+remote: Total 48 (delta 10), reused 45 (delta 7)[K
+Receiving objects:  52% (25/48)   
+Receiving objects:  54% (26/48)   
+Receiving objects:  56% (27/48)   
+Receiving objects:  58% (28/48)   
+Receiving objects:  60% (29/48)   
+Receiving objects:  62% (30/48)   
+Receiving objects:  64% (31/48)   
+Receiving objects:  66% (32/48)   
+Receiving objects:  68% (33/48)   
+Receiving objects:  70% (34/48)   
+Receiving objects:  72% (35/48)   
+Receiving objects:  75% (36/48)   
+Receiving objects:  77% (37/48)   
+Receiving objects:  79% (38/48)   
+Receiving objects:  81% (39/48)   
+Receiving objects:  83% (40/48)   
+Receiving objects:  85% (41/48)   
+Receiving objects:  87% (42/48)   
+Receiving objects:  89% (43/48)   
+Receiving objects:  91% (44/48)   
+Receiving objects:  93% (45/48)   
+Receiving objects:  95% (46/48)   
+Receiving objects:  97% (47/48)   
+Receiving objects: 100% (48/48)   
+Receiving objects: 100% (48/48), 255.86 KiB | 0 bytes/s, done.
+Resolving deltas:   0% (0/10)   
+Resolving deltas:  60% (6/10)   
+Resolving deltas: 100% (10/10)   
+Resolving deltas: 100% (10/10), done.
+travis_fold:end:git.1
+$ cd mplacona/java-junit-template-project
+travis_fold:start:git.2
+$ git checkout -qf a5a4b8cc2f139d68f28047745e85c4ad4cc0cffb
+travis_fold:end:git.2
+$ jdk_switcher use oraclejdk7
+Switching to Oracle JDK7 (java-7-oracle), JAVA_HOME will be set to /usr/lib/jvm/java-7-oracle
+update-alternatives: error: no alternatives for apt.
+update-alternatives: error: no alternatives for apt.
+$ java -version
+java version "1.7.0_25"
+Java(TM) SE Runtime Environment (build 1.7.0_25-b15)
+Java HotSpot(TM) 64-Bit Server VM (build 23.25-b01, mixed mode)
+$ javac -version
+javac 1.7.0_25
+$ ant test
+Buildfile: /home/travis/build/mplacona/java-junit-template-project/build.xml
+
+compile:
+    [mkdir] Created dir: /home/travis/build/mplacona/java-junit-template-project/build/main
+    [javac] Compiling 1 source file to /home/travis/build/mplacona/java-junit-template-project/build/main
+
+build:
+    [mkdir] Created dir: /home/travis/build/mplacona/java-junit-template-project/build/test
+    [javac] Compiling 1 source file to /home/travis/build/mplacona/java-junit-template-project/build/test
+     [echo] Build done
+
+run:
+    [junit] Running helloWorld.HelloWorldTest
+    [junit] Testsuite: helloWorld.HelloWorldTest
+    [junit] Tests run: 1, Failures: 0, Errors: 0, Time elapsed: 0.017 sec
+    [junit] Tests run: 1, Failures: 0, Errors: 0, Time elapsed: 0.017 sec
+    [junit] 
+
+clean:
+     [echo] clean done
+
+test:
+
+BUILD SUCCESSFUL
+Total time: 2 seconds
+
+The command "ant test" exited with 0.
+
+Done. Your build exited with 0.
