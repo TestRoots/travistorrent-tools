@@ -168,7 +168,7 @@ usage:
 
     contents = nil
     begin
-      r = open(url, 'User-Agent' => 'ghtorrent', :http_basic_authentication => [@token, 'x-oauth-basic'])
+      r = open(url, 'User-Agent' => 'ghtorrent', 'Authorization' => "token #{@token}") 
       @remaining = r.meta['x-ratelimit-remaining'].to_i
       @reset = r.meta['x-ratelimit-reset'].to_i
       contents = r.read
