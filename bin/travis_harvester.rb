@@ -59,9 +59,9 @@ def get_travis(repo)
       }
 
     end
+    # TODO MMB open builds file in append mode?
     builds = builds.select { |x| !x.nil? }.flatten
     File.open(save_file, 'w') { |f| f.puts builds.to_json }
-    builds
   end
 rescue Exception => e
   error_message = "Error getting Travis builds for #{repo}: #{e.message}"
