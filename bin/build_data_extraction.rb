@@ -457,7 +457,7 @@ usage:
     sloc = src_lines(build[:commit])
 
     if sloc == 0 then
-      raise Exception.new("Bad src lines: 0, build: #{build[:build_id]}")
+      raise StandardError.new("Bad src lines: 0, build: #{build[:build_id]}")
     end
 
     months_back = 3
