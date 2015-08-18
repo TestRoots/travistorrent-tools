@@ -2,12 +2,12 @@ require 'travis'
 require 'net/http'
 require 'csv'
 
-def is_project_active_on_travis(repo)
+def travis_builds_for_project(repo)
   begin
     repository = Travis::Repository.find(repo)
-    return repository.last_build_number.to_i >= 100
+    return repository.last_build_number.to_i
   rescue Exception => e
-    return false
+    return 0
   end
 end
 
@@ -17,7 +17,7 @@ def analyze_projects_on_travis
   File.open('results.csv', 'w') { |file|
     CSV.foreach(ARGV[0]) do |row|
       curRow = row
-      curRow << is_project_active_on_travis("#{row[0]}/#{row[1]}").to_s
+      curRow << travis_builds_for_project("#{row[0]}/#{row[1]}").to_s
       file.write(curRow.to_csv)
       i += 1
       file.flush if i%50 == 0
