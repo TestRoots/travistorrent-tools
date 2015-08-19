@@ -72,11 +72,15 @@ def get_travis(repo)
           File.open(save_file, 'a') { |f| f.puts array_of_hashes_to_csv_without_header build_data }
         end
       rescue Exception => e
-        error_message = "Error getting Travis builds for #{repo}: #{e.message}"
+        error_message = "Error getting Travis builds for #{repo} #{build.id}: #{e.message}"
         puts error_message
         File.open(error_file, 'a') { |f| f.puts error_message }
       end
     end
+  rescue Exception => e
+    error_message = "Error getting Travis builds for #{repo}: #{e.message}"
+    puts error_message
+    File.open(error_file, 'a') { |f| f.puts error_message }
   end
 end
 
