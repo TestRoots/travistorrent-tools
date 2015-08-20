@@ -6,7 +6,7 @@ load 'lib/travis_fold.rb'
 # A language-independent analyzer for travis logfiles
 # Provides basic statistics about any build process on Travis.
 class LogFileAnalyzer
-  attr_reader :build_number, :build_id, :commit
+  attr_reader :build_id, :job_id, :commit
 
   attr_reader :logFile
   attr_reader :status, :primary_language
@@ -47,7 +47,7 @@ class LogFileAnalyzer
   end
 
   def get_build_info(file)
-    @build_number, @commit, @build_id = File.basename(file, '.log').split('_')
+    @build_id, @commit, @job_id = File.basename(file, '.log').split('_')
   end
 
   def anaylze_status
@@ -140,11 +140,11 @@ class LogFileAnalyzer
   end
 
   def output
-    keys = ['build_number', 'commit', 'build_id', 'lan', 'status', 'setup_time',
+    keys = ['build_number', 'commit', 'job_id', 'lan', 'status', 'setup_time',
             'analyzer', 'frameworks',
             'tests_run?', 'tests_failed?', 'ok', 'failed', 'run', 'skipped', 'failed_tests', 'testduration',
             'purebuildduration']
-    values = [@build_number, @commit, @build_id, @primary_language, @status, @setup_time_before_build,
+    values = [@build_id, @commit, @job_id, @primary_language, @status, @setup_time_before_build,
               @analyzer, @frameworks.join('#'),
               @tests_run, tests_failed?, @num_tests_ok, @num_tests_failed, @num_tests_run,
               @num_tests_skipped, @tests_failed.join('#'), @test_duration,

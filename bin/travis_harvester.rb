@@ -20,7 +20,7 @@ def get_travis(repo)
       begin
         jobs = build.jobs
         jobs.each do |job|
-          name = File.join(parent_dir, build.number + '_' + build.commit.sha + '_' + job.id.to_s + '.log')
+          name = File.join(parent_dir, build.id + '_' + build.commit.sha + '_' + job.id.to_s + '.log')
           next if File.exists?(name)
 
           begin
