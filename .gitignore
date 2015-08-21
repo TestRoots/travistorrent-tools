@@ -42,3 +42,6 @@ build/
 .DS_Store
 *~
 .Rproj.user
+.RData
+.Rhistory
+
