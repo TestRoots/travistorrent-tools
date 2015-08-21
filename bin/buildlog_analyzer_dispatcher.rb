@@ -5,14 +5,8 @@ require 'csv'
 load 'lib/log_file_analyzer.rb'
 load 'lib/languages/java_log_file_analyzer_dispatcher.rb'
 load 'lib/languages/ruby_log_file_analyzer.rb'
+load 'lib/csv_helper.rb'
 
-
-def array_of_hashes_to_csv(array_of_hashes)
-  CSV.generate do |csv|
-    csv << array_of_hashes.first.keys
-    array_of_hashes.each { |hash| csv << hash.values }
-  end
-end
 
 if (ARGV[0].nil?)
   puts 'Missing argument(s)!'
@@ -30,27 +24,27 @@ puts "Starting to analyze buildlogs from #{ARGV[0]} ..."
 Dir.foreach(directory) do |logfile|
   next if logfile == '.' or logfile == '..' or File.extname(logfile) != '.log'
 
-  # begin
-  file = "#{directory}/#{logfile}"
+  begin
+    file = "#{directory}/#{logfile}"
 
-  analyzer = LogFileAnalyzer.new file
-  analyzer.split
-  analyzer.analyze_primary_language
-  lang = analyzer.primary_language.downcase
+    analyzer = LogFileAnalyzer.new file
+    analyzer.split
+    analyzer.analyze_primary_language
+    lang = analyzer.primary_language.downcase
 
-  if lang == 'ruby'
-    analyzer = RubyLogFileAnalyzer.new file
-  elsif lang == 'java'
-    analyzer = JavaLogFileAnalyzerDispatcher.new file, analyzer.logFile
-  else
-    next
+    if lang == 'ruby'
+      analyzer = RubyLogFileAnalyzer.new file
+    elsif lang == 'java'
+      analyzer = JavaLogFileAnalyzerDispatcher.new file, analyzer.logFile
+    else
+      next
+    end
+
+    analyzer.analyze
+    results << analyzer.output
+  rescue Exception => e
+    puts "Error analyzing #{logfile}, rescued: #{e}"
   end
-
-  analyzer.analyze
-  results << analyzer.output
-  #rescue Exception => e
-  #  puts "Error analyzing #{logfile}, rescued: #{e}"
-  #end
 end
 
 if !results.empty?
