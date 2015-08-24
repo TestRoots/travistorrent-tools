@@ -45,4 +45,4 @@ build/
 .Rproj.user
 .RData
 .Rhistory
-
+.*.Rproj
