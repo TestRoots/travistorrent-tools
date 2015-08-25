@@ -58,7 +58,7 @@ def get_travis(repo)
             build.duration,
             build.started_at,
             build.jobs.map { |x| x.id },
-            build.jobs.map { |x| "#{x.id}:#{x.duration}"}
+            build.jobs.map { |x| "#{x.id}##{x.duration}"}
         ]
         build_data = Array.new
         build_data << Hash[keys.zip values]
