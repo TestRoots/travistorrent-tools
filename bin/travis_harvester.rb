@@ -48,7 +48,7 @@ def get_travis(repo)
           end
         end
 
-        keys = ['build_id', 'commit', 'pull_req', 'branch', 'status', 'duration', 'started_at', 'jobs']
+        keys = ['build_id', 'commit', 'pull_req', 'branch', 'status', 'duration', 'started_at', 'jobs', 'jobduration']
         values = [
             build.id,
             build.commit.sha,
@@ -57,7 +57,8 @@ def get_travis(repo)
             build.state,
             build.duration,
             build.started_at,
-            build.jobs.map { |x| x.id }
+            build.jobs.map { |x| x.id },
+            build.jobs.map { |x| "#{x.id}:#{x.duration}"}
         ]
         build_data = Array.new
         build_data << Hash[keys.zip values]
