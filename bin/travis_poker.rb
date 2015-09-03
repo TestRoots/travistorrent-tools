@@ -1,3 +1,8 @@
+# (c) 2015 -- onwards Moritz Beller <moritz.beller@gmail.com>
+#
+# MIT licensed -- see top level dir
+
+
 require 'travis'
 require 'net/http'
 require 'csv'

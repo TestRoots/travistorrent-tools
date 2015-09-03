@@ -1,8 +1,7 @@
-#!/usr/bin/env ruby
 #
 # (c) 2012 -- 2015 Georgios Gousios <gousiosg@gmail.com>
 #
-# MIT licensed, see LICENSE in top level dir
+# MIT licensed -- see top level dir
 
 require 'time'
 require 'linguist'

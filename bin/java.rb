@@ -1,6 +1,7 @@
 #
 # (c) 2012 -- 2015 Georgios Gousios <gousiosg@gmail.com>
 #
+# MIT licensed -- see top level dir
 
 require 'comment_stripper'
 

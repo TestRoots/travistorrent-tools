@@ -1,3 +1,8 @@
+# (c) 2015 -- onwards Moritz Beller <moritz.beller@gmail.com>
+#
+# MIT licensed -- see top level dir
+
+
 # Supports TestUnit and RSPEC
 class RubyLogFileAnalyzer < LogFileAnalyzer
   attr_reader :tests_failed, :test_duration, :reactor_lines, :pure_build_duration

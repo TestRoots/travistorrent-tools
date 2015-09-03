@@ -1,3 +1,8 @@
+# (c) 2015 -- onwards Moritz Beller <moritz.beller@gmail.com>
+#
+# MIT licensed -- see top level dir
+
+
 # Supports any test execution with Gradle
 class JavaGradleLogFileAnalyzer < LogFileAnalyzer
   attr_reader :tests_failed, :test_duration, :reactor_lines, :pure_build_duration

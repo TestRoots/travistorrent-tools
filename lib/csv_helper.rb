@@ -1,3 +1,8 @@
+# (c) 2015 -- onwards Moritz Beller <moritz.beller@gmail.com>
+#
+# MIT licensed -- see top level dir
+
+
 require 'csv'
 
 def array_of_hashes_to_csv_without_header(array_of_hashes)

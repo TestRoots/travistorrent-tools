@@ -1,3 +1,8 @@
+# (c) 2015 -- onwards Moritz Beller <moritz.beller@gmail.com>
+#
+# MIT licensed -- see top level dir
+
+
 load 'lib/languages/java_ant_log_file_analyzer.rb'
 load 'lib/languages/java_maven_log_file_analyzer.rb'
 load 'lib/languages/java_gradle_log_file_analyzer.rb'

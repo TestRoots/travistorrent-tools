@@ -1,3 +1,8 @@
+# (c) 2015 -- onwards Moritz Beller <moritz.beller@gmail.com>
+#
+# MIT licensed -- see top level dir
+
+
 # Supports any test execution with Maven
 class JavaAntLogFileAnalyzer < LogFileAnalyzer
   attr_reader :tests_failed, :pure_build_duration

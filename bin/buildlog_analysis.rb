@@ -1,4 +1,10 @@
-#!/usr/local/bin/ruby
+#!/usr/bin/env ruby
+
+
+# (c) 2015 -- onwards Moritz Beller <moritz.beller@gmail.com>
+#
+# MIT licensed -- see top level dir
+
 
 
 load 'lib/log_file_analyzer.rb'

@@ -1,9 +1,7 @@
-#!/bin/bash
 #
-# (c) 2012 -- 2014 Georgios Gousios <gousiosg@gmail.com>
+# (c) 2012 -- 2015 Georgios Gousios <gousiosg@gmail.com>
 #
-# BSD licensed, see LICENSE in top level dir
-#
+# MIT licensed -- see top level dir
 
 parallel=1
 dir='.'

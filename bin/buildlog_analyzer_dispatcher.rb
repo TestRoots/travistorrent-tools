@@ -1,3 +1,8 @@
+# (c) 2015 -- onwards Moritz Beller <moritz.beller@gmail.com>
+#
+# MIT licensed -- see top level dir
+
+
 # Receives the language and a project directory and tries to dispatch the analysis of the logfiles to the correct
 # analyzers
 require 'csv'
