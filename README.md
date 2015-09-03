@@ -84,15 +84,5 @@ When any of the steps in the script stage fails with a non-zero exit code, the b
 
 Note that the script section has different semantics to the other steps. When a step defined in script fails, the build doesn’t end right away, it continues to run the remaining steps before it fails the build.
 
-Currently, neither the after_success nor after_failure have any influence on the build result. We have plans to change this behaviour
-
-before_install -> errored
-install -> errored
-before_script  -> errored
-script -> failed
-after_success or after_failure
-after_script
-OPTIONAL before_deploy
-OPTIONAL deploy
-OPTIONAL after_deploy
+Currently, neither the after_success nor after_failure have any influence on the build result. Travis have plans to change this behaviour
 
