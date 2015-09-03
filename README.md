@@ -62,27 +62,3 @@ To start to analyze all buildlogs, parallel helps us again:
 ```bash
 ls build_logs | parallel -j 5 ruby bin/buildlog_analyzer_dispatcher.rb "build_logs/{}"
 ```
-
-
-###Travis Breaking the Build
-http://docs.travis-ci.com/user/customizing-the-build/
-
-broken <- (errored|failed)
-errored <- infrastructure
-failed <- tests
-canceled <- user abort
-
------------------------------------------------
-
-Breaking the Build #
-
-If any of the commands in the first four stages returns a non-zero exit code, Travis CI considers the build to be broken.
-
-When any of the steps in the before_install, install or before_script stages fails with a non-zero exit code, the build is marked as errored.
-
-When any of the steps in the script stage fails with a non-zero exit code, the build is marked as failed.
-
-Note that the script section has different semantics to the other steps. When a step defined in script fails, the build doesn’t end right away, it continues to run the remaining steps before it fails the build.
-
-Currently, neither the after_success nor after_failure have any influence on the build result. Travis have plans to change this behaviour
-
