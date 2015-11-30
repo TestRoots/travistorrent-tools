@@ -33,6 +33,8 @@ Dir.foreach(directory) do |logfile|
     lang = analyzer.primary_language.downcase
 
     if lang == 'ruby'
+      # add load directive
+      # modify ruby log file analyzer such that it extends the methods that we call here
       analyzer = RubyLogFileAnalyzer.new file
     elsif lang == 'java'
       analyzer = JavaLogFileAnalyzerDispatcher.new file, analyzer.logFile
