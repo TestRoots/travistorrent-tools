@@ -346,7 +346,7 @@ deivid-rodriguez byebug
 mybatis mybatis-3
 zeromq pyzmq
 jmettraux rufus-scheduler
-SiCKRAGETV SickRage
+SickRage SickRage
 thoughtbot factory_girl_rails
 tinkerpop blueprints
 dropwizard metrics
