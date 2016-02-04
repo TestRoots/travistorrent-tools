@@ -236,14 +236,6 @@ usage:
         self.extend(RubyData)
       when /java/i then
         self.extend(JavaData)
-      when /scala/i then
-        self.extend(ScalaData)
-      when /javascript/i then
-        self.extend(JavascriptData)
-      when /c/i then
-        self.extend(CData)
-      when /python/i then
-        self.extend(PythonData)
     end
 
     @builds = builds(owner, repo)
@@ -431,6 +423,66 @@ usage:
     @builds = @builds.select{|b| !@build_stats.find{|bd| bd[:build_id] == b[:build_id]}.nil?}
     STDERR.puts "After calculating build stats: #{@builds.size} builds for #{owner}/#{repo}"
 
+    # Find push events for commits that triggered builds:
+    # For builds that are triggered from PRs, we need to find the push
+    # events in the source repositories. All the remaining builds are
+    # from pushes to local repository branches
+    forks = @builds.select{|b| not b[:pull_req].nil?}.map do |b|
+      # Resolve PR object
+      pr = mongo['pull_requests'].find_one({'owner'  => owner,
+                                            'repo'   => repo,
+                                            'number' => b[:pull_req]})
+      next if pr.nil?
+
+      head_owner = pr['head']['user']['login']
+      head_repo = pr['head']['repo']['name']
+      {:owner => head_owner, :repo => head_repo}
+    end.select{|x| !x.nil?}
+
+    all_repos = (forks << {:owner => owner, :repo => repo}).uniq
+    STDERR.puts "#{all_repos.size} repos to retrieve push events for"
+
+    commit_push_info =
+        all_repos.map do |repo|
+          STDERR.puts "Retrieving push events for #{repo[:owner]}/#{repo[:repo]}"
+          mongo['events'].find({'repo.name' => "#{repo[:owner]}/#{repo[:repo]}",
+                                'type' => 'PushEvent'}).reduce([]) do |acc, push|
+            # Produce a list of commit object information
+            push['payload']['commits'].reduce([]) do |acc1, commit|
+              acc1 << {:sha => commit['sha'],
+                       :pushed_at => Time.parse(push['created_at']),
+                       :push_id => push['id']}
+            end.each { |c| acc = acc + [c] }
+            acc
+          end
+        end.\
+        flatten.\
+         # Gather all appearences of a commit in a list per commit
+        group_by { |x| x[:sha] }.\
+        # Find the first appearence of each commit
+        reduce({}) do |acc, commit_group|
+          # sort all commit appearences in decenting order and get the earliest one
+          first_appearence = commit_group[1].sort { |a, b| a[:pushed_at] <=> b[:pushed_at] }.first
+          acc.merge({commit_group[0] => [first_appearence[:pushed_at], first_appearence[:push_id]]})
+        end
+
+
+    # join build info with commit push info
+    @builds.map do |build|
+      push_info = commit_push_info[build[:commit]]
+      unless push_info.nil?
+        build[:commit_pushed_at] = commit_push_info[build[:commit]][0]
+        build[:push_id] = commit_push_info[build[:commit]][1]
+      else
+        build[:commit_pushed_at] = commit_push_info[build[:commit]]
+      end
+    end
+
+    neg_latency = @builds.select{|x| (not x[:commit_pushed_at].nil?) and (x[:commit_pushed_at] > x[:started_at])}
+    no_push = @builds.select{|x| x[:commit_pushed_at].nil?}
+    STDERR.puts "#{neg_latency.size} builds have negative latency"
+    STDERR.puts "#{no_push.size} builds have no push info"
+
     results = Parallel.map(@builds, :in_threads => threads) do |build|
       begin
         r = process_build(build, owner, repo, language.downcase)
@@ -511,9 +563,9 @@ usage:
         :asserts_per_kloc         => (num_assertions(build[:commit]).to_f / sloc.to_f) * 1000,
 
         :main_team_member         => (committers - main_team).empty?,
-        :description_complexity   => if is_pr then description_complexity(build) else nil end
-        #:workload                => workload(owner, repo, build)
-        # :ci_latency             => ci_latency(build) # TODO time between push even for triggering commit and build time
+        :description_complexity   => if is_pr then description_complexity(build) else nil end,
+        #:workload                 => if is_pr then workload(owner, repo, build) else nil end,
+        :ci_latency               => (build[:started_at] - build[:commit_pushed_at]).to_i
     }
   end
 
@@ -688,16 +740,6 @@ usage:
   # creation.
   def main_team(owner, repo, build, months_back)
     (committer_team(owner, repo, build, months_back) + merger_team(owner, repo, build, months_back)).uniq
-  end
-
-  # Time between PR arrival and last CI run
-  def ci_latency(pr)
-    last_run = travis.find_all { |b| b[:pull_req] == pr[:github_id] }.sort_by { |x| Time.parse(x[:finished_at]).to_i }[-1]
-    unless last_run.nil?
-      Time.parse(last_run[:finished_at]) - pr[:created_at]
-    else
-      -1
-    end
   end
 
   # Total number of words in the pull request title and description
