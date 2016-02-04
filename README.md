@@ -42,9 +42,8 @@ To extract features for multiple projects in parallel, you need
 * A file (`token-list`) of one or more Github tokens, one token per line
 
 Then, run
-```ruby
-./bin/project_token.rb project-list token-list | sort -R > projects-tokens
-./bin/all_projects.sh -p 4 -d data projects-tokens
+```bash
+./bin/all_projects.sh -p 4 -d data project-list token-list
 ```
 
 this will create a file with tokens equi-distributed to projects
