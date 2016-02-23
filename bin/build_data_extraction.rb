@@ -445,16 +445,24 @@ usage:
     commit_push_info =
         all_repos.map do |repo|
           STDERR.puts "Retrieving push events for #{repo[:owner]}/#{repo[:repo]}"
-          mongo['events'].find({'repo.name' => "#{repo[:owner]}/#{repo[:repo]}",
-                                'type' => 'PushEvent'}).reduce([]) do |acc, push|
-            # Produce a list of commit object information
-            push['payload']['commits'].reduce([]) do |acc1, commit|
-              acc1 << {:sha => commit['sha'],
-                       :pushed_at => Time.parse(push['created_at']),
-                       :push_id => push['id']}
-            end.each { |c| acc = acc + [c] }
-            acc
+          repo_commits = []
+          push_events_processed = 0
+          mongo['events'].find({'repo.name' => "#{repo[:owner]}/#{repo[:repo]}", 'type' => 'PushEvent'},
+                               :timeout => false, :batch_size => 10) do |cursor|
+            # Produce a list of commit object information items
+            while cursor.has_next?
+              push = cursor.next
+              push['payload']['commits'].each do |commit|
+                repo_commits << {:sha => commit['sha'],
+                                 :pushed_at => Time.parse(push['created_at']),
+                                 :push_id => push['id']}
+                push_events_processed += 1
+                STDERR.write "\rPush event: #{push['id']}, total: #{push_events_processed}"
+              end
+            end
           end
+          STDERR.puts
+          repo_commits
         end.\
         flatten.\
          # Gather all appearences of a commit in a list per commit
