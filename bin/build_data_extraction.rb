@@ -433,6 +433,8 @@ usage:
                                             'repo'   => repo,
                                             'number' => b[:pull_req]})
       next if pr.nil?
+      next if pr['head'].nil?
+      next if pr['head']['repo'].nil?
 
       head_owner = pr['head']['user']['login']
       head_repo = pr['head']['repo']['name']
