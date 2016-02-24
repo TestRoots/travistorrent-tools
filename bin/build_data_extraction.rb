@@ -270,10 +270,10 @@ usage:
         and p.owner_id = u.id
         and pr.base_repo_id = p.id
         QUERY
-        #STDERR.write "\r #{build[:pull_req]}"
         r = db.fetch(q, owner, repo, build[:pull_req].to_i).first
         unless r.nil?
           build[:pull_req_id] = r[:id]
+          STDERR.puts " GHT PR #{r[:id]} triggered build #{build[:pull_req]}"
           acc << build
         else
           # Not yet processed by GHTorrent, don't process further
@@ -286,7 +286,7 @@ usage:
     # Update the repo
     clone(owner, repo, true)
 
-    STDERR.puts "Retrieving all commits for the project"
+    STDERR.puts 'Retrieving all commits for the project'
     walker = Rugged::Walker.new(git)
     walker.sorting(Rugged::SORT_DATE)
     walker.push(git.head.target)
@@ -315,7 +315,7 @@ usage:
           result = {}
           mongo['commits'].find({:sha => sha},
                                 {:fields => {'commit.message' => 1, '_id' => 0}}).map do |x|
-            #STDERR.write "\r #{sha}"
+            #STDERR.puts "  Examining commit #{sha}"
             comment = x['commit']['message']
 
             comment.match(fixre) do |m|
@@ -327,14 +327,14 @@ usage:
           result
         end.select{|x| !x.empty?}.reduce({}){|acc, x| acc.merge(x)}
 
-    STDERR.puts "\nCalculating PR close reasons"
+    STDERR.puts 'Calculating PR close reasons'
     @close_reason = {}
     @close_reason = @builds.select{|b| not b[:pull_req].nil?}.reduce({}) do |acc, build|
       acc[build[:pull_req]] = merged_with(owner, repo, build)
       acc
     end
 
-    STDERR.puts "Retrieving actual built commits for pull requests"
+    STDERR.puts 'Retrieving commits that were actually built (for pull requests)'
     # When building pull requests, travis creates artifical commits by merging
     # the commit to be built with the branch to be built. By default, it reports
     # those commits instead of the latest built PR commit.
@@ -346,7 +346,7 @@ usage:
         unless c.empty?
           shas = c['commit']['message'].match(/Merge (.*) into (.*)/i).captures
           if shas.size == 2
-            STDERR.puts "Replacing Travis commit #{build[:commit]} with actual #{shas[0]}"
+            STDERR.puts "  Replacing Travis commit #{build[:commit]} with actual #{shas[0]}"
             build[:commit] = shas[0]
           end
           build
@@ -360,7 +360,7 @@ usage:
 
     STDERR.puts "After resolving PR commits: #{@builds.size} builds for #{owner}/#{repo}"
 
-    STDERR.puts "Calculating build diff information"
+    STDERR.puts 'Calculating build diff information'
     @build_stats = @builds.map do |build|
 
       begin
@@ -388,7 +388,7 @@ usage:
 
       # TODO: What happens if the build commit is a merge commit?
       if prev_commits.nil? or prev_commits.empty?
-        STDERR.puts "Build #{build[:build_id]} is on a merge commit #{build[:commit]}"
+        STDERR.puts "  Build #{build[:build_id]} is on a merge commit #{build[:commit]}"
         next
       end
 
@@ -401,7 +401,7 @@ usage:
       end
 
       if prev_build_commit_idx.nil?
-        STDERR.puts "No previous build on the same branch for build #{build[:build_id]}"
+        STDERR.puts "  No previous build on the same branch for build #{build[:build_id]}"
         next
       end
       prev_build_commit = prev_commits[prev_build_commit_idx]
@@ -440,11 +440,12 @@ usage:
     end.select{|x| !x.nil?}
 
     all_repos = (forks << {:owner => owner, :repo => repo}).uniq
+    STDERR.puts 'Finding push events for all repositories that contributed pull requests'
     STDERR.puts "#{all_repos.size} repos to retrieve push events for"
 
     commit_push_info =
         all_repos.map do |repo|
-          STDERR.puts "Retrieving push events for #{repo[:owner]}/#{repo[:repo]}"
+          STDERR.write "  Retrieving push events for #{repo[:owner]}/#{repo[:repo]}"
           repo_commits = []
           push_events_processed = 0
           mongo['events'].find({'repo.name' => "#{repo[:owner]}/#{repo[:repo]}", 'type' => 'PushEvent'},
@@ -457,31 +458,37 @@ usage:
                                  :pushed_at => Time.parse(push['created_at']),
                                  :push_id => push['id']}
                 push_events_processed += 1
-                STDERR.write "\rPush event: #{push['id']}, total: #{push_events_processed}"
+                #STDERR.puts "  Push event: #{push['id']}, total: #{push_events_processed}"
               end
             end
+            STDERR.write " #{push_events_processed} push events\n"
           end
-          STDERR.puts
           repo_commits
         end.\
         flatten.\
-         # Gather all appearences of a commit in a list per commit
+         # Gather all appearances of a commit in a list per commit
         group_by { |x| x[:sha] }.\
-        # Find the first appearence of each commit
+        # Find the first appearances of each commit
         reduce({}) do |acc, commit_group|
-          # sort all commit appearences in decenting order and get the earliest one
+          # sort all commit appearances in descending order and get the earliest one
+          if commit_group[1].size > 1
+            STDERR.puts "  Commit #{commit_group[0]} appears in #{commit_group[1].size} push events"
+          end
           first_appearence = commit_group[1].sort { |a, b| a[:pushed_at] <=> b[:pushed_at] }.first
           acc.merge({commit_group[0] => [first_appearence[:pushed_at], first_appearence[:push_id]]})
         end
 
 
     # join build info with commit push info
+    STDERR.puts 'Matching push events to build commits'
     @builds.map do |build|
       push_info = commit_push_info[build[:commit]]
       unless push_info.nil?
+        STDERR.puts "  Push event at #{commit_push_info[build[:commit]][0]} triggered build #{build[:build_id]} (#{build[:commit]})"
         build[:commit_pushed_at] = commit_push_info[build[:commit]][0]
         build[:push_id] = commit_push_info[build[:commit]][1]
       else
+        STDERR.puts "  No push event for build commit #{build[:commit]}"
         build[:commit_pushed_at] = commit_push_info[build[:commit]]
       end
     end
@@ -495,7 +502,7 @@ usage:
       begin
         r = process_build(build, owner, repo, language.downcase)
         if interrupted
-          return
+          raise Parallel::Kill
         end
         STDERR.puts r
         r
