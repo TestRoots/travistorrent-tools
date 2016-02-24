@@ -80,8 +80,8 @@ GEM
       pusher-client (~> 0.4)
       typhoeus (~> 0.6, >= 0.6.8)
     trollop (2.1.2)
-    typhoeus (0.7.1)
-      ethon (>= 0.7.1)
+    typhoeus (0.8.0)
+      ethon (>= 0.8.0)
     websocket (1.2.2)
 
 PLATFORMS
