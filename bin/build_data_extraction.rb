@@ -499,6 +499,7 @@ usage:
     no_push = @builds.select{|x| x[:commit_pushed_at].nil?}
     STDERR.puts "#{neg_latency.size} builds have negative latency"
     STDERR.puts "#{no_push.size} builds have no push info"
+    STDERR.puts "#{@builds.size} builds to process"
 
     results = Parallel.map(@builds, :in_threads => threads) do |build|
       begin
@@ -582,7 +583,7 @@ usage:
         :main_team_member         => (committers - main_team).empty?,
         :description_complexity   => if is_pr then description_complexity(build) else nil end,
         #:workload                 => if is_pr then workload(owner, repo, build) else nil end,
-        :ci_latency               => (build[:started_at] - build[:commit_pushed_at]).to_i
+        :ci_latency               => unless build[:commit_pushed_at].nil? then (build[:started_at] - build[:commit_pushed_at]).to_i else -1 end
     }
   end
 
