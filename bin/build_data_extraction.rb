@@ -480,7 +480,6 @@ usage:
           acc.merge({commit_group[0] => [first_appearence[:pushed_at], first_appearence[:push_id]]})
         end
 
-
     # join build info with commit push info
     STDERR.puts 'Matching push events to build commits'
     @builds.map do |build|
@@ -489,6 +488,13 @@ usage:
         STDERR.puts "  Push event at #{commit_push_info[build[:commit]][0]} triggered build #{build[:build_id]} (#{build[:commit]})"
         build[:commit_pushed_at] = commit_push_info[build[:commit]][0]
         build[:push_id] = commit_push_info[build[:commit]][1]
+
+        push_event = mongo['events'].find_one({'id' => push_info[1]})
+        timestamps = push_event['payload']['commits'].map do |x|
+          c = mongo['commits'].find_one({'sha' => x['sha']})
+          c['commit']['author']['date'] unless c.nil?
+        end.select{|x| !x.nil?}
+        build[:first_commit_created_at] = timestamps.min
       else
         STDERR.puts "  No push event for build commit #{build[:commit]}"
         build[:commit_pushed_at] = commit_push_info[build[:commit]]
@@ -549,7 +555,7 @@ usage:
         :merged_with              => @close_reason[pr_id],
         :lang                     => lang,
         :branch                   => build[:branch],
-        :first_commit_created_at  => build[:started_at].to_i,
+        :first_commit_created_at  => unless build[:first_commit_created_at].nil? then Time.parse(build[:first_commit_created_at]).to_i else -1 end,
         :team_size                => main_team.size,
         :commits                  => bs[:commits].join('#'),
         :num_commits              => bs[:commits].size,
