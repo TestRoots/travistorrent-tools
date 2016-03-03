@@ -236,6 +236,8 @@ usage:
         self.extend(RubyData)
       when /java/i then
         self.extend(JavaData)
+      else
+        Trollop::die "Language #{language} not supported"
     end
 
     @builds = builds(owner, repo)
@@ -435,6 +437,7 @@ usage:
       next if pr.nil?
       next if pr['head'].nil?
       next if pr['head']['repo'].nil?
+      next if pr['head']['repo']['login'].nil?
 
       head_owner = pr['head']['user']['login']
       head_repo = pr['head']['repo']['name']
