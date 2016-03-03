@@ -250,7 +250,7 @@ usage:
 
     @builds = @builds.reduce([]) do |acc, b|
       unless b[:started_at].nil?
-        b[:started_at] = Time.parse(b[:started_at])
+        #b[:started_at] = Time.parse(b[:started_at])
         acc << b
       else
         acc
@@ -460,7 +460,8 @@ usage:
               push = cursor.next
               push['payload']['commits'].each do |commit|
                 repo_commits << {:sha => commit['sha'],
-                                 :pushed_at => Time.parse(push['created_at']),
+                                 #:pushed_at => Time.parse(push['created_at']),
+                                 :pushed_at => push['created_at'],
                                  :push_id => push['id']}
                 push_events_processed += 1
                 #STDERR.puts "  Push event: #{push['id']}, total: #{push_events_processed}"
@@ -558,13 +559,13 @@ usage:
         :merged_with              => @close_reason[pr_id],
         :lang                     => lang,
         :branch                   => build[:branch],
-        :first_commit_created_at  => unless build[:first_commit_created_at].nil? then Time.parse(build[:first_commit_created_at]).to_i else -1 end,
+        :first_commit_created_at  => build[:first_commit_created_at],
         :team_size                => main_team.size,
         :commits                  => bs[:commits].join('#'),
         :num_commits              => bs[:commits].size,
-        :num_issue_comments       => num_issue_comments(build, bs[:prev_build][:started_at], build[:started_at]),
-        :num_commit_comments      => num_commit_comments(owner, repo, bs[:prev_build][:started_at], build[:started_at]),
-        :num_pr_comments          => num_pr_comments(build, bs[:prev_build][:started_at], build[:started_at]),
+        :num_issue_comments       => num_issue_comments(build, Time.parse(bs[:prev_build][:started_at]), Time.parse(build[:started_at])),
+        :num_commit_comments      => num_commit_comments(owner, repo, Time.parse(bs[:prev_build][:started_at]), Time.parse(build[:started_at])),
+        :num_pr_comments          => num_pr_comments(build, Time.parse(bs[:prev_build][:started_at]), Time.parse(build[:started_at])),
         :committers               => bs[:authors].join('#'),
 
         :src_churn                => stats[:lines_added] + stats[:lines_deleted],
@@ -592,7 +593,8 @@ usage:
         :main_team_member         => (committers - main_team).empty?,
         :description_complexity   => if is_pr then description_complexity(build) else nil end,
         #:workload                 => if is_pr then workload(owner, repo, build) else nil end,
-        :ci_latency               => unless build[:commit_pushed_at].nil? then (build[:started_at] - build[:commit_pushed_at]).to_i else -1 end
+        :pushed_at                => build[:commit_pushed_at],
+        :build_started_at         => build[:started_at]
     }
   end
 
