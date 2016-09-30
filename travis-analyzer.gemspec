@@ -17,7 +17,6 @@ Gem::Specification.new do |gem|
 
   gem.required_ruby_version = '= 1.9.3'
 
-  gem.add_dependency "sequel", ['>= 3.35']
   gem.add_dependency "github-linguist", ['>= 4.5']
   gem.add_dependency "rugged", ['>= 0.22']
   gem.add_dependency 'parallel', ['>= 0.7.1']

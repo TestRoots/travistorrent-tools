@@ -1,11 +1,27 @@
-This repository contains the three tools used to generate the data on [TravisTorrent](http://travistorrent.testroots.org):
-These include the 
+
+
+This repository contains the tools used to generate the data on [TravisTorrent](http://travistorrent.testroots.org):
+These include the
 
 1. Travis Poker (`bin/travis_poker.rb`), which pokes en-mass whether a project has a Travis build history,
 2. Travis Harvester which downloads Travis build logs (`bin/travis_harvester.rb`),
 3. Travis BuildLog Analyzer (`bin/buildlog_analysis.rb`)
+4. Build Metadata extractor (`bin/build_data_extraction.rb`)
 
-The file `projects.txt` contains a list of non-toy, non-fork, active GitHub projects.  It was retrieve from GHTorrent by running the query:
+### Installing required dependencies
+
+The following work on Debian Jessie
+
+```
+$ apt-get install ruby bundler pkg-config libmysqlclient-dev
+$ git clone git@github.com:TestRoots/travistorrent-tools.git
+$ cd travistorrent-tools
+$ bundle install
+```
+
+### Running the data extraction process
+
+The file `projects.txt` contains a list of non-toy, non-fork, active GitHub projects.  It was retrieved from GHTorrent by running the query:
 
 ```sql
 select u.login, p.name, p.language, count(*)
@@ -42,7 +58,11 @@ To extract features for one project, do
  ```bash
  ruby -Ibin bin/build_data_extraction.rb stripe brushfire github-token
  ```
- where `github-token` is a valid GitHub OAuth token used to download information about commits
+ where `github-token` is a valid GitHub OAuth token used to download information
+ about commits. To configure access to the required GHTorrent MySQL and MongoDB
+ databases, copy `config.yaml.tmpl` to `config.yaml` and edit accordingly. You
+ can have direct access to the GHTorrent MySQL and MongoDB databases using
+ [this link](http://ghtorrent.org/services.html).
 
 To extract features for multiple projects in parallel, you need
 
@@ -58,19 +78,16 @@ Then, run
 this will create a file with tokens equi-distributed to projects
 a directory `data`, and start 4 instanced of the `build_data_extraction.rb` script
 
-
 ### Analyzing Buildlogs
 Our buildlog dispatcher handles everything that you typically want: It generates on convenient CSV per project directory, and invokes an automatically dispatched correct buildlog analyzer. You can start the per-project analysis (typically on a directory structured checkedout through travis-harvester) via
 ```ruby
-ruby bin/buildlog_analyzer_dispatcher.rb directory-of-project-to-analyze 
+ruby bin/buildlog_analyzer_dispatcher.rb directory-of-project-to-analyze
 ```
-
 
 To start to analyze all buildlogs, parallel helps us again:
 ```bash
 ls build_logs | parallel -j 5 ruby bin/buildlog_analyzer_dispatcher.rb "build_logs/{}"
 ```
-
 
 ### Travis Breaking the Build
 http://docs.travis-ci.com/user/customizing-the-build/
@@ -79,7 +96,6 @@ broken <- (errored|failed)
 errored <- infrastructure
 failed <- tests
 canceled <- user abort
-
 
 ### Breaking the Build
 
@@ -92,4 +108,3 @@ When any of the steps in the script stage fails with a non-zero exit code, the b
 Note that the script section has different semantics to the other steps. When a step defined in script fails, the build doesn’t end right away, it continues to run the remaining steps before it fails the build.
 
 Currently, neither the after_success nor after_failure have any influence on the build result. Travis have plans to change this behaviour
-
