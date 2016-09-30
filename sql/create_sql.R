@@ -28,6 +28,43 @@ data[tr_tests_fail > tr_tests_run,]$tr_tests_run <- NA
 # Sanitize previous builds as NA instead of -1
 data[tr_prev_build == -1,]$tr_prev_build <- NA
 
+min.plus <- function(a,b) {
+  if(is.na(a))
+    b
+  else if(is.na(b))
+    a
+  else
+    a+b
+}
+
+min.equal <- function(a,b) {
+  if(is.na(a) && is.na(b))
+    TRUE
+  else if(is.na(a) && !is.na(b))
+    FALSE
+  else if(!is.na(a) && is.na(b))
+    FALSE
+  else
+    a == b
+}
+
+data.s <- data
+
+data.segement <- data.s[ , .(tr_tests_run, tr_tests_fail, tr_tests_ok)]
+data.s$tr_tests_run <- c(apply(data.segement, 1, function(x) {
+  min.tests <- min.plus(as.numeric(x['tr_tests_fail']), as.numeric(x['tr_tests_ok']))
+  print(min.tests)
+  if(is.na(min.tests) && min.equal(as.numeric(x['tr_tests_run']), 0)) {
+    print("NA")
+    x['tr_tests_run'] <- as.integer(NA)
+  }
+  else if(min.equal(as.numeric(x['tr_tests_run']),min.tests)) {
+    x['tr_tests_run'] <- as.integer(min.tests)
+  }
+  x['tr_tests_run']
+}))
+
+
 csv.write(data, paste(table.name, "csv", sep="."))
 
 con <- dbConnect(dbDriver("MySQL"), user = "root", password = "root", dbname = "travistorrent", unix.socket='/var/run/mysqld/mysqld.sock')
