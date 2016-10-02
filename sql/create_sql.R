@@ -28,7 +28,7 @@ data[tr_tests_fail > tr_tests_run,]$tr_tests_run <- NA
 # Sanitize previous builds as NA instead of -1
 data[tr_prev_build == -1,]$tr_prev_build <- NA
 
-csv.write(data, paste(table.name, "csv", sep="."))
+write.csv(data, paste(table.name, "csv", sep="."), row.names = F)
 
 con <- dbConnect(dbDriver("MySQL"), user = "root", password = "root", dbname = "travistorrent", unix.socket='/var/run/mysqld/mysqld.sock')
 dbListTables(con)
@@ -36,8 +36,3 @@ dbWriteTable(con, table.name, data, row.names = F, overwrite = T)
 dbSendQuery(con, sprintf("ALTER TABLE %s MODIFY tr_started_at DATETIME;",table.name))
 dbSendQuery(con, sprintf("ALTER TABLE %s MODIFY gh_first_commit_created_at DATETIME;",table.name))
 dbDisconnect(con)
-
-# Manually assert transformation of data types
-dbDataType(con, data$gh_is_pr)
-dbDataType(con, data$gh_first_commit_created_at)
-dbDataType(con, data$tr_started_at)
