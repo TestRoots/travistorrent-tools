@@ -3,13 +3,13 @@
 # We hence use RMySQL 0.10.9 and manually modify the created SQL columns to DATETIME
 
 # Update to create new version of the data set
-table.name <- "travistorrent_30_9_2016"
+table.name <- "travistorrent_27_10_2016"
 
 library(data.table)
 library(RMySQL)
 library(DBI)
 
-data <- fread("travistorrent_5_3_2016.csv")
+data <- fread("travistorrent-5-3-2016.csv")
 
 data$gh_is_pr <- data$gh_is_pr == "true"
 data$gh_by_core_team_member <- data$gh_by_core_team_member == "true"
@@ -29,6 +29,12 @@ data[tr_tests_fail > tr_tests_run,]$tr_tests_run <- NA
 data[tr_prev_build == -1,]$tr_prev_build <- NA
 
 write.csv(data, paste(table.name, "csv", sep="."), row.names = F)
+
+# Manually convert logical to nuermical to fix bug in RMySQL of having no data after conversion
+data$gh_is_pr <- as.numeric(data$gh_is_pr)
+data$gh_by_core_team_member <- as.numeric(data$gh_by_core_team_member)
+data$tr_tests_ran <- as.numeric(data$tr_tests_ran)
+data$tr_tests_failed <- as.numeric(data$tr_tests_failed)
 
 con <- dbConnect(dbDriver("MySQL"), user = "root", password = "root", dbname = "travistorrent", unix.socket='/var/run/mysqld/mysqld.sock')
 dbListTables(con)
