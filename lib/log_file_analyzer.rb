@@ -40,9 +40,10 @@ class LogFileAnalyzer
     @logFile = logFile.encode(Encoding.find('ASCII'), encoding_options)
     @logFileLines = @logFile.lines
 
-    @primary_language = 'unknwon'
+    @primary_language = 'unknown'
     @analyzer = 'plain'
     @tests_run = false
+    @tests_failed = Array.new
     @status = 'unknown'
   end
 
@@ -137,6 +138,10 @@ class LogFileAnalyzer
     if (!@num_tests_run.nil? && !@num_tests_failed.nil?)
       @num_tests_ok += @num_tests_run - @num_tests_failed
     end
+  end
+
+  def tests_failed?
+    return ''
   end
 
   def output

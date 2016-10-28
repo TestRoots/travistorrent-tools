@@ -25,6 +25,7 @@ Dir.foreach(directory) do |logfile|
   next if logfile == '.' or logfile == '..' or File.extname(logfile) != '.log'
 
   begin
+    puts "Working on #{logfile}"
     file = "#{directory}/#{logfile}"
 
     analyzer = LogFileAnalyzer.new file
@@ -38,8 +39,6 @@ Dir.foreach(directory) do |logfile|
       analyzer = RubyLogFileAnalyzer.new file
     elsif lang == 'java'
       analyzer = JavaLogFileAnalyzerDispatcher.new file, analyzer.logFile
-    else
-      next
     end
 
     analyzer.analyze
