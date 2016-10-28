@@ -42,6 +42,7 @@ build/
 .rvmrc
 .DS_Store
 *~
+
 .Rproj.user
 .RData
 .Rhistory
