@@ -49,13 +49,11 @@ class BuildlogAnalyzerDispatcher
           # add load directive
           # modify ruby log file analyzer such that it extends the methods that we call here
           analyzer.extend(RubyLogFileAnalyzer)
-          analyzer.init
-#        elsif lang == 'java'
-#          analyzer.extend(RubyLogFileAnalyzer)
-
-          #analyzer = JavaLogFileAnalyzerDispatcher.new file, analyzer.logFile
+        elsif lang == 'java'
+          analyzer.extend(JavaLogFileAnalyzerDispatcher)
         end
 
+        analyzer.init
         analyzer.analyze
         @results << analyzer.output
       rescue Exception => e

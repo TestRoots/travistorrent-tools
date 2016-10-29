@@ -47,3 +47,6 @@ build/
 .RData
 .Rhistory
 *.Rproj
+
+# Ignore intermediate test outputs
+**/buildlog-data-travis.csv

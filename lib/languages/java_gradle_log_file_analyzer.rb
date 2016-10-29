@@ -1,11 +1,10 @@
 # Supports any test execution with Gradle
-class JavaGradleLogFileAnalyzer < LogFileAnalyzer
+module JavaGradleLogFileAnalyzer
   attr_reader :tests_failed, :test_duration, :reactor_lines, :pure_build_duration
 
   @test_failed
 
-  def initialize(file)
-    super(file)
+  def init_deep
     @tests_failed_lines = Array.new
     @tests_failed = Array.new
     @num_tests_failed = 0
@@ -15,8 +14,6 @@ class JavaGradleLogFileAnalyzer < LogFileAnalyzer
   end
 
   def custom_analyze
-    super
-
     extract_tests
     analyze_tests
     getOffendingTests
@@ -27,7 +24,7 @@ class JavaGradleLogFileAnalyzer < LogFileAnalyzer
     line_marker = 0
     current_section = ''
 
-    @folds[OUT_OF_FOLD].content.each do |line|
+    @folds[@OUT_OF_FOLD].content.each do |line|
       if !(line =~ /\A:(test|integrationTest)/).nil?
         line_marker = 1
         test_section_started = true

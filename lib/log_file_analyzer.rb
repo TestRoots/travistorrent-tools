@@ -49,6 +49,10 @@ class LogFileAnalyzer
     @did_tests_fail = ''
   end
 
+  # Stub
+  def init
+  end
+
   def get_build_info(file)
     @build_id, @commit, @job_id = File.basename(file, '.log').split('_')
   end

@@ -5,13 +5,21 @@ class SystemTest < Minitest::Test
 
   make_my_diffs_pretty!
 
+  def prepare_file(file)
+    csv = File.open(file).readlines
+    header = csv.slice!(0)
+    csv.sort!
+    csv.insert(0, header)
+    csv
+  end
+
   def make_comparison(dir)
     dispatcher = BuildlogAnalyzerDispatcher.new(dir, false)
     dispatcher.start
-    expected_csv = File.open("#{dir}/expected-#{dispatcher.result_file_name}").readlines
-    actual_csv = File.open("#{dir}/#{dispatcher.result_file_name}").readlines
-    expected_csv.sort!
-    actual_csv.sort!
+
+    expected_csv = prepare_file "#{dir}/expected-#{dispatcher.result_file_name}"
+    actual_csv = prepare_file "#{dir}/#{dispatcher.result_file_name}"
+
     assert_equal expected_csv, actual_csv, "Difference on #{dir} buildlogs!"
   end
 
