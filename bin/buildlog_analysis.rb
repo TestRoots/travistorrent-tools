@@ -1,7 +1,8 @@
 #!/usr/local/bin/ruby
 
-load 'lib/buildlog_analyzer_dispatcher.rb'
+# Command line interface for Buildlog Analysis
 
+load 'lib/buildlog_analyzer_dispatcher.rb'
 
 recurse = false
 

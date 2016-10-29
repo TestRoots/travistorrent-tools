@@ -1,4 +1,5 @@
-# Supports any test execution with Gradle
+# A Mixin for the analysis of Gradle build files.
+
 module JavaGradleLogFileAnalyzer
   attr_reader :tests_failed, :test_duration, :reactor_lines, :pure_build_duration
 

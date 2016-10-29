@@ -1,4 +1,5 @@
-# Supports any test execution with Maven
+# A Mixin for the analysis of Ant build files. Also provides resonable default behavior for all Java-based logs.
+
 module JavaAntLogFileAnalyzer
   attr_reader :tests_failed, :pure_build_duration
 

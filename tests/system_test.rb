@@ -1,6 +1,8 @@
 require "minitest/autorun"
 require "buildlog_analyzer_dispatcher"
 
+# System tests for Travis build analysis
+
 class SystemTest < Minitest::Test
 
   make_my_diffs_pretty!

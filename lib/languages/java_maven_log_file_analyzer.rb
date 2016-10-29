@@ -1,4 +1,5 @@
-# Supports any test execution with Maven
+# A Mixin for the analysis of Maven build files.
+
 module JavaMavenLogFileAnalyzer
   attr_reader :tests_failed, :test_duration, :reactor_lines, :pure_build_duration
 
@@ -25,7 +26,7 @@ module JavaMavenLogFileAnalyzer
     line_marker = 0
     current_section = ''
 
-    # Possible future improvement: We could even get all executed tests (also the ones which succeed)
+    # TODO (MMB) Possible future improvement: We could even get all executed tests (also the ones which succeed)
     @folds[@OUT_OF_FOLD].content.each do |line|
       if !(line =~ /-------------------------------------------------------/).nil? && line_marker == 0
         line_marker = 1

@@ -1,4 +1,5 @@
-# Supports TestUnit and RSPEC
+# A Mixin for the analysis of Ruby build files. Supports TestUnit and RSPEC
+
 module RubyLogFileAnalyzer
   attr_reader :tests_failed, :test_duration, :reactor_lines, :pure_build_duration
 

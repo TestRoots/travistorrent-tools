@@ -2,9 +2,10 @@ load 'lib/languages/java_ant_log_file_analyzer.rb'
 load 'lib/languages/java_maven_log_file_analyzer.rb'
 load 'lib/languages/java_gradle_log_file_analyzer.rb'
 
-# A wrapper that decides what is the correct sub Java analyzer to call by quickly browsing through its contents.
-# This has minimal overhead compared to directly calling the correct sub analyzer through lazy initializing the
-# loaded file, and is far better than trying every existing sub-analyzer and seeing which one worked
+# A Mixin-dispatcher for Java-based logs that decides what is the correct sub Java analyzer by quickly browsing through
+# the log contents. This has minimal overhead compared to directly calling the correct sub analyzer through lazy
+# initializing the loaded file, and is far better than trying every existing sub-analyzer and seeing which one worked
+
 module JavaLogFileAnalyzerDispatcher
 
   def init

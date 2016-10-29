@@ -1,11 +1,12 @@
-# Receives the language and a project directory and tries to dispatch the analysis of the logfiles to the correct
-# analyzers
 require 'csv'
 
 load 'lib/log_file_analyzer.rb'
 load 'lib/languages/java_log_file_analyzer_dispatcher.rb'
 load 'lib/languages/ruby_log_file_analyzer.rb'
 load 'lib/csv_helper.rb'
+
+# Receives the language and a project directory and tries to dispatch the analysis of the logfiles to the correct
+# analyzers
 
 class BuildlogAnalyzerDispatcher
   @directory
@@ -25,7 +26,7 @@ class BuildlogAnalyzerDispatcher
   def start
     puts "Starting to analyze buildlogs from #{@directory} ..."
 
-# dir foreach is much faster than Dir.glob, because the latter builds an array of matched files up-front
+    # dir foreach is much faster than Dir.glob, because the latter builds an array of matched files up-front
     Dir.foreach(@directory) do |logfile|
       begin
         next if logfile == '.' or logfile == '..'

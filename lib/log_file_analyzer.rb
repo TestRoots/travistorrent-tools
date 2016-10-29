@@ -3,8 +3,10 @@ require 'colorize'
 load 'lib/travis_fold.rb'
 
 
-# A language-independent analyzer for travis logfiles
-# Provides basic statistics about any build process on Travis.
+# Provides general language-independent analyzer for Travis logfiles. Dynamically mixes-in the most specific language
+# analyzer from the languages packages. If no specific analyzer is found, it prrovides basic statistics about any build
+# process on Travis.
+
 class LogFileAnalyzer
   attr_reader :build_id, :job_id, :commit
 
@@ -29,16 +31,14 @@ class LogFileAnalyzer
     @frameworks = Array.new
 
     get_build_info(file)
-    logFile = File.read(file)
+    @logFile = File.read(file)
     encoding_options = {
         :invalid => :replace, # Replace invalid byte sequences
         :undef => :replace, # Replace anything not defined in ASCII
         :replace => '', # Use a blank for those replacements
-        # fix for ruby version > 2.0, otherwise uncomment on ruby 1.9
-        #:UNIVERSAL_NEWLINE_DECORATOR => true
         :universal_newline => true # Always break lines with \n
     }
-    @logFile = logFile.encode(Encoding.find('ASCII'), encoding_options)
+    @logFile = @logFile.encode(Encoding.find('ASCII'), encoding_options)
     @logFileLines = @logFile.lines
 
     @primary_language = 'unknown'
@@ -62,7 +62,20 @@ class LogFileAnalyzer
     end
   end
 
-  # Stub
+  # Template method pattern. Sub classes implement their own analyses in custom_analyze
+  def analyze
+    anaylze_status
+    analyzeSetupTimeBeforeBuild
+    custom_analyze
+    pre_output
+    sanitize_output
+  end
+
+  # Intentionally left empty. Mixins should define this method for their customized build process
+  def custom_analyze
+  end
+
+  # Intentionally left empty. Mixins should define their initialization in this method.
   def init
   end
 
@@ -70,6 +83,7 @@ class LogFileAnalyzer
     @build_id, @commit, @job_id = File.basename(file, '.log').split('_')
   end
 
+  # Analyze the buildlog exit status
   def anaylze_status
     unless (@folds[@OUT_OF_FOLD].content.last =~/^Done: Job Cancelled/).nil?
       @status = 'cancelled'
@@ -80,6 +94,7 @@ class LogFileAnalyzer
 
   end
 
+  # Analyze what the primary language of this build is
   def analyze_primary_language
     system_info = 'system_info'
     if !@folds[system_info].nil?
@@ -99,6 +114,7 @@ class LogFileAnalyzer
     end
   end
 
+  # Split buildlog into different Folds
   def split
     currentFold = @OUT_OF_FOLD
     @logFileLines.each do |line|
@@ -163,6 +179,7 @@ class LogFileAnalyzer
     return ''
   end
 
+  # Returns a HashMap of results from the analysis
   def output
     keys = ['build_number', 'commit', 'job_id', 'lan', 'status', 'setup_time',
             'analyzer', 'frameworks',
@@ -176,24 +193,15 @@ class LogFileAnalyzer
     Hash[keys.zip values]
   end
 
+  # Assign function values to variables before outputting
   def pre_output
     @did_tests_fail = tests_failed?
   end
 
+  # Perform last-second sanitaztion of variables. Can be used to guarantee invariants.
+  # TODO (MMB) Implement some of the R checks here?
   def sanitize_output
     @did_tests_fail = '' if !@tests_run
-  end
-
-  def custom_analyze
-  end
-
-  # Template method pattern. Sub classes implement their own analyses in custom_analyze
-  def analyze
-    anaylze_status
-    analyzeSetupTimeBeforeBuild
-    custom_analyze
-    pre_output
-    sanitize_output
   end
 
 end
