@@ -41,18 +41,7 @@ class BuildlogAnalyzerDispatcher
         puts "Working on #{file}"
 
         analyzer = LogFileAnalyzer.new file
-        analyzer.split
-        analyzer.analyze_primary_language
-        lang = analyzer.primary_language.downcase
-
-        if lang == 'ruby'
-          # add load directive
-          # modify ruby log file analyzer such that it extends the methods that we call here
-          analyzer.extend(RubyLogFileAnalyzer)
-        elsif lang == 'java'
-          analyzer.extend(JavaLogFileAnalyzerDispatcher)
-        end
-
+        analyzer.mixin_specific_language_analyzer
         analyzer.init
         analyzer.analyze
         @results << analyzer.output

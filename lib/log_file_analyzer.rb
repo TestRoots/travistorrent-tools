@@ -49,6 +49,19 @@ class LogFileAnalyzer
     @did_tests_fail = ''
   end
 
+  def mixin_specific_language_analyzer
+    split
+    analyze_primary_language
+    lang = primary_language.downcase
+
+    # Dynamically add mixins
+    if lang == 'ruby'
+      self.extend(RubyLogFileAnalyzer)
+    elsif lang == 'java'
+      self.extend(JavaLogFileAnalyzerDispatcher)
+    end
+  end
+
   # Stub
   def init
   end

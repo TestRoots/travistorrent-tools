@@ -9,14 +9,14 @@ module JavaLogFileAnalyzerDispatcher
 
   def init
     if @logFile.scan(/(Reactor Summary|mvn test)/m).size >= 2
-      extend JavaMavenLogFileAnalyzer
+      self.extend JavaMavenLogFileAnalyzer
     elsif @logFile.scan(/gradle/m).size >= 2
-      extend JavaGradleLogFileAnalyzer
+      self.extend JavaGradleLogFileAnalyzer
     elsif @logFile.scan(/ant/m).size >= 2
-      extend JavaAntLogFileAnalyzer
+      self.extend JavaAntLogFileAnalyzer
     else
       # default back to Ant if nothing else found
-      extend JavaAntLogFileAnalyzer
+      self.extend JavaAntLogFileAnalyzer
     end
 
     init_deep
