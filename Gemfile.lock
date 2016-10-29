@@ -4,7 +4,6 @@ PATH
     travistorrent (0.1)
       colorize (>= 0.7)
       github-linguist (>= 4.5)
-      minitest
       mongo (>= 1.12, < 2.0)
       mysql2 (>= 0.3)
       parallel (>= 0.7.1)
@@ -62,6 +61,7 @@ GEM
     pusher-client (0.6.2)
       json
       websocket (~> 1.0)
+    rake (10.4.2)
     rugged (0.24.0)
     sequel (4.40.0)
     travis (1.8.2)
@@ -82,6 +82,8 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  minitest
+  rake
   travistorrent!
 
 BUNDLED WITH
