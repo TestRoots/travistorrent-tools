@@ -50,7 +50,9 @@ class BuildlogAnalyzerDispatcher
           # modify ruby log file analyzer such that it extends the methods that we call here
           analyzer.extend(RubyLogFileAnalyzer)
           analyzer.init
-        #elsif lang == 'java'
+#        elsif lang == 'java'
+#          analyzer.extend(RubyLogFileAnalyzer)
+
           #analyzer = JavaLogFileAnalyzerDispatcher.new file, analyzer.logFile
         end
 

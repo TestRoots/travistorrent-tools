@@ -16,8 +16,6 @@ module RubyLogFileAnalyzer
   end
 
   def custom_analyze
-    #super
-
     extract_tests
     analyze_tests
     getOffendingTests

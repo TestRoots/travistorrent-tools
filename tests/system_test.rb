@@ -2,10 +2,13 @@ require "minitest/autorun"
 require "buildlog_analyzer_dispatcher"
 
 class SystemTest < Minitest::Test
+
   def make_comparison(dir)
     dispatcher = BuildlogAnalyzerDispatcher.new(dir, false)
     dispatcher.start
-    assert FileUtils.identical?("#{dir}/#{dispatcher.result_file_name}", "#{dir}/expected-#{dispatcher.result_file_name}"), "Difference on #{dir} buildlogs!"
+    expected_csv = File.open("#{dir}/expected-#{dispatcher.result_file_name}").read
+    actual_csv = File.open("#{dir}/#{dispatcher.result_file_name}").read
+    assert_equal expected_csv, actual_csv, "Difference on #{dir} buildlogs!"
   end
 
   def test_ant
