@@ -5,8 +5,9 @@ load 'lib/languages/java_log_file_analyzer_dispatcher.rb'
 load 'lib/languages/ruby_log_file_analyzer.rb'
 load 'lib/csv_helper.rb'
 
-# Receives the language and a project directory and tries to dispatch the analysis of the logfiles to the correct
-# analyzers
+# Takes a path to a directory of Travis CI logfiles (named *.log) and tries to dispatch the analysis of the logfiles
+# to the most specific analyzer. When called with recursive enabled, exhaustively goes through all directories in search
+# of buildlogs.
 
 class BuildlogAnalyzerDispatcher
   @directory
