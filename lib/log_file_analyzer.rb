@@ -20,9 +20,10 @@ class LogFileAnalyzer
   @analyzer
   @frameworks
 
-  OUT_OF_FOLD = 'out_of_fold'
+  @OUT_OF_FOLD
 
   def initialize(file)
+    @OUT_OF_FOLD = 'out_of_fold'
     @folds = Hash.new
     @test_lines = Array.new
     @frameworks = Array.new
@@ -53,10 +54,10 @@ class LogFileAnalyzer
   end
 
   def anaylze_status
-    unless (@folds[OUT_OF_FOLD].content.last =~/^Done: Job Cancelled/).nil?
+    unless (@folds[@OUT_OF_FOLD].content.last =~/^Done: Job Cancelled/).nil?
       @status = 'cancelled'
     end
-    unless (@folds[OUT_OF_FOLD].content.last =~/^Done. Your build exited with (\d*)\./).nil?
+    unless (@folds[@OUT_OF_FOLD].content.last =~/^Done. Your build exited with (\d*)\./).nil?
       @status = $1.to_i === 0 ? 'ok' : 'broken'
     end
 
@@ -82,7 +83,7 @@ class LogFileAnalyzer
   end
 
   def split
-    currentFold = OUT_OF_FOLD
+    currentFold = @OUT_OF_FOLD
     @logFileLines.each do |line|
       line = line.uncolorize
 
@@ -92,7 +93,7 @@ class LogFileAnalyzer
       end
 
       if !(line =~ /travis_fold:end:([\w\.]*)/).nil?
-        currentFold = OUT_OF_FOLD
+        currentFold = @OUT_OF_FOLD
         next
       end
 
@@ -171,8 +172,6 @@ class LogFileAnalyzer
 
   # Template method pattern. Sub classes implement their own analyses in custom_analyze
   def analyze
-    split
-    analyze_primary_language
     anaylze_status
     analyzeSetupTimeBeforeBuild
     custom_analyze

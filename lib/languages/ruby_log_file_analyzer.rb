@@ -1,13 +1,12 @@
 # Supports TestUnit and RSPEC
-class RubyLogFileAnalyzer < LogFileAnalyzer
+module RubyLogFileAnalyzer
   attr_reader :tests_failed, :test_duration, :reactor_lines, :pure_build_duration
 
   @test_failed_lines
 
   @test_failed
 
-  def initialize(file)
-    super(file)
+  def init
     @tests_failed_lines = Array.new
     @tests_failed = Array.new
     @num_tests_failed = 0
@@ -17,7 +16,7 @@ class RubyLogFileAnalyzer < LogFileAnalyzer
   end
 
   def custom_analyze
-    super
+    #super
 
     extract_tests
     analyze_tests
@@ -33,7 +32,7 @@ class RubyLogFileAnalyzer < LogFileAnalyzer
     line_marker = 0
     current_section = ''
 
-    @folds[OUT_OF_FOLD].content.each do |line|
+    @folds[@OUT_OF_FOLD].content.each do |line|
       if !(line =~ /\A# Running:/).nil?
         line_marker = 1
         test_section_started = true
