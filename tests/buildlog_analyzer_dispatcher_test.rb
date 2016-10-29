@@ -21,12 +21,15 @@ class TestMeme < Minitest::Test
     make_comparison("dev_logs/cucumber@cucumber")
   end
 
-  def mockito
+  def test_mockito
     make_comparison("dev_logs/mockito@mockito")
   end
 
-  def rails
+  def test_rails
     make_comparison("dev_logs/rails@rails")
   end
 
+  def test_connectbot
+    make_comparison("dev_logs/connectbot@connectbot")
+  end
 end
