@@ -18,16 +18,27 @@ class BuildlogAnalyzerDispatcher
     @results = Array.new
   end
 
+  def result_file_name
+    'buildlog-data-travis.csv'
+  end
+
   def start
     puts "Starting to analyze buildlogs from #{@directory} ..."
 
 # dir foreach is much faster than Dir.glob, because the latter builds an array of matched files up-front
     Dir.foreach(@directory) do |logfile|
-      next if logfile == '.' or logfile == '..' or File.extname(logfile) != '.log'
-
       begin
-        puts "Working on #{logfile}"
+        next if logfile == '.' or logfile == '..'
         file = "#{@directory}/#{logfile}"
+
+        if @recursive and File.directory?(file)
+          b = BuildlogAnalyzerDispatcher.new file, true
+          b.start
+        end
+
+        next if File.extname(logfile) != '.log'
+
+        puts "Working on #{file}"
 
         analyzer = LogFileAnalyzer.new file
         analyzer.split
@@ -45,12 +56,12 @@ class BuildlogAnalyzerDispatcher
         analyzer.analyze
         @results << analyzer.output
       rescue Exception => e
-        puts "Error analyzing #{logfile}, rescued: #{e}"
+        puts "Error analyzing #{file}, rescued: #{e}"
       end
     end
 
     if !@results.empty?
-      result_file = "#{@directory}/buildlog-data-travis.csv"
+      result_file = "#{@directory}/#{result_file_name}"
       puts "  writing #{result_file}"
       csv = array_of_hashes_to_csv @results
       File.open(result_file, 'w') { |file|

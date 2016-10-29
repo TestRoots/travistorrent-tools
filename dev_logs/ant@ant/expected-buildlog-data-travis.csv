@@ -1,0 +1,3 @@
+build_number,commit,job_id,lan,status,setup_time,analyzer,frameworks,tests_run?,tests_failed?,ok,failed,run,skipped,failed_tests,testduration,purebuildduration
+failing,ant,tests,java,unknown,,java-ant,junit,true,true,0,1,1,0,HelloWorldTest,4.0,4.0
+123,ghcom,12,java,ok,,java-ant,junit,true,false,1,0,1,0,"",0.02,2.0
