@@ -1,8 +1,7 @@
 require "minitest/autorun"
 require "buildlog_analyzer_dispatcher"
 
-
-class TestMeme < Minitest::Test
+class SystemTest < Minitest::Test
   def make_comparison(dir)
     dispatcher = BuildlogAnalyzerDispatcher.new(dir, false)
     dispatcher.start
