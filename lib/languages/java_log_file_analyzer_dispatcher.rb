@@ -28,4 +28,8 @@ class JavaLogFileAnalyzerDispatcher
   def analyze
     @wrappedAnalyzer.analyze
   end
+
+  def custom_analyze
+    @wrappedAnalyzer.custom_analyze
+  end
 end

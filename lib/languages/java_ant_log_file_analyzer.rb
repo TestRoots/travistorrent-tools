@@ -10,7 +10,7 @@ class JavaAntLogFileAnalyzer < LogFileAnalyzer
     @analyzer = 'java-ant'
   end
 
-  def analyze
+  def custom_analyze
     super
 
     extract_tests

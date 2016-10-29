@@ -14,7 +14,7 @@ class JavaGradleLogFileAnalyzer < LogFileAnalyzer
     @analyzer = 'java-gradle'
   end
 
-  def analyze
+  def custom_analyze
     super
 
     extract_tests

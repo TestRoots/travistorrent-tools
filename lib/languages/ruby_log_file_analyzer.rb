@@ -16,7 +16,7 @@ class RubyLogFileAnalyzer < LogFileAnalyzer
     @analyzer = 'ruby'
   end
 
-  def analyze
+  def custom_analyze
     super
 
     extract_tests

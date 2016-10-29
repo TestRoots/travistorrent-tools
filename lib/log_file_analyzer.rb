@@ -45,6 +45,7 @@ class LogFileAnalyzer
     @tests_run = false
     @tests_failed = Array.new
     @status = 'unknown'
+    @did_tests_fail = ''
   end
 
   def get_build_info(file)
@@ -151,17 +152,32 @@ class LogFileAnalyzer
             'purebuildduration']
     values = [@build_id, @commit, @job_id, @primary_language, @status, @setup_time_before_build,
               @analyzer, @frameworks.join('#'),
-              @tests_run, tests_failed?, @num_tests_ok, @num_tests_failed, @num_tests_run,
+              @tests_run, @did_tests_fail, @num_tests_ok, @num_tests_failed, @num_tests_run,
               @num_tests_skipped, @tests_failed.join('#'), @test_duration,
               @pure_build_duration]
     Hash[keys.zip values]
   end
 
+  def pre_output
+    @did_tests_fail = tests_failed?
+  end
 
+  def sanitize_output
+    @did_tests_fail = '' if !@tests_run
+  end
+
+  def custom_analyze
+  end
+
+  # Template method pattern. Sub classes implement their own analyses in custom_analyze
   def analyze
     split
     analyze_primary_language
     anaylze_status
     analyzeSetupTimeBeforeBuild
+    custom_analyze
+    pre_output
+    sanitize_output
   end
+
 end

@@ -13,7 +13,7 @@ class JavaMavenLogFileAnalyzer < LogFileAnalyzer
     @analyzer = 'java-maven'
   end
 
-  def analyze
+  def custom_analyze
     super
 
     extract_tests
