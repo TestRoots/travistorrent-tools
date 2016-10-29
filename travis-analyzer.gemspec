@@ -27,4 +27,5 @@ Gem::Specification.new do |gem|
   gem.add_dependency 'travis', ['>= 1.7','< 1.9']
   gem.add_dependency 'colorize', ['>= 0.7']
   gem.add_dependency 'minitest'
+  gem.add_dependency 'rake'
 end
