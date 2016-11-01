@@ -181,10 +181,10 @@ class LogFileAnalyzer
 
   # Returns a HashMap of results from the analysis
   def output
-    keys = ['build_number', 'commit', 'job_id', 'lan', 'status', 'setup_time',
-            'analyzer', 'frameworks',
-            'tests_run?', 'tests_failed?', 'ok', 'failed', 'run', 'skipped', 'failed_tests', 'testduration',
-            'purebuildduration']
+    keys = ['tr_build_id', 'commit', 'tr_job_id', 'tr_lan', 'tr_status', 'tr_setup_time',
+            'tr_analyzer', 'tr_frameworks',
+            'tr_tests_ran', 'tr_tests_failed', 'tr_tests_ok', 'tr_tests_fail', 'tr_tests_run', 'tr_tests_skipped',
+            'tr_failed_tests', 'tr_testduration', 'tr_purebuildduration']
     values = [@build_id, @commit, @job_id, @primary_language, @status, @setup_time_before_build,
               @analyzer, @frameworks.join('#'),
               @tests_run, @did_tests_fail, @num_tests_ok, @num_tests_failed, @num_tests_run,
