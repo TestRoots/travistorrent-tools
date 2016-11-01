@@ -11,11 +11,11 @@ Gem::Specification.new do |gem|
   gem.files         = `git ls-files`.split($\)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
-  gem.name          = "pullreqs"
+  gem.name          = "travistorrent-tools"
   gem.require_paths = ["lib"]
   gem.version       = 0.1
 
-  gem.required_ruby_version = '= 1.9.3'
+#  gem.required_ruby_version = '= 1.9.3'
 
   gem.add_dependency "sequel", ['>= 3.35']
   gem.add_dependency "github-linguist", ['>= 4.5']
