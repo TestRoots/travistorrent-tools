@@ -15,14 +15,13 @@ def job_logs(build, error_file, parent_dir)
 
     begin
       begin
-        log_url = "Attempt 1: http://s3.amazonaws.com/archive.travis-ci.org/jobs/#{job.id}/log.txt"
-        STDERR.puts log_url
-        log = Net::HTTP.get_response(URI.parse(log_url)).body
+        # Give Travis CI some time before trying once more
+        log = job.log.body
       rescue
         begin
-          # Give Travis CI some time before trying once more
+          log_url = "http://s3.amazonaws.com/archive.travis-ci.org/jobs/#{job.id}/log.txt"
           STDERR.puts "Attempt 2 #{log_url}"
-          log = job.log.body
+          log = Net::HTTP.get_response(URI.parse(log_url)).body
         rescue
           # Workaround if log.body results in error.
           log_url = "http://s3.amazonaws.com/archive.travis-ci.org/jobs/#{job.id}/log.txt"
@@ -62,7 +61,7 @@ def get_travis(repo, build_logs = true)
 
     repo_id = JSON.parse(open("https://api.travis-ci.org/repos/#{repo}").read)['id']
 
-    (0..highest_build).select{|x| x % 25 == 0}.reverse_each do |last_build|
+    (0..highest_build).select { |x| x % 25 == 0 }.reverse_each do |last_build|
 
       url = "https://api.travis-ci.org/builds?after_number=#{last_build}&repository_id=#{repo_id}"
       STDERR.puts url
@@ -74,19 +73,19 @@ def get_travis(repo, build_logs = true)
       builds['builds'].each do |build|
         begin
           job_logs(build, error_file, parent_dir) if build_logs
-          commit = builds['commits'].find{|x| x['id'] == build['commit_id']}
+          commit = builds['commits'].find { |x| x['id'] == build['commit_id'] }
 
           build_data = {
-              :build_id    => build['id'],
-              :commit      => commit['sha'],
-              :pull_req    => build['pull_request_number'],
-              :branch      => commit['branch'],
-              :status      => build['state'],
-              :duration    => build['duration'],
-              :started_at  => build['started_at'],
-              :jobs        => build['job_ids'],
+              :build_id => build['id'],
+              :commit => commit['sha'],
+              :pull_req => build['pull_request_number'],
+              :branch => commit['branch'],
+              :status => build['state'],
+              :duration => build['duration'],
+              :started_at => build['started_at'],
+              :jobs => build['job_ids'],
               #:jobduration => build.jobs.map { |x| "#{x.id}##{x.duration}" }
-              :event_type  => build['event_type']
+              :event_type => build['event_type']
           }
 
           next if build_data.empty?
@@ -105,7 +104,7 @@ def get_travis(repo, build_logs = true)
   end
 
   # Remove duplicates
-  all_builds = all_builds.group_by{|x| x[:build_id]}.map{|k,v| v[0]}
+  all_builds = all_builds.group_by { |x| x[:build_id] }.map { |k, v| v[0] }
 
   json_file = File.join(parent_dir, 'repo-data-travis.json')
   File.open(json_file, 'w') do |f|
