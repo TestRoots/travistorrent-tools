@@ -138,7 +138,7 @@ usage:
   end
 
   def builds(owner, repo)
-    f = File.join("build_logs", "#{owner}@#{repo}", "repo-data-travis.json")
+    f = File.join("build_logs", "rubyjava", "#{owner}@#{repo}", "repo-data-travis.json")
     unless File.exists? f
       Trollop::die "Build file (#{f}) does not exist"
     end
@@ -594,7 +594,8 @@ usage:
         :description_complexity   => if is_pr then description_complexity(build) else nil end,
         #:workload                 => if is_pr then workload(owner, repo, build) else nil end,
         :pushed_at                => build[:commit_pushed_at],
-        :build_started_at         => build[:started_at]
+        :build_started_at         => build[:started_at],
+        :prev_build               => bs[:prev_build][:build_id]
     }
   end
 

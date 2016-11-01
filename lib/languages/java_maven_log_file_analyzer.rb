@@ -1,21 +1,18 @@
-# Supports any test execution with Maven
-class JavaMavenLogFileAnalyzer < LogFileAnalyzer
+# A Mixin for the analysis of Maven build files.
+
+module JavaMavenLogFileAnalyzer
   attr_reader :tests_failed, :test_duration, :reactor_lines, :pure_build_duration
 
   @test_failed_lines
 
-  def initialize(file)
-    super(file)
-
+  def init_deep
     @reactor_lines = Array.new
     @tests_failed_lines = Array.new
     @tests_failed = Array.new
     @analyzer = 'java-maven'
   end
 
-  def analyze
-    super
-
+  def custom_analyze
     extract_tests
     analyze_tests
 
@@ -29,8 +26,8 @@ class JavaMavenLogFileAnalyzer < LogFileAnalyzer
     line_marker = 0
     current_section = ''
 
-    # Possible future improvement: We could even get all executed tests (also the ones which succeed)
-    @folds[OUT_OF_FOLD].content.each do |line|
+    # TODO (MMB) Possible future improvement: We could even get all executed tests (also the ones which succeed)
+    @folds[@OUT_OF_FOLD].content.each do |line|
       if !(line =~ /-------------------------------------------------------/).nil? && line_marker == 0
         line_marker = 1
       elsif !(line =~ /\[INFO\] Reactor Summary:/).nil?

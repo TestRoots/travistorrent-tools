@@ -1,0 +1,44 @@
+sql:
+  # Configuration URL for the SQL database subsystem.
+  # Examples:
+  # - MySQL:     mysql2://user:password@host/github
+  # - Postgres:  postgres://user:password@host/github
+  #
+  # On JRuby, you can use the JDBC-mysql driver that comes with JRuby
+  #     jdbc:mysql://localhost/github?user=github&password=github
+  #
+  # see http://sequel.rubyforge.org/rdoc/files/doc/opening_databases_rdoc.html
+  # for details
+  #url: sqlite://github.db
+  url: mysql2://ghtorrent:ghtorrent@localhost/ghtorrent
+
+mirror:
+  urlbase: "https://api.github.com/"
+  reqrate: 80 #per minute
+  pollevery: 5 #sec
+  persister: mongo #or no-op
+  uniq_id: 'ext_ref_id' # Field that links persister entries to SQL entries
+
+  # How many pages of historical content to retrieve when doing multi-page
+  # API calls. Set to -1 to retrieve all pages.
+  history_pages_back: 10 
+
+ # Github credentials to use for requests. If the value is not set,
+  # no authentication information will be sent as part of the request.
+  token: abcde 
+
+mongo:
+  host: localhost      # Mongo's IP addr
+  port: 27017          # Mongo's port
+  db: github           # DB name to store commits to
+  username: ghtorrent  # User name to connect to Mongo
+  password: foobar     # Password for mongo
+
+logging:
+  # A unique string to appear in all messages produced by the invoking program.
+  uniq: "ghtorrent"
+  # debug < info < warn < error, for decreasing log output
+  level: "debug"
+  # stdout or stderr to log to system streams. A file name to log to
+  # this file.
+  file: "stdout"
