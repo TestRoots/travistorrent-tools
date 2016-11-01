@@ -138,7 +138,7 @@ usage:
   end
 
   def builds(owner, repo)
-    f = File.join("build_logs", "#{owner}@#{repo}", "repo-data-travis.json")
+    f = File.join("build_logs", "rubyjava", "#{owner}@#{repo}", "repo-data-travis.json")
     unless File.exists? f
       Trollop::die "Build file (#{f}) does not exist"
     end
@@ -552,50 +552,50 @@ usage:
     test_diff = test_diff_stats(bs[:prev_build][:commit], build[:commit])
 
     {
-        :build_id                 => build[:build_id],
-        :project_name             => "#{owner}/#{repo}",
-        :is_pr                    => is_pr,
-        :pullreq_id               => pr_id,
-        :merged_with              => @close_reason[pr_id],
-        :lang                     => lang,
-        :branch                   => build[:branch],
-        :first_commit_created_at  => build[:first_commit_created_at],
-        :team_size                => main_team.size,
-        :commits                  => bs[:commits].join('#'),
-        :num_commits              => bs[:commits].size,
-        :num_issue_comments       => num_issue_comments(build, Time.parse(bs[:prev_build][:started_at]), Time.parse(build[:started_at])),
-        :num_commit_comments      => num_commit_comments(owner, repo, Time.parse(bs[:prev_build][:started_at]), Time.parse(build[:started_at])),
-        :num_pr_comments          => num_pr_comments(build, Time.parse(bs[:prev_build][:started_at]), Time.parse(build[:started_at])),
-        :committers               => bs[:authors].join('#'),
+        :tr_build_id                 => build[:build_id],
+        :gh_project_name             => "#{owner}/#{repo}",
+        :gh_is_pr                    => is_pr,
+        :gh_pull_req_num             => pr_id,
+        :git_merged_with             => @close_reason[pr_id],
+        :gh_lang                     => lang,
+        :git_branch                  => build[:branch],
+        :gh_first_commit_created_at  => build[:first_commit_created_at],
+        :gh_team_size                => main_team.size,
+        :git_commits                 => bs[:commits].join('#'),
+        :git_num_commits             => bs[:commits].size,
+        :gh_num_issue_comments       => num_issue_comments(build, Time.parse(bs[:prev_build][:started_at]), Time.parse(build[:started_at])),
+        :gh_num_commit_comments      => num_commit_comments(owner, repo, Time.parse(bs[:prev_build][:started_at]), Time.parse(build[:started_at])),
+        :gh_num_pr_comments          => num_pr_comments(build, Time.parse(bs[:prev_build][:started_at]), Time.parse(build[:started_at])),
+        :committers                  => bs[:authors].join('#'),
 
-        :src_churn                => stats[:lines_added] + stats[:lines_deleted],
-        :test_churn               => stats[:test_lines_added] + stats[:test_lines_deleted],
+        :gh_src_churn                => stats[:lines_added] + stats[:lines_deleted],
+        :gh_test_churn               => stats[:test_lines_added] + stats[:test_lines_deleted],
 
-        :files_added              => stats[:files_added],
-        :files_deleted            => stats[:files_removed],
-        :files_modified           => stats[:files_modified],
+        :gh_files_added              => stats[:files_added],
+        :gh_files_deleted            => stats[:files_removed],
+        :gh_files_modified           => stats[:files_modified],
 
-        :tests_added              => test_diff[:tests_added], # e.g. for Java, @Test annotations
-        :tests_deleted            => test_diff[:tests_deleted],
-        # :tests_modified           => 0,
+        :gh_tests_added              => test_diff[:tests_added],
+        :gh_tests_deleted            => test_diff[:tests_deleted],
 
-        :src_files                => stats[:src_files],
-        :doc_files                => stats[:doc_files],
-        :other_files              => stats[:other_files],
+        :gh_src_files                => stats[:src_files],
+        :gh_doc_files                => stats[:doc_files],
+        :gh_other_files              => stats[:other_files],
 
-        :commits_on_files_touched => commits_on_files_touched(owner, repo, build, months_back),
+        :gh_commits_on_files_touched => commits_on_files_touched(owner, repo, build, months_back),
 
-        :sloc                     => sloc,
-        :test_lines_per_kloc      => (test_lines(build[:commit]).to_f / sloc.to_f) * 1000,
-        :test_cases_per_kloc      => (num_test_cases(build[:commit]).to_f / sloc.to_f) * 1000,
-        :asserts_per_kloc         => (num_assertions(build[:commit]).to_f / sloc.to_f) * 1000,
+        :gh_sloc                     => sloc,
+        :gh_test_lines_per_kloc      => (test_lines(build[:commit]).to_f / sloc.to_f) * 1000,
+        :gh_test_cases_per_kloc      => (num_test_cases(build[:commit]).to_f / sloc.to_f) * 1000,
+        :gh_asserts_cases_per_kloc   => (num_assertions(build[:commit]).to_f / sloc.to_f) * 1000,
 
-        :main_team_member         => (committers - main_team).empty?,
-        :description_complexity   => if is_pr then description_complexity(build) else nil end,
-        #:workload                 => if is_pr then workload(owner, repo, build) else nil end,
-        :pushed_at                => build[:commit_pushed_at],
-        :build_started_at         => build[:started_at]
+        :gh_by_core_team_member      => (committers - main_team).empty?,
+        :gh_description_complexity   => if is_pr then description_complexity(build) else nil end,
+        :gh_pushed_at                => build[:commit_pushed_at],
+        :gh_build_started_at         => build[:started_at],
+        :tr_prev_build               => bs[:prev_build][:build_id]
     }
+
   end
 
   # Checks how a merge occured
@@ -774,7 +774,11 @@ usage:
   # Total number of words in the pull request title and description
   def description_complexity(build)
     pull_req = pull_req_entry(build[:pull_req_id])
-    (pull_req['title'] + ' ' + pull_req['body']).gsub(/[\n\r]\s+/, ' ').split(/\s+/).size
+    begin
+      (pull_req['title'] + ' ' + pull_req['body']).gsub(/[\n\r]\s+/, ' ').split(/\s+/).size
+    rescue
+      -1
+    end
   end
 
   # Total number of pull requests/branches still open in each project at pull
