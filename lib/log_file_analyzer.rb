@@ -3,8 +3,10 @@ require 'colorize'
 load 'lib/travis_fold.rb'
 
 
-# A language-independent analyzer for travis logfiles
-# Provides basic statistics about any build process on Travis.
+# Provides general language-independent analyzer for Travis logfiles. Dynamically mixes-in the most specific language
+# analyzer from the languages packages. If no specific analyzer is found, it prrovides basic statistics about any build
+# process on Travis.
+
 class LogFileAnalyzer
   attr_reader :build_id, :job_id, :commit
 
@@ -20,46 +22,79 @@ class LogFileAnalyzer
   @analyzer
   @frameworks
 
-  OUT_OF_FOLD = 'out_of_fold'
+  @OUT_OF_FOLD
 
   def initialize(file)
+    @OUT_OF_FOLD = 'out_of_fold'
     @folds = Hash.new
     @test_lines = Array.new
     @frameworks = Array.new
 
     get_build_info(file)
-    logFile = File.read(file)
+    @logFile = File.read(file)
     encoding_options = {
         :invalid => :replace, # Replace invalid byte sequences
         :undef => :replace, # Replace anything not defined in ASCII
         :replace => '', # Use a blank for those replacements
-        # fix for ruby version > 2.0, otherwise uncomment on ruby 1.9
-        #:UNIVERSAL_NEWLINE_DECORATOR => true
         :universal_newline => true # Always break lines with \n
     }
-    @logFile = logFile.encode(Encoding.find('ASCII'), encoding_options)
+    @logFile = @logFile.encode(Encoding.find('ASCII'), encoding_options)
     @logFileLines = @logFile.lines
 
-    @primary_language = 'unknwon'
+    @primary_language = 'unknown'
     @analyzer = 'plain'
     @tests_run = false
+    @tests_failed = Array.new
     @status = 'unknown'
+    @did_tests_fail = ''
+  end
+
+  def mixin_specific_language_analyzer
+    split
+    analyze_primary_language
+    lang = primary_language.downcase
+
+    # Dynamically add mixins
+    if lang == 'ruby'
+      self.extend(RubyLogFileAnalyzer)
+    elsif lang == 'java'
+      self.extend(JavaLogFileAnalyzerDispatcher)
+    end
+  end
+
+  # Template method pattern. Sub classes implement their own analyses in custom_analyze
+  def analyze
+    anaylze_status
+    analyzeSetupTimeBeforeBuild
+    custom_analyze
+    pre_output
+    sanitize_output
+  end
+
+  # Intentionally left empty. Mixins should define this method for their customized build process
+  def custom_analyze
+  end
+
+  # Intentionally left empty. Mixins should define their initialization in this method.
+  def init
   end
 
   def get_build_info(file)
     @build_id, @commit, @job_id = File.basename(file, '.log').split('_')
   end
 
+  # Analyze the buildlog exit status
   def anaylze_status
-    unless (@folds[OUT_OF_FOLD].content.last =~/^Done: Job Cancelled/).nil?
+    unless (@folds[@OUT_OF_FOLD].content.last =~/^Done: Job Cancelled/).nil?
       @status = 'cancelled'
     end
-    unless (@folds[OUT_OF_FOLD].content.last =~/^Done. Your build exited with (\d*)\./).nil?
+    unless (@folds[@OUT_OF_FOLD].content.last =~/^Done. Your build exited with (\d*)\./).nil?
       @status = $1.to_i === 0 ? 'ok' : 'broken'
     end
 
   end
 
+  # Analyze what the primary language of this build is
   def analyze_primary_language
     system_info = 'system_info'
     if !@folds[system_info].nil?
@@ -79,8 +114,9 @@ class LogFileAnalyzer
     end
   end
 
+  # Split buildlog into different Folds
   def split
-    currentFold = OUT_OF_FOLD
+    currentFold = @OUT_OF_FOLD
     @logFileLines.each do |line|
       line = line.uncolorize
 
@@ -90,7 +126,7 @@ class LogFileAnalyzer
       end
 
       if !(line =~ /travis_fold:end:([\w\.]*)/).nil?
-        currentFold = OUT_OF_FOLD
+        currentFold = @OUT_OF_FOLD
         next
       end
 
@@ -139,6 +175,11 @@ class LogFileAnalyzer
     end
   end
 
+  def tests_failed?
+    return ''
+  end
+
+  # Returns a HashMap of results from the analysis
   def output
     keys = ['build_number', 'commit', 'job_id', 'lan', 'status', 'setup_time',
             'analyzer', 'frameworks',
@@ -146,17 +187,21 @@ class LogFileAnalyzer
             'purebuildduration']
     values = [@build_id, @commit, @job_id, @primary_language, @status, @setup_time_before_build,
               @analyzer, @frameworks.join('#'),
-              @tests_run, tests_failed?, @num_tests_ok, @num_tests_failed, @num_tests_run,
+              @tests_run, @did_tests_fail, @num_tests_ok, @num_tests_failed, @num_tests_run,
               @num_tests_skipped, @tests_failed.join('#'), @test_duration,
               @pure_build_duration]
     Hash[keys.zip values]
   end
 
-
-  def analyze
-    split
-    analyze_primary_language
-    anaylze_status
-    analyzeSetupTimeBeforeBuild
+  # Assign function values to variables before outputting
+  def pre_output
+    @did_tests_fail = tests_failed?
   end
+
+  # Perform last-second sanitaztion of variables. Can be used to guarantee invariants.
+  # TODO (MMB) Implement some of the R checks here?
+  def sanitize_output
+    @did_tests_fail = '' if !@tests_run
+  end
+
 end

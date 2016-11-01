@@ -1,18 +1,16 @@
-# Supports any test execution with Maven
-class JavaAntLogFileAnalyzer < LogFileAnalyzer
+# A Mixin for the analysis of Ant build files. Also provides resonable default behavior for all Java-based logs.
+
+module JavaAntLogFileAnalyzer
   attr_reader :tests_failed, :pure_build_duration
 
-  def initialize(file)
-    super(file)
+  def init_deep
     @reactor_lines = Array.new
     @tests_failed_lines = Array.new
     @tests_failed = Array.new
     @analyzer = 'java-ant'
   end
 
-  def analyze
-    super
-
+  def custom_analyze
     extract_tests
     analyze_tests
 
@@ -26,7 +24,7 @@ class JavaAntLogFileAnalyzer < LogFileAnalyzer
     current_section = ''
 
     # Possible future improvement: We could even get all executed tests (also the ones which succeed)
-    @folds[OUT_OF_FOLD].content.each do |line|
+    @folds[@OUT_OF_FOLD].content.each do |line|
       if !(line =~ /\[(junit|testng|test.*)\] /).nil?
         test_section_started = true
       elsif !(line =~ /Total time: (.+)/i).nil?

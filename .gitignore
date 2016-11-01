@@ -42,7 +42,11 @@ build/
 .rvmrc
 .DS_Store
 *~
+
 .Rproj.user
 .RData
 .Rhistory
 *.Rproj
+
+# Ignore intermediate test outputs
+**/buildlog-data-travis.csv
