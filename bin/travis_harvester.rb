@@ -42,7 +42,7 @@ def job_logs(build, error_file, parent_dir)
 end
 
 def get_travis(repo, build_logs = true)
-  parent_dir = File.join('build_logs', repo.gsub(/\//, '@'))
+  parent_dir = File.join('build_logs/rubyjava/', repo.gsub(/\//, '@'))
   error_file = File.join(parent_dir, 'errors')
   FileUtils::mkdir_p(parent_dir)
   all_builds = []
