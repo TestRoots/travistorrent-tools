@@ -111,6 +111,13 @@ def get_travis(repo, build_logs = true)
   # Remove duplicates
   all_builds = all_builds.group_by { |x| x[:build_id] }.map { |k, v| v[0] }
 
+  if all_builds.empty?
+    error_message = "Error could not get any repo information for #{repo}."
+    puts error_message
+    File.open(error_file, 'a') { |f| f.puts error_message }
+    exit(1)
+  end
+
   File.open(json_file, 'w') do |f|
     f.puts JSON.dump(all_builds)
   end
