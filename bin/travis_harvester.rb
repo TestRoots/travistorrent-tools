@@ -4,8 +4,12 @@ require 'travis'
 require 'net/http'
 require 'open-uri'
 require 'json'
+require 'date'
+require 'time'
 
 load 'lib/csv_helper.rb'
+
+@date_threshold = Date.parse("2016-09-01")
 
 def job_logs(build, error_file, parent_dir)
   jobs = build.jobs
@@ -45,7 +49,10 @@ def get_travis(repo, build_logs = true)
   parent_dir = File.join('build_logs/rubyjava/', repo.gsub(/\//, '@'))
   error_file = File.join(parent_dir, 'errors')
   FileUtils::mkdir_p(parent_dir)
+  json_file = File.join(parent_dir, 'repo-data-travis.json')
+
   all_builds = []
+  all_builds = JSON.parse(File.read(json_file)).to_a
 
   begin
     repository = Travis::Repository.find(repo)
@@ -72,6 +79,9 @@ def get_travis(repo, build_logs = true)
       builds = JSON.parse(resp.read)
       builds['builds'].each do |build|
         begin
+          started_at = (Time.parse(build).utc.to_s)
+          next if Date.parse(started_at) >= @date_threshold
+
           job_logs(build, error_file, parent_dir) if build_logs
           commit = builds['commits'].find { |x| x['id'] == build['commit_id'] }
 
@@ -82,7 +92,7 @@ def get_travis(repo, build_logs = true)
               :branch => commit['branch'],
               :status => build['state'],
               :duration => build['duration'],
-              :started_at => build['started_at'],
+              :started_at => started_at, # in UTC
               :jobs => build['job_ids'],
               #:jobduration => build.jobs.map { |x| "#{x.id}##{x.duration}" }
               :event_type => build['event_type']
@@ -106,14 +116,13 @@ def get_travis(repo, build_logs = true)
   # Remove duplicates
   all_builds = all_builds.group_by { |x| x[:build_id] }.map { |k, v| v[0] }
 
-  json_file = File.join(parent_dir, 'repo-data-travis.json')
   File.open(json_file, 'w') do |f|
     f.puts JSON.dump(all_builds)
   end
 
   csv_file = File.join(parent_dir, 'repo-data-travis.csv')
-  File.open(csv_file, 'w') do |f|
-    f.puts all_builds.first.keys.map { |x| x.to_s }.join(',')
+  File.open(csv_file, 'a') do |f|
+    f.puts all_builds.first.keys.map { |x| x.to_s }.join(',') if (File.size(csv_file) < 2)
     all_builds.sort { |a, b| b[:build_id]<=>a[:build_id] }.each { |x| f.puts x.values.join(',') }
   end
 
