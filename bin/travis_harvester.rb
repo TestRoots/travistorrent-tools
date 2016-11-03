@@ -74,8 +74,13 @@ def get_travis(repo, build_logs = true)
       builds = JSON.parse(resp.read)
       builds['builds'].each do |build|
         begin
-          started_at = Time.parse(build['started_at']).utc.to_s
-          next if Date.parse(started_at) >= @date_threshold
+          begin
+            started_at = Time.parse(build['started_at']).utc.to_s
+            next if Date.parse(started_at) >= @date_threshold
+          rescue
+            ended_at = Time.parse(build['finished_at']).utc.to_s
+            next if Date.parse(ended_at) >= @date_threshold
+          end
 
           commit = builds['commits'].find { |x| x['id'] == build['commit_id'] }
           job_logs(build, commit['sha'], error_file, parent_dir) if build_logs
