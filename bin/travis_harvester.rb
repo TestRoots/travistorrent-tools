@@ -6,6 +6,7 @@ require 'open-uri'
 require 'json'
 require 'date'
 require 'time'
+require 'fileutils'
 
 load 'lib/csv_helper.rb'
 
