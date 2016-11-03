@@ -12,28 +12,23 @@ load 'lib/csv_helper.rb'
 
 @date_threshold = Date.parse("2016-09-01")
 
-def job_logs(build, error_file, parent_dir)
-  jobs = build.jobs
+def job_logs(build, sha, error_file, parent_dir)
+  jobs = build['job_ids']
   jobs.each do |job|
-    name = File.join(parent_dir, "#{build.id}_#{build.commit.sha}_#{job.id.to_s}.log")
-    next if File.exists?(name)
+    name = File.join(parent_dir, "#{build['number']}_#{sha}_#{job}.log")
+    next if File.exists?(name) and File.size(name) > 1
 
     begin
-      begin
-        # Give Travis CI some time before trying once more
-        log = job.log.body
-      rescue
-        begin
-          log_url = "http://s3.amazonaws.com/archive.travis-ci.org/jobs/#{job.id}/log.txt"
-          STDERR.puts "Attempt 2 #{log_url}"
+       begin
+          log_url = "http://s3.amazonaws.com/archive.travis-ci.org/jobs/#{job}/log.txt"
+          STDERR.puts "Attempt 1 #{log_url}"
           log = Net::HTTP.get_response(URI.parse(log_url)).body
         rescue
           # Workaround if log.body results in error.
-          log_url = "http://s3.amazonaws.com/archive.travis-ci.org/jobs/#{job.id}/log.txt"
-          STDERR.puts "Attempt 3 #{log_url}"
+          log_url = "http://s3.amazonaws.com/archive.travis-ci.org/jobs/#{job}/log.txt"
+          STDERR.puts "Attempt 2 #{log_url}"
           log = Net::HTTP.get_response(URI.parse(log_url)).body
         end
-      end
 
       File.open(name, 'w') { |f| f.puts log }
       log = '' # necessary to enable GC of previously stored value, otherwise: memory leak
@@ -53,13 +48,12 @@ def get_travis(repo, build_logs = true)
   json_file = File.join(parent_dir, 'repo-data-travis.json')
 
   all_builds = []
-  all_builds = JSON.parse(File.read(json_file)).to_a
 
   begin
     repository = Travis::Repository.find(repo)
 
-    puts "Harvesting Travis build logs for #{repo}"
     highest_build = repository.last_build_number.to_i
+    puts "Harvesting Travis build logs for #{repo} (#{highest_build} builds)"
     while true do
       highest_build = highest_build + 1
       if highest_build % 25 == 0
@@ -80,11 +74,11 @@ def get_travis(repo, build_logs = true)
       builds = JSON.parse(resp.read)
       builds['builds'].each do |build|
         begin
-          started_at = (Time.parse(build).utc.to_s)
+          started_at = Time.parse(build['started_at']).utc.to_s
           next if Date.parse(started_at) >= @date_threshold
 
-          job_logs(build, error_file, parent_dir) if build_logs
           commit = builds['commits'].find { |x| x['id'] == build['commit_id'] }
+          job_logs(build, commit['sha'], error_file, parent_dir) if build_logs
 
           build_data = {
               :build_id => build['id'],
@@ -122,8 +116,8 @@ def get_travis(repo, build_logs = true)
   end
 
   csv_file = File.join(parent_dir, 'repo-data-travis.csv')
-  File.open(csv_file, 'a') do |f|
-    f.puts all_builds.first.keys.map { |x| x.to_s }.join(',') if (File.size(csv_file) < 2)
+  File.open(csv_file, 'w') do |f|
+    f.puts all_builds.first.keys.map { |x| x.to_s }.join(',')
     all_builds.sort { |a, b| b[:build_id]<=>a[:build_id] }.each { |x| f.puts x.values.join(',') }
   end
 
@@ -139,4 +133,4 @@ end
 owner = ARGV[0]
 repo = ARGV[1]
 
-get_travis("#{owner}/#{repo}", false)
+get_travis("#{owner}/#{repo}", true)
