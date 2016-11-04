@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    travistorrent (0.1)
+    travistorrent-tools (0.1)
       colorize (>= 0.7)
       github-linguist (>= 4.5)
       mongo (>= 1.12, < 2.0)
@@ -84,7 +84,7 @@ PLATFORMS
 DEPENDENCIES
   minitest
   rake
-  travistorrent!
+  travistorrent-tools!
 
 BUNDLED WITH
    1.13.6
