@@ -408,7 +408,7 @@ usage:
           :files         => diff.deltas.map { |d| d.old_file }.map { |f| f[:path] },
           :lines_added   => diff.stat[1],
           :lines_deleted => diff.stat[2],
-          :prev_commit   => prev_commits.last
+          :prev_commit   => if prev_commits.last.nil? then build[:commit] else prev_commits.last.oid end
       }
     end.select { |x| !x.nil? }
 
