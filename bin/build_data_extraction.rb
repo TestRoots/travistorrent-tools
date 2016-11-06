@@ -264,7 +264,7 @@ usage:
         acc << build
       else
         q = <<-QUERY
-        select pr.id, prh.created_at as id
+        select pr.id as id, prh.created_at as created_at
         from pull_requests pr, users u, projects p, pull_request_history prh
         where u.login = ?
         and p.name = ?
