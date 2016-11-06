@@ -264,18 +264,23 @@ usage:
         acc << build
       else
         q = <<-QUERY
-        select pr.id as id
-        from pull_requests pr, users u, projects p
+        select pr.id, prh.created_at as id
+        from pull_requests pr, users u, projects p, pull_request_history prh
         where u.login = ?
         and p.name = ?
         and pr.pullreq_id = ?
         and p.owner_id = u.id
         and pr.base_repo_id = p.id
+        and prh.pull_request_id = pr.id
+        and prh.action = 'opened'
+        order by prh.created_at asc
+        limit 1
         QUERY
         r = db.fetch(q, owner, repo, build[:pull_req].to_i).first
         unless r.nil?
           build[:pull_req_id] = r[:id]
-          STDERR.puts " GHT PR #{r[:id]} triggered build #{build[:pull_req]}"
+          build[:pull_req_created_at] = r[:created_at]
+          STDERR.puts " GHT PR #{r[:id]} (#{r[:created_at]}) triggered build #{build[:pull_req]}"
           acc << build
         else
           # Not yet processed by GHTorrent, don't process further
@@ -402,7 +407,8 @@ usage:
           :authors       => prev_commits.map { |c| c.author[:email] }.uniq,
           :files         => diff.deltas.map { |d| d.old_file }.map { |f| f[:path] },
           :lines_added   => diff.stat[1],
-          :lines_deleted => diff.stat[2]
+          :lines_deleted => diff.stat[2],
+          :prev_commit   => prev_commits.last
       }
     end.select { |x| !x.nil? }
 
@@ -528,19 +534,20 @@ usage:
 
     # Create line for build
     bs = @build_stats.find{|b| b[:build_id] == build[:build_id]}
-    is_pr = if build[:pull_req].nil? then false else true end
     stats = build_stats(owner, repo, bs[:commits])
 
     pr_id = unless build[:pull_req].nil? then build[:pull_req] end
     committers = bs[:authors].map{|a| github_login(a)}.select{|x| not x.nil?}
     main_team = main_team(owner, repo, build, months_back)
-    test_diff = test_diff_stats(bs[:prev_build][:commit], build[:commit])
+    test_diff = test_diff_stats(bs[:prev_commit], build[:commit])
     tr_commit = build[:tr_build_commit]
+    prev_build_started_at = if bs[:prev_build].nil? then nil else Time.parse(bs[:prev_build][:started_at]) end
 
     {
         :tr_build_id                 => build[:build_id],
         :gh_project_name             => "#{owner}/#{repo}",
-        :gh_is_pr                    => is_pr,
+        :gh_is_pr                    => is_pr(build),
+        :gh_pr_created_at            => build[:pull_req_created_at],
         :gh_pull_req_num             => pr_id,
         :git_merged_with             => @close_reason[pr_id],
         :gh_lang                     => lang,
@@ -550,13 +557,13 @@ usage:
         # Start with the parent for PR builds or the actual built commit for non-PR builds,
         # traverse the parent commits up to a branch point (included).
         :git_all_built_commits       => bs[:commits].join('#'),
-        :git_trigger_commit          => if is_pr then bs[:commits][0] else tr_commit end,
+        :git_trigger_commit          => if is_pr(build) then bs[:commits][0] else tr_commit end,
         :tr_virtual_merged_into      => build[:tr_virtual_merged_into],
         :tr_commit                   => tr_commit,
         :git_num_commits             => bs[:commits].size,
-        :gh_num_issue_comments       => num_issue_comments(build, Time.parse(bs[:prev_build][:started_at]), Time.parse(build[:started_at])),
-        :gh_num_commit_comments      => num_commit_comments(owner, repo, Time.parse(bs[:prev_build][:started_at]), Time.parse(build[:started_at])),
-        :gh_num_pr_comments          => num_pr_comments(build, Time.parse(bs[:prev_build][:started_at]), Time.parse(build[:started_at])),
+        :gh_num_issue_comments       => num_issue_comments(build, prev_build_started_at, Time.parse(build[:started_at])),
+        :gh_num_commit_comments      => num_commit_comments(owner, repo, prev_build_started_at, Time.parse(build[:started_at])),
+        :gh_num_pr_comments          => num_pr_comments(build, prev_build_started_at, Time.parse(build[:started_at])),
         :committers                  => bs[:authors].join('#'),
 
         :gh_src_churn                => stats[:lines_added] + stats[:lines_deleted],
@@ -581,12 +588,21 @@ usage:
         :gh_asserts_cases_per_kloc   => (num_assertions(build[:commit]).to_f / sloc.to_f) * 1000,
 
         :gh_by_core_team_member      => (committers - main_team).empty?,
-        :gh_description_complexity   => if is_pr then description_complexity(build) else nil end,
+        :gh_description_complexity   => if is_pr(build) then description_complexity(build) else nil end,
         :gh_pushed_at                => build[:commit_pushed_at],
         :gh_build_started_at         => build[:started_at],
-        :tr_prev_build               => bs[:prev_build][:build_id]
+        :tr_prev_build               => if bs[:prev_build].nil? then -1 else bs[:prev_build][:build_id] end
     }
 
+  end
+
+
+  def is_pr(build)
+    if build[:pull_req].nil? then
+      false
+    else
+      true
+    end
   end
 
   # Checks how a merge occured
@@ -665,6 +681,12 @@ usage:
 
   # Number of pull request code review comments in pull request
   def num_pr_comments(build, from, to)
+    return -1 unless is_pr(build)
+
+    if from.nil?
+      from = build[:pull_req_created_at]
+    end
+
     q = <<-QUERY
     select count(*) as comment_count
     from pull_request_comments prc
@@ -676,6 +698,12 @@ usage:
 
   # Number of pull request discussion comments
   def num_issue_comments(build, from, to)
+
+    return -1 unless is_pr(build)
+    if from.nil?
+      from = build[:pull_req_created_at]
+    end
+
     q = <<-QUERY
     select count(*) as issue_comment_count
     from pull_requests pr, issue_comments ic, issues i
@@ -688,8 +716,9 @@ usage:
     db.fetch(q, build[:pull_req_id], from, to).first[:issue_comment_count]
   end
 
-  # Number of commit comments on commits composing between builds in the same branch
+  # Number of commit comments on commits between builds in the same branch
   def num_commit_comments(onwer, repo, from, to)
+
     q = <<-QUERY
     select count(*) as commit_comment_count
     from project_commits pc, projects p, users u, commit_comments cc
