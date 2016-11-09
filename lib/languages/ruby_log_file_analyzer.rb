@@ -153,19 +153,19 @@ module RubyLogFileAnalyzer
 
     uninit_ok_tests
   end
-end
 
-def convert_time_to_seconds(string)
-  if !(string =~ /((\d+)m)?(\d+\.\d*)( )?s/).nil?
-    return $2.to_f * 60 + $3.to_f.round(2)
+  def convert_time_to_seconds(string)
+    if !(string =~ /((\d+)m)?(\d+\.\d*)( )?s/).nil?
+      return $2.to_f * 60 + $3.to_f.round(2)
+    end
+    return 0
   end
-  return 0
-end
 
-def getOffendingTests
-  @tests_failed_lines.each { |l| @tests_failed << extractTestNameAndMethod(l)[0] }
-end
+  def getOffendingTests
+    @tests_failed_lines.each { |l| @tests_failed << extractTestNameAndMethod(l)[0] }
+  end
 
-def tests_failed?
-  return @num_tests_failed > 0 || !@tests_failed.empty? || @test_failed
+  def tests_failed?
+    return @num_tests_failed > 0 || !@tests_failed.empty? || @test_failed
+  end
 end

@@ -48,4 +48,8 @@ class SystemTest < Minitest::Test
   def test_connectbot
     make_comparison("dev_logs/connectbot@connectbot")
   end
+
+  def test_bbcnews
+    make_comparison("dev_logs/BBC-News@wraith")
+  end
 end

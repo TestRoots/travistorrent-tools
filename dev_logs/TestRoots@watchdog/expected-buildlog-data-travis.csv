@@ -1,6 +1,6 @@
-build_number,commit,job_id,lan,status,setup_time,analyzer,frameworks,tests_run?,tests_failed?,ok,failed,run,skipped,failed_tests,testduration,purebuildduration
-476,a49d782ea2e7f8c22ae5650c6374d151d8165c04,67596271,java,broken,30,java-ant,"",false,"",,,,,"",,334
-failure,510,5004d140afc87adcc8ee122f7945ad5da4597f56,unknown,cancelled,20,plain,"",false,"",,,,,"",,
-419,5ad1c6a9311604aa34ca68d91dd8b16c98189a72,60668421,java,ok,1,java-maven,junit,true,false,73,0,73,4,"",46.08,192
-510,5004d140afc87adcc8ee122f7945ad5da4597f56,74267343,java,cancelled,20,java-maven,"",false,"",,,,,"",0,25.03
-ruby,510,5004d140afc87adcc8ee122f7945ad5da4597f56,java,cancelled,20,java-ant,"",false,"",,,,,"",,
+tr_build_id,tr_job_id,tr_orig_commit,tr_log_lan,tr_log_status,tr_log_setup_time,tr_log_analyzer,tr_log_frameworks,tr_log_bool_tests_ran,tr_log_bool_tests_failed,tr_log_num_tests_ok,tr_log_num_tests_failed,tr_log_num_tests_run,tr_log_num_tests_skipped,tr_log_tests_failed,tr_log_testduration,tr_log_buildduration
+476,67596271,a49d782ea2e7f8c22ae5650c6374d151d8165c04,java,broken,30,java-ant,"",false,,,,,,"",,334
+failure,5004d140afc87adcc8ee122f7945ad5da4597f56,510,unknown,cancelled,20,plain,"",false,,,,,,"",,
+419,60668421,5ad1c6a9311604aa34ca68d91dd8b16c98189a72,java,ok,1,java-maven,junit,true,false,73,0,73,4,"",46.08,192
+510,74267343,5004d140afc87adcc8ee122f7945ad5da4597f56,java,cancelled,20,java-maven,"",false,,,,,,"",0,25.03
+ruby,5004d140afc87adcc8ee122f7945ad5da4597f56,510,java,cancelled,20,java-ant,"",false,,,,,,"",,
