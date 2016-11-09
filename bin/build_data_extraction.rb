@@ -388,10 +388,18 @@ usage:
 
       # Get all previous commits up to a prior build or a branch point
       prev_commits = []
+      commit_resolution_status = :unknown
       walker.each do |commit|
         prev_commits << commit
-        break if @builds.select{|b| b[:commit] == commit.oid}.empty?
-        break if commit.parents.size > 1
+        if @builds.select{|b| b[:commit] == commit.oid}.empty?
+          commit_resolution_status = :build_found
+          break
+        end
+
+        if commit.parents.size > 1
+          commit_resolution_status = :merge_found
+          break
+        end
       end
 
       # https://github.com/tom-lord/regexp-examples/pull/6
@@ -408,7 +416,8 @@ usage:
           :files         => diff.deltas.map { |d| d.old_file }.map { |f| f[:path] },
           :lines_added   => diff.stat[1],
           :lines_deleted => diff.stat[2],
-          :prev_commit   => if prev_commits.last.nil? then build[:commit] else prev_commits.last.oid end
+          :prev_built_commit =>  if prev_commits.last.nil? then nil else prev_commits.last.oid end,
+          :prev_commit_resolution_status => commit_resolution_status
       }
     end.select { |x| !x.nil? }
 
@@ -478,20 +487,25 @@ usage:
     STDERR.puts 'Matching push events to build commits'
     @builds.map do |build|
       push_info = commit_push_info[build[:commit]]
+
       unless push_info.nil?
         STDERR.puts "  Push event at #{commit_push_info[build[:commit]][0]} triggered build #{build[:build_id]} (#{build[:commit]})"
         build[:commit_pushed_at] = commit_push_info[build[:commit]][0]
-        build[:push_id] = commit_push_info[build[:commit]][1]
+        build[:push_id]          = commit_push_info[build[:commit]][1]
 
-        push_event = mongo['events'].find_one({'id' => push_info[1]})
-        timestamps = push_event['payload']['commits'].map do |x|
+        push_event     = mongo['events'].find_one({'id' => push_info[1]})
+        pushed_commits = push_event['payload']['commits']
+
+        timestamps = pushed_commits.map do |x|
           c = mongo['commits'].find_one({'sha' => x['sha']})
           c['commit']['author']['date'] unless c.nil?
         end.select{|x| !x.nil?}
+
         build[:first_commit_created_at] = timestamps.min
+        build[:num_commits_in_push]     = pushed_commits.size
+        build[:commits_in_push]         = pushed_commits.map { |c| c['sha'] }
       else
         STDERR.puts "  No push event for build commit #{build[:commit]}"
-        build[:commit_pushed_at] = commit_push_info[build[:commit]]
       end
     end
 
@@ -539,59 +553,141 @@ usage:
     pr_id = unless build[:pull_req].nil? then build[:pull_req] end
     committers = bs[:authors].map{|a| github_login(a)}.select{|x| not x.nil?}
     main_team = main_team(owner, repo, build, months_back)
-    test_diff = test_diff_stats(bs[:prev_commit], build[:commit])
-    tr_commit = build[:tr_build_commit]
+    test_diff = test_diff_stats(if bs[:prev_built_commit].nil? then build[:commit] else bs[:prev_built_commit] end, build[:commit])
+    tr_original_commit = build[:tr_build_commit]
     prev_build_started_at = if bs[:prev_build].nil? then nil else Time.parse(bs[:prev_build][:started_at]) end
 
     {
-        :tr_build_id                 => build[:build_id],
-        :gh_project_name             => "#{owner}/#{repo}",
-        :gh_is_pr                    => is_pr(build),
-        :gh_pr_created_at            => build[:pull_req_created_at],
-        :gh_pull_req_num             => pr_id,
-        :git_merged_with             => @close_reason[pr_id],
-        :gh_lang                     => lang,
-        :git_branch                  => build[:branch],
-        :gh_first_commit_created_at  => build[:first_commit_created_at],
-        :gh_team_size                => main_team.size,
+        # [doc] The analyzed build id, as reported from TravisCI
+        :tr_build_id                   => build[:build_id],
+
+        # [doc] Project name on GitHub
+        :gh_project_name               => "#{owner}/#{repo}",
+
+        # [doc] Whether this build was triggered as part of a pull request on GitHub
+        :gh_is_pr                      => is_pr(build),
+
+        # [doc] If the build is a pull request, the creation timestamp for this pull request
+        :gh_pr_created_at              => build[:pull_req_created_at],
+
+        # [doc] If the build is a pull request, its ID on GitHub
+        :gh_pull_req_num               => pr_id,
+
+        # [doc] Dominant repository language, according to GitHub
+        :gh_lang                       => lang,
+
+        # [doc] If this commit sits on a pull request (`gh_is_pr` true), the
+        :git_merged_with               => @close_reason[pr_id],
+
+        # [doc] The branch that was built
+        :git_branch                    => build[:branch],
+
+        # [doc] Number of commits included in the push that triggered the build
+        :gh_num_commits_in_push        => build[:num_commits_in_push],
+
+        # [doc] The commits included in the push that triggered the build
+        :gh_commits_in_push            => build[:commits_in_push].join('#'),
+
+        # [doc]
+        :git_prev_commit_resolution_status => bs[:prev_commit_resolution_status],
+
+        # [doc] The commit that triggered the previous build on the same branch
+        :git_prev_built_commit             => bs[:prev_built_commit],
+
+        # [doc] Timestamp of first commit in the push that triggered the build
+        :gh_first_commit_created_at    => build[:first_commit_created_at],
+
+        # [doc] Number of developers that committed directly or merged PRs from the moment the build was triggered and 3 months back.
+        :gh_team_size                  => main_team.size,
+
         # Start with the parent for PR builds or the actual built commit for non-PR builds,
         # traverse the parent commits up to a branch point (included).
-        :git_all_built_commits       => bs[:commits].join('#'),
-        :git_trigger_commit          => if is_pr(build) then bs[:commits][0] else tr_commit end,
-        :tr_virtual_merged_into      => build[:tr_virtual_merged_into],
-        :tr_commit                   => tr_commit,
-        :git_num_commits             => bs[:commits].size,
-        :gh_num_issue_comments       => num_issue_comments(build, prev_build_started_at, Time.parse(build[:started_at])),
-        :gh_num_commit_comments      => num_commit_comments(owner, repo, prev_build_started_at, Time.parse(build[:started_at])),
-        :gh_num_pr_comments          => num_pr_comments(build, prev_build_started_at, Time.parse(build[:started_at])),
-        :committers                  => bs[:authors].join('#'),
+        # TODO: Exclude any previously built commits
+        :git_all_built_commits         => bs[:commits].join('#'),
 
-        :gh_src_churn                => stats[:lines_added] + stats[:lines_deleted],
-        :gh_test_churn               => stats[:test_lines_added] + stats[:test_lines_deleted],
+        # [doc] Number of `git_all_built_commits`
+        :git_num_all_built_commits     => bs[:commits].size,
 
-        :gh_files_added              => stats[:files_added],
-        :gh_files_deleted            => stats[:files_removed],
-        :gh_files_modified           => stats[:files_modified],
+        # [doc] The commit that triggered the build
+        :git_trigger_commit            => if is_pr(build) then bs[:commits][0]  else tr_original_commit end,
 
-        :gh_tests_added              => test_diff[:tests_added],
-        :gh_tests_deleted            => test_diff[:tests_deleted],
+        # [doc] The virtual commit built by Travis when testing pull requests
+        :tr_virtual_merged_into        => build[:tr_virtual_merged_into],
 
-        :gh_src_files                => stats[:src_files],
-        :gh_doc_files                => stats[:doc_files],
-        :gh_other_files              => stats[:other_files],
+        # [doc] The original commit that was build
+        :tr_original_commit            => tr_original_commit,
 
-        :gh_commits_on_files_touched => commits_on_files_touched(owner, repo, build, months_back),
+        # [doc] If git_commit is linked to a PR on GitHub, the number of discussion comments on that PR
+        :gh_num_issue_comments         => num_issue_comments(build, prev_build_started_at, Time.parse(build[:started_at])),
 
-        :gh_sloc                     => sloc,
-        :gh_test_lines_per_kloc      => (test_lines(build[:commit]).to_f / sloc.to_f) * 1000,
-        :gh_test_cases_per_kloc      => (num_test_cases(build[:commit]).to_f / sloc.to_f) * 1000,
-        :gh_asserts_cases_per_kloc   => (num_assertions(build[:commit]).to_f / sloc.to_f) * 1000,
+        # [doc] The number of comments on git_commits on GitHub
+        :gh_num_commit_comments        => num_commit_comments(owner, repo, prev_build_started_at, Time.parse(build[:started_at])),
 
-        :gh_by_core_team_member      => (committers - main_team).empty?,
-        :gh_description_complexity   => if is_pr(build) then description_complexity(build) else nil end,
-        :gh_pushed_at                => build[:commit_pushed_at],
-        :gh_build_started_at         => build[:started_at],
-        :tr_prev_build               => if bs[:prev_build].nil? then -1 else bs[:prev_build][:build_id] end
+        # [doc] If gh_is_pr is true, the number of comments (code review) on this pull request on GitHub
+        :gh_num_pr_comments            => num_pr_comments(build, prev_build_started_at, Time.parse(build[:started_at])),
+
+        # [doc] The emails of the committers that committed commits that are part of this build
+        :git_committers                => bs[:authors].join('#'),
+
+        # [doc] How many lines of production code changed in the commits built by this build
+        :git_src_churn                 => stats[:lines_added] + stats[:lines_deleted],
+
+        # [doc] How many lines of test code changed in the commits built by this build
+        :git_test_churn                => stats[:test_lines_added] + stats[:test_lines_deleted],
+
+        # [doc] Number of files added by the commits built by this build
+        :gh_files_added                => stats[:files_added],
+
+        # [doc] Number of files deleted by the commits built by this build
+        :gh_files_deleted              => stats[:files_removed],
+
+        # [doc] Number of files modified by the commits built by this build
+        :gh_files_modified             => stats[:files_modified],
+
+        # [doc] Lines of testing code added by the commits built by this build
+        :gh_tests_added                => test_diff[:tests_added],
+
+        # [doc] Lines of testing code deleted by the commits built by this build
+        :gh_tests_deleted              => test_diff[:tests_deleted],
+
+        # [doc] Number of src files changed by the commits that where built
+        :gh_src_files                  => stats[:src_files],
+
+        # [doc] Number of documentation files changed by the commits that where built
+        :gh_doc_files                  => stats[:doc_files],
+
+        # [doc] Number of files which are neither source code nor documentation that changed by the commits that where built
+        :gh_other_files                => stats[:other_files],
+
+        # [doc] Number of unique commits on the files touched in the commits (git_all_built_commits) that triggered the build from the moment the build was triggered and 3 months back. It is a metric of how active the part of the project is that these commits touched.
+        :gh_num_commits_on_files_touched   => commits_on_files_touched(owner, repo, build, months_back),
+
+        # [doc] Number of executable production source lines of code, in the entire repository
+        :gh_sloc                       => sloc,
+
+        # [doc] Test density. Number of lines in test cases per 1000 gh_sloc
+        :gh_test_lines_per_kloc        => (test_lines(build[:commit]).to_f / sloc.to_f) * 1000,
+
+        # [doc] Test density. Test density. Number of test cases per 1000 gh_sloc
+        :gh_test_cases_per_kloc        => (num_test_cases(build[:commit]).to_f / sloc.to_f) * 1000,
+
+        # [doc] Test density. Assert density. Number of assertions per 1000 gh_sloc
+        :gh_asserts_cases_per_kloc     => (num_assertions(build[:commit]).to_f / sloc.to_f) * 1000,
+
+        # [doc] Whether this commit was authored by a core team member
+        :gh_by_core_team_member        => (committers - main_team).empty?,
+
+        # [doc] If the build is a pull request, the total number of words in the pull request title and description
+        :gh_description_complexity     => if is_pr(build) then description_complexity(build) else end,
+
+        # [doc] Timestamp of the push that triggered the build (GitHub provided)
+        :gh_pushed_at                  => build[:commit_pushed_at],
+
+        # [doc] Timestamp of the push that triggered the build (Travis provided)
+        :gh_build_started_at           => build[:started_at],
+
+        # [doc] The previous build on the same branch, if any
+        :tr_prev_build                 => if bs[:prev_build].nil? then nil else bs[:prev_build][:build_id] end
     }
 
   end
@@ -681,7 +777,7 @@ usage:
 
   # Number of pull request code review comments in pull request
   def num_pr_comments(build, from, to)
-    return -1 unless is_pr(build)
+    return nil unless is_pr(build)
 
     if from.nil?
       from = build[:pull_req_created_at]
@@ -699,7 +795,7 @@ usage:
   # Number of pull request discussion comments
   def num_issue_comments(build, from, to)
 
-    return -1 unless is_pr(build)
+    return nil unless is_pr(build)
     if from.nil?
       from = build[:pull_req_created_at]
     end
@@ -797,7 +893,7 @@ usage:
     begin
       (pull_req['title'] + ' ' + pull_req['body']).gsub(/[\n\r]\s+/, ' ').split(/\s+/).size
     rescue
-      -1
+      nil
     end
   end
 
@@ -966,8 +1062,7 @@ usage:
   end
 
   # Return a hash of file names and commits on those files in the
-  # period between pull request open and months_back. The returned
-  # results do not include the commits comming from the PR.
+  # period between build start and months_back.
   def commits_on_build_files(owner, repo, build, months_back)
 
     oldest = Time.at(build[:started_at].to_i - 3600 * 24 * 30 * months_back)
