@@ -199,9 +199,9 @@ class LogFileAnalyzer
         # [doc] The testing frameworks ran extracted by build log analysis
         :tr_log_frameworks => @frameworks.join('#'),
         # [doc] Whether tests were run, extracted by build log analysis
-        :tr_log_tests_ran => @tests_run,
+        :tr_log_bool_tests_ran => @tests_run,
         # [doc] Whether tests failed, extracted by build log analysis
-        :tr_log_tests_failed => @did_tests_fail,
+        :tr_log_bool_tests_failed => @did_tests_fail,
         # [doc] Number of tests that succeeded, extracted by build log analysis
         :tr_log_num_tests_ok => @num_tests_ok,
         # [doc] Number of tests that failed, extracted by build log analysis
