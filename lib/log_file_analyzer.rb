@@ -182,39 +182,39 @@ class LogFileAnalyzer
   # Returns a HashMap of results from the analysis
   def output
     {
-        # The build id of the travis build
+        # [doc] The build id of the travis build
         :tr_build_id =>  @build_id,
-        # The job id of the build job under analysis
+        # [doc] The job id of the build job under analysis
         :tr_job_id => @job_id,
-        # The SHA of the original Travis commit, unparsed and unchanged
+        # [doc] The SHA of the original Travis commit, unparsed and unchanged
         :tr_orig_commit => @commit,
-        # The primary programming language, extracted by build log analysis
+        # [doc] The primary programming language, extracted by build log analysis
         :tr_log_lan => @primary_language,
-        # The overall return status of the build, extracted by build log analysis
+        # [doc] The overall return status of the build, extracted by build log analysis
         :tr_log_status => @status,
-        # The setup time before the script phase (the actual build) starts, in seconds, extracted by build log analysis
+        # [doc] The setup time before the script phase (the actual build) starts, in seconds, extracted by build log analysis
         :tr_log_setup_time => @setup_time_before_build,
-        # The build log analyzer that was invoked for analysis of this build
+        # [doc] The build log analyzer that was invoked for analysis of this build
         :tr_log_analyzer => @analyzer,
-        # The testing frameworks ran extracted by build log analysis
+        # [doc] The testing frameworks ran extracted by build log analysis
         :tr_log_frameworks => @frameworks.join('#'),
-        # Whether tests were run, extracted by build log analysis
+        # [doc] Whether tests were run, extracted by build log analysis
         :tr_log_tests_ran => @tests_run,
-        # Whether tests failed, extracted by build log analysis
+        # [doc] Whether tests failed, extracted by build log analysis
         :tr_log_tests_failed => @did_tests_fail,
-        # Number of tests that succeeded, extracted by build log analysis
+        # [doc] Number of tests that succeeded, extracted by build log analysis
         :tr_log_num_tests_ok => @num_tests_ok,
-        # Number of tests that failed, extracted by build log analysis
+        # [doc] Number of tests that failed, extracted by build log analysis
         :tr_log_num_tests_failed => @num_tests_failed,
-        # Number of tests that ran in total, extracted by build log analysis
+        # [doc] Number of tests that ran in total, extracted by build log analysis
         :tr_log_num_tests_run => @num_tests_run,
-        # Number of tests that were skipped, extracted by build log analysis
+        # [doc] Number of tests that were skipped, extracted by build log analysis
         :tr_log_num_tests_skipped => @num_tests_skipped,
-        # Names of the tests that failed, extracted by build log analysis
+        # [doc] Names of the tests that failed, extracted by build log analysis
         :tr_log_tests_failed => @tests_failed.join('#'),
-        # Duration of the running the tests, in seconds, extracted by build log analysis
+        # [doc] Duration of the running the tests, in seconds, extracted by build log analysis
         :tr_log_testduration =>  @test_duration,
-        # Duration of running the build command like maven or ant (if present, should be longer than :tr_log_testduration as it includes this phase), in seconds, extracted by build log analysis
+        # [doc] Duration of running the build command like maven or ant (if present, should be longer than :tr_log_testduration as it includes this phase), in seconds, extracted by build log analysis
         :tr_log_buildduration => @pure_build_duration
     }
   end
