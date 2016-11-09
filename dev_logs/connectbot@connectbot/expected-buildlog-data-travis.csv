@@ -1,4 +1,4 @@
-tr_build_id,tr_job_id,tr_orig_commit,tr_log_lan,tr_log_status,tr_log_setup_time,tr_log_analyzer,tr_log_frameworks,tr_log_bool_tests_ran,tr_log_bool_tests_failed,tr_log_num_tests_ok,tr_log_num_tests_failed,tr_log_num_tests_run,tr_log_num_tests_skipped,tr_log_tests_failed,tr_log_testduration,tr_log_buildduration
+tr_build_id,tr_job_id,tr_original_commit,tr_log_lan,tr_log_status,tr_log_setup_time,tr_log_analyzer,tr_log_frameworks,tr_log_bool_tests_ran,tr_log_bool_tests_failed,tr_log_num_tests_ok,tr_log_num_tests_failed,tr_log_num_tests_run,tr_log_num_tests_skipped,tr_log_tests_failed,tr_log_testduration,tr_log_buildduration
 6,38383353,fe4100e09325162a434d25b9b0ac1d872ad24bb2,java,broken,135,java-gradle,"",false,,,0,,,"",,
 9,38387777,b5aa47829fd79b2b3257df9565c924c1d6c09aa8,java,ok,153,java-gradle,"",false,,,0,,,"",,
 20,55541264,d4abef476ebaca68ac9a75338549f9fff149374d,android,ok,281,plain,"",false,,,,,,"",,
