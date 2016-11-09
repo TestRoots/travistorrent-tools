@@ -264,18 +264,23 @@ usage:
         acc << build
       else
         q = <<-QUERY
-        select pr.id as id
-        from pull_requests pr, users u, projects p
+        select pr.id as id, prh.created_at as created_at
+        from pull_requests pr, users u, projects p, pull_request_history prh
         where u.login = ?
         and p.name = ?
         and pr.pullreq_id = ?
         and p.owner_id = u.id
         and pr.base_repo_id = p.id
+        and prh.pull_request_id = pr.id
+        and prh.action = 'opened'
+        order by prh.created_at asc
+        limit 1
         QUERY
         r = db.fetch(q, owner, repo, build[:pull_req].to_i).first
         unless r.nil?
           build[:pull_req_id] = r[:id]
-          STDERR.puts " GHT PR #{r[:id]} triggered build #{build[:pull_req]}"
+          build[:pull_req_created_at] = r[:created_at]
+          STDERR.puts " GHT PR #{r[:id]} (#{r[:created_at]}) triggered build #{build[:pull_req]}"
           acc << build
         else
           # Not yet processed by GHTorrent, don't process further
@@ -336,6 +341,8 @@ usage:
       acc
     end
 
+    @builds = @builds.map {|x| x[:tr_build_commit] = x[:commit]; x}
+
     STDERR.puts 'Retrieving commits that were actually built (for pull requests)'
     # When building pull requests, travis creates artifical commits by merging
     # the commit to be built with the branch to be built. By default, it reports
@@ -349,7 +356,10 @@ usage:
           shas = c['commit']['message'].match(/Merge (.*) into (.*)/i).captures
           if shas.size == 2
             STDERR.puts "  Replacing Travis commit #{build[:commit]} with actual #{shas[0]}"
+
             build[:commit] = shas[0]
+            build[:tr_virtual_merged_into] = shas[1]
+
           end
           build
         else
@@ -376,49 +386,29 @@ usage:
       walker.sorting(Rugged::SORT_TOPO)
       walker.push(build_commit)
 
-      # Get all previous commits up to a branch point
+      # Get all previous commits up to a prior build or a branch point
       prev_commits = []
       walker.each do |commit|
         prev_commits << commit
+        break if @builds.select{|b| b[:commit] == commit.oid}.empty?
         break if commit.parents.size > 1
       end
 
-      # Remove current commit from list of previous commits
-      unless prev_commits.nil?
-        prev_commits = prev_commits.select{|c| c.oid != build_commit.oid}
-      end
-
-      # TODO: What happens if the build commit is a merge commit?
-      if prev_commits.nil? or prev_commits.empty?
-        STDERR.puts "  Build #{build[:build_id]} is on a merge commit #{build[:commit]}"
-        next
-      end
-
-      # Find the first commit that was built prior to the commit that triggered
-      # the current build
-      prev_build_commit_idx = prev_commits.find_index do |c|
-        not @builds.find do |b|
-          b[:build_id] < build[:build_id] and c.oid.start_with? b[:commit]
-        end.nil?
-      end
-
-      if prev_build_commit_idx.nil?
-        STDERR.puts "  No previous build on the same branch for build #{build[:build_id]}"
-        next
-      end
-      prev_build_commit = prev_commits[prev_build_commit_idx]
+      # https://github.com/tom-lord/regexp-examples/pull/6
+      # https://github.com/tom-lord/regexp-examples/compare/eff1955a93cf...a1daed14a4ba
 
       # Get diff between the current build commit and previous one
-      diff = build_commit.diff(prev_build_commit)
+      diff = build_commit.diff(prev_commits.last)
 
       {
           :build_id      => build[:build_id],
-          :prev_build    => @builds.find{|b| b[:build_id] < build[:build_id] and prev_build_commit.oid.start_with? b[:commit]},
-          :commits       => prev_commits[0..prev_build_commit_idx].map{|c| c.oid},
-          :authors       => prev_commits[0..prev_build_commit_idx].map{|c| c.author[:email]}.uniq,
+          :prev_build    => @builds.find { |b| b[:build_id] < build[:build_id] and prev_commits.last.oid.start_with? b[:commit] },
+          :commits       => prev_commits.map { |c| c.oid },
+          :authors       => prev_commits.map { |c| c.author[:email] }.uniq,
           :files         => diff.deltas.map { |d| d.old_file }.map { |f| f[:path] },
           :lines_added   => diff.stat[1],
-          :lines_deleted => diff.stat[2]
+          :lines_deleted => diff.stat[2],
+          :prev_commit   => if prev_commits.last.nil? then build[:commit] else prev_commits.last.oid end
       }
     end.select { |x| !x.nil? }
 
@@ -545,27 +535,35 @@ usage:
     # Create line for build
     bs = @build_stats.find{|b| b[:build_id] == build[:build_id]}
     stats = build_stats(owner, repo, bs[:commits])
-    is_pr = if build[:pull_req].nil? then false else true end
+
     pr_id = unless build[:pull_req].nil? then build[:pull_req] end
     committers = bs[:authors].map{|a| github_login(a)}.select{|x| not x.nil?}
     main_team = main_team(owner, repo, build, months_back)
-    test_diff = test_diff_stats(bs[:prev_build][:commit], build[:commit])
+    test_diff = test_diff_stats(bs[:prev_commit], build[:commit])
+    tr_commit = build[:tr_build_commit]
+    prev_build_started_at = if bs[:prev_build].nil? then nil else Time.parse(bs[:prev_build][:started_at]) end
 
     {
         :tr_build_id                 => build[:build_id],
         :gh_project_name             => "#{owner}/#{repo}",
-        :gh_is_pr                    => is_pr,
+        :gh_is_pr                    => is_pr(build),
+        :gh_pr_created_at            => build[:pull_req_created_at],
         :gh_pull_req_num             => pr_id,
         :git_merged_with             => @close_reason[pr_id],
         :gh_lang                     => lang,
         :git_branch                  => build[:branch],
         :gh_first_commit_created_at  => build[:first_commit_created_at],
         :gh_team_size                => main_team.size,
-        :git_commits                 => bs[:commits].join('#'),
+        # Start with the parent for PR builds or the actual built commit for non-PR builds,
+        # traverse the parent commits up to a branch point (included).
+        :git_all_built_commits       => bs[:commits].join('#'),
+        :git_trigger_commit          => if is_pr(build) then bs[:commits][0] else tr_commit end,
+        :tr_virtual_merged_into      => build[:tr_virtual_merged_into],
+        :tr_commit                   => tr_commit,
         :git_num_commits             => bs[:commits].size,
-        :gh_num_issue_comments       => num_issue_comments(build, Time.parse(bs[:prev_build][:started_at]), Time.parse(build[:started_at])),
-        :gh_num_commit_comments      => num_commit_comments(owner, repo, Time.parse(bs[:prev_build][:started_at]), Time.parse(build[:started_at])),
-        :gh_num_pr_comments          => num_pr_comments(build, Time.parse(bs[:prev_build][:started_at]), Time.parse(build[:started_at])),
+        :gh_num_issue_comments       => num_issue_comments(build, prev_build_started_at, Time.parse(build[:started_at])),
+        :gh_num_commit_comments      => num_commit_comments(owner, repo, prev_build_started_at, Time.parse(build[:started_at])),
+        :gh_num_pr_comments          => num_pr_comments(build, prev_build_started_at, Time.parse(build[:started_at])),
         :committers                  => bs[:authors].join('#'),
 
         :gh_src_churn                => stats[:lines_added] + stats[:lines_deleted],
@@ -590,12 +588,21 @@ usage:
         :gh_asserts_cases_per_kloc   => (num_assertions(build[:commit]).to_f / sloc.to_f) * 1000,
 
         :gh_by_core_team_member      => (committers - main_team).empty?,
-        :gh_description_complexity   => if is_pr then description_complexity(build) else nil end,
+        :gh_description_complexity   => if is_pr(build) then description_complexity(build) else nil end,
         :gh_pushed_at                => build[:commit_pushed_at],
         :gh_build_started_at         => build[:started_at],
-        :tr_prev_build               => bs[:prev_build][:build_id]
+        :tr_prev_build               => if bs[:prev_build].nil? then -1 else bs[:prev_build][:build_id] end
     }
 
+  end
+
+
+  def is_pr(build)
+    if build[:pull_req].nil? then
+      false
+    else
+      true
+    end
   end
 
   # Checks how a merge occured
@@ -674,6 +681,12 @@ usage:
 
   # Number of pull request code review comments in pull request
   def num_pr_comments(build, from, to)
+    return -1 unless is_pr(build)
+
+    if from.nil?
+      from = build[:pull_req_created_at]
+    end
+
     q = <<-QUERY
     select count(*) as comment_count
     from pull_request_comments prc
@@ -685,6 +698,12 @@ usage:
 
   # Number of pull request discussion comments
   def num_issue_comments(build, from, to)
+
+    return -1 unless is_pr(build)
+    if from.nil?
+      from = build[:pull_req_created_at]
+    end
+
     q = <<-QUERY
     select count(*) as issue_comment_count
     from pull_requests pr, issue_comments ic, issues i
@@ -697,8 +716,9 @@ usage:
     db.fetch(q, build[:pull_req_id], from, to).first[:issue_comment_count]
   end
 
-  # Number of commit comments on commits composing between builds in the same branch
+  # Number of commit comments on commits between builds in the same branch
   def num_commit_comments(onwer, repo, from, to)
+
     q = <<-QUERY
     select count(*) as commit_comment_count
     from project_commits pc, projects p, users u, commit_comments cc
