@@ -176,7 +176,7 @@ class LogFileAnalyzer
   end
 
   def tests_failed?
-    return ''
+    return nil
   end
 
   # Returns a HashMap of results from the analysis
