@@ -188,7 +188,7 @@ class LogFileAnalyzer
         # [doc] The job id of the build job under analysis
         :tr_job_id => @job_id,
         # [doc] The SHA of the original Travis commit, unparsed and unchanged
-        :tr_orig_commit => @commit,
+        :tr_original_commit => @commit,
         # [doc] The primary programming language, extracted by build log analysis
         :tr_log_lan => @primary_language,
         # [doc] The overall return status of the build, extracted by build log analysis
