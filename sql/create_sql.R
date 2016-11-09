@@ -25,9 +25,9 @@ data[tr_tests_failed == T & tr_tests_run == 0,]$tr_tests_run <- NA
 data[tr_tests_ok < 0,]$tr_tests_ok <- NA
 data[tr_tests_fail > tr_tests_run,]$tr_tests_run <- NA
 
-# Sanitize previous builds as NA instead of -1
 data$tr_prev_build <- as.integer(data$tr_prev_build)
-data[tr_prev_build == -1,]$tr_prev_build <- NA
+
+data$git_committers <- NULL
 
 write.csv(data, paste(table.name, "csv", sep="."), row.names = F)
 
