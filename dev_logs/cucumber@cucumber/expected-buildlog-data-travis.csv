@@ -1,4 +1,4 @@
-build_number,commit,job_id,lan,status,setup_time,analyzer,frameworks,tests_run?,tests_failed?,ok,failed,run,skipped,failed_tests,testduration,purebuildduration
-3,commit,job,ruby,broken,0,ruby,cucumber,true,"",0,2,2,0,features/rails_integration.feature#features/rails_integration.feature,12.1,
-1,commit,job,ruby,ok,0,ruby,rspec#cucumber,true,"",1318,0,1318,0,"",108.33,
-2,commit,job,ruby,broken,0,ruby,rspec#cucumber,true,"",1317,1,1318,0,features/docs/wire_protocol/invoke_message.feature,120.77,
+tr_build_id,tr_job_id,tr_orig_commit,tr_log_lan,tr_log_status,tr_log_setup_time,tr_log_analyzer,tr_log_frameworks,tr_log_bool_tests_ran,tr_log_bool_tests_failed,tr_log_num_tests_ok,tr_log_num_tests_failed,tr_log_num_tests_run,tr_log_num_tests_skipped,tr_log_tests_failed,tr_log_testduration,tr_log_buildduration
+3,job,commit,ruby,broken,0,ruby,cucumber,true,true,0,2,2,0,features/rails_integration.feature#features/rails_integration.feature,12.1,
+1,job,commit,ruby,ok,0,ruby,rspec#cucumber,true,false,1318,0,1318,0,"",108.33,
+2,job,commit,ruby,broken,0,ruby,rspec#cucumber,true,true,1317,1,1318,0,features/docs/wire_protocol/invoke_message.feature,120.77,

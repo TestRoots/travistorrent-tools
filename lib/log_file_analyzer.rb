@@ -175,8 +175,9 @@ class LogFileAnalyzer
     end
   end
 
+  # Mixins should define this method for their customized build process
   def tests_failed?
-    return ''
+    return nil
   end
 
   # Returns a HashMap of results from the analysis
