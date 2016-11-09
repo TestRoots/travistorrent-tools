@@ -104,24 +104,6 @@ module RubyLogFileAnalyzer
         end
       end
 
-      # RSpec
-      if !(line =~ /(\d+) examples?, (\d+) failures?(, (\d+) pending)?/).nil?
-        init_tests
-        @tests_run = true
-        add_framework 'rspec'
-        @num_tests_run += $1.to_i
-        @num_tests_failed += $2.to_i
-        @num_tests_skipped += $4.to_i
-      elsif !(line =~ /Failed examples:/).nil?
-        failed_rspec_tests_started = true
-      elsif failed_rspec_tests_started
-        if (line =~ /rspec (.*\.rb):\d+/).nil?
-          failed_rspec_tests_started = false
-        else
-          @tests_failed << $1
-        end
-      end
-
       # cucumber
       if !(line =~ /(\d+) scenarios?/).nil?
         init_tests
