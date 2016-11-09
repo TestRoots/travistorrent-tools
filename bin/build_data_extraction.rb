@@ -388,10 +388,18 @@ usage:
 
       # Get all previous commits up to a prior build or a branch point
       prev_commits = []
+      commit_resolution_status = :unknown
       walker.each do |commit|
         prev_commits << commit
-        break if @builds.select{|b| b[:commit] == commit.oid}.empty?
-        break if commit.parents.size > 1
+        if @builds.select{|b| b[:commit] == commit.oid}.empty?
+          commit_resolution_status = :build_found
+          break
+        end
+
+        if commit.parents.size > 1
+          commit_resolution_status = :merge_found
+          break
+        end
       end
 
       # https://github.com/tom-lord/regexp-examples/pull/6
@@ -408,7 +416,8 @@ usage:
           :files         => diff.deltas.map { |d| d.old_file }.map { |f| f[:path] },
           :lines_added   => diff.stat[1],
           :lines_deleted => diff.stat[2],
-          :prev_commit   => if prev_commits.last.nil? then build[:commit] else prev_commits.last.oid end
+          :prev_built_commit =>  if prev_commits.last.nil? then nil else prev_commits.last.oid end,
+          :prev_commit_resolution_status => commit_resolution_status
       }
     end.select { |x| !x.nil? }
 
@@ -478,20 +487,25 @@ usage:
     STDERR.puts 'Matching push events to build commits'
     @builds.map do |build|
       push_info = commit_push_info[build[:commit]]
+
       unless push_info.nil?
         STDERR.puts "  Push event at #{commit_push_info[build[:commit]][0]} triggered build #{build[:build_id]} (#{build[:commit]})"
         build[:commit_pushed_at] = commit_push_info[build[:commit]][0]
-        build[:push_id] = commit_push_info[build[:commit]][1]
+        build[:push_id]          = commit_push_info[build[:commit]][1]
 
-        push_event = mongo['events'].find_one({'id' => push_info[1]})
-        timestamps = push_event['payload']['commits'].map do |x|
+        push_event     = mongo['events'].find_one({'id' => push_info[1]})
+        pushed_commits = push_event['payload']['commits']
+
+        timestamps = pushed_commits.map do |x|
           c = mongo['commits'].find_one({'sha' => x['sha']})
           c['commit']['author']['date'] unless c.nil?
         end.select{|x| !x.nil?}
+
         build[:first_commit_created_at] = timestamps.min
+        build[:num_commits_in_push]     = pushed_commits.size
+        build[:commits_in_push]         = pushed_commits.map { |c| c['sha'] }
       else
         STDERR.puts "  No push event for build commit #{build[:commit]}"
-        build[:commit_pushed_at] = commit_push_info[build[:commit]]
       end
     end
 
@@ -539,8 +553,8 @@ usage:
     pr_id = unless build[:pull_req].nil? then build[:pull_req] end
     committers = bs[:authors].map{|a| github_login(a)}.select{|x| not x.nil?}
     main_team = main_team(owner, repo, build, months_back)
-    test_diff = test_diff_stats(bs[:prev_commit], build[:commit])
-    tr_commit = build[:tr_build_commit]
+    test_diff = test_diff_stats(if bs[:prev_built_commit].nil? then build[:commit] else bs[:prev_built_commit] end, build[:commit])
+    tr_original_commit = build[:tr_build_commit]
     prev_build_started_at = if bs[:prev_build].nil? then nil else Time.parse(bs[:prev_build][:started_at]) end
 
     {
@@ -681,7 +695,7 @@ usage:
 
   # Number of pull request code review comments in pull request
   def num_pr_comments(build, from, to)
-    return -1 unless is_pr(build)
+    return nil unless is_pr(build)
 
     if from.nil?
       from = build[:pull_req_created_at]
@@ -699,7 +713,7 @@ usage:
   # Number of pull request discussion comments
   def num_issue_comments(build, from, to)
 
-    return -1 unless is_pr(build)
+    return nil unless is_pr(build)
     if from.nil?
       from = build[:pull_req_created_at]
     end
@@ -797,7 +811,7 @@ usage:
     begin
       (pull_req['title'] + ' ' + pull_req['body']).gsub(/[\n\r]\s+/, ' ').split(/\s+/).size
     rescue
-      -1
+      nil
     end
   end
 
@@ -966,8 +980,7 @@ usage:
   end
 
   # Return a hash of file names and commits on those files in the
-  # period between pull request open and months_back. The returned
-  # results do not include the commits comming from the PR.
+  # period between build start and months_back.
   def commits_on_build_files(owner, repo, build, months_back)
 
     oldest = Time.at(build[:started_at].to_i - 3600 * 24 * 30 * months_back)
