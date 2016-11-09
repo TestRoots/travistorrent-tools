@@ -10,7 +10,7 @@ These include the
 
 ### Installing required dependencies
 
-The following work on Debian Jessie
+The following works on Debian Jessie
 
 ```
 $ apt-get install ruby bundler pkg-config libmysqlclient-dev
@@ -79,7 +79,7 @@ this will create a file with tokens equi-distributed to projects
 a directory `data`, and start 4 instanced of the `build_data_extraction.rb` script
 
 ### Analyzing Buildlogs
-Our buildlog dispatcher handles everything that you typically want: It generates on convenient CSV per project directory, and invokes an automatically dispatched correct buildlog analyzer. You can start the per-project analysis (typically on a directory structured checkedout through travis-harvester) via
+Our buildlog dispatcher handles everything that you typically want: It generates one convenient output file (a CSV) per project directory, and invokes an automatically dispatched correct buildlog analyzer. You can start the per-project analysis (typically on a directory structured checkedout through travis-harvester) via
 ```ruby
 ruby bin/buildlog_analyzer_dispatcher.rb directory-of-project-to-analyze
 ```
