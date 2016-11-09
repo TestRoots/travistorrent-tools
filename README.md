@@ -81,12 +81,12 @@ a directory `data`, and start 4 instanced of the `build_data_extraction.rb` scri
 ### Analyzing Buildlogs
 Our buildlog dispatcher handles everything that you typically want: It generates one convenient output file (a CSV) per project directory, and invokes an automatically dispatched correct buildlog analyzer. You can start the per-project analysis (typically on a directory structured checkedout through travis-harvester) via
 ```ruby
-ruby bin/buildlog_analyzer_dispatcher.rb directory-of-project-to-analyze
+ruby bin/buildlog_analysis.rb directory-of-project-to-analyze
 ```
 
 To start to analyze all buildlogs, parallel helps us again:
 ```bash
-ls build_logs | parallel -j 5 ruby bin/buildlog_analyzer_dispatcher.rb "build_logs/{}"
+ls build_logs | parallel -j 5 ruby bin/buildlog_analysis.rb "build_logs/{}"
 ```
 
 ### Travis Breaking the Build
