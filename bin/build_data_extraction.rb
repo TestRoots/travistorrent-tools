@@ -26,8 +26,10 @@ class BuildDataExtraction
 
   include Mongo
 
+  REQ_LIMIT = 4990
+
   attr_accessor :builds, :build_stats, :owner, :repo, :all_commits,
-                :closed_by_commit, :close_reason
+                :closed_by_commit, :close_reason, :token
 
   class << self
     def run(args = ARGV)
@@ -80,7 +82,7 @@ usage:
 
   def validate
     if options[:config].nil?
-      unless (file_exists?("config.yaml"))
+      unless file_exists?("config.yaml")
         Trollop::die "No config file in default location (#{Dir.pwd}). You
                         need to specify the #{:config} parameter."
       end
@@ -168,11 +170,11 @@ usage:
     end
 
     url = "https://api.github.com/repos/#{owner}/#{repo}/commits/#{sha}"
-    STDERR.puts("Requesting #{url} (#{@remaining} remaining)")
+    log("Requesting #{url} (#{@remaining} remaining)")
 
     contents = nil
     begin
-      r = open(url, 'User-Agent' => 'ghtorrent', 'Authorization' => "token #{@token}")
+      r = open(url, 'User-Agent' => 'ghtorrent', 'Authorization' => "token #{token}")
       @remaining = r.meta['x-ratelimit-remaining'].to_i
       @reset = r.meta['x-ratelimit-reset'].to_i
       contents = r.read
@@ -180,10 +182,10 @@ usage:
     rescue OpenURI::HTTPError => e
       @remaining = e.io.meta['x-ratelimit-remaining'].to_i
       @reset = e.io.meta['x-ratelimit-reset'].to_i
-      STDERR.puts "Cannot get #{url}. Error #{e.io.status[0].to_i}"
+      log "Cannot get #{url}. Error #{e.io.status[0].to_i}"
       {}
     rescue StandardError => e
-      STDERR.puts "Cannot get #{url}. General error: #{e.message}"
+      log "Cannot get #{url}. General error: #{e.message}"
       {}
     ensure
       File.open(commit_json, 'w') do |f|
@@ -191,12 +193,17 @@ usage:
         f.write '' if r.nil?
       end
 
-      if 5000 - @remaining >= @req_limit
+      if 5000 - @remaining >= REQ_LIMIT
         to_sleep = @reset - Time.now.to_i + 2
-        STDERR.puts "Request limit reached, sleeping for #{to_sleep} secs"
+        log "Request limit reached, sleeping for #{to_sleep} secs"
         sleep(to_sleep)
       end
     end
+  end
+
+  def log(msg, level = 0)
+    (0..level).each {STDERR.write ' '}
+    STDERR.puts msg
   end
 
   # Main command code
@@ -204,14 +211,13 @@ usage:
     interrupted = false
 
     trap('INT') {
-      STDERR.puts "#{File.basename($0)}(#{Process.pid}): Received SIGINT, exiting"
+      log "#{File.basename($0)}(#{Process.pid}): Received SIGINT, exiting"
       interrupted = true
     }
 
-    self.owner = ARGV[0]
-    self.repo = ARGV[1]
-    @token = ARGV[2]
-    @req_limit = 4990
+    self.owner     = ARGV[0]
+    self.repo      = ARGV[1]
+    self.token     = ARGV[2]
 
     user_entry = db[:users].first(:login => owner)
 
@@ -244,11 +250,11 @@ usage:
     self.builds = load_builds(owner, repo)
 
     if builds.empty?
-      STDERR.puts "No builds for #{owner}/#{repo}"
+      log "No builds for #{owner}/#{repo}"
       return
     end
 
-    STDERR.puts "#{builds.size} builds for #{owner}/#{repo}"
+    log "#{builds.size} builds for #{owner}/#{repo}"
 
     # Filter out empty build dates
     self.builds = builds.reduce([]) do |acc, b|
@@ -260,11 +266,11 @@ usage:
       end
     end
 
-    STDERR.puts "#{builds.size} builds after filtering out empty build dates"
+    log "#{builds.size} builds after filtering out empty build dates"
 
-    STDERR.puts "\nCalculating GHTorrent PR ids"
+    log "\nCalculating GHTorrent PR ids"
     self.builds = builds.reduce([]) do |acc, build|
-      if build[:pull_req].nil?
+      unless is_pr?(build)
         acc << build
       else
         q = <<-QUERY
@@ -284,7 +290,7 @@ usage:
         unless r.nil?
           build[:pull_req_id] = r[:id]
           build[:pull_req_created_at] = r[:created_at]
-          STDERR.puts " GHT PR #{r[:id]} (#{r[:created_at]}) triggered build #{build[:pull_req]}"
+          log "GHT PR #{r[:id]} (#{r[:created_at]}) triggered build #{build[:pull_req]}", 1
           acc << build
         else
           # Not yet processed by GHTorrent, don't process further
@@ -293,11 +299,11 @@ usage:
       end
     end
 
-    STDERR.puts "After resolving GHT pullreqs: #{builds.size} builds for #{owner}/#{repo}"
+    log "After resolving GHT pullreqs: #{builds.size} builds for #{owner}/#{repo}"
     # Update the repo
     clone(owner, repo, true)
 
-    STDERR.puts 'Retrieving all commits for the project'
+    log 'Retrieving all commits for the project'
     walker = Rugged::Walker.new(git)
     walker.sorting(Rugged::SORT_DATE)
     walker.push(git.head.target)
@@ -317,7 +323,7 @@ usage:
 
     fixre = /(?:fixe[sd]?|close[sd]?|resolve[sd]?)(?:[^\/]*?|and)#([0-9]+)/mi
 
-    STDERR.puts 'Calculating PRs closed by commits'
+    log 'Calculating PRs closed by commits'
     commits_in_prs = db.fetch(q, repo_entry[:id]).all
     self.closed_by_commit =
         Parallel.map(commits_in_prs, :in_threads => threads) do |x|
@@ -325,7 +331,6 @@ usage:
           result = {}
           mongo['commits'].find({:sha => sha},
                                 {:fields => {'commit.message' => 1, '_id' => 0}}).map do |x|
-            #STDERR.puts "  Examining commit #{sha}"
             comment = x['commit']['message']
 
             comment.match(fixre) do |m|
@@ -337,7 +342,7 @@ usage:
           result
         end.select { |x| !x.empty? }.reduce({}) { |acc, x| acc.merge(x) }
 
-    STDERR.puts 'Calculating PR close reasons'
+    log 'Calculating PR close reasons'
     self.close_reason = builds.select { |b| not b[:pull_req].nil? }.reduce({}) do |acc, build|
       acc[build[:pull_req]] = merged_with(owner, repo, build)
       acc
@@ -345,19 +350,19 @@ usage:
 
     self.builds = builds.map { |x| x[:tr_build_commit] = x[:commit]; x }
 
-    STDERR.puts 'Retrieving commits that were actually built (for pull requests)'
+    log 'Retrieving commits that were actually built (for pull requests)'
     # When building pull requests, travis creates artifical commits by merging
     # the commit to be built with the branch to be built. By default, it reports
     # those commits instead of the latest built PR commit.
     # The algorithm below attempts to resolve the actual PR commit. If the
     # PR commit (or the PR) cannot be retrieved, the build is skipped from further processing.
     self.builds = Parallel.map(builds, :in_threads => threads) do |build|
-      unless build[:pull_req].nil?
+      if is_pr?(build)
         c = github_commit(owner, repo, build[:commit])
         unless c.empty?
           shas = c['commit']['message'].match(/Merge (.*) into (.*)/i).captures
           if shas.size == 2
-            STDERR.puts "  Replacing Travis commit #{build[:commit]} with actual #{shas[0]}"
+            log "Replacing Travis commit #{build[:commit]} with actual #{shas[0]}", 2
 
             build[:commit] = shas[0]
             build[:tr_virtual_merged_into] = shas[1]
@@ -372,9 +377,9 @@ usage:
       end
     end.select { |x| !x.nil? }
 
-    STDERR.puts "After resolving PR commits: #{builds.size} builds for #{owner}/#{repo}"
+    log "After resolving PR commits: #{builds.size} builds for #{owner}/#{repo}"
 
-    STDERR.puts 'Calculating build diff information'
+    log 'Calculating build diff information'
     self.build_stats = builds.map do |build|
 
       begin
@@ -424,7 +429,7 @@ usage:
     end.select { |x| !x.nil? }
 
     self.builds = builds.select { |b| !build_stats.find { |bd| bd[:build_id] == b[:build_id] }.nil? }
-    STDERR.puts "After calculating build stats: #{builds.size} builds for #{owner}/#{repo}"
+    log "After calculating build stats: #{builds.size} builds for #{owner}/#{repo}"
 
     # Find push events for commits that triggered builds:
     # For builds that are triggered from PRs, we need to find the push
@@ -446,8 +451,8 @@ usage:
     end.select { |x| !x.nil? }
 
     all_repos = (forks << {:owner => owner, :repo => repo}).uniq
-    STDERR.puts 'Finding push events for all repositories that contributed pull requests'
-    STDERR.puts "#{all_repos.size} repos to retrieve push events for"
+    log 'Finding push events for all repositories that contributed pull requests'
+    log "#{all_repos.size} repos to retrieve push events for"
 
     commit_push_info =
         all_repos.map do |repo|
@@ -465,7 +470,7 @@ usage:
                                  :pushed_at => push['created_at'],
                                  :push_id => push['id']}
                 push_events_processed += 1
-                #STDERR.puts "  Push event: #{push['id']}, total: #{push_events_processed}"
+                #log "Push event: #{push['id']}, total: #{push_events_processed}", 2
               end
             end
             STDERR.write " #{push_events_processed} push events\n"
@@ -479,19 +484,19 @@ usage:
             reduce({}) do |acc, commit_group|
           # sort all commit appearances in descending order and get the earliest one
           if commit_group[1].size > 1
-            STDERR.puts "  Commit #{commit_group[0]} appears in #{commit_group[1].size} push events"
+            log "Commit #{commit_group[0]} appears in #{commit_group[1].size} push events", 2
           end
           first_appearence = commit_group[1].sort { |a, b| a[:pushed_at] <=> b[:pushed_at] }.first
           acc.merge({commit_group[0] => [first_appearence[:pushed_at], first_appearence[:push_id]]})
         end
 
     # join build info with commit push info
-    STDERR.puts 'Matching push events to build commits'
+    log 'Matching push events to build commits'
     builds.map do |build|
       push_info = commit_push_info[build[:commit]]
 
       unless push_info.nil?
-        STDERR.puts "  Push event at #{commit_push_info[build[:commit]][0]} triggered build #{build[:build_id]} (#{build[:commit]})"
+        log "Push event at #{commit_push_info[build[:commit]][0]} triggered build #{build[:build_id]} (#{build[:commit]})", 2
         build[:commit_pushed_at] = commit_push_info[build[:commit]][0]
         build[:push_id] = commit_push_info[build[:commit]][1]
 
@@ -507,15 +512,15 @@ usage:
         build[:num_commits_in_push] = pushed_commits.size
         build[:commits_in_push] = pushed_commits.map { |c| c['sha'] }
       else
-        STDERR.puts "  No push event for build commit #{build[:commit]}"
+        log "No push event for build commit #{build[:commit]}", 2
       end
     end
 
     neg_latency = builds.select { |x| (not x[:commit_pushed_at].nil?) and (x[:commit_pushed_at] > x[:started_at]) }
     no_push = builds.select { |x| x[:commit_pushed_at].nil? }
-    STDERR.puts "#{neg_latency.size} builds have negative latency"
-    STDERR.puts "#{no_push.size} builds have no push info"
-    STDERR.puts "#{builds.size} builds to process"
+    log "#{neg_latency.size} builds have negative latency"
+    log "#{no_push.size} builds have no push info"
+    log "#{builds.size} builds to process"
 
     results = Parallel.map(builds, :in_threads => threads) do |build|
       begin
@@ -523,11 +528,11 @@ usage:
         if interrupted
           raise Parallel::Kill
         end
-        STDERR.puts r
+        log r
         r
       rescue StandardError => e
-        STDERR.puts "Error processing build #{build[:build_id]}: #{e.message}"
-        STDERR.puts e.backtrace
+        log "Error processing build #{build[:build_id]}: #{e.message}"
+        log e.backtrace
       end
     end.select { |x| !x.nil? }
 
@@ -551,7 +556,7 @@ usage:
     bs = build_stats.find { |b| b[:build_id] == build[:build_id] }
     stats = calc_build_stats(owner, repo, bs[:commits])
 
-    pr_id = build[:pull_req] if is_pr(build)
+    pr_id = build[:pull_req] if is_pr?(build)
     committers = bs[:authors].map { |a| github_login(a) }.select { |x| not x.nil? }
     main_team = main_team(owner, repo, build, months_back)
     test_diff = test_diff_stats(bs[:prev_built_commit].nil? ? build[:commit] : bs[:prev_built_commit], build[:commit])
@@ -566,7 +571,7 @@ usage:
         :gh_project_name => "#{owner}/#{repo}",
 
         # [doc] Whether this build was triggered as part of a pull request on GitHub
-        :gh_is_pr => is_pr(build),
+        :gh_is_pr => is_pr?(build),
 
         # [doc] If the build is a pull request, the creation timestamp for this pull request
         :gh_pr_created_at => build[:pull_req_created_at],
@@ -613,7 +618,7 @@ usage:
         :git_num_all_built_commits => bs[:commits].size,
 
         # [doc] The commit that triggered the build
-        :git_trigger_commit =>  is_pr(build) ? bs[:commits][0] : tr_original_commit,
+        :git_trigger_commit =>  is_pr?(build) ? bs[:commits][0] : tr_original_commit,
 
         # [doc] The commit of the branch that the commit built by Travis is merged into when testing pull requests
         :tr_virtual_merged_into => build[:tr_virtual_merged_into],
@@ -682,7 +687,7 @@ usage:
         :gh_by_core_team_member => (committers - main_team).empty?,
 
         # [doc] If the build is a pull request, the total number of words in the pull request title and description
-        :gh_description_complexity => is_pr(build) ? description_complexity(build) : nil,
+        :gh_description_complexity => is_pr?(build) ? description_complexity(build) : nil,
 
         # [doc] Timestamp of the push that triggered the build (GitHub provided)
         :gh_pushed_at => build[:commit_pushed_at],
@@ -697,7 +702,7 @@ usage:
 
   end
 
-  def is_pr(build)
+  def is_pr?(build)
     build[:pull_req].nil? ? false : true
   end
 
@@ -777,7 +782,7 @@ usage:
 
   # Number of pull request code review comments in pull request
   def num_pr_comments(build, from, to)
-    return nil unless is_pr(build)
+    return nil unless is_pr?(build)
 
     if from.nil?
       from = build[:pull_req_created_at]
@@ -795,7 +800,7 @@ usage:
   # Number of pull request discussion comments
   def num_issue_comments(build, from, to)
 
-    return nil unless is_pr(build)
+    return nil unless is_pr?(build)
     if from.nil?
       from = build[:pull_req_created_at]
     end
@@ -1161,7 +1166,7 @@ usage:
         begin
           all_files << lslr(git.lookup(f[:oid]), f[:path])
         rescue StandardError => e
-          STDERR.puts e
+          log e
           all_files
         end
       else
@@ -1179,11 +1184,11 @@ usage:
     begin
       files = lslr(git.lookup(sha).tree)
       if files.size <= 0
-        STDERR.puts "No files for commit #{sha}"
+        log "No files for commit #{sha}"
       end
       files.select { |x| filter.call(x) }
     rescue StandardError => e
-      STDERR.puts "Cannot find commit #{sha} in base repo"
+      log "Cannot find commit #{sha} in base repo"
       []
     end
   end
@@ -1196,7 +1201,7 @@ usage:
 
       proc_out = Thread.new {
         while !proc.eof
-          STDERR.puts "#{proc.gets}"
+          log "#{proc.gets}"
         end
       }
 
