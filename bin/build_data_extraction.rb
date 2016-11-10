@@ -583,8 +583,7 @@ usage:
         # [doc] Dominant repository language, according to GitHub
         :gh_lang => lang,
 
-        # TODO: This is not a very good description yet
-        # [doc] If this commit sits on a pull request (`gh_is_pr` true), the way how it was closed?
+        # [doc] If this commit sits on a pull request (`gh_is_pr` true), how was it closed (merge button, manual merge, etc)?
         :git_merged_with => close_reason[pr_id],
 
         # [doc] The branch that was built
