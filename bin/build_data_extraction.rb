@@ -25,6 +25,10 @@ require 'python'
 class BuildDataExtraction
 
   include Mongo
+
+  attr_accessor :builds, :build_stats, :owner, :repo, :all_commits,
+                :closed_by_commit, :close_reason
+
   class << self
     def run(args = ARGV)
       attr_accessor :options, :args, :name, :config
@@ -42,7 +46,7 @@ class BuildDataExtraction
   end
 
   def process_options
-    command = self
+    #command = self
     @options = Trollop::options do
       banner <<-BANNER
 Extract data for builds given a Github repo and a Travis build info file
@@ -137,7 +141,7 @@ usage:
     @stripped[f]
   end
 
-  def builds(owner, repo)
+  def load_builds(owner, repo)
     f = File.join("build_logs", "rubyjava", "#{owner}@#{repo}", "repo-data-travis.json")
     unless File.exists? f
       Trollop::die "Build file (#{f}) does not exist"
@@ -204,13 +208,10 @@ usage:
       interrupted = true
     }
 
-    owner = ARGV[0]
-    repo = ARGV[1]
+    self.owner = ARGV[0]
+    self.repo = ARGV[1]
     @token = ARGV[2]
     @req_limit = 4990
-
-    # Init the semaphore
-    semaphore
 
     user_entry = db[:users].first(:login => owner)
 
@@ -221,8 +222,8 @@ usage:
     repo_entry = db.from(:projects, :users).\
                   where(:users__id => :projects__owner_id).\
                   where(:users__login => owner).\
-                  where(:projects__name => repo).select(:projects__id,
-                                                        :projects__language).\
+                  where(:projects__name => repo).\
+                  select(:projects__id, :projects__language).\
                   first
 
     if repo_entry.nil?
@@ -240,15 +241,17 @@ usage:
         Trollop::die "Language #{language} not supported"
     end
 
-    @builds = builds(owner, repo)
-    if @builds.empty?
+    self.builds = load_builds(owner, repo)
+
+    if builds.empty?
       STDERR.puts "No builds for #{owner}/#{repo}"
       return
-    else
-      STDERR.puts "#{@builds.size} builds for #{owner}/#{repo}"
     end
 
-    @builds = @builds.reduce([]) do |acc, b|
+    STDERR.puts "#{builds.size} builds for #{owner}/#{repo}"
+
+    # Filter out empty build dates
+    self.builds = builds.reduce([]) do |acc, b|
       unless b[:started_at].nil?
         #b[:started_at] = Time.parse(b[:started_at])
         acc << b
@@ -256,10 +259,11 @@ usage:
         acc
       end
     end
-    STDERR.puts "#{@builds.size} builds after filtering out empty build dates"
+
+    STDERR.puts "#{builds.size} builds after filtering out empty build dates"
 
     STDERR.puts "\nCalculating GHTorrent PR ids"
-    @builds = @builds.reduce([]) do |acc, build|
+    self.builds = builds.reduce([]) do |acc, build|
       if build[:pull_req].nil?
         acc << build
       else
@@ -289,7 +293,7 @@ usage:
       end
     end
 
-    STDERR.puts "After resolving GHT pullreqs: #{@builds.size} builds for #{owner}/#{repo}"
+    STDERR.puts "After resolving GHT pullreqs: #{builds.size} builds for #{owner}/#{repo}"
     # Update the repo
     clone(owner, repo, true)
 
@@ -297,7 +301,7 @@ usage:
     walker = Rugged::Walker.new(git)
     walker.sorting(Rugged::SORT_DATE)
     walker.push(git.head.target)
-    @all_commits = walker.map do |commit|
+    self.all_commits = walker.map do |commit|
       commit.oid[0..10]
     end
 
@@ -314,9 +318,8 @@ usage:
     fixre = /(?:fixe[sd]?|close[sd]?|resolve[sd]?)(?:[^\/]*?|and)#([0-9]+)/mi
 
     STDERR.puts 'Calculating PRs closed by commits'
-    @closed_by_commit ={}
     commits_in_prs = db.fetch(q, repo_entry[:id]).all
-    @closed_by_commit =
+    self.closed_by_commit =
         Parallel.map(commits_in_prs, :in_threads => threads) do |x|
           sha = x[:sha]
           result = {}
@@ -335,13 +338,12 @@ usage:
         end.select { |x| !x.empty? }.reduce({}) { |acc, x| acc.merge(x) }
 
     STDERR.puts 'Calculating PR close reasons'
-    @close_reason = {}
-    @close_reason = @builds.select { |b| not b[:pull_req].nil? }.reduce({}) do |acc, build|
+    self.close_reason = builds.select { |b| not b[:pull_req].nil? }.reduce({}) do |acc, build|
       acc[build[:pull_req]] = merged_with(owner, repo, build)
       acc
     end
 
-    @builds = @builds.map { |x| x[:tr_build_commit] = x[:commit]; x }
+    self.builds = builds.map { |x| x[:tr_build_commit] = x[:commit]; x }
 
     STDERR.puts 'Retrieving commits that were actually built (for pull requests)'
     # When building pull requests, travis creates artifical commits by merging
@@ -349,7 +351,7 @@ usage:
     # those commits instead of the latest built PR commit.
     # The algorithm below attempts to resolve the actual PR commit. If the
     # PR commit (or the PR) cannot be retrieved, the build is skipped from further processing.
-    @builds = Parallel.map(@builds, :in_threads => threads) do |build|
+    self.builds = Parallel.map(builds, :in_threads => threads) do |build|
       unless build[:pull_req].nil?
         c = github_commit(owner, repo, build[:commit])
         unless c.empty?
@@ -370,10 +372,10 @@ usage:
       end
     end.select { |x| !x.nil? }
 
-    STDERR.puts "After resolving PR commits: #{@builds.size} builds for #{owner}/#{repo}"
+    STDERR.puts "After resolving PR commits: #{builds.size} builds for #{owner}/#{repo}"
 
     STDERR.puts 'Calculating build diff information'
-    @build_stats = @builds.map do |build|
+    self.build_stats = builds.map do |build|
 
       begin
         build_commit = git.lookup(build[:commit])
@@ -391,7 +393,7 @@ usage:
       commit_resolution_status = :unknown
       walker.each do |commit|
         prev_commits << commit
-        if @builds.select { |b| b[:commit] == commit.oid }.empty?
+        if builds.select { |b| b[:commit] == commit.oid }.empty?
           commit_resolution_status = :build_found
           break
         end
@@ -410,29 +412,25 @@ usage:
 
       {
           :build_id => build[:build_id],
-          :prev_build => @builds.find { |b| b[:build_id] < build[:build_id] and prev_commits.last.oid.start_with? b[:commit] },
+          :prev_build => builds.find { |b| b[:build_id] < build[:build_id] and prev_commits.last.oid.start_with? b[:commit] },
           :commits => prev_commits.map { |c| c.oid },
           :authors => prev_commits.map { |c| c.author[:email] }.uniq,
           :files => diff.deltas.map { |d| d.old_file }.map { |f| f[:path] },
           :lines_added => diff.stat[1],
           :lines_deleted => diff.stat[2],
-          :prev_built_commit => if prev_commits.last.nil? then
-                                  nil
-                                else
-                                  prev_commits.last.oid
-                                end,
+          :prev_built_commit => prev_commits.last.nil? ? nil : prev_commits.last.oid,
           :prev_commit_resolution_status => commit_resolution_status
       }
     end.select { |x| !x.nil? }
 
-    @builds = @builds.select { |b| !@build_stats.find { |bd| bd[:build_id] == b[:build_id] }.nil? }
-    STDERR.puts "After calculating build stats: #{@builds.size} builds for #{owner}/#{repo}"
+    self.builds = builds.select { |b| !build_stats.find { |bd| bd[:build_id] == b[:build_id] }.nil? }
+    STDERR.puts "After calculating build stats: #{builds.size} builds for #{owner}/#{repo}"
 
     # Find push events for commits that triggered builds:
     # For builds that are triggered from PRs, we need to find the push
     # events in the source repositories. All the remaining builds are
     # from pushes to local repository branches
-    forks = @builds.select { |b| not b[:pull_req].nil? }.map do |b|
+    forks = builds.select { |b| not b[:pull_req].nil? }.map do |b|
       # Resolve PR object
       pr = mongo['pull_requests'].find_one({'owner' => owner,
                                             'repo' => repo,
@@ -489,7 +487,7 @@ usage:
 
     # join build info with commit push info
     STDERR.puts 'Matching push events to build commits'
-    @builds.map do |build|
+    builds.map do |build|
       push_info = commit_push_info[build[:commit]]
 
       unless push_info.nil?
@@ -513,13 +511,13 @@ usage:
       end
     end
 
-    neg_latency = @builds.select { |x| (not x[:commit_pushed_at].nil?) and (x[:commit_pushed_at] > x[:started_at]) }
-    no_push = @builds.select { |x| x[:commit_pushed_at].nil? }
+    neg_latency = builds.select { |x| (not x[:commit_pushed_at].nil?) and (x[:commit_pushed_at] > x[:started_at]) }
+    no_push = builds.select { |x| x[:commit_pushed_at].nil? }
     STDERR.puts "#{neg_latency.size} builds have negative latency"
     STDERR.puts "#{no_push.size} builds have no push info"
-    STDERR.puts "#{@builds.size} builds to process"
+    STDERR.puts "#{builds.size} builds to process"
 
-    results = Parallel.map(@builds, :in_threads => threads) do |build|
+    results = Parallel.map(builds, :in_threads => threads) do |build|
       begin
         r = process_build(build, owner, repo, language.downcase)
         if interrupted
@@ -550,26 +548,15 @@ usage:
 
     months_back = 3
 
-    # Create line for build
-    bs = @build_stats.find { |b| b[:build_id] == build[:build_id] }
-    stats = build_stats(owner, repo, bs[:commits])
+    bs = build_stats.find { |b| b[:build_id] == build[:build_id] }
+    stats = calc_build_stats(owner, repo, bs[:commits])
 
-    pr_id = unless build[:pull_req].nil? then
-              build[:pull_req]
-            end
+    pr_id = build[:pull_req] if is_pr(build)
     committers = bs[:authors].map { |a| github_login(a) }.select { |x| not x.nil? }
     main_team = main_team(owner, repo, build, months_back)
-    test_diff = test_diff_stats(if bs[:prev_built_commit].nil? then
-                                  build[:commit]
-                                else
-                                  bs[:prev_built_commit]
-                                end, build[:commit])
+    test_diff = test_diff_stats(bs[:prev_built_commit].nil? ? build[:commit] : bs[:prev_built_commit], build[:commit])
     tr_original_commit = build[:tr_build_commit]
-    prev_build_started_at = if bs[:prev_build].nil? then
-                              nil
-                            else
-                              Time.parse(bs[:prev_build][:started_at])
-                            end
+    prev_build_started_at = bs[:prev_build].nil? ? nil : Time.parse(bs[:prev_build][:started_at])
 
     {
         # [doc] The analyzed build id, as reported from TravisCI
@@ -592,7 +579,7 @@ usage:
 
         # TODO: This is not a very good description yet
         # [doc] If this commit sits on a pull request (`gh_is_pr` true), the way how it was closed?
-        :git_merged_with => @close_reason[pr_id],
+        :git_merged_with => close_reason[pr_id],
 
         # [doc] The branch that was built
         :git_branch => build[:branch],
@@ -626,11 +613,7 @@ usage:
         :git_num_all_built_commits => bs[:commits].size,
 
         # [doc] The commit that triggered the build
-        :git_trigger_commit => if is_pr(build) then
-                                 bs[:commits][0]
-                               else
-                                 tr_original_commit
-                               end,
+        :git_trigger_commit =>  is_pr(build) ? bs[:commits][0] : tr_original_commit,
 
         # [doc] The commit of the branch that the commit built by Travis is merged into when testing pull requests
         :tr_virtual_merged_into => build[:tr_virtual_merged_into],
@@ -699,10 +682,7 @@ usage:
         :gh_by_core_team_member => (committers - main_team).empty?,
 
         # [doc] If the build is a pull request, the total number of words in the pull request title and description
-        :gh_description_complexity => if is_pr(build) then
-                                        description_complexity(build)
-                                      else
-                                      end,
+        :gh_description_complexity => is_pr(build) ? description_complexity(build) : nil,
 
         # [doc] Timestamp of the push that triggered the build (GitHub provided)
         :gh_pushed_at => build[:commit_pushed_at],
@@ -712,22 +692,13 @@ usage:
 
         # TODO Shouldn't this be together with git_prev_built_commit as it relies on the same information?
         # [doc] The previous build on the same branch, if any
-        :tr_prev_build => if bs[:prev_build].nil? then
-                            nil
-                          else
-                            bs[:prev_build][:build_id]
-                          end
+        :tr_prev_build => bs[:prev_build].nil? ? nil : bs[:prev_build][:build_id]
     }
 
   end
 
-
   def is_pr(build)
-    if build[:pull_req].nil? then
-      false
-    else
-      true
-    end
+    build[:pull_req].nil? ? false : true
   end
 
   # Checks how a merge occured
@@ -752,7 +723,7 @@ usage:
       and prc.pull_request_id = ?
     QUERY
     db.fetch(q, build[:pull_req_id]).each do |x|
-      unless @all_commits.select { |y| x[:sha].start_with? y }.empty?
+      unless all_commits.select { |y| x[:sha].start_with? y }.empty?
         return :commits_in_master
       end
     end
@@ -760,9 +731,9 @@ usage:
     #2. The PR was closed by a commit (using the Fixes: convention).
     # Check whether the commit that closes the PR is in the project's
     # master branch
-    unless @closed_by_commit[build[:pull_req]].nil?
-      sha = @closed_by_commit[build[:pull_req]]
-      unless @all_commits.select { |x| sha.start_with? x }.empty?
+    unless closed_by_commit[build[:pull_req]].nil?
+      sha = closed_by_commit[build[:pull_req]]
+      unless all_commits.select { |x| sha.start_with? x }.empty?
         return :fixes_in_commit
       end
     end
@@ -785,7 +756,7 @@ usage:
           return :commit_sha_in_comments
         else
           # Commit appears in master branch
-          unless @all_commits.select { |y| x[0].start_with? y }.empty?
+          unless all_commits.select { |y| x[0].start_with? y }.empty?
             return :commit_sha_in_comments
           end
         end
@@ -881,10 +852,10 @@ usage:
   # from the time the built PR was created.
   def merger_team(owner, repo, build, months_back)
 
-    recently_merged = @builds.select do |b|
+    recently_merged = builds.select do |b|
       not b[:pull_req].nil?
     end.find_all do |b|
-      @close_reason[b[:pull_req]] != :unknown and
+      close_reason[b[:pull_req]] != :unknown and
           b[:started_at].to_i > (build[:started_at].to_i - months_back * 30 * 24 * 3600)
     end.map do |b|
       b[:pull_req]
@@ -956,7 +927,7 @@ usage:
   # Various statistics for the build. Returned as Hash with the following
   # keys: :lines_added, :lines_deleted, :files_added, :files_removed,
   # :files_modified, :files_touched, :src_files, :doc_files, :other_files.
-  def build_stats(owner, repo, commits)
+  def calc_build_stats(owner, repo, commits)
 
     raw_commits = commit_entries(owner, repo, commits)
     result = Hash.new(0)
@@ -1099,7 +1070,7 @@ usage:
   def commits_on_build_files(owner, repo, build, months_back)
 
     oldest = Time.at(build[:started_at].to_i - 3600 * 24 * 30 * months_back)
-    commits = commit_entries(owner, repo, @build_stats.find { |b| b[:build_id] == build[:build_id] }[:commits])
+    commits = commit_entries(owner, repo, build_stats.find { |b| b[:build_id] == build[:build_id] }[:commits])
 
     commits_per_file = commits.flat_map { |c|
       c['files'].map { |f|
