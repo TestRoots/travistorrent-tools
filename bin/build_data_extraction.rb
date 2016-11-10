@@ -27,6 +27,7 @@ class BuildDataExtraction
   include Mongo
 
   REQ_LIMIT = 4990
+  THREADS = 2
 
   attr_accessor :builds, :build_stats, :owner, :repo, :all_commits,
                 :closed_by_commit, :close_reason, :token
@@ -118,29 +119,12 @@ usage:
     Thread.current[:repo]
   end
 
-  def threads
-    @threads ||= 2
-    @threads
-  end
-
   # Read a source file from the repo and strip its comments
   # The argument f is the result of Grit.lstree
   # Memoizes result per f
   def semaphore
     @semaphore ||= Mutex.new
     @semaphore
-  end
-
-  def stripped(f)
-    @stripped ||= Hash.new
-    unless @stripped.has_key? f
-      semaphore.synchronize do
-        unless @stripped.has_key? f
-          @stripped[f] = strip_comments(git.read(f[:oid]).data)
-        end
-      end
-    end
-    @stripped[f]
   end
 
   def load_builds(owner, repo)
@@ -202,8 +186,10 @@ usage:
   end
 
   def log(msg, level = 0)
-    (0..level).each {STDERR.write ' '}
-    STDERR.puts msg
+    semaphore.synchronize do
+      (0..level).each {STDERR.write ' '}
+      STDERR.puts msg
+    end
   end
 
   # Main command code
@@ -215,9 +201,9 @@ usage:
       interrupted = true
     }
 
-    self.owner     = ARGV[0]
-    self.repo      = ARGV[1]
-    self.token     = ARGV[2]
+    self.owner = ARGV[0]
+    self.repo  = ARGV[1]
+    self.token = ARGV[2]
 
     user_entry = db[:users].first(:login => owner)
 
@@ -266,7 +252,7 @@ usage:
       end
     end
 
-    log "#{builds.size} builds after filtering out empty build dates"
+    log "After filtering empty build dates: #{builds.size} builds"
 
     log "\nCalculating GHTorrent PR ids"
     self.builds = builds.reduce([]) do |acc, build|
@@ -303,13 +289,14 @@ usage:
     # Update the repo
     clone(owner, repo, true)
 
-    log 'Retrieving all commits for the project'
+    log 'Retrieving all commits'
     walker = Rugged::Walker.new(git)
     walker.sorting(Rugged::SORT_DATE)
     walker.push(git.head.target)
     self.all_commits = walker.map do |commit|
       commit.oid[0..10]
     end
+    log "#{all_commits.size} commits to process"
 
     # Get commits that close issues/pull requests
     # Index them by issue/pullreq id, as a sha might close multiple issues
@@ -326,7 +313,7 @@ usage:
     log 'Calculating PRs closed by commits'
     commits_in_prs = db.fetch(q, repo_entry[:id]).all
     self.closed_by_commit =
-        Parallel.map(commits_in_prs, :in_threads => threads) do |x|
+        Parallel.map(commits_in_prs, :in_threads => THREADS) do |x|
           sha = x[:sha]
           result = {}
           mongo['commits'].find({:sha => sha},
@@ -341,12 +328,14 @@ usage:
           end
           result
         end.select { |x| !x.empty? }.reduce({}) { |acc, x| acc.merge(x) }
+    log "#{closed_by_commit.size} PRs closed by commits"
 
     log 'Calculating PR close reasons'
     self.close_reason = builds.select { |b| not b[:pull_req].nil? }.reduce({}) do |acc, build|
       acc[build[:pull_req]] = merged_with(owner, repo, build)
       acc
     end
+    log "Close reasons: #{close_reason.group_by{|_,v| v}.reduce({}){|acc, x| acc.merge({x[0] => x[1].size})}}"
 
     self.builds = builds.map { |x| x[:tr_build_commit] = x[:commit]; x }
 
@@ -356,7 +345,7 @@ usage:
     # those commits instead of the latest built PR commit.
     # The algorithm below attempts to resolve the actual PR commit. If the
     # PR commit (or the PR) cannot be retrieved, the build is skipped from further processing.
-    self.builds = Parallel.map(builds, :in_threads => threads) do |build|
+    self.builds = Parallel.map(builds, :in_threads => THREADS) do |build|
       if is_pr?(build)
         c = github_commit(owner, repo, build[:commit])
         unless c.empty?
@@ -409,6 +398,8 @@ usage:
         end
       end
 
+      log "#{prev_commits.size} built commits (#{commit_resolution_status}) for build #{build[:build_id]}", 2
+
       # https://github.com/tom-lord/regexp-examples/pull/6
       # https://github.com/tom-lord/regexp-examples/compare/eff1955a93cf...a1daed14a4ba
 
@@ -428,7 +419,12 @@ usage:
       }
     end.select { |x| !x.nil? }
 
-    self.builds = builds.select { |b| !build_stats.find { |bd| bd[:build_id] == b[:build_id] }.nil? }
+    # Filter out builds without build statistics
+    self.builds = builds.select do |b|
+      not build_stats.find do |bd|
+        bd[:build_id] == b[:build_id]
+      end.nil?
+    end
     log "After calculating build stats: #{builds.size} builds for #{owner}/#{repo}"
 
     # Find push events for commits that triggered builds:
@@ -456,7 +452,7 @@ usage:
 
     commit_push_info =
         all_repos.map do |repo|
-          STDERR.write "  Retrieving push events for #{repo[:owner]}/#{repo[:repo]}"
+          log "Retrieving push events for #{repo[:owner]}/#{repo[:repo]}"
           repo_commits = []
           push_events_processed = 0
           mongo['events'].find({'repo.name' => "#{repo[:owner]}/#{repo[:repo]}", 'type' => 'PushEvent'},
@@ -466,22 +462,20 @@ usage:
               push = cursor.next
               push['payload']['commits'].each do |commit|
                 repo_commits << {:sha => commit['sha'],
-                                 #:pushed_at => Time.parse(push['created_at']),
                                  :pushed_at => push['created_at'],
                                  :push_id => push['id']}
                 push_events_processed += 1
-                #log "Push event: #{push['id']}, total: #{push_events_processed}", 2
               end
             end
-            STDERR.write " #{push_events_processed} push events\n"
+            log "#{push_events_processed} push events for #{repo[:owner]}/#{repo[:repo]}\n"
           end
           repo_commits
         end.\
         flatten.\
-         # Gather all appearances of a commit in a list per commit
-            group_by { |x| x[:sha] }.\
-        # Find the first appearances of each commit
-            reduce({}) do |acc, commit_group|
+          # Gather all appearances of a commit in a list per commit
+          group_by { |x| x[:sha] }.\
+          # Find the first appearance of each commit
+          reduce({}) do |acc, commit_group|
           # sort all commit appearances in descending order and get the earliest one
           if commit_group[1].size > 1
             log "Commit #{commit_group[0]} appears in #{commit_group[1].size} push events", 2
@@ -505,6 +499,9 @@ usage:
 
         timestamps = pushed_commits.map do |x|
           c = mongo['commits'].find_one({'sha' => x['sha']})
+
+          # Try to find the commit on GitHub if it is not in GHTorrent
+          c = c.nil? ? github_commit(owner, repo, x['sha']) : c
           c['commit']['author']['date'] unless c.nil?
         end.select { |x| !x.nil? }
 
@@ -516,18 +513,22 @@ usage:
       end
     end
 
-    neg_latency = builds.select { |x| (not x[:commit_pushed_at].nil?) and (x[:commit_pushed_at] > x[:started_at]) }
+    neg_latency = builds.select do |x|
+      not x[:commit_pushed_at].nil? and
+          Time.parse(x[:commit_pushed_at]) > Time.parse(x[:started_at])
+    end
     no_push = builds.select { |x| x[:commit_pushed_at].nil? }
     log "#{neg_latency.size} builds have negative latency"
     log "#{no_push.size} builds have no push info"
     log "#{builds.size} builds to process"
 
-    results = Parallel.map(builds, :in_threads => threads) do |build|
+    results = Parallel.map(builds, :in_threads => THREADS) do |build|
+      if interrupted
+        raise Parallel::Kill
+      end
+
       begin
         r = process_build(build, owner, repo, language.downcase)
-        if interrupted
-          raise Parallel::Kill
-        end
         log r
         r
       rescue StandardError => e
@@ -1136,11 +1137,7 @@ usage:
     and u.fake is false
     QUERY
     l = db.fetch(q, email).first
-    unless l.nil? then
-      l[:login]
-    else
-      nil
-    end
+    l.nil? ? nil : l[:login]
   end
 
   # JSON objects for the commits included in the pull request
@@ -1201,7 +1198,7 @@ usage:
 
       proc_out = Thread.new {
         while !proc.eof
-          log "#{proc.gets}"
+          log "GIT: #{proc.gets}"
         end
       }
 
@@ -1220,6 +1217,18 @@ usage:
       spawn("git clone git://github.com/#{user}/#{repo}.git #{checkout_dir}")
       Rugged::Repository.new(checkout_dir)
     end
+  end
+
+  def stripped(f)
+    @stripped ||= Hash.new
+    unless @stripped.has_key? f
+      semaphore.synchronize do
+        unless @stripped.has_key? f
+          @stripped[f] = strip_comments(git.read(f[:oid]).data)
+        end
+      end
+    end
+    @stripped[f]
   end
 
   def count_lines(files, include_filter = lambda { |x| true })
