@@ -589,11 +589,13 @@ usage:
         # [doc] The branch that was built
         :git_branch => build[:branch],
 
-        # [doc] Number of commits included in the push that triggered the build
+        # [doc] Number of commits included in the push that triggered the build. In rare cases, GHTorrent has not
+        # recorded a push event for the commit that created the build in which case `num_commits_in_push` is nil.
         :gh_num_commits_in_push => build[:num_commits_in_push],
 
-        # [doc] The commits included in the push that triggered the build
-        :gh_commits_in_push => build[:commits_in_push].join('#'),
+        # [doc] The commits included in the push that triggered the build. In rare cases, GHTorrent has not recorded
+        # a push event for the commit that created the build in which case `gh_commits_in_push` is nil.
+        :gh_commits_in_push => build[:commits_in_push].nil? ? nil : build[:commits_in_push].join('#'),
 
         # [doc] When walking backwards the branch to find previously built commits, what is the reason for stopping
         # the traversal?
@@ -602,8 +604,11 @@ usage:
         # [doc] The commit that triggered the previous build on a linearized history, if we can linearize it (e.g., must be  on the same branch, ...)
         :git_prev_built_commit => build[:prev_built_commit],
 
-        # TODO: Should we call this youngest instead of first?
-        # [doc] Timestamp of first commit in the push that triggered the build
+        # [doc] The previous build on the same branch, if any
+        :tr_prev_build => build[:prev_build].nil? ? nil : build[:prev_build][:build_id],
+
+        # [doc] Timestamp of first commit in the push that triggered the build. In rare cases, GHTorrent has not
+        # recorded a push event for the commit that created the build in which case `first_commit_created_at` is nil.
         :gh_first_commit_created_at => build[:first_commit_created_at],
 
         # [doc] Number of developers that committed directly or merged PRs from the moment the build was triggered and 3 months back.
