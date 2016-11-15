@@ -382,38 +382,47 @@ usage:
       walker.push(build_commit)
 
       # Get all previous commits up to a prior build or a branch point
-      prev_commits = []
-      commit_resolution_status = :unknown
+      prev_commits = [build_commit]
+      commit_resolution_status = :no_previous_build
+      last_commit = nil
+
       walker.each do |commit|
-        prev_commits << commit
-        if builds.select { |b| b[:commit] == commit.oid }.empty?
+        last_commit = commit
+
+        if commit.oid == build_commit.oid
+          if commit.parents.size > 1
+            commit_resolution_status = :merge_found
+            break
+          end
+          next
+        end
+
+        if not builds.select { |b| b[:commit] == commit.oid }.empty?
           commit_resolution_status = :build_found
           break
         end
+
+        prev_commits << commit
 
         if commit.parents.size > 1
           commit_resolution_status = :merge_found
           break
         end
+
       end
 
       log "#{prev_commits.size} built commits (#{commit_resolution_status}) for build #{build[:build_id]}", 2
 
-      # https://github.com/tom-lord/regexp-examples/pull/6
-      # https://github.com/tom-lord/regexp-examples/compare/eff1955a93cf...a1daed14a4ba
-
-      # Get diff between the current build commit and previous one
-      diff = build_commit.diff(prev_commits.last)
-
       {
           :build_id => build[:build_id],
-          :prev_build => builds.find { |b| b[:build_id] < build[:build_id] and prev_commits.last.oid.start_with? b[:commit] },
+          :prev_build =>  if not commit_resolution_status == :merge_found
+                            builds.find { |b| b[:build_id] < build[:build_id] and last_commit.oid.start_with? b[:commit]}
+                          else
+                            nil
+                          end,
           :commits => prev_commits.map { |c| c.oid },
           :authors => prev_commits.map { |c| c.author[:email] }.uniq,
-          :files => diff.deltas.map { |d| d.old_file }.map { |f| f[:path] },
-          :lines_added => diff.stat[1],
-          :lines_deleted => diff.stat[2],
-          :prev_built_commit => prev_commits.last.nil? ? nil : prev_commits.last.oid,
+          :prev_built_commit => commit_resolution_status == :merge_found ? nil : (last_commit.nil? ? nil : last_commit.oid),
           :prev_commit_resolution_status => commit_resolution_status
       }
     end.select { |x| !x.nil? }
@@ -426,6 +435,7 @@ usage:
     end
     log "After calculating build stats: #{builds.size} builds for #{owner}/#{repo}"
 
+    # Merge build statistics into build information
     self.builds = builds.map {|b| b.merge(build_stats.find{|bs| bs[:build_id] == b[:build_id]})}
 
     # Find push events for commits that triggered builds:
@@ -560,13 +570,13 @@ usage:
     prev_build_started_at = build[:prev_build].nil? ? nil : Time.parse(build[:prev_build][:started_at])
     git_trigger_commit = is_pr?(build) ? build[:commits][0] : tr_original_commit
 
-    # Exclude any previously built commits
-    # new_commits = build[:commits].select do |c|
-    #   builds.select do |b|
-    #     b[:build_id] != build[:build_id] and
-    #         b[:commits].include?(c)
-    #   end.empty?
-    # end
+    # exclude any previously built commits
+    new_commits = build[:commits].select do |c|
+      builds.select do |b|
+        b[:build_id] < build[:build_id] and
+            b[:commits].include?(c)
+      end.empty?
+    end
 
     # Some sanity checking
     raise "Bad src lines: 0, build: #{build[:build_id]}" if sloc == 0
@@ -606,13 +616,17 @@ usage:
         :gh_commits_in_push => build[:commits_in_push].nil? ? nil : build[:commits_in_push].join('#'),
 
         # [doc] When walking backwards the branch to find previously built commits, what is the reason for stopping
-        # the traversal?
+        # the traversal? Can be one of: `no_previous_build`: when , `build_found`: when we find a previous build,
+        # or `merge_found`: when we had to stop traversal at a merge point (we cannot decide which of the parents to
+        # follow).
         :git_prev_commit_resolution_status => build[:prev_commit_resolution_status],
 
-        # [doc] The commit that triggered the previous build on a linearized history, if we can linearize it (e.g., must be  on the same branch, ...)
+        # [doc] The commit that triggered the previous build on a linearized history. If
+        # `git_prev_commit_resolution_status` is `merge_found`, then this is nil.
         :git_prev_built_commit => build[:prev_built_commit],
 
-        # [doc] The previous build on the same branch, if any
+        # [doc] The build triggered by `git_prev_built_commit`. If `git_prev_commit_resolution_status` is `merge_found`,
+        # then this is nil.
         :tr_prev_build => build[:prev_build].nil? ? nil : build[:prev_build][:build_id],
 
         # [doc] Timestamp of first commit in the push that triggered the build. In rare cases, GHTorrent has not
@@ -622,10 +636,13 @@ usage:
         # [doc] Number of developers that committed directly or merged PRs from the moment the build was triggered and 3 months back.
         :gh_team_size => main_team.size,
 
-        # [doc] A list of all commits that were built for this build. Start with the parent for PR builds or the actual
-        #  built commit for non-PR builds, traverse the parent commits up to an already existing commit is reached
-        # (excluded, this is under tr_prev_built_commit) or until we cannot go any further because a branch point was
-        # reached. This is indicated in `git_prev_commit_resolution_status`.
+        # [doc] A list of all commits that were built for this build, up to but excluding the commit of the previous
+        # build, or up to and including a merge commit (in which case we cannot go further backward).
+        # The internal calculation starts with the parent for PR builds or the actual
+        # built commit for non-PR builds, traverse the parent commits up until a commit that is linked to a previous
+        # build is found (excluded, this is under tr_prev_built_commit) or until we cannot go any further because a
+        # branch point was reached. This is indicated in `git_prev_commit_resolution_status`. This list is what
+        # the `git_diff_*` fields are calculated upon.
         :git_all_built_commits => build[:commits].join('#'),
 
         # [doc] Number of `git_all_built_commits`
@@ -644,46 +661,48 @@ usage:
         # [doc] If git_commit is linked to a PR on GitHub, the number of discussion comments on that PR
         :gh_num_issue_comments => num_issue_comments(build, prev_build_started_at, Time.parse(build[:started_at])),
 
-        # [doc] The number of comments on git_commits on GitHub
-        :gh_num_commit_comments => num_commit_comments(owner, repo, prev_build_started_at, Time.parse(build[:started_at])),
+        # [doc] The number of comments on `git_all_built_commits` on GitHub
+        :gh_num_commit_comments => num_commit_comments(owner, repo, build[:commits]),
 
         # [doc] If gh_is_pr is true, the number of comments (code review) on this pull request on GitHub
         :gh_num_pr_comments => num_pr_comments(build, prev_build_started_at, Time.parse(build[:started_at])),
 
-        # [doc] The emails of the committers that committed commits that are part of this build
-        :git_committers => build[:authors].join('#'),
+        # [doc] The emails of the committers of the commits in all `git_all_built_commits`
+        :git_diff_committers => build[:authors].join('#'),
 
-        # [doc] Number of lines of production code changed in the commits built by this build (these )
-        :git_src_churn => stats[:lines_added] + stats[:lines_deleted],
+        # [doc] Number of lines of production code changed in all `git_all_built_commits`
+        :git_diff_src_churn => stats[:lines_added] + stats[:lines_deleted],
 
-        # [doc] Number of lines of test code changed in the commits built by this build
-        :git_test_churn => stats[:test_lines_added] + stats[:test_lines_deleted],
+        # [doc] Number of lines of test code changed in all `git_all_built_commits`
+        :git_diff_test_churn => stats[:test_lines_added] + stats[:test_lines_deleted],
 
-        # [doc] Number of files added by the commits built by this build
-        :gh_files_added => stats[:files_added],
+        # [doc] Number of files added by all `git_all_built_commits`
+        :gh_diff_files_added => stats[:files_added],
 
-        # [doc] Number of files deleted by the commits built by this build
-        :gh_files_deleted => stats[:files_removed],
+        # [doc] Number of files deleted by all `git_all_built_commits`
+        :gh_diff_files_deleted => stats[:files_removed],
 
-        # [doc] Number of files modified by the commits built by this build
-        :gh_files_modified => stats[:files_modified],
+        # [doc] Number of files modified by all `git_all_built_commits`
+        :gh_diff_files_modified => stats[:files_modified],
 
-        # [doc] Lines of testing code added by the commits built by this build
-        :gh_tests_added => test_diff[:tests_added],
+        # [doc] Lines of testing code added by all `git_all_built_commits`
+        :gh_diff_tests_added => test_diff[:tests_added],
 
-        # [doc] Lines of testing code deleted by the commits built by this build
-        :gh_tests_deleted => test_diff[:tests_deleted],
+        # [doc] Lines of testing code deleted by all `git_all_built_commits`
+        :gh_diff_tests_deleted => test_diff[:tests_deleted],
 
-        # [doc] Number of src files changed by the commits that where built
-        :gh_src_files => stats[:src_files],
+        # [doc] Number of src files changed by all `git_all_built_commits`
+        :gh_diff_src_files => stats[:src_files],
 
-        # [doc] Number of documentation files changed by the commits that where built
-        :gh_doc_files => stats[:doc_files],
+        # [doc] Number of documentation files changed by all `git_all_built_commits`
+        :gh_diff_doc_files => stats[:doc_files],
 
         # [doc] Number of files which are neither source code nor documentation that changed by the commits that where built
-        :gh_other_files => stats[:other_files],
+        :gh_diff_other_files => stats[:other_files],
 
-        # [doc] Number of unique commits on the files touched in the commits (git_all_built_commits) that triggered the build from the moment the build was triggered and 3 months back. It is a metric of how active the part of the project is that these commits touched.
+        # [doc] Number of unique commits on the files touched in the commits (git_all_built_commits) that triggered the
+        # build from the moment the build was triggered and 3 months back. It is a metric of how active the part of
+        # the project is that these commits touched.
         :gh_num_commits_on_files_touched => commits_on_files_touched(owner, repo, build, months_back),
 
         # [doc] Number of executable production source lines of code, in the entire repository
@@ -829,19 +848,22 @@ usage:
   end
 
   # Number of commit comments on commits between builds in the same branch
-  def num_commit_comments(onwer, repo, from, to)
+  def num_commit_comments(owner, repo, commits)
 
-    q = <<-QUERY
-    select count(*) as commit_comment_count
-    from project_commits pc, projects p, users u, commit_comments cc
-    where pc.commit_id = cc.commit_id
-      and p.id = pc.project_id
-      and p.owner_id = u.id
-      and u.login = ?
-      and p.name = ?
-      and cc.created_at between timestamp(?) and timestamp(?)
-    QUERY
-    db.fetch(q, onwer, repo, from, to).first[:commit_comment_count]
+    commits.map do |sha|
+      q = <<-QUERY
+      select count(*) as commit_comment_count
+      from project_commits pc, projects p, users u, commit_comments cc, commits c
+      where pc.commit_id = cc.commit_id
+        and p.id = pc.project_id
+        and c.id = pc.commit_id
+        and p.owner_id = u.id
+        and u.login = ?
+        and p.name = ?
+        and c.sha = ?
+      QUERY
+      db.fetch(q, owner, repo, sha).first[:commit_comment_count]
+    end.reduce(0){|acc, x| acc + x}
   end
 
   # People that committed (not through pull requests) up to months_back
