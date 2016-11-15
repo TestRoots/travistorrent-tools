@@ -29,8 +29,7 @@ class BuildDataExtraction
   REQ_LIMIT = 4990
   THREADS = 2
 
-  attr_accessor :builds, :build_stats, :owner, :repo, :all_commits,
-                :closed_by_commit, :close_reason, :token
+  attr_accessor :builds, :owner, :repo, :all_commits, :closed_by_commit, :close_reason, :token
 
   class << self
     def run(args = ARGV)
@@ -369,7 +368,7 @@ usage:
     log "After resolving PR commits: #{builds.size} builds for #{owner}/#{repo}"
 
     log 'Calculating build diff information'
-    self.build_stats = builds.map do |build|
+    build_stats = builds.map do |build|
 
       begin
         build_commit = git.lookup(build[:commit])
@@ -426,6 +425,8 @@ usage:
       end.nil?
     end
     log "After calculating build stats: #{builds.size} builds for #{owner}/#{repo}"
+
+    self.builds = builds.map {|b| b.merge(build_stats.find{|bs| bs[:build_id] == b[:build_id]})}
 
     # Find push events for commits that triggered builds:
     # For builds that are triggered from PRs, we need to find the push
@@ -554,13 +555,12 @@ usage:
 
     months_back = 3
 
-    bs = build_stats.find { |b| b[:build_id] == build[:build_id] }
-    stats = calc_build_stats(owner, repo, bs[:commits])
+    stats = calc_build_stats(owner, repo, build[:commits])
 
     pr_id = build[:pull_req] if is_pr?(build)
-    committers = bs[:authors].map { |a| github_login(a) }.select { |x| not x.nil? }
+    committers = build[:authors].map { |a| github_login(a) }.select { |x| not x.nil? }
     main_team = main_team(owner, repo, build, months_back)
-    test_diff = test_diff_stats(bs[:prev_built_commit].nil? ? build[:commit] : bs[:prev_built_commit], build[:commit])
+    test_diff = test_diff_stats(build[:prev_built_commit].nil? ? build[:commit] : build[:prev_built_commit], build[:commit])
     tr_original_commit = build[:tr_build_commit]
     prev_build_started_at = bs[:prev_build].nil? ? nil : Time.parse(bs[:prev_build][:started_at])
 
@@ -595,11 +595,12 @@ usage:
         # [doc] The commits included in the push that triggered the build
         :gh_commits_in_push => build[:commits_in_push].join('#'),
 
-        # [doc]
-        :git_prev_commit_resolution_status => bs[:prev_commit_resolution_status],
+        # [doc] When walking backwards the branch to find previously built commits, what is the reason for stopping
+        # the traversal?
+        :git_prev_commit_resolution_status => build[:prev_commit_resolution_status],
 
         # [doc] The commit that triggered the previous build on a linearized history, if we can linearize it (e.g., must be  on the same branch, ...)
-        :git_prev_built_commit => bs[:prev_built_commit],
+        :git_prev_built_commit => build[:prev_built_commit],
 
         # TODO: Should we call this youngest instead of first?
         # [doc] Timestamp of first commit in the push that triggered the build
@@ -608,14 +609,14 @@ usage:
         # [doc] Number of developers that committed directly or merged PRs from the moment the build was triggered and 3 months back.
         :gh_team_size => main_team.size,
 
-
-        # [doc] A list of all commits that were built for this build. Start with the parent for PR builds or the actual built commit for non-PR builds, traverse the parent commits up to an already existing commit is reached (excluded, this is under tr_prev_built_commit) or until we cannot go anytfurther because a branch point was reached. This is indicated in `git_prev_commit_resolution_status`
-        # TODO: Exclude any previously built commits
-        # TODO: Invariant: The first commit in git_all_built_commits should be the trigger commit!
-        :git_all_built_commits => bs[:commits].join('#'),
+        # [doc] A list of all commits that were built for this build. Start with the parent for PR builds or the actual
+        #  built commit for non-PR builds, traverse the parent commits up to an already existing commit is reached
+        # (excluded, this is under tr_prev_built_commit) or until we cannot go any further because a branch point was
+        # reached. This is indicated in `git_prev_commit_resolution_status`.
+        :git_all_built_commits => build[:commits].join('#'),
 
         # [doc] Number of `git_all_built_commits`
-        :git_num_all_built_commits => bs[:commits].size,
+        :git_num_all_built_commits => build[:commits].size,
 
         # [doc] The commit that triggered the build
         :git_trigger_commit =>  is_pr?(build) ? bs[:commits][0] : tr_original_commit,
@@ -636,7 +637,7 @@ usage:
         :gh_num_pr_comments => num_pr_comments(build, prev_build_started_at, Time.parse(build[:started_at])),
 
         # [doc] The emails of the committers that committed commits that are part of this build
-        :git_committers => bs[:authors].join('#'),
+        :git_committers => build[:authors].join('#'),
 
         # [doc] Number of lines of production code changed in the commits built by this build (these )
         :git_src_churn => stats[:lines_added] + stats[:lines_deleted],
@@ -693,11 +694,7 @@ usage:
         :gh_pushed_at => build[:commit_pushed_at],
 
         # [doc] Timestamp of the push that triggered the build (Travis provided)
-        :gh_build_started_at => build[:started_at],
-
-        # TODO Shouldn't this be together with git_prev_built_commit as it relies on the same information?
-        # [doc] The previous build on the same branch, if any
-        :tr_prev_build => bs[:prev_build].nil? ? nil : bs[:prev_build][:build_id]
+        :gh_build_started_at => build[:started_at]
     }
 
   end
@@ -1075,7 +1072,7 @@ usage:
   def commits_on_build_files(owner, repo, build, months_back)
 
     oldest = Time.at(build[:started_at].to_i - 3600 * 24 * 30 * months_back)
-    commits = commit_entries(owner, repo, build_stats.find { |b| b[:build_id] == build[:build_id] }[:commits])
+    commits = commit_entries(owner, repo, build[:commits])
 
     commits_per_file = commits.flat_map { |c|
       c['files'].map { |f|
