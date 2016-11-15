@@ -548,11 +548,6 @@ usage:
 
     # Count number of src/comment lines
     sloc = src_lines(build[:commit])
-
-    if sloc == 0 then
-      raise StandardError.new("Bad src lines: 0, build: #{build[:build_id]}")
-    end
-
     months_back = 3
 
     stats = calc_build_stats(owner, repo, build[:commits])
@@ -562,7 +557,20 @@ usage:
     main_team = main_team(owner, repo, build, months_back)
     test_diff = test_diff_stats(build[:prev_built_commit].nil? ? build[:commit] : build[:prev_built_commit], build[:commit])
     tr_original_commit = build[:tr_build_commit]
-    prev_build_started_at = bs[:prev_build].nil? ? nil : Time.parse(bs[:prev_build][:started_at])
+    prev_build_started_at = build[:prev_build].nil? ? nil : Time.parse(build[:prev_build][:started_at])
+    git_trigger_commit = is_pr?(build) ? build[:commits][0] : tr_original_commit
+
+    # Exclude any previously built commits
+    # new_commits = build[:commits].select do |c|
+    #   builds.select do |b|
+    #     b[:build_id] != build[:build_id] and
+    #         b[:commits].include?(c)
+    #   end.empty?
+    # end
+
+    # Some sanity checking
+    raise "Bad src lines: 0, build: #{build[:build_id]}" if sloc == 0
+    raise 'The trigger commit should always be the first one' unless build[:commits].first == git_trigger_commit
 
     {
         # [doc] The analyzed build id, as reported from TravisCI
@@ -624,12 +632,13 @@ usage:
         :git_num_all_built_commits => build[:commits].size,
 
         # [doc] The commit that triggered the build
-        :git_trigger_commit =>  is_pr?(build) ? bs[:commits][0] : tr_original_commit,
+        :git_trigger_commit =>  git_trigger_commit,
 
         # [doc] The commit of the branch that the commit built by Travis is merged into when testing pull requests
         :tr_virtual_merged_into => build[:tr_virtual_merged_into],
 
-        # [doc] The original commit that was build as linked to from Travis. Might be a virtual commit that is not part of the original repository
+        # [doc] The original commit that was build as linked to from Travis. Might be a virtual commit that is not part
+        # of the original repository
         :tr_original_commit => tr_original_commit,
 
         # [doc] If git_commit is linked to a PR on GitHub, the number of discussion comments on that PR
