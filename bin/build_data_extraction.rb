@@ -223,6 +223,13 @@ usage:
 
     language = repo_entry[:language]
 
+    unless %w(ruby Ruby Java java).include? language
+      # Try to guess the language from "buildlog-data-travis.csv"
+      require 'csv'
+      csv = CSV.open(File.join("build_logs", "rubyjava", "#{owner}@#{repo}", "buildlog-data-travis.csv"))
+      language = csv.readline[6]
+    end
+
     case language
       when /ruby/i then
         self.extend(RubyData)
