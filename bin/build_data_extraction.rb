@@ -520,7 +520,7 @@ usage:
 
           # Try to find the commit on GitHub if it is not in GHTorrent
           c = c.nil? ? github_commit(owner, repo, x['sha']) : c
-          c['commit']['author']['date'] unless c.nil?
+          c['commit']['author']['date'] unless c.nil? or c.empty?
         end.select { |x| !x.nil? }
 
         build[:first_commit_created_at] = timestamps.min
