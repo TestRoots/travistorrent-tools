@@ -9,12 +9,16 @@ file_contents.each do |line|
   index = file_contents.find_index(line)
   unless (line =~ /# \[doc\] (.+)/).nil?
     doc = $1
-    next_line = file_contents[index+1]
-    break if next_line.nil?
-    next_line.strip!
-    if !(next_line =~ /(.+) =>/).nil?
-      puts "| #{$1} | #{doc} |"
+    while (index <= file_contents.length)
+      next_line = file_contents[index+1]
+      break if next_line.nil?
+      next_line.strip!
+      doc += " #{$1}" if !(next_line =~ /# (.+)/).nil?
+      if !(next_line =~ /(.+) =>/).nil?
+        puts "| #{$1} | #{doc} |"
+        break;
+      end
+      index += 1
     end
-
   end
 end
