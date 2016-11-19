@@ -221,14 +221,13 @@ usage:
       Trollop::die "Cannot find repository #{owner}/#{repo}"
     end
 
+    self.builds = load_builds(owner, repo)
+
     language = repo_entry[:language]
 
     unless %w(ruby Ruby Java java).include? language
-      # Try to guess the language from "buildlog-data-travis.csv"
-      require 'csv'
-      csv = CSV.open(File.join("build_logs", "rubyjava", "#{owner}@#{repo}", "buildlog-data-travis.csv"))
-      csv.readline
-      language = csv.readline[6]
+      # Try to guess the language from "buildlog-data-travis.json"
+      language = self.builds.last[:tr_log_lan]
       log "Switching from GHTorrent provided language #{repo_entry[:language]} to #{language}"
     end
 
@@ -241,7 +240,6 @@ usage:
         Trollop::die "Language #{language} not supported"
     end
 
-    self.builds = load_builds(owner, repo)
 
     if builds.empty?
       log "No builds for #{owner}/#{repo}"
