@@ -227,8 +227,7 @@ usage:
       # Try to guess the language from "buildlog-data-travis.csv"
       require 'csv'
       csv = CSV.open(File.join("build_logs", "rubyjava", "#{owner}@#{repo}", "buildlog-data-travis.csv"))
-      csv.readline
-      language = csv.readline[6]
+      language = csv.readlines.last[3]
       log "Switching from GHTorrent provided language #{repo_entry[:language]} to #{language}"
     end
 
