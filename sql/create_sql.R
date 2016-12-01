@@ -8,6 +8,7 @@ table.name <- "travistorrent_1_12_2016"
 library(data.table)
 library(RMySQL)
 library(DBI)
+library(anytime)
 
 data <- read.csv("joined.csv")
 
@@ -16,8 +17,8 @@ data$gh_by_core_team_member <- data$gh_by_core_team_member == "true"
 data$tr_log_bool_tests_ran <- data$tr_log_bool_tests_ran == "true"
 data$tr_log_bool_tests_failed <- data$tr_log_bool_tests_failed == "true"
 
-data$gh_first_commit_created_at <- as.POSIXct(data$gh_first_commit_created_at)
-data$gh_build_started_at <- as.POSIXct(data$gh_build_started_at)
+data$gh_first_commit_created_at <- anytime(data$gh_first_commit_created_at)
+data$gh_build_started_at <- anytime(data$gh_build_started_at)
 
 # Sanitize data runs with NAs instead of 0s
 data[tr_log_bool_tests_failed == T & tr_log_num_tests_failed == 0,]$tr_log_num_tests_failed <- NA
