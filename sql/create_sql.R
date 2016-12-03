@@ -20,6 +20,8 @@ data$tr_log_bool_tests_failed <- data$tr_log_bool_tests_failed == "true"
 data$gh_first_commit_created_at <- anytime(data$gh_first_commit_created_at)
 data$gh_build_started_at <- anytime(data$gh_build_started_at)
 
+data <- data.table(data)
+
 # Sanitize data runs with NAs instead of 0s
 data[tr_log_bool_tests_failed == T & tr_log_num_tests_failed == 0,]$tr_log_num_tests_failed <- NA
 data[tr_log_bool_tests_failed == T & tr_log_num_tests_run == 0,]$tr_log_num_tests_run <- NA
