@@ -12,6 +12,8 @@ library(anytime)
 
 data <- read.csv("joined.csv")
 
+data$git_diff_committers <- NULL
+
 data$gh_is_pr <- data$gh_is_pr == "true"
 data$gh_by_core_team_member <- data$gh_by_core_team_member == "true"
 data$tr_log_bool_tests_ran <- data$tr_log_bool_tests_ran == "true"
@@ -27,6 +29,8 @@ data[tr_log_bool_tests_failed == T & tr_log_num_tests_failed == 0,]$tr_log_num_t
 data[tr_log_bool_tests_failed == T & tr_log_num_tests_run == 0,]$tr_log_num_tests_run <- NA
 data[tr_log_num_tests_ok < 0,]$tr_log_num_tests_ok <- NA
 data[tr_log_num_tests_failed > tr_log_num_tests_run,]$tr_log_num_tests_run <- NA
+
+data[tr_duration < 0]$tr_duration <- NA
 
 data$tr_prev_build <- as.integer(data$tr_prev_build)
 
