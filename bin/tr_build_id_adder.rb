@@ -4,14 +4,14 @@ require 'parallel'
 
 load 'lib/csv_helper.rb'
 
-jobs = CSV.table('jobs.csv')
+jobs = CSV.read('jobs.csv')
 
 i = 1
 length = jobs.length
-header = jobs.headers
-header.push :tr_build_id
+header = jobs.shift
+header.push 'tr_build_id'
 
-jobs = Parallel.map(jobs, in_threads: 10) do |job|
+jobs = Parallel.map(jobs, in_threads: 25) do |job|
   begin
     job_id = job[2]
     job.push Travis::Job.find(job_id).build_id
