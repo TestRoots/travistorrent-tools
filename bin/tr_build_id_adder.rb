@@ -43,7 +43,7 @@ jobs = Parallel.map(jobs, in_threads: 50) do |job|
     job_id = job[2]
     build_id = get_build_id job_id, 2
     sleep 0.01
-    puts "#{i}/#{length}"
+    puts "Got #{i}/#{length}"
     job.push build_id
   rescue Exception => e
     STDERR.puts "Exception at #{i}"
