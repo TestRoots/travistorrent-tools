@@ -1,6 +1,9 @@
 require 'csv'
 require 'travis'
 require 'parallel'
+require 'json'
+require 'net/http'
+require 'open-uri'
 
 load 'lib/csv_helper.rb'
 
@@ -11,13 +14,23 @@ length = jobs.length
 header = jobs.shift
 header.push 'tr_build_id'
 
-jobs = Parallel.map(jobs, in_threads: 2) do |job|
+def get_build_id job_id
+   # used to be a simple Travis::Job.find(job_id).build_id job_id
+
+  url = "https://api.travis-ci.org/jobs/#{job_id}"
+  resp = open(url,
+              'Content-Type' => 'application/json',
+              'Accept' => 'application/vnd.travis-ci.2+json')
+  json_resp = JSON.parse(resp.read)
+  json_resp['job']['build_id']
+end
+
+jobs = Parallel.map(jobs, in_threads: 10) do |job|
   begin
     job_id = job[2]
-    job.push Travis::Job.find(job_id).build_id
-
+    build_id = get_build_id job_id
     puts "#{i}/#{length}"
-    job
+    job.push build_id
   rescue Exception => e
     STDERR.puts "Exception at #{i}"
     STDERR.puts e
