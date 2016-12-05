@@ -22,22 +22,20 @@ data$tr_log_bool_tests_failed <- data$tr_log_bool_tests_failed == "true"
 data$gh_first_commit_created_at <- anytime(data$gh_first_commit_created_at)
 data$gh_build_started_at <- anytime(data$gh_build_started_at)
 
-data <- data.table(data)
-
 # Sanitize data runs with NAs instead of 0s
-data[tr_log_bool_tests_failed == T & tr_log_num_tests_failed == 0,]$tr_log_num_tests_failed <- NA
-data[tr_log_bool_tests_failed == T & tr_log_num_tests_run == 0,]$tr_log_num_tests_run <- NA
-data[tr_log_num_tests_ok < 0,]$tr_log_num_tests_ok <- NA
-data[tr_log_num_tests_failed > tr_log_num_tests_run,]$tr_log_num_tests_run <- NA
+data[data$tr_log_bool_tests_failed == T & data$tr_log_num_tests_failed == 0,]$tr_log_num_tests_failed <- NA
+data[data$tr_log_bool_tests_failed == T & data$tr_log_num_tests_run == 0,]$tr_log_num_tests_run <- NA
+data[data$tr_log_num_tests_ok < 0,]$tr_log_num_tests_ok <- NA
+data[data$tr_log_num_tests_failed > data$tr_log_num_tests_run,]$tr_log_num_tests_run <- NA
 # Empty data in case no tests where run instead of NA, which indicates that we could not get some data
-data[tr_log_bool_tests_ran == F,]$tr_log_num_tests_ok <- ''
-data[tr_log_bool_tests_ran == F,]$tr_log_num_tests_failed <- ''
-data[tr_log_bool_tests_ran == F,]$tr_log_num_tests_run <- ''
-data[tr_log_bool_tests_ran == F,]$tr_log_num_tests_skipped <- ''
+data[data$tr_log_bool_tests_ran == F,]$tr_log_num_tests_ok <- ''
+data[data$tr_log_bool_tests_ran == F,]$tr_log_num_tests_failed <- ''
+data[data$tr_log_bool_tests_ran == F,]$tr_log_num_tests_run <- ''
+data[data$tr_log_bool_tests_ran == F,]$tr_log_num_tests_skipped <- ''
 
-data[tr_log_bool_tests_ran == T & tr_log_num_tests_run == 0 & tr_log_num_tests_skipped,]$tr_log_num_tests_run <- NA
+data[data$tr_log_bool_tests_ran == T & data$tr_log_num_tests_run == 0 & data$tr_log_num_tests_skipped,]$tr_log_num_tests_run <- NA
 
-data[tr_duration < 0,]$tr_duration <- NA
+data[data$tr_duration < 0,]$tr_duration <- NA
 
 data$tr_prev_build <- as.integer(data$tr_prev_build)
 
