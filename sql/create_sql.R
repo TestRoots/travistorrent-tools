@@ -3,7 +3,7 @@
 # We hence use RMySQL 0.10.9 and manually modify the created SQL columns to DATETIME
 
 # Update to create new version of the data set
-table.name <- "travistorrent_1_12_2016"
+table.name <- "travistorrent_6_12_2016"
 
 library(data.table)
 library(RMySQL)
