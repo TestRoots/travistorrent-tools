@@ -15,7 +15,7 @@ load 'lib/csv_helper.rb'
 def job_logs(build, sha, error_file, parent_dir)
   jobs = build['job_ids']
   jobs.each do |job|
-    name = File.join(parent_dir, "#{build['number']}_#{sha}_#{job}.log")
+    name = File.join(parent_dir, "#{build['number']}_#{build['id']}_#{sha}_#{job}.log")
     next if File.exists?(name) and File.size(name) > 1
 
     begin

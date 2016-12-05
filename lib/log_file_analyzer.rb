@@ -8,7 +8,7 @@ load 'lib/travis_fold.rb'
 # process on Travis.
 
 class LogFileAnalyzer
-  attr_reader :build_id, :job_id, :commit
+  attr_reader :build_number, :job_id, :commit, :build_id
 
   attr_reader :logFile
   attr_reader :status, :primary_language
@@ -80,7 +80,7 @@ class LogFileAnalyzer
   end
 
   def get_build_info(file)
-    @build_id, @commit, @job_id = File.basename(file, '.log').split('_')
+    @build_number, @build_id, @commit, @job_id = File.basename(file, '.log').split('_')
   end
 
   # Analyze the buildlog exit status
@@ -184,9 +184,11 @@ class LogFileAnalyzer
   def output
     {
         # [doc] The build id of the travis build
-        :tr_build_id =>  @build_id,
+        :tr_build_id => @build_id,
         # [doc] The job id of the build job under analysis
         :tr_job_id => @job_id,
+        # [doc] The serial build number of the build under analysis for this project
+        :tr_build_number => @build_number,
         # [doc] The SHA of the original Travis commit, unparsed and unchanged
         :tr_original_commit => @commit,
         # [doc] The primary programming language, extracted by build log analysis
