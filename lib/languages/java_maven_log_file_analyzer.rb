@@ -102,8 +102,10 @@ module JavaMavenLogFileAnalyzer
           failed_tests_started = false
         end
       end
-      if !(line =~ /Tests run: (\d*), Failures: (\d*), Errors: (\d*)(, Skipped: (\d*))?, Time elapsed: (.* sec) - in /).nil?
+      if !(line =~ /Tests run: (\d*), Failures: (\d*), Errors: (\d*)(, Skipped: (\d*))?, Time elapsed: (.* sec) (<<< FAILURE! )?- in /).nil?
         has_tests_run_per_testClass = true
+      elsif has_tests_run_per_testClass and !(line =~ /([a-zA-Z0-9\.]+)\(([^\)]+)\)\s+Time elapsed/).nil?
+        @tests_failed <<  ($2<<"."<<$1)
       elsif !has_tests_run_per_testClass and !(line =~ /Tests run: .*? Time elapsed: (.* sec)/).nil?
         init_tests
         @tests_run = true
@@ -114,7 +116,6 @@ module JavaMavenLogFileAnalyzer
         @tests_run = true
         add_framework 'junit'
         if has_tests_run_per_testClass
-
           @num_tests_run += $1.to_i
           @num_tests_failed += $2.to_i + $3.to_i
           @num_tests_skipped += $5.to_i unless $4.nil?
