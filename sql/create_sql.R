@@ -33,6 +33,7 @@ data[tr_log_num_tests_failed > tr_log_num_tests_run,]$tr_log_num_tests_run <- NA
 data <- data.frame(data)
 
 # Empty data in case no tests where run instead of NA, which indicates that we could not get some data
+data[data$tr_log_bool_tests_ran == F,]$tr_log_bool_tests_failed <- ''
 data[data$tr_log_bool_tests_ran == F,]$tr_log_num_tests_ok <- ''
 data[data$tr_log_bool_tests_ran == F,]$tr_log_num_tests_failed <- ''
 data[data$tr_log_bool_tests_ran == F,]$tr_log_num_tests_run <- ''
