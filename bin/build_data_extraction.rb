@@ -186,7 +186,7 @@ usage:
 
   def log(msg, level = 0)
     semaphore.synchronize do
-      (0..level).each {STDERR.write ' '}
+      (0..level).each { STDERR.write ' ' }
       STDERR.puts msg
     end
   end
@@ -201,7 +201,7 @@ usage:
     }
 
     self.owner = ARGV[0]
-    self.repo  = ARGV[1]
+    self.repo = ARGV[1]
     self.token = ARGV[2]
 
     user_entry = db[:users].first(:login => owner)
@@ -342,7 +342,7 @@ usage:
       acc[build[:pull_req]] = merged_with(owner, repo, build)
       acc
     end
-    log "Close reasons: #{close_reason.group_by{|_,v| v}.reduce({}){|acc, x| acc.merge({x[0] => x[1].size})}}"
+    log "Close reasons: #{close_reason.group_by { |_, v| v }.reduce({}) { |acc, x| acc.merge({x[0] => x[1].size}) }}"
 
     self.builds = builds.map { |x| x[:tr_build_commit] = x[:commit]; x }
 
@@ -423,11 +423,11 @@ usage:
 
       {
           :build_id => build[:build_id],
-          :prev_build =>  if not commit_resolution_status == :merge_found
-                            builds.find { |b| b[:build_id] < build[:build_id] and last_commit.oid.start_with? b[:commit]}
-                          else
-                            nil
-                          end,
+          :prev_build => if not commit_resolution_status == :merge_found
+                           builds.find { |b| b[:build_id] < build[:build_id] and last_commit.oid.start_with? b[:commit] }
+                         else
+                           nil
+                         end,
           :commits => prev_commits.map { |c| c.oid },
           :authors => prev_commits.map { |c| c.author[:email] }.uniq,
           :prev_built_commit => commit_resolution_status == :merge_found ? nil : (last_commit.nil? ? nil : last_commit.oid),
@@ -444,7 +444,7 @@ usage:
     log "After calculating build stats: #{builds.size} builds for #{owner}/#{repo}"
 
     # Merge build statistics into build information
-    self.builds = builds.map {|b| b.merge(build_stats.find{|bs| bs[:build_id] == b[:build_id]})}
+    self.builds = builds.map { |b| b.merge(build_stats.find { |bs| bs[:build_id] == b[:build_id] }) }
 
     # Find push events for commits that triggered builds:
     # For builds that are triggered from PRs, we need to find the push
@@ -492,9 +492,9 @@ usage:
         end.\
         flatten.\
           # Gather all appearances of a commit in a list per commit
-          group_by { |x| x[:sha] }.\
+            group_by { |x| x[:sha] }.\
           # Find the first appearance of each commit
-          reduce({}) do |acc, commit_group|
+            reduce({}) do |acc, commit_group|
           # sort all commit appearances in descending order and get the earliest one
           if commit_group[1].size > 1
             log "Commit #{commit_group[0]} appears in #{commit_group[1].size} push events", 2
@@ -591,25 +591,25 @@ usage:
     raise 'The trigger commit should always be the first one' unless build[:commits].first == git_trigger_commit
 
     {
-        # [doc] The analyzed build id, as reported from TravisCI
+        # [doc] The analyzed build id, as reported from Travis CI.
         :tr_build_id => build[:build_id],
 
-        # [doc] Project name on GitHub
+        # [doc] Project name on GitHub.
         :gh_project_name => "#{owner}/#{repo}",
 
-        # [doc] Whether this build was triggered as part of a pull request on GitHub
+        # [doc] Whether this build was triggered as part of a pull request on GitHub.
         :gh_is_pr => is_pr?(build),
 
-        # [doc] If the build is a pull request, the creation timestamp for this pull request
+        # [doc] If the build is a pull request, the creation timestamp for this pull request.
         :gh_pr_created_at => build[:pull_req_created_at],
 
-        # [doc] If the build is a pull request, its ID on GitHub
+        # [doc] If the build is a pull request, its ID on GitHub.
         :gh_pull_req_num => pr_id,
 
-        # [doc] Dominant repository language, according to GitHub
+        # [doc] Dominant repository language, according to GitHub.
         :gh_lang => lang,
 
-        # [doc] If this commit sits on a pull request (`gh_is_pr` true), how was it closed (merge button, manual merge, etc)?
+        # [doc] If this commit sits on a pull request (`gh_is_pr` true), how it was closed (merge button, manual merge, ...).
         :git_merged_with => close_reason[pr_id],
 
         # [doc] The branch that was built
@@ -648,93 +648,95 @@ usage:
         # build, or up to and including a merge commit (in which case we cannot go further backward).
         # The internal calculation starts with the parent for PR builds or the actual
         # built commit for non-PR builds, traverse the parent commits up until a commit that is linked to a previous
-        # build is found (excluded, this is under tr_prev_built_commit) or until we cannot go any further because a
+        # build is found (excluded, this is under `tr_prev_built_commit`) or until we cannot go any further because a
         # branch point was reached. This is indicated in `git_prev_commit_resolution_status`. This list is what
         # the `git_diff_*` fields are calculated upon.
         :git_all_built_commits => build[:commits].join('#'),
 
-        # [doc] Number of `git_all_built_commits`
+        # [doc] Number of `git_all_built_commits`.
         :git_num_all_built_commits => build[:commits].size,
 
-        # [doc] The commit that triggered the build
-        :git_trigger_commit =>  git_trigger_commit,
+        # [doc] The commit that triggered the build.
+        :git_trigger_commit => git_trigger_commit,
 
-        # [doc] The commit of the branch that the commit built by Travis is merged into when testing pull requests
+        # [doc] The commit of the branch that the commit built by Travis is merged into when testing pull requests.
         :tr_virtual_merged_into => build[:tr_virtual_merged_into],
 
         # [doc] The original commit that was build as linked to from Travis. Might be a virtual commit that is not part
-        # of the original repository
+        # of the original repository.
         :tr_original_commit => tr_original_commit,
 
-        # [doc] If git_commit is linked to a PR on GitHub, the number of discussion comments on that PR
+        # [doc] If git_commit is linked to a PR on GitHub, the number of discussion comments on that PR.
         :gh_num_issue_comments => num_issue_comments(build, prev_build_started_at, Time.parse(build[:started_at])),
 
-        # [doc] The number of comments on `git_all_built_commits` on GitHub
+        # [doc] The number of comments on `git_all_built_commits` on GitHub.
         :gh_num_commit_comments => num_commit_comments(owner, repo, build[:commits]),
 
-        # [doc] If gh_is_pr is true, the number of comments (code review) on this pull request on GitHub
+        # [doc] If gh_is_pr is true, the number of comments (code review) on this pull request on GitHub.
         :gh_num_pr_comments => num_pr_comments(build, prev_build_started_at, Time.parse(build[:started_at])),
 
-        # [doc] The emails of the committers of the commits in all `git_all_built_commits`
+        # [doc] The emails of the committers of the commits in all `git_all_built_commits`.
         :git_diff_committers => build[:authors].join('#'),
 
-        # [doc] Number of lines of production code changed in all `git_all_built_commits`
+        # [doc] Number of lines of production code changed in all `git_all_built_commits`.
         :git_diff_src_churn => stats[:lines_added] + stats[:lines_deleted],
 
-        # [doc] Number of lines of test code changed in all `git_all_built_commits`
+        # [doc] Number of lines of test code changed in all `git_all_built_commits`.
         :git_diff_test_churn => stats[:test_lines_added] + stats[:test_lines_deleted],
 
-        # [doc] Number of files added by all `git_all_built_commits`
+        # [doc] Number of files added by all `git_all_built_commits`.
         :gh_diff_files_added => stats[:files_added],
 
-        # [doc] Number of files deleted by all `git_all_built_commits`
+        # [doc] Number of files deleted by all `git_all_built_commits`.
         :gh_diff_files_deleted => stats[:files_removed],
 
-        # [doc] Number of files modified by all `git_all_built_commits`
+        # [doc] Number of files modified by all `git_all_built_commits`.
         :gh_diff_files_modified => stats[:files_modified],
 
-        # [doc] Lines of testing code added by all `git_all_built_commits`
+        # [doc] Lines of testing code added by all `git_all_built_commits`.
         :gh_diff_tests_added => test_diff[:tests_added],
 
-        # [doc] Lines of testing code deleted by all `git_all_built_commits`
+        # [doc] Lines of testing code deleted by all `git_all_built_commits`.
         :gh_diff_tests_deleted => test_diff[:tests_deleted],
 
-        # [doc] Number of src files changed by all `git_all_built_commits`
+        # [doc] Number of src files changed by all `git_all_built_commits`.
         :gh_diff_src_files => stats[:src_files],
 
-        # [doc] Number of documentation files changed by all `git_all_built_commits`
+        # [doc] Number of documentation files changed by all `git_all_built_commits`.
         :gh_diff_doc_files => stats[:doc_files],
 
-        # [doc] Number of files which are neither source code nor documentation that changed by the commits that where built
+        # [doc] Number of files which are neither source code nor documentation that changed by the commits that where built.
         :gh_diff_other_files => stats[:other_files],
 
-        # [doc] Number of unique commits on the files touched in the commits (git_all_built_commits) that triggered the
+        # [doc] Number of unique commits on the files touched in the commits (`git_all_built_commits`) that triggered the
         # build from the moment the build was triggered and 3 months back. It is a metric of how active the part of
         # the project is that these commits touched.
         :gh_num_commits_on_files_touched => commits_on_files_touched(owner, repo, build, months_back),
 
-        # [doc] Number of executable production source lines of code, in the entire repository
+        # [doc] Number of executable production source lines of code, in the entire repository.
         :gh_sloc => sloc,
 
-        # [doc] Test density. Number of lines in test cases per 1000 gh_sloc
+        # [doc] Test density. Number of lines in test cases per 1000 `gh_sloc`.
         :gh_test_lines_per_kloc => (test_lines(build[:commit]).to_f / sloc.to_f) * 1000,
 
-        # [doc] Test density. Test density. Number of test cases per 1000 gh_sloc
+        # [doc] Test density. Test density. Number of test cases per 1000 `gh_sloc`.
         :gh_test_cases_per_kloc => (num_test_cases(build[:commit]).to_f / sloc.to_f) * 1000,
 
-        # [doc] Test density. Assert density. Number of assertions per 1000 gh_sloc
+        # [doc] Test density. Assert density. Number of assertions per 1000 `gh_sloc`.
         :gh_asserts_cases_per_kloc => (num_assertions(build[:commit]).to_f / sloc.to_f) * 1000,
 
-        # [doc] Whether this commit was authored by a core team member
+        # [doc] Whether this commit was authored by a core team member. A core team member is someone who has committed
+        # code at least once within the 3 months before this commit, either by directly committing it or by merging
+        # commits.
         :gh_by_core_team_member => (committers - main_team).empty?,
 
-        # [doc] If the build is a pull request, the total number of words in the pull request title and description
+        # [doc] If the build is a pull request, the total number of words in the pull request title and description.
         :gh_description_complexity => is_pr?(build) ? description_complexity(build) : nil,
 
-        # [doc] Timestamp of the push that triggered the build (GitHub provided)
+        # [doc] Timestamp of the push that triggered the build (GitHub provided).
         :gh_pushed_at => build[:commit_pushed_at],
 
-        # [doc] Timestamp of the push that triggered the build (Travis provided)
+        # [doc] Timestamp of the push that triggered the build (Travis provided).
         :gh_build_started_at => build[:started_at]
     }
 
@@ -871,7 +873,7 @@ usage:
         and c.sha = ?
       QUERY
       db.fetch(q, owner, repo, sha).first[:commit_comment_count]
-    end.reduce(0){|acc, x| acc + x}
+    end.reduce(0) { |acc, x| acc + x }
   end
 
   # People that committed (not through pull requests) up to months_back

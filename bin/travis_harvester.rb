@@ -90,10 +90,16 @@ def get_travis(repo, build_logs = true)
               :commit => commit['sha'],
               :pull_req => build['pull_request_number'],
               :branch => commit['branch'],
+              # [doc] The build status (such as passed, failed, ...) as returned from the Travis CI API.
               :status => build['state'],
+
+              # [doc] The full build duration as returned from the Travis CI API.
               :duration => build['duration'],
               :started_at => started_at, # in UTC
+
+              # [doc] The unique Travis IDs of the jobs, in a string separated by `#`.
               :jobs => build['job_ids'],
+
               #:jobduration => build.jobs.map { |x| "#{x.id}##{x.duration}" }
               :event_type => build['event_type']
           }
