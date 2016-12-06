@@ -10,7 +10,7 @@ library(RMySQL)
 library(DBI)
 library(anytime)
 
-data <- read.csv("joined.csv")
+data <- read.csv("final_merged_build_jobs.csv")
 
 data$git_diff_committers <- NULL
 
@@ -22,6 +22,7 @@ data$tr_log_bool_tests_failed <- data$tr_log_bool_tests_failed == "true"
 data$gh_first_commit_created_at <- anytime(data$gh_first_commit_created_at)
 data$gh_build_started_at <- anytime(data$gh_build_started_at)
 
+# convert to data table for easier access and modification of internal variables
 data <- data.table(data)
 
 # Sanitize data runs with NAs instead of 0s
