@@ -3,7 +3,7 @@
 # We hence use RMySQL 0.10.9 and manually modify the created SQL columns to DATETIME
 
 # Update to create new version of the data set
-table.name <- "travistorrent_1_12_2016"
+table.name <- "travistorrent_6_12_2016"
 
 library(data.table)
 library(RMySQL)
@@ -29,13 +29,18 @@ data[tr_log_bool_tests_failed == T & tr_log_num_tests_failed == 0,]$tr_log_num_t
 data[tr_log_bool_tests_failed == T & tr_log_num_tests_run == 0,]$tr_log_num_tests_run <- NA
 data[tr_log_num_tests_ok < 0,]$tr_log_num_tests_ok <- NA
 data[tr_log_num_tests_failed > tr_log_num_tests_run,]$tr_log_num_tests_run <- NA
-# Empty data in case no tests where run instead of NA, which indicates that we could not get some data
-data[tr_log_bool_tests_ran == F,]$tr_log_num_tests_ok <- ''
-data[tr_log_bool_tests_ran == F,]$tr_log_num_tests_failed <- ''
-data[tr_log_bool_tests_ran == F,]$tr_log_num_tests_run <- ''
-data[tr_log_bool_tests_ran == F,]$tr_log_num_tests_skipped <- ''
 
-data[tr_log_bool_tests_ran == T & tr_log_num_tests_run == 0 & tr_log_num_tests_skipped,]$tr_log_num_tests_run <- NA
+data <- data.frame(data)
+
+# Empty data in case no tests where run instead of NA, which indicates that we could not get some data
+data[data$tr_log_bool_tests_ran == F,]$tr_log_num_tests_ok <- ''
+data[data$tr_log_bool_tests_ran == F,]$tr_log_num_tests_failed <- ''
+data[data$tr_log_bool_tests_ran == F,]$tr_log_num_tests_run <- ''
+data[data$tr_log_bool_tests_ran == F,]$tr_log_num_tests_skipped <- ''
+
+data <- data.table(data)
+
+data[tr_log_bool_tests_ran == T & tr_log_num_tests_run == 0 & tr_log_num_tests_skipped == 0,]$tr_log_num_tests_run <- NA
 
 data[tr_duration < 0,]$tr_duration <- NA
 
@@ -52,6 +57,6 @@ data$tr_log_bool_tests_failed <- as.numeric(data$tr_log_bool_tests_failed)
 con <- dbConnect(dbDriver("MySQL"), user = "root", password = "root", dbname = "travistorrent", unix.socket='/var/run/mysqld/mysqld.sock')
 dbListTables(con)
 dbWriteTable(con, table.name, data, row.names = F, overwrite = T)
-dbSendQuery(con, sprintf("ALTER TABLE %s MODIFY tr_started_at DATETIME;",table.name))
+dbSendQuery(con, sprintf("ALTER TABLE %s MODIFY gh_build_started_at DATETIME;",table.name))
 dbSendQuery(con, sprintf("ALTER TABLE %s MODIFY gh_first_commit_created_at DATETIME;",table.name))
 dbDisconnect(con)
