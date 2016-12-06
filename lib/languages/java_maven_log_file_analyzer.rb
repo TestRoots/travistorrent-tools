@@ -93,6 +93,7 @@ module JavaMavenLogFileAnalyzer
 
   def analyze_tests
     failed_tests_started = false
+    has_tests_run_per_testClass = false
 
     @test_lines.each do |line|
       if failed_tests_started
@@ -101,7 +102,9 @@ module JavaMavenLogFileAnalyzer
           failed_tests_started = false
         end
       end
-      if !(line =~ /Tests run: .*? Time elapsed: (.* sec)/).nil?
+      if !(line =~ /Tests run: (\d*), Failures: (\d*), Errors: (\d*)(, Skipped: (\d*))?, Time elapsed: (.* sec) - in /).nil?
+        has_tests_run_per_testClass = true
+      elsif !has_tests_run_per_testClass and !(line =~ /Tests run: .*? Time elapsed: (.* sec)/).nil?
         init_tests
         @tests_run = true
         add_framework 'junit'
@@ -110,9 +113,16 @@ module JavaMavenLogFileAnalyzer
         init_tests
         @tests_run = true
         add_framework 'junit'
-        @num_tests_run = $1.to_i
-        @num_tests_failed = $2.to_i + $3.to_i
-        @num_tests_skipped = $5.to_i unless $4.nil?
+        if has_tests_run_per_testClass
+
+          @num_tests_run += $1.to_i
+          @num_tests_failed += $2.to_i + $3.to_i
+          @num_tests_skipped += $5.to_i unless $4.nil?
+        else
+          @num_tests_run = $1.to_i
+          @num_tests_failed = $2.to_i + $3.to_i
+          @num_tests_skipped = $5.to_i unless $4.nil?
+        end
       elsif !(line =~ /Total tests run:(\d+), Failures: (\d+), Skips: (\d+)/).nil?
         init_tests
         add_framework 'testng'
