@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 #
-# (c) 2012 -- 2015 Georgios Gousios <gousiosg@gmail.com>
+# (c) 2012 -- 2016 Georgios Gousios <gousiosg@gmail.com>
+# (c) 2015 -- 2016 Moritz Beller <moritzbeller -AT- gmx.de>
 #
 # BSD licensed, see LICENSE in top level dir
 
@@ -16,6 +17,7 @@ require 'trollop'
 require 'open-uri'
 require 'net/http'
 require 'fileutils'
+require 'time_difference'
 
 require_relative 'java'
 require_relative 'ruby'
@@ -561,6 +563,21 @@ usage:
 
   end
 
+  def calculate_cofounds(trigger_comit)
+    latest_commit_time = git.lookup(trigger_comit).time
+
+    walker = Rugged::Walker.new(git)
+    walker.sorting(Rugged::SORT_TOPO | Rugged::SORT_DATE | Rugged::SORT_REVERSE)
+    walker.push(trigger_comit)
+
+    first_commit_time = (walker.take 1).first.time
+
+    {
+        :repo_age => TimeDifference.between(latest_commit_time, first_commit_time).in_days,
+        :repo_num_commits => walker.count
+    }
+  end
+
   # Process a single build
   def process_build(build, owner, repo, lang)
 
@@ -577,6 +594,8 @@ usage:
     tr_original_commit = build[:tr_build_commit]
     prev_build_started_at = build[:prev_build].nil? ? nil : Time.parse(build[:prev_build][:started_at])
     git_trigger_commit = is_pr?(build) ? build[:commits][0] : tr_original_commit
+
+    cofounds = calculate_cofounds(git_trigger_commit)
 
     # exclude any previously built commits
     new_commits = build[:commits].select do |c|
@@ -737,7 +756,13 @@ usage:
         :gh_pushed_at => build[:commit_pushed_at],
 
         # [doc] Timestamp of the push that triggered the build (Travis provided).
-        :gh_build_started_at => build[:started_at]
+        :gh_build_started_at => build[:started_at],
+
+        # [doc] Age of the repository, from the latest commit to its first commit, in days
+        :gh_repo_age => cofounds[:repo_age],
+
+        # [doc] Number of commits in the repository
+        :gh_repo_num_commits => cofounds[:repo_num_commits]
     }
 
   end
