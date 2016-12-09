@@ -587,7 +587,7 @@ usage:
     end
   end
 
-  def calculate_cofounds(trigger_comit)
+  def calculate_confounds(trigger_comit)
     begin
       walker = Rugged::Walker.new(git)
       walker.sorting(Rugged::SORT_TOPO | Rugged::SORT_DATE | Rugged::SORT_REVERSE)
@@ -620,7 +620,7 @@ usage:
     prev_build_started_at = build[:prev_build].nil? ? nil : Time.parse(build[:prev_build][:started_at])
     git_trigger_commit = is_pr?(build) ? build[:commits][0] : tr_original_commit
 
-    cofounds = calculate_cofounds(git_trigger_commit)
+    confounds = calculate_confounds(git_trigger_commit)
 
     # exclude any previously built commits
     new_commits = build[:commits].select do |c|
@@ -784,10 +784,10 @@ usage:
         :gh_build_started_at => build[:started_at],
 
         # [doc] Age of the repository, from the latest commit to its first commit, in days
-        :gh_repo_age => cofounds[:repo_age],
+        :gh_repo_age => confounds[:repo_age],
 
         # [doc] Number of commits in the repository
-        :gh_repo_num_commits => cofounds[:repo_num_commits]
+        :gh_repo_num_commits => confounds[:repo_num_commits]
     }
 
   end
