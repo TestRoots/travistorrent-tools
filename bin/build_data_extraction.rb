@@ -563,19 +563,44 @@ usage:
 
   end
 
+  def calculate_time_difference(walker, trigger_commit)
+    begin
+      latest_commit_time = git.lookup(trigger_commit).time
+      first_commit_time = (walker.take 1).first.time
+      age = TimeDifference.between(latest_commit_time, first_commit_time).in_days
+    rescue => e
+      log "Exception on time difference processing commit #{tigger_commit}: #{e.message}"
+      log e.backtrace
+    ensure
+      return age
+    end
+  end
+
+  def calculate_number_of_commits(walker)
+    begin
+      num_commits = walker.count
+    rescue => e
+      log "Exception on commit numbers processing commit #{tigger_commit}: #{e.message}"
+      log e.backtrace
+    ensure
+      return num_commits
+    end
+  end
+
   def calculate_cofounds(trigger_comit)
-    latest_commit_time = git.lookup(trigger_comit).time
+    begin
+      walker = Rugged::Walker.new(git)
+      walker.sorting(Rugged::SORT_TOPO | Rugged::SORT_DATE | Rugged::SORT_REVERSE)
+      walker.push(trigger_comit)
 
-    walker = Rugged::Walker.new(git)
-    walker.sorting(Rugged::SORT_TOPO | Rugged::SORT_DATE | Rugged::SORT_REVERSE)
-    walker.push(trigger_comit)
-
-    first_commit_time = (walker.take 1).first.time
-
-    {
-        :repo_age => TimeDifference.between(latest_commit_time, first_commit_time).in_days,
-        :repo_num_commits => walker.count
-    }
+      age = calculate_time_difference(walker, trigger_comit)
+      num_commits = calculate_number_of_commits walker
+    ensure
+      return {
+          :repo_age => age,
+          :repo_num_commits => num_commits
+      }
+    end
   end
 
   # Process a single build
