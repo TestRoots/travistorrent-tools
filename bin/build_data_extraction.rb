@@ -17,10 +17,10 @@ require 'open-uri'
 require 'net/http'
 require 'fileutils'
 
-require 'java'
-require 'ruby'
-require 'scala'
-require 'python'
+require_relative 'java'
+require_relative 'ruby'
+require_relative 'scala'
+require_relative 'python'
 
 class BuildDataExtraction
 
