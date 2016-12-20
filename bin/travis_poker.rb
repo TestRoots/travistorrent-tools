@@ -13,12 +13,14 @@ def travis_builds_for_project(repo, wait_in_s)
     return repository.last_build_number.to_i
   rescue Exception => e
     STDERR.puts "Exception at #{repo}"
+    STDERR.puts e.message
     if (defined? e.io) && e.io.status[0] == "429"
       STDERR.puts "Encountered API restriction: sleeping for #{wait_in_s}"
       sleep wait_in_s
-      return get_build_id job_id, wait_in_s*2
-    else
-      STDERR.puts e
+      return travis_builds_for_project repo, wait_in_s*2
+    end
+    if e.empty?
+      return travis_builds_for_project repo, wait_in_s*2
     end
     return 0
   end
