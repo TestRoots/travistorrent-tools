@@ -9,17 +9,23 @@ require 'csv'
 
 def travis_builds_for_project(repo, wait_in_s)
   begin
+    if(wait_in_s > 128)
+      STDERR.puts "We can't wait forever for #{repo}"
+      return 0
+    elsif(wait_in_s > 1)
+      sleep wait_in_s
+    end
     repository = Travis::Repository.find(repo)
     return repository.last_build_number.to_i
   rescue Exception => e
     STDERR.puts "Exception at #{repo}"
     STDERR.puts e.message
     if (defined? e.io) && e.io.status[0] == "429"
-      STDERR.puts "Encountered API restriction: sleeping for #{wait_in_s}"
-      sleep wait_in_s
+      STDERR.puts "Encountered API restriction: next call, sleeping for #{wait_in_s*2}"
       return travis_builds_for_project repo, wait_in_s*2
     end
-    if e.empty?
+    if e.message.empty?
+      STDERR.puts "Empty exception, sleeping for #{wait_in_s*2}"
       return travis_builds_for_project repo, wait_in_s*2
     end
     return 0
@@ -30,7 +36,7 @@ end
 def analyze_projects_on_travis
   i = 0
   File.open("#{@input_csv}-annotated.csv", 'w') { |file|
-    CSV.foreach(@input_csv) do |row|
+    CSV.foreach(@input_csv, :headers => true) do |row|
       curRow = row
       curRow << travis_builds_for_project("#{row[0]}/#{row[1]}", 1).to_s
       file.write(curRow.to_csv)
