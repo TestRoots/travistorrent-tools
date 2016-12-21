@@ -15,7 +15,7 @@ file_contents.each do |line|
       next_line.strip!
       doc += " #{$1}" if !(next_line =~ /# (.+)/).nil?
       if !(next_line =~ /(.+) =>/).nil?
-        puts "| #{$1} | #{doc} |"
+        puts "| `#{$1.tr(':','')}` | #{doc} |"
         break;
       end
       index += 1

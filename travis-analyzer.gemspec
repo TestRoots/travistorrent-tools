@@ -24,4 +24,8 @@ Gem::Specification.new do |gem|
   gem.add_dependency 'mysql2', ['>= 0.3']
   gem.add_dependency 'travis', ['>= 1.7','< 1.9']
   gem.add_dependency 'colorize', ['>= 0.7']
+  gem.add_dependency 'activesupport', ['<5.0.0']
+  gem.add_dependency 'time_difference'
+  gem.add_dependency 'json', ['>= 2.0.0']
+
 end

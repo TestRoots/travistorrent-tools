@@ -15,7 +15,7 @@ load 'lib/csv_helper.rb'
 def job_logs(build, sha, error_file, parent_dir)
   jobs = build['job_ids']
   jobs.each do |job|
-    name = File.join(parent_dir, "#{build['number']}_#{sha}_#{job}.log")
+    name = File.join(parent_dir, "#{build['number']}_#{build['id']}_#{sha}_#{job}.log")
     next if File.exists?(name) and File.size(name) > 1
 
     begin
@@ -42,7 +42,7 @@ def job_logs(build, sha, error_file, parent_dir)
 end
 
 def get_travis(repo, build_logs = true)
-  parent_dir = File.join('build_logs/rubyjava/', repo.gsub(/\//, '@'))
+  parent_dir = File.join('build_logs/', repo.gsub(/\//, '@'))
   error_file = File.join(parent_dir, 'errors')
   FileUtils::mkdir_p(parent_dir)
   json_file = File.join(parent_dir, 'repo-data-travis.json')
@@ -90,10 +90,16 @@ def get_travis(repo, build_logs = true)
               :commit => commit['sha'],
               :pull_req => build['pull_request_number'],
               :branch => commit['branch'],
+              # [doc] The build status (such as passed, failed, ...) as returned from the Travis CI API.
               :status => build['state'],
+
+              # [doc] The full build duration as returned from the Travis CI API.
               :duration => build['duration'],
               :started_at => started_at, # in UTC
+
+              # [doc] The unique Travis IDs of the jobs, in a string separated by `#`.
               :jobs => build['job_ids'],
+
               #:jobduration => build.jobs.map { |x| "#{x.id}##{x.duration}" }
               :event_type => build['event_type']
           }
