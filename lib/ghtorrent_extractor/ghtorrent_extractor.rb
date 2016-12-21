@@ -17,10 +17,7 @@ require 'open-uri'
 require 'net/http'
 require 'fileutils'
 
-require 'java'
-require 'ruby'
-require 'go'
-require 'python'
+require 'travistorrent'
 
 class GhtorrentExtractor
 
@@ -1338,5 +1335,4 @@ usage:
 
 end
 
-GhtorrentExtractor.run
 #vim: set filetype=ruby expandtab tabstop=2 shiftwidth=2 autoindent smartindent:

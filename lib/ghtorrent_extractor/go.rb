@@ -2,7 +2,7 @@
 # (c) 2016 -- 2017 Georgios Gousios <gousiosg@gmail.com>
 #
 
-require 'comment_stripper'
+require 'ghtorrent_extractor/comment_stripper'
 
 module GoData
 
