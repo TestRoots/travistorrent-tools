@@ -1,7 +1,7 @@
 require 'minitest/autorun'
 require 'ghtorrent_extractor/comment_stripper'
 
-class MyTest < MiniTest::Test
+class CommentStripperTest < MiniTest::Test
 
   include CommentStripper
 
