@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 #
-# (c) 2012 -- 2015 Georgios Gousios <gousiosg@gmail.com>
+# (c) 2012 -- 2017 Georgios Gousios <gousiosg@gmail.com>
 #
 # BSD licensed, see LICENSE in top level dir
 
@@ -19,10 +19,10 @@ require 'fileutils'
 
 require 'java'
 require 'ruby'
-require 'scala'
+require 'go'
 require 'python'
 
-class BuildDataExtraction
+class GhtorrentExtractor
 
   include Mongo
 
@@ -235,6 +235,10 @@ usage:
         self.extend(RubyData)
       when /java/i then
         self.extend(JavaData)
+      when /python/i then
+        self.extend(PythonData)
+      when /go/i then
+        self.extend(GoData)
       else
         Trollop::die "Language #{language} not supported"
     end
@@ -1334,5 +1338,5 @@ usage:
 
 end
 
-BuildDataExtraction.run
+GhtorrentExtractor.run
 #vim: set filetype=ruby expandtab tabstop=2 shiftwidth=2 autoindent smartindent:
