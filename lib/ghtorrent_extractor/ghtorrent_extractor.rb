@@ -20,15 +20,13 @@ require 'net/http'
 require 'fileutils'
 require 'time_difference'
 
+require_relative 'go'
 require_relative 'java'
 require_relative 'ruby'
-require_relative 'scala'
 require_relative 'python'
 
 
 class GhtorrentExtractor
-
-  include Mongo
 
   REQ_LIMIT = 4990
   THREADS = 2
@@ -108,11 +106,20 @@ usage:
 
   def mongo
     Thread.current[:mongo_db] ||= Proc.new do
-      mongo_db = MongoClient.new(self.config['mongo']['host'], self.config['mongo']['port']).db(self.config['mongo']['db'])
-      unless self.config['mongo']['username'].nil?
-        mongo_db.authenticate(self.config['mongo']['username'], self.config['mongo']['password'])
-      end
-      mongo_db
+      uname  = self.config['mongo']['username']
+      passwd = self.config['mongo']['password']
+      host   = self.config['mongo']['host']
+      port   = self.config['mongo']['port']
+      db     = self.config['mongo']['db']
+
+      constring = if uname.nil?
+                    "mongodb://#{host}:#{port}/#{db}"
+                  else
+                    "mongodb://#{uname}:#{passwd}@#{host}:#{port}/#{db}"
+                  end
+
+      Mongo::Logger.logger.level = Logger::Severity::WARN
+      Mongo::Client.new(constring)
     end.call
     Thread.current[:mongo_db]
   end
@@ -197,6 +204,7 @@ usage:
 
   # Main command code
   def go
+    mongo
     interrupted = false
 
     trap('INT') {
