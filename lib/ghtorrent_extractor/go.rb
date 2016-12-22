@@ -4,6 +4,9 @@
 
 require_relative 'comment_stripper'
 
+
+# Supported test frameworks: gotest, GoConvey
+# Supported assertion types: testify, gotest, GoConvey
 module GoData
 
   include CommentStripper
@@ -67,7 +70,7 @@ module GoData
   end
 
   def is_testify_assertion(l)
-    not l.match(/[Aa][sert]*.((Not)?Equal|(No)?Error|(Not)?Contains|(Not)?Panics|(Not)?Nil)/).nil?
+    not l.match(/(([Aa][sert]*\.)|(^|\s))((Not)?Equal|(No)?Error|(Not)?Contains|(Not)?Panics|(Not)?Nil)/).nil?
   end
 
 end
