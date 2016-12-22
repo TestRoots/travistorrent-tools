@@ -1,101 +1,57 @@
 #
-# (c) 2012 -- 2015 Georgios Gousios <gousiosg@gmail.com>
+# (c) 2012 -- 2017 Georgios Gousios <gousiosg@gmail.com>
 #
 
 require_relative 'comment_stripper'
 
+# Supported testing frameworks: unittest, pytest and nose
 module PythonData
 
   include CommentStripper
 
-  def docstring_tests(sha)
-    docstrings(sha).reduce(0) do |acc, docstring|
-      in_test = false
-      tests = 0
-      docstring.lines.each do |x|
-
-        if in_test == false
-          if x.match(/^\s+>>>/)
-            in_test = true
-            tests += 1
-          end
-        else
-          in_test = false unless x.match(/^\s+>>>/)
-        end
-      end
-      acc + tests
-    end
-  end
-
-  def num_test_cases(sha)
-    docstring_tests(sha) + normal_tests(sha)
-  end
-
-  def normal_tests(sha)
-    test_files(sha).reduce(0) do |acc, f|
-      cases = stripped(f).scan(/\s*def\s* test_(.*)\(.*\):/).size
-      acc + cases
-    end
-  end
-
-  def num_assertions(sha)
-    ds_tests = docstrings(sha).reduce(0) do |acc, docstring|
-      in_test = false
-      asserts = 0
-      docstring.lines.each do |x|
-
-        if in_test == false
-          if x.match(/^\s+>>>/)
-            in_test = true
-          end
-        else
-          asserts += 1
-          in_test = false unless x.match(/^\s+>>>/)
-        end
-      end
-      acc + asserts
-    end
-
-    normal_tests = test_files(sha).reduce(0) do |acc, f|
-      cases = stripped(f).lines.select{|l| not l.match(/assert/).nil?}
-      acc + cases.size
-    end
-    Thread.current[:ds_cache] = {} # Hacky optimization to avoid memory problems
-    ds_tests + normal_tests
-  end
-
   def test_file_filter
-    lambda { |f|
+    lambda do |f|
       path = if f.class == Hash then f[:path] else f end
       # http://pytest.org/latest/goodpractises.html#conventions-for-python-test-discovery
       # Path points to a python file named as foo_test.py or test_foo.py or test.py
       # or it contains a test directory
-      path.end_with?('.py') and(
-          (
-            not path.match(/test_.+/i).nil? or
-            not path.match(/.+_test/i).nil? or
-            not path.match(/tests?/i).nil?
-          ) or (
-            not path.match(/test\//).nil?
-          )
+      path.end_with?('.py') and
+      (
+        not path.match(/test_.+/i).nil? or
+        not path.match(/.+_test/i).nil? or
+        not path.match(/test.py/i).nil? or
+        not path.match(/tests?\//i).nil?
       )
-    }
+    end
   end
 
   def src_file_filter
-    lambda { |f|
-      f[:path].end_with?('.py') and not test_file_filter.call(f[:path])
-    }
+    lambda do |f|
+      path = if f.class == Hash then f[:path] else f end
+      path.end_with?('.py') and not test_file_filter.call(path)
+    end
   end
 
   def test_case_filter
-    lambda {|l|
+    lambda do |l|
+      # http://doc.pytest.org/en/latest/goodpractices.html#test-discovery
       not l.match(/\s*def\s* test_(.*)\(.*\):/).nil?
-    }
+    end
   end
 
   def assertion_filter
-    lambda{|l| not l.match(/assert/).nil?}
+    lambda do |l|
+      # https://docs.python.org/2/library/unittest.html#assert-methods
+      # http://nose.readthedocs.io/en/latest/writing_tests.html#test-packages
+      not l.match(/assert([A-Z]\w*)?/).nil? or
+          pytest_assertion?(l)
+    end
+  end
+
+  def pytest_assertion?(l)
+    # http://doc.pytest.org/en/latest/builtin.html
+    not l.match(/(with)?\s*(pytest\.)?raises/).nil? or
+        not l.match(/(pytest.)?approx/).nil?
   end
 
   def strip_comments(buff)
@@ -103,7 +59,7 @@ module PythonData
   end
 
   def strip_python_multiline_comments(buff)
-    out = []
+    out        = []
     in_comment = false
     buff.lines.each do |line|
       if line.match(/^\s*["']{3}/)
@@ -115,24 +71,7 @@ module PythonData
         out << line
       end
     end
-    out.flatten.reduce(''){|acc, x| acc + x}
+    out.flatten.reduce('') { |acc, x| acc + x }
   end
 
-  def ml_comment_regexps
-    [/["']{3}(.+?)["']{3}/m]
-  end
-
-  private
-
-  def docstrings(sha)
-    Thread.current[:ds_cache] ||= {}
-    if Thread.current[:ds_cache][sha].nil?
-      docstr = (src_files(sha) + test_files(sha)).flat_map do |f|
-          buff = git.read(f[:oid]).data
-          buff.scan(ml_comment_regexps[0])
-          end
-      Thread.current[:ds_cache][sha] = docstr.flatten
-    end
-    Thread.current[:ds_cache][sha]
-  end
 end
