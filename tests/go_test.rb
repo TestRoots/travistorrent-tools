@@ -86,7 +86,14 @@ describe GoData do
       assert Class.new.extend(GoData).is_testify_assertion('Assert.Panics(t,node2.AddContainer(createContainer("c2", config)))')
       assert Class.new.extend(GoData).is_testify_assertion('a.NotEqual(t, node2.UsedCpus, int64(1))')
       assert Class.new.extend(GoData).is_testify_assertion('assert.Nil(t, containers.Get("invalid-id"))')
+    end
 
+    it 'must reject invalid testify assertions' do
+      assert !Class.new.extend(GoData).is_testify_assertion('aret.NotEqual(t, node1.AddContainer(createContainer("c1", config)))')
+      assert !Class.new.extend(GoData).is_testify_assertion('arettttt.NotEqual(t, node1.AddContainer(createContainer("c1", config)))')
+      assert !Class.new.extend(GoData).is_testify_assertion('arettttt!NotEqual(t, node1.AddContainer(createContainer("c1", config)))')
+      # TODO (GG) Not sure about this one
+      assert !Class.new.extend(GoData).is_testify_assertion('A.NotEqual(t, node1.AddContainer(createContainer("c1", config)))')
     end
 
     it 'must accept valid assertions' do
