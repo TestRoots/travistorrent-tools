@@ -55,7 +55,7 @@ end
 def get_build(builds, build, wait_in_s = 1)
   if(wait_in_s > 64)
     STDERR.puts "We can't wait forever for #{build}"
-    return 0
+    return {}
   elsif(wait_in_s > 1)
     sleep wait_in_s
   end
@@ -63,10 +63,10 @@ def get_build(builds, build, wait_in_s = 1)
   begin
     begin
       started_at = Time.parse(build['started_at']).utc.to_s
-      return if Date.parse(started_at) >= @date_threshold
+      return {} if Date.parse(started_at) >= @date_threshold
     rescue
       ended_at = Time.parse(build['finished_at']).utc.to_s
-      return if Date.parse(ended_at) >= @date_threshold
+      return {} if Date.parse(ended_at) >= @date_threshold
     end
 
     commit = builds['commits'].find { |x| x['id'] == build['commit_id'] }
@@ -96,7 +96,7 @@ def get_build(builds, build, wait_in_s = 1)
     error_message = "Retrying, but Error getting Travis builds for #{build['id']}: #{e.message}"
     puts error_message
     File.open(@error_file, 'a') { |f| f.puts error_message }
-    get_build(build, wait_in_s*2)
+    return get_build(build, wait_in_s*2)
   end
 end
 
@@ -148,8 +148,11 @@ def get_travis(repo, build_logs = true, wait_in_s = 1)
     puts error_message
     File.open(@error_file, 'a') { |f| f.puts error_message }
     get_travis(repo, build_logs, wait_in_s*2)
+    return
   end
 
+  # Remove empty entries
+  all_builds.reject! {|c| c.empty?}
   # Remove duplicates
   all_builds = all_builds.group_by { |x| x[:build_id] }.map { |k, v| v[0] }
 
