@@ -1,10 +1,8 @@
 docker@docker
 coreos@rkt
 pingcap@tidb
-pingcap@tidb
 docker@docker
 ipfs@go-ipfs
-kubernetes@kubernetes
 kubernetes@kubernetes
 grafana@grafana
 github@hub

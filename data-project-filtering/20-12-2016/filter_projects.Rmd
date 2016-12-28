@@ -1,9 +1,9 @@
 ---
-title: "Selection of Study Object (GitHub projects)"
+title: "Selection of Travis CI Study Object from GitHub projects"
 output: html_notebook
 ---
 
-```{r setup}
+```{r, include = FALSE}
 library(beanplot)
 library(vioplot)
 library(splitstackshape)
@@ -14,7 +14,7 @@ set.seed(20)
 
 This R notebook documents how we selected projects for our investigation.
 
-# Getting input from GHTorrent (for all languages)
+## Getting input from GHTorrent (for all languages)
 We started off by obtaining a list of projects from [GHTorrent](http://ghtorrent.org/relational.html). We used establish filtering criteria (non-fork, non-deleted repositories with at least 50 stars), detailed in the query (nb. that watchers == stars in GHTorrent, see http://ghtorrent.org/relational.html):
 
 ```sql
@@ -43,7 +43,7 @@ summary(projects$stars)
 plot(projects$stars)
 ```
 
-# Selecting on Project in Languages Worth Supporting
+## Selecting Projects in Languages Worth Supporting
 Next, we trim down the project set to only projects written in the languages Java, Go (both statically typed), Ruby, and Python (both dynamically typed). This results in `r nrow(read.csv("java_ruby_python_go_projects_51_stars.csv", header = F))` candidate projects. We now perform two steps: First, we run the Ruby `TravisPoker` to retrieve the number of CI builds on Travis CI for each project in the list. 
 
 ```{r}
@@ -123,12 +123,25 @@ clustered$cluster.stars <- kmeans(clustered$stars, centers=10)$cluster
 Finally, we can perform stratified random sampling on the newly generated clusters:
 ```{r}
 stratified.projects <- stratified(clustered, c("language", "cluster.ci_builds", "cluster.stars"), 10)
+print(nrow(stratified.projects))
+stratified.projects <- unique(stratified.projects)
+print(nrow(stratified.projects))
 ```
 
+We convince ourselves that the generated sample is more evenly distributed by comparing it to what our starting sample looked like:
+
+
+```{r}
+summary(stratified.projects$language)
+```
+
+## Building a list of projects
+
+This leaves us with `r nrow(stratified.projects)` projects to analyze.
 Last, we need to build a list of projects of which the build files should be downloaded:
 
 ```{r}
 stratified.projects$ghname <- paste(sep = "@", stratified.projects$login, stratified.projects$project)
-write(stratified.projects$ghname, "stratified_project_list_22_12_2016.csv")
+write(stratified.projects$ghname, "stratified_project_list_22_12_2016.txt")
 ```
 
