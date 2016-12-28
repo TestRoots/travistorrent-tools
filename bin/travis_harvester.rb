@@ -1,6 +1,18 @@
 #!/usr/bin/env ruby
 
-require 'travis'
+# Occassionally, Travis fails to include. This is a never-give-up safeguard against such behavior
+def include_travis
+  begin
+    require 'travis'
+  rescue
+    error_message = "Error: Problem including Travis. Retrying ..."
+    puts error_message
+    sleep 2
+    include_travis
+  end
+end
+
+include_travis
 require 'net/http'
 require 'open-uri'
 require 'json'
@@ -13,10 +25,10 @@ load 'lib/csv_helper.rb'
 @date_threshold = Date.parse("2016-09-01")
 
 def download_job(job, name, wait_in_s = 1)
-  if(wait_in_s > 64)
-    STDERR.puts "We can't wait forever for #{job}"
+  if (wait_in_s > 64)
+    STDERR.puts "Error: Giveup: We can't wait forever for #{job}"
     return 0
-  elsif(wait_in_s > 1)
+  elsif (wait_in_s > 1)
     sleep wait_in_s
   end
 
@@ -53,10 +65,10 @@ def job_logs(build, sha)
 end
 
 def get_build(builds, build, wait_in_s = 1)
-  if(wait_in_s > 64)
-    STDERR.puts "We can't wait forever for #{build}"
+  if (wait_in_s > 64)
+    STDERR.puts "Error: Giveup: We can't wait forever for #{build}"
     return {}
-  elsif(wait_in_s > 1)
+  elsif (wait_in_s > 1)
     sleep wait_in_s
   end
 
@@ -65,7 +77,13 @@ def get_build(builds, build, wait_in_s = 1)
       started_at = Time.parse(build['started_at']).utc.to_s
       return {} if Date.parse(started_at) >= @date_threshold
     rescue
-      ended_at = Time.parse(build['finished_at']).utc.to_s
+      begin
+        ended_at = Time.parse(build['finished_at']).utc.to_s
+      rescue
+        error_message = "Skipping empty date #{build['id']}"
+        puts error_message
+        return {}
+      end
       return {} if Date.parse(ended_at) >= @date_threshold
     end
 
@@ -98,13 +116,14 @@ def get_build(builds, build, wait_in_s = 1)
     File.open(@error_file, 'a') { |f| f.puts error_message }
     return get_build(build, wait_in_s*2)
   end
+
 end
 
 def get_travis(repo, build_logs = true, wait_in_s = 1)
-  if(wait_in_s > 128)
-    STDERR.puts "We can't wait forever for #{repo}"
+  if (wait_in_s > 128)
+    STDERR.puts "Error: Giveup: We can't wait forever for #{repo}"
     return 0
-  elsif(wait_in_s > 1)
+  elsif (wait_in_s > 1)
     sleep wait_in_s
   end
 
@@ -152,7 +171,7 @@ def get_travis(repo, build_logs = true, wait_in_s = 1)
   end
 
   # Remove empty entries
-  all_builds.reject! {|c| c.empty?}
+  all_builds.reject! { |c| c.empty? }
   # Remove duplicates
   all_builds = all_builds.group_by { |x| x[:build_id] }.map { |k, v| v[0] }
 
