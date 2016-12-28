@@ -12,36 +12,103 @@ load 'lib/csv_helper.rb'
 
 @date_threshold = Date.parse("2016-09-01")
 
+def download_job(error_file, job, wait_in_s = 1)
+  if(wait_in_s > 64)
+    STDERR.puts "We can't wait forever for #{job}"
+    return 0
+  elsif(wait_in_s > 1)
+    sleep wait_in_s
+  end
+
+  begin
+    begin
+      log_url = "http://s3.amazonaws.com/archive.travis-ci.org/jobs/#{job}/log.txt"
+      STDERR.puts "Attempt 1 #{log_url}"
+      log = Net::HTTP.get_response(URI.parse(log_url)).body
+    rescue
+      # Workaround if log.body results in error.
+      log_url = "http://s3.amazonaws.com/archive.travis-ci.org/jobs/#{job}/log.txt"
+      STDERR.puts "Attempt 2 #{log_url}"
+      log = Net::HTTP.get_response(URI.parse(log_url)).body
+    end
+
+    File.open(name, 'w') { |f| f.puts log }
+    log = '' # necessary to enable GC of previously stored value, otherwise: memory leak
+  rescue
+    error_message = "Retrying, but Could not get log #{name}"
+    puts error_message
+    File.open(error_file, 'a') { |f| f.puts error_message }
+    download_job(error_file, job, wait_in_s*2)
+  end
+end
+
 def job_logs(build, sha, error_file, parent_dir)
   jobs = build['job_ids']
   jobs.each do |job|
     name = File.join(parent_dir, "#{build['number']}_#{build['id']}_#{sha}_#{job}.log")
     next if File.exists?(name) and File.size(name) > 1
 
-    begin
-       begin
-          log_url = "http://s3.amazonaws.com/archive.travis-ci.org/jobs/#{job}/log.txt"
-          STDERR.puts "Attempt 1 #{log_url}"
-          log = Net::HTTP.get_response(URI.parse(log_url)).body
-        rescue
-          # Workaround if log.body results in error.
-          log_url = "http://s3.amazonaws.com/archive.travis-ci.org/jobs/#{job}/log.txt"
-          STDERR.puts "Attempt 2 #{log_url}"
-          log = Net::HTTP.get_response(URI.parse(log_url)).body
-        end
-
-      File.open(name, 'w') { |f| f.puts log }
-      log = '' # necessary to enable GC of previously stored value, otherwise: memory leak
-    rescue
-      error_message = "Could not get log #{name}"
-      puts error_message
-      File.open(error_file, 'a') { |f| f.puts error_message }
-      next
-    end
+    download_job(error_file, job)
   end
 end
 
-def get_travis(repo, build_logs = true)
+def get_build(build, wait_in_s = 1)
+  if(wait_in_s > 64)
+    STDERR.puts "We can't wait forever for #{job}"
+    return 0
+  elsif(wait_in_s > 1)
+    sleep wait_in_s
+  end
+
+  begin
+    begin
+      started_at = Time.parse(build['started_at']).utc.to_s
+      next if Date.parse(started_at) >= @date_threshold
+    rescue
+      ended_at = Time.parse(build['finished_at']).utc.to_s
+      next if Date.parse(ended_at) >= @date_threshold
+    end
+
+    commit = builds['commits'].find { |x| x['id'] == build['commit_id'] }
+    job_logs(build, commit['sha'], error_file, parent_dir) if build_logs
+
+    build_data = {
+        :build_id => build['id'],
+        :commit => commit['sha'],
+        :pull_req => build['pull_request_number'],
+        :branch => commit['branch'],
+        # [doc] The build status (such as passed, failed, ...) as returned from the Travis CI API.
+        :status => build['state'],
+
+        # [doc] The full build duration as returned from the Travis CI API.
+        :duration => build['duration'],
+        :started_at => started_at, # in UTC
+
+        # [doc] The unique Travis IDs of the jobs, in a string separated by `#`.
+        :jobs => build['job_ids'],
+
+        #:jobduration => build.jobs.map { |x| "#{x.id}##{x.duration}" }
+        :event_type => build['event_type']
+    }
+
+    next if build_data.empty?
+    all_builds << build_data
+  rescue Exception => e
+    error_message = "Retrying, but Error getting Travis builds for #{build['id']}: #{e.message}"
+    puts error_message
+    File.open(error_file, 'a') { |f| f.puts error_message }
+    get_build(build, wait_in_s*2)
+  end
+end
+
+def get_travis(repo, build_logs = true, wait_in_s = 1)
+  if(wait_in_s > 128)
+    STDERR.puts "We can't wait forever for #{repo}"
+    return 0
+  elsif(wait_in_s > 1)
+    sleep wait_in_s
+  end
+
   parent_dir = File.join('build_logs/', repo.gsub(/\//, '@'))
   error_file = File.join(parent_dir, 'errors')
   FileUtils::mkdir_p(parent_dir)
@@ -73,50 +140,14 @@ def get_travis(repo, build_logs = true)
                   'Accept' => 'application/vnd.travis-ci.2+json')
       builds = JSON.parse(resp.read)
       builds['builds'].each do |build|
-        begin
-          begin
-            started_at = Time.parse(build['started_at']).utc.to_s
-            next if Date.parse(started_at) >= @date_threshold
-          rescue
-            ended_at = Time.parse(build['finished_at']).utc.to_s
-            next if Date.parse(ended_at) >= @date_threshold
-          end
-
-          commit = builds['commits'].find { |x| x['id'] == build['commit_id'] }
-          job_logs(build, commit['sha'], error_file, parent_dir) if build_logs
-
-          build_data = {
-              :build_id => build['id'],
-              :commit => commit['sha'],
-              :pull_req => build['pull_request_number'],
-              :branch => commit['branch'],
-              # [doc] The build status (such as passed, failed, ...) as returned from the Travis CI API.
-              :status => build['state'],
-
-              # [doc] The full build duration as returned from the Travis CI API.
-              :duration => build['duration'],
-              :started_at => started_at, # in UTC
-
-              # [doc] The unique Travis IDs of the jobs, in a string separated by `#`.
-              :jobs => build['job_ids'],
-
-              #:jobduration => build.jobs.map { |x| "#{x.id}##{x.duration}" }
-              :event_type => build['event_type']
-          }
-
-          next if build_data.empty?
-          all_builds << build_data
-        rescue Exception => e
-          error_message = "Error getting Travis builds for #{repo} #{build['id']}: #{e.message}"
-          puts error_message
-          File.open(error_file, 'a') { |f| f.puts error_message }
-        end
+        get_build build
       end
     end
   rescue Exception => e
-    error_message = "Error getting Travis builds for #{repo}: #{e.message}"
+    error_message = "Retrying, but Error getting Travis builds for #{repo}: #{e.message}"
     puts error_message
     File.open(error_file, 'a') { |f| f.puts error_message }
+    get_travis(repo, build_logs, wait_in_s*2)
   end
 
   # Remove duplicates
