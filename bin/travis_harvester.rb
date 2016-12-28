@@ -12,7 +12,7 @@ load 'lib/csv_helper.rb'
 
 @date_threshold = Date.parse("2016-09-01")
 
-def download_job(error_file, job, wait_in_s = 1)
+def download_job(job, name, wait_in_s = 1)
   if(wait_in_s > 64)
     STDERR.puts "We can't wait forever for #{job}"
     return 0
@@ -37,24 +37,24 @@ def download_job(error_file, job, wait_in_s = 1)
   rescue
     error_message = "Retrying, but Could not get log #{name}"
     puts error_message
-    File.open(error_file, 'a') { |f| f.puts error_message }
-    download_job(error_file, job, wait_in_s*2)
+    File.open(@error_file, 'a') { |f| f.puts error_message }
+    download_job(job, wait_in_s*2)
   end
 end
 
-def job_logs(build, sha, error_file, parent_dir)
+def job_logs(build, sha)
   jobs = build['job_ids']
   jobs.each do |job|
-    name = File.join(parent_dir, "#{build['number']}_#{build['id']}_#{sha}_#{job}.log")
+    name = File.join(@parent_dir, "#{build['number']}_#{build['id']}_#{sha}_#{job}.log")
     next if File.exists?(name) and File.size(name) > 1
 
-    download_job(error_file, job)
+    download_job(job, name)
   end
 end
 
-def get_build(build, wait_in_s = 1)
+def get_build(builds, build, wait_in_s = 1)
   if(wait_in_s > 64)
-    STDERR.puts "We can't wait forever for #{job}"
+    STDERR.puts "We can't wait forever for #{build}"
     return 0
   elsif(wait_in_s > 1)
     sleep wait_in_s
@@ -70,7 +70,7 @@ def get_build(build, wait_in_s = 1)
     end
 
     commit = builds['commits'].find { |x| x['id'] == build['commit_id'] }
-    job_logs(build, commit['sha'], error_file, parent_dir) if build_logs
+    job_logs(build, commit['sha']) if @build_logs
 
     build_data = {
         :build_id => build['id'],
@@ -91,12 +91,11 @@ def get_build(build, wait_in_s = 1)
         :event_type => build['event_type']
     }
 
-    return if build_data.empty?
-    all_builds << build_data
+    return build_data
   rescue Exception => e
     error_message = "Retrying, but Error getting Travis builds for #{build['id']}: #{e.message}"
     puts error_message
-    File.open(error_file, 'a') { |f| f.puts error_message }
+    File.open(@error_file, 'a') { |f| f.puts error_message }
     get_build(build, wait_in_s*2)
   end
 end
@@ -109,10 +108,11 @@ def get_travis(repo, build_logs = true, wait_in_s = 1)
     sleep wait_in_s
   end
 
-  parent_dir = File.join('build_logs/', repo.gsub(/\//, '@'))
-  error_file = File.join(parent_dir, 'errors')
-  FileUtils::mkdir_p(parent_dir)
-  json_file = File.join(parent_dir, 'repo-data-travis.json')
+  @parent_dir = File.join('build_logs/', repo.gsub(/\//, '@'))
+  @error_file = File.join(@parent_dir, 'errors')
+  @build_logs = build_logs
+  FileUtils::mkdir_p(@parent_dir)
+  json_file = File.join(@parent_dir, 'repo-data-travis.json')
 
   all_builds = []
 
@@ -140,13 +140,13 @@ def get_travis(repo, build_logs = true, wait_in_s = 1)
                   'Accept' => 'application/vnd.travis-ci.2+json')
       builds = JSON.parse(resp.read)
       builds['builds'].each do |build|
-        get_build build
+        all_builds << get_build(builds, build)
       end
     end
   rescue Exception => e
     error_message = "Retrying, but Error getting Travis builds for #{repo}: #{e.message}"
     puts error_message
-    File.open(error_file, 'a') { |f| f.puts error_message }
+    File.open(@error_file, 'a') { |f| f.puts error_message }
     get_travis(repo, build_logs, wait_in_s*2)
   end
 
@@ -156,7 +156,7 @@ def get_travis(repo, build_logs = true, wait_in_s = 1)
   if all_builds.empty?
     error_message = "Error could not get any repo information for #{repo}."
     puts error_message
-    File.open(error_file, 'a') { |f| f.puts error_message }
+    File.open(@error_file, 'a') { |f| f.puts error_message }
     exit(1)
   end
 
@@ -164,7 +164,7 @@ def get_travis(repo, build_logs = true, wait_in_s = 1)
     f.puts JSON.dump(all_builds)
   end
 
-  csv_file = File.join(parent_dir, 'repo-data-travis.csv')
+  csv_file = File.join(@parent_dir, 'repo-data-travis.csv')
   File.open(csv_file, 'w') do |f|
     f.puts all_builds.first.keys.map { |x| x.to_s }.join(',')
     all_builds.sort { |a, b| b[:build_id]<=>a[:build_id] }.each { |x| f.puts x.values.join(',') }
