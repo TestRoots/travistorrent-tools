@@ -63,10 +63,10 @@ def get_build(build, wait_in_s = 1)
   begin
     begin
       started_at = Time.parse(build['started_at']).utc.to_s
-      next if Date.parse(started_at) >= @date_threshold
+      return if Date.parse(started_at) >= @date_threshold
     rescue
       ended_at = Time.parse(build['finished_at']).utc.to_s
-      next if Date.parse(ended_at) >= @date_threshold
+      return if Date.parse(ended_at) >= @date_threshold
     end
 
     commit = builds['commits'].find { |x| x['id'] == build['commit_id'] }
@@ -91,7 +91,7 @@ def get_build(build, wait_in_s = 1)
         :event_type => build['event_type']
     }
 
-    next if build_data.empty?
+    return if build_data.empty?
     all_builds << build_data
   rescue Exception => e
     error_message = "Retrying, but Error getting Travis builds for #{build['id']}: #{e.message}"
