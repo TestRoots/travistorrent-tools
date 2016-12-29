@@ -138,7 +138,7 @@ usage:
   end
 
   def load_builds(owner, repo)
-    f = File.join("build_logs", "rubyjava", "#{owner}@#{repo}", "repo-data-travis.json")
+    f = File.join("build_logs", "#{owner}@#{repo}", "repo-data-travis.json")
     unless File.exists? f
       Trollop::die "Build file (#{f}) does not exist"
     end
@@ -235,10 +235,10 @@ usage:
 
     language = repo_entry[:language]
 
-    unless %w(ruby Ruby Java java).include? language
+    unless %w(ruby Ruby Java java Go go Python python).include? language
       # Try to guess the language from "buildlog-data-travis.csv"
       require 'csv'
-      csv = CSV.open(File.join("build_logs", "rubyjava", "#{owner}@#{repo}", "buildlog-data-travis.csv"))
+      csv = CSV.open(File.join("build_logs", "#{owner}@#{repo}", "buildlog-data-travis.csv"))
       language = csv.readlines.last[3]
       log "Switching from GHTorrent provided language #{repo_entry[:language]} to #{language}"
     end
@@ -468,9 +468,9 @@ usage:
     # from pushes to local repository branches
     forks = builds.select { |b| not b[:pull_req].nil? }.map do |b|
       # Resolve PR object
-      pr = mongo['pull_requests'].find_one({'owner' => owner,
-                                            'repo' => repo,
-                                            'number' => b[:pull_req]})
+      pr = mongo['pull_requests'].find({'owner' => owner,
+                                        'repo' => repo,
+                                        'number' => b[:pull_req]}).limit(1).first
       next if pr.nil?
       next if pr['head'].nil?
       next if pr['head']['repo'].nil?
@@ -529,11 +529,11 @@ usage:
         build[:commit_pushed_at] = commit_push_info[build[:commit]][0]
         build[:push_id] = commit_push_info[build[:commit]][1]
 
-        push_event = mongo['events'].find_one({'id' => push_info[1]})
+        push_event = mongo['events'].find(({'id' => push_info[1]})).limit(1).first
         pushed_commits = push_event['payload']['commits']
 
         timestamps = pushed_commits.map do |x|
-          c = mongo['commits'].find_one({'sha' => x['sha']})
+          c = mongo['commits'].find({'sha' => x['sha']}).limit(1).first
 
           # Try to find the commit on GitHub if it is not in GHTorrent
           c = c.nil? ? github_commit(owner, repo, x['sha']) : c
@@ -849,8 +849,8 @@ usage:
 
     comments = mongo['issue_comments'].find(
         {'owner' => owner, 'repo' => repo, 'issue_id' => build[:pull_req_id].to_i},
-        {:fields => {'body' => 1, 'created_at' => 1, '_id' => 0},
-         :sort => {'created_at' => :asc}}
+        {:projection => {'body' => 1, 'created_at' => 1, '_id' => 0},
+         :sort => {'created_at' => 1}}
     ).map { |x| x }
 
     comments.reverse.take(3).map { |x| x['body'] }.uniq.each do |last|
@@ -1230,9 +1230,9 @@ usage:
     QUERY
     pullreq = db.fetch(q, pr_id).all[0]
 
-    mongo['pull_requests'].find_one({:owner => pullreq[:user],
-                                     :repo => pullreq[:name],
-                                     :number => pullreq[:pullreq_id]})
+    mongo['pull_requests'].find({:owner => pullreq[:user],
+                                 :repo => pullreq[:name],
+                                 :number => pullreq[:pullreq_id]}).limit(1).first
   end
 
   def github_login(email)
@@ -1249,7 +1249,7 @@ usage:
   # JSON objects for the commits included in the pull request
   def commit_entries(owner, repo, shas)
     shas.reduce([]) { |acc, x|
-      a = mongo['commits'].find_one({:sha => x})
+      a = mongo['commits'].find({:sha => x}).limit(1).first
 
       if a.nil?
         a = github_commit(owner, repo, x)
