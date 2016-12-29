@@ -1,0 +1,145 @@
+---
+title: "Selection of Travis CI Study Object from GitHub projects"
+output: html_notebook
+---
+
+```{r, include = FALSE}
+library(beanplot)
+library(vioplot)
+library(splitstackshape)
+library(ggplot2)
+
+set.seed(20)
+```
+
+This R notebook documents how we selected projects for our investigation.
+
+## Getting input from GHTorrent (for all languages)
+We started off by obtaining a list of projects from [GHTorrent](http://ghtorrent.org/relational.html). We used establish filtering criteria (non-fork, non-deleted repositories with at least 50 stars), detailed in the query (nb. that watchers == stars in GHTorrent, see http://ghtorrent.org/relational.html):
+
+```sql
+select u.login, p.name, p.language, count(*)
+from projects p, users u, watchers w
+where
+    p.forked_from is null and 
+    p.deleted is false and
+    w.repo_id = p.id and
+    u.id = p.owner_id
+group by p.id
+having count(*) > 50
+order by count(*) desc
+into outfile 'ghtorrent_all_projects_100_stars.csv'
+  FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
+  LINES TERMINATED BY '\n';
+```
+
+We ran this query on GHTorrent on Monday, 19th December 2016. It resulted in a set of `r nrow(read.csv("ghtorrent_all_projects_51_stars.csv", header = F))` projects.
+
+Here is an overview of the number of stars per project:
+```{r}
+projects <- read.csv("ghtorrent_all_projects_51_stars.csv", header = F)
+colnames(projects) <-  c('login','project','language','stars')
+summary(projects$stars)
+plot(projects$stars)
+```
+
+## Selecting Projects in Languages Worth Supporting
+Next, we trim down the project set to only projects written in the languages Java, Go (both statically typed), Ruby, and Python (both dynamically typed). This results in `r nrow(read.csv("java_ruby_python_go_projects_51_stars.csv", header = F))` candidate projects. We now perform two steps: First, we run the Ruby `TravisPoker` to retrieve the number of CI builds on Travis CI for each project in the list. 
+
+```{r}
+summary(projects)
+filtered.projects <- read.csv("java_ruby_python_go_projects_51_stars.csv-annotated.csv", header = F)
+colnames(filtered.projects) <-  c('login','project','language','stars','ci_builds')
+summary(filtered.projects$ci_builds)
+```
+
+In total, we find that `r nrow(filtered.projects[filtered.projects$ci_builds > 0,])/nrow(filtered.projects)` of projects use Travis CI, i.e. have at least one build on it.
+
+```{r}
+ggplot(filtered.projects, aes(stars, ci_builds)) + geom_point() + geom_smooth()
+```
+
+The plot above suggests a relationship between the number of stars in a project and the number of CI builds:
+
+```{r}
+cor.test(filtered.projects$stars, filtered.projects$ci_builds)
+```
+
+Naturally, while there are of course projects with fewer stars that have many CI builds, we can recognize a moderate trend that as projects have more stars, they also have more CI builds. Reasons might include more committers, thus more commits and more builds, and more established project development guidelines.
+
+Let us focus on only the projects with Travis CI builds:
+
+```{r}
+projects.with.builds <- filtered.projects[filtered.projects$ci_builds > 0,]
+num.ci_builds <- projects.with.builds[order(projects.with.builds$ci_builds),]$ci_builds
+vioplot(num.ci_builds,  horizontal=TRUE, col="gray")
+```
+In total, we have `r sum(num.ci_builds)` Travis CI builds.
+
+The number of builds is diverging per language. In order to be able to compare between languages, we should analyze the same amount of builds.  
+
+```{r}
+summary(projects.with.builds$language)
+```
+
+Moreover, there are too many projects to analyze them all. Hence, we must select a representative sub-sample.  
+
+```{r}
+aggregate(ci_builds ~ language, projects.with.builds, sum)
+```
+
+To do this, we apply random-stratified sampling such that we get an equal number of comparable projects for each language, and a number that we can computationally and storage-wise handle. Since our data (stars, ci_builds) is of continuous nature, we must map numbers to categories. We use k-means sampling to identify the number of categories.
+
+```{r}
+mydata <- data.frame(projects.with.builds$stars)
+wss <- (nrow(mydata)-1)*sum(apply(mydata,2,var))
+  for (i in 2:15) wss[i] <- sum(kmeans(mydata,
+                                       centers=i, iter.max = 15)$withinss)
+plot(1:15, wss, type="b", xlab="Number of Clusters",
+     ylab="Within groups sum of squares")
+```
+
+Using the elbow method, we should cluster stars into 10 clusters.
+
+
+```{r}
+mydata <- data.frame(projects.with.builds$ci_builds)
+wss <- (nrow(mydata)-1)*sum(apply(mydata,2,var))
+  for (i in 2:15) wss[i] <- sum(kmeans(mydata,
+                                       centers=i, iter.max = 15)$withinss)
+plot(1:15, wss, type="b", xlab="Number of Clusters",
+     ylab="Within groups sum of squares")
+```
+
+Using the elbow method, we should cluster ci_builds into 8 clusters.
+
+
+```{r}
+clustered <- projects.with.builds
+clustered$cluster.ci_builds <- kmeans(clustered$ci_builds, centers=8)$cluster
+clustered$cluster.stars <- kmeans(clustered$stars, centers=10)$cluster
+```
+
+Finally, we can perform stratified random sampling on the newly generated clusters:
+```{r}
+stratified.projects <- stratified(clustered, c("language", "cluster.ci_builds", "cluster.stars"), 10)
+stratified.projects <- unique(stratified.projects)
+```
+
+We convince ourselves that the generated sample is more evenly distributed by comparing it to what our starting sample looked like:
+
+
+```{r}
+summary(stratified.projects$language)
+```
+
+## Building a list of projects
+
+This leaves us with `r nrow(stratified.projects)` projects to analyze.
+Last, we need to build a list of projects of which the build files should be downloaded:
+
+```{r}
+stratified.projects$ghname <- paste(sep = "@", stratified.projects$login, stratified.projects$project)
+write(stratified.projects$ghname, "stratified_project_list_22_12_2016.txt")
+```
+

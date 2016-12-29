@@ -13,7 +13,7 @@ These include the
 The following works on Debian Jessie
 
 ```
-$ apt-get install ruby bundler pkg-config libmysqlclient-dev
+$ apt-get install ruby ruby-dev bundler pkg-config libmysqlclient-dev
 $ git clone git@github.com:TestRoots/travistorrent-tools.git
 $ cd travistorrent-tools
 $ bundle install
