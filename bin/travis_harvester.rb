@@ -140,6 +140,8 @@ def paginate_build(last_build, repo_id, wait_in_s = 1)
     builds['builds'].each do |build|
       all_builds << get_build(builds, build)
     end
+
+    return all_builds
   rescue
     error_message = "Retrying, but Error paginating Travis build #{build['id']}: #{e.message}"
     puts error_message
@@ -147,7 +149,6 @@ def paginate_build(last_build, repo_id, wait_in_s = 1)
     return paginate_build(last_build, repo_id, wait_in_s*2)
   end
 
-  return all_builds
 end
 
 def get_travis(repo, build_logs = true, wait_in_s = 1)
@@ -181,7 +182,7 @@ def get_travis(repo, build_logs = true, wait_in_s = 1)
     repo_id = JSON.parse(open("https://api.travis-ci.org/repos/#{repo}").read)['id']
 
     (0..highest_build).select { |x| x % 25 == 0 }.reverse_each do |last_build|
-      all_builds = paginate_build(last_build, repo_id)
+      all_builds << paginate_build(last_build, repo_id)
     end
   rescue Exception => e
     error_message = "Retrying, but Error getting Travis builds for #{repo}: #{e.message}"
@@ -191,6 +192,7 @@ def get_travis(repo, build_logs = true, wait_in_s = 1)
     return
   end
 
+  all_builds.flatten!
   # Remove empty entries
   all_builds.reject! { |c| c.empty? }
   # Remove duplicates
