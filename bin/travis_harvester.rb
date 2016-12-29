@@ -111,12 +111,43 @@ def get_build(builds, build, wait_in_s = 1)
 
     return build_data
   rescue Exception => e
-    error_message = "Retrying, but Error getting Travis builds for #{build['id']}: #{e.message}"
+    error_message = "Retrying, but Error getting Travis build #{build['id']}: #{e.message}"
     puts error_message
     File.open(@error_file, 'a') { |f| f.puts error_message }
     return get_build(build, wait_in_s*2)
   end
 
+end
+
+def paginate_build(last_build, repo_id, wait_in_s = 1)
+  if (wait_in_s > 128)
+    STDERR.puts "Error: Giveup: We can't wait forever for #{repo}"
+    return 0
+  elsif (wait_in_s > 1)
+    sleep wait_in_s
+  end
+
+  all_builds = []
+
+  begin
+    url = "https://api.travis-ci.org/builds?after_number=#{last_build}&repository_id=#{repo_id}"
+    STDERR.puts url
+
+    resp = open(url,
+                'Content-Type' => 'application/json',
+                'Accept' => 'application/vnd.travis-ci.2+json')
+    builds = JSON.parse(resp.read)
+    builds['builds'].each do |build|
+      all_builds << get_build(builds, build)
+    end
+  rescue
+    error_message = "Retrying, but Error paginating Travis build #{build['id']}: #{e.message}"
+    puts error_message
+    File.open(@error_file, 'a') { |f| f.puts error_message }
+    return paginate_build(last_build, repo_id, wait_in_s*2)
+  end
+
+  return all_builds
 end
 
 def get_travis(repo, build_logs = true, wait_in_s = 1)
@@ -150,17 +181,7 @@ def get_travis(repo, build_logs = true, wait_in_s = 1)
     repo_id = JSON.parse(open("https://api.travis-ci.org/repos/#{repo}").read)['id']
 
     (0..highest_build).select { |x| x % 25 == 0 }.reverse_each do |last_build|
-
-      url = "https://api.travis-ci.org/builds?after_number=#{last_build}&repository_id=#{repo_id}"
-      STDERR.puts url
-
-      resp = open(url,
-                  'Content-Type' => 'application/json',
-                  'Accept' => 'application/vnd.travis-ci.2+json')
-      builds = JSON.parse(resp.read)
-      builds['builds'].each do |build|
-        all_builds << get_build(builds, build)
-      end
+      all_builds = paginate_build(last_build, repo_id)
     end
   rescue Exception => e
     error_message = "Retrying, but Error getting Travis builds for #{repo}: #{e.message}"
