@@ -55,4 +55,4 @@ else
 fi
 
 #cat $tokens
-parallel --gnu --progress --joblog parjobs --xapply -P $parallel ruby -Ibin bin/build_data_extraction.rb -c config.yaml {1} {2} {3} '1>' $dir/{1}@{2}.csv '2>' $dir/{1}@{2}.err ::: `cat $input|cut -f1 -d' '` ::: `cat $input|cut -f2 -d' '` ::: `cat $tokens`
+parallel --gnu --progress --joblog parjobs --xapply -P $parallel bundle exec ruby -Ibin bin/build_data_extraction -c config.yaml {1} {2} {3} '1>' $dir/{1}@{2}.csv '2>' $dir/{1}@{2}.err ::: `cat $input|cut -f1 -d' '` ::: `cat $input|cut -f2 -d' '` ::: `cat $tokens`
