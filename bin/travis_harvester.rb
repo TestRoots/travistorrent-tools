@@ -142,8 +142,8 @@ def paginate_build(last_build, repo_id, wait_in_s = 1)
     end
 
     return all_builds
-  rescue
-    error_message = "Retrying, but Error paginating Travis build #{build['id']}: #{e.message}"
+  rescue  Exception => e
+    error_message = "Retrying, but Error paginating Travis build #{last_build}: #{e.message}"
     puts error_message
     File.open(@error_file, 'a') { |f| f.puts error_message }
     return paginate_build(last_build, repo_id, wait_in_s*2)

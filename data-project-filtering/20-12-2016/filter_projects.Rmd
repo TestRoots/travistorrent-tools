@@ -123,9 +123,7 @@ clustered$cluster.stars <- kmeans(clustered$stars, centers=10)$cluster
 Finally, we can perform stratified random sampling on the newly generated clusters:
 ```{r}
 stratified.projects <- stratified(clustered, c("language", "cluster.ci_builds", "cluster.stars"), 10)
-print(nrow(stratified.projects))
 stratified.projects <- unique(stratified.projects)
-print(nrow(stratified.projects))
 ```
 
 We convince ourselves that the generated sample is more evenly distributed by comparing it to what our starting sample looked like:
