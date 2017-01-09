@@ -8,7 +8,7 @@ table.name <- "travistorrent_6_12_2016"
 library(data.table)
 library(RMySQL)
 library(DBI)
-library(anytime)
+library(parsedate)
 
 data <- read.csv("final_merged_build_jobs.csv")
 
@@ -19,8 +19,9 @@ data$gh_by_core_team_member <- data$gh_by_core_team_member == "true"
 data$tr_log_bool_tests_ran <- data$tr_log_bool_tests_ran == "true"
 data$tr_log_bool_tests_failed <- data$tr_log_bool_tests_failed == "true"
 
-data$gh_first_commit_created_at <- anytime(data$gh_first_commit_created_at)
-data$gh_build_started_at <- anytime(data$gh_build_started_at)
+# Our dates are in 8601
+data$gh_first_commit_created_at <- parse_date(data$gh_first_commit_created_at)
+data$gh_build_started_at <- parse_date(data$gh_build_started_at)
 
 # convert to data table for easier access and modification of internal variables
 data <- data.table(data)
