@@ -3,7 +3,7 @@
 # We hence use RMySQL 0.10.9 and manually modify the created SQL columns to DATETIME
 
 # Update to create new version of the data set
-table.name <- "travistorrent_6_12_2016"
+table.name <- "travistorrent_11_1_2017"
 
 library(data.table)
 library(RMySQL)
@@ -20,8 +20,8 @@ data$tr_log_bool_tests_ran <- data$tr_log_bool_tests_ran == "true"
 data$tr_log_bool_tests_failed <- data$tr_log_bool_tests_failed == "true"
 
 # Our dates are in 8601
-data$gh_first_commit_created_at <- parse_date(data$gh_first_commit_created_at)
-data$gh_build_started_at <- parse_date(data$gh_build_started_at)
+data$gh_first_commit_created_at <- parse_date(as.character(data$gh_first_commit_created_at))
+data$gh_build_started_at <- parse_date(as.character(data$gh_build_started_at))
 
 # convert to data table for easier access and modification of internal variables
 data <- data.table(data)
