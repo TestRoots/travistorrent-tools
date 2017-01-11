@@ -3,7 +3,7 @@ require "buildlog_analyzer_dispatcher"
 
 # System tests for Travis build analysis
 
-class SystemTest < Minitest::Test
+class SystemTest < MiniTest::Test
 
   make_my_diffs_pretty!
 
@@ -51,5 +51,9 @@ class SystemTest < Minitest::Test
 
   def test_bbcnews
     make_comparison("dev_logs/BBC-News@wraith")
+  end
+
+  def test_go
+    make_comparison("dev_logs/facebookgo@rocks-strata")
   end
 end

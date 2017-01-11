@@ -110,6 +110,8 @@ class LogFileAnalyzer
         @primary_language = 'java'
       elsif @logFile.scan(/ruby/m).size >= 3
         @primary_language = 'ruby'
+      elsif @logFile.scan(/go /m).size >= 10
+        @primary_language = 'go'
       end
     end
   end
