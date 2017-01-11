@@ -17,7 +17,6 @@ module GoLogFileAnalyzer
     analyze_tests
 
     getOffendingTests
-    analyze_reactor
   end
 
   def extract_tests
@@ -26,9 +25,9 @@ module GoLogFileAnalyzer
     # TODO (MMB) Possible future improvement: We could even get all executed tests (also the ones which succeed)
     @folds[@OUT_OF_FOLD].content.each do |line|
 
-      if !(line =~ / go test/).nil? && line_marker == 1
+      if !(line =~ / go test/).nil?
         test_section_started = true
-      elsif !(line =~ / The command "go test/).nil? && test_section_started
+      elsif !(line =~ /The command "go test/).nil? && test_section_started
         test_section_started = false
       end
 
@@ -38,13 +37,8 @@ module GoLogFileAnalyzer
     end
   end
 
-  def convert_maven_time_to_seconds(string)
-    if !(string =~ /((\d+)(\.\d*)?) s/).nil?
-      return $1.to_f.round(2)
-    elsif !(string =~ /(\d+):(\d+) min/).nil?
-      return $1.to_i * 60 + $2.to_i
-    end
-    return 0
+  def convert_go_time_to_seconds(string)
+    return string.to_f.round(2)
   end
 
   def extractTestNameAndMethod(string)
@@ -55,28 +49,27 @@ module GoLogFileAnalyzer
     failed_tests_started = false
 
     @test_lines.each do |line|
+      puts line
       if failed_tests_started
         @tests_failed_lines << line
         if line.strip.empty?
           failed_tests_started = false
         end
       end
-      if !(line =~ /Tests run: (\d*), Failures: (\d*), Errors: (\d*)(, Skipped: (\d*))?/).nil?
+      if !(line =~ /--- PASS:/).nil?
         init_tests
         @tests_run = true
-        add_framework 'junit'
-        @num_tests_run = $1.to_i
-        @num_tests_failed = $2.to_i + $3.to_i
-        @num_tests_skipped = $5.to_i unless $4.nil?
-        @test_duration += convert_maven_time_to_seconds $1
+        add_framework 'gotest'
+        @num_tests_run += 1
+        #@test_duration += convert_go_time_to_seconds $2
 
       end
-      uninit_ok_tests
     end
+    uninit_ok_tests
   end
 
   def getOffendingTests
-    @tests_failed_lines.each { |l| @tests_failed << extractTestNameAndMethod(l)[0].strip }
+    #@tests_failed_lines.each { |l| @tests_failed << extractTestNameAndMethod(l)[0].strip }
   end
 
   def tests_failed?

@@ -59,6 +59,8 @@ class LogFileAnalyzer
       self.extend(RubyLogFileAnalyzer)
     elsif lang == 'java'
       self.extend(JavaLogFileAnalyzerDispatcher)
+    elsif lang == 'go'
+      self.extend(GoLogFileAnalyzer)
     end
   end
 
