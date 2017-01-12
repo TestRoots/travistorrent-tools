@@ -21,7 +21,7 @@ module GoLogFileAnalyzer
     # TODO (MMB) Possible future improvement: We could even get all executed tests (also the ones which succeed)
     @folds[@OUT_OF_FOLD].content.each do |line|
 
-      if !(line =~ / go test/).nil?
+      if !(line =~ /go test/).nil?
         test_section_started = true
       elsif !(line =~ /The command "go test/).nil? && test_section_started
         test_section_started = false
@@ -30,6 +30,9 @@ module GoLogFileAnalyzer
       if test_section_started
         @test_lines << line
       end
+    end
+    if @test_lines.empty?
+      @test_lines = @folds[@OUT_OF_FOLD].content
     end
   end
 
@@ -51,21 +54,28 @@ module GoLogFileAnalyzer
   end
 
   def analyze_tests
-    failed_tests_started = false
+    use_verbose_style = false
 
     @test_lines.each do |line|
-      if failed_tests_started
-        @tests_failed_lines << line
-        if line.strip.empty?
-          failed_tests_started = false
-        end
+      if !(line =~ /--- PASS/).nil?
+        use_verbose_style = true
       end
+    end
+
+    puts use_verbose_style
+
+    @test_lines.each do |line|
+      puts line
       # matches the likes of: --- PASS: TestS3StorageManyFiles-2 (13.10s)
-      if !(line =~ /--- PASS: (.+)? (\((.+)\))?/).nil?
+      if !(line =~ /--- PASS: (.+)? (\((.+)\))?/).nil? && use_verbose_style
         setup_go_tests
         @num_tests_run += 1
         @test_duration += convert_go_time_to_seconds $3
+      elsif !(line =~ /ok\s((\S+)\S(\S+)?)?/).nil? && !use_verbose_style
         # matches the likes of: ok  	github.com/dghubble/gologin	0.004s
+        setup_go_tests
+        @num_tests_run += 1
+        @test_duration += convert_go_time_to_seconds $3
       elsif !(line =~ /--- SKIP: /).nil?
         setup_go_tests
         @num_tests_skipped += 1
