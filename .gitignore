@@ -48,6 +48,8 @@ build/
 .Rhistory
 *.Rproj
 
+config.yaml
+
 # Ignore intermediate test outputs
 **/buildlog-data-travis.csv
 **/buildlog-data-travis.json
