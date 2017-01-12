@@ -19,10 +19,10 @@ class SystemTest < MiniTest::Test
     dispatcher = BuildlogAnalyzerDispatcher.new(dir, false)
     dispatcher.start
 
-    expected_csv = prepare_file "#{dir}/expected-#{dispatcher.result_file_name}"
-    actual_csv = prepare_file "#{dir}/#{dispatcher.result_file_name}"
+    expected_data = prepare_file "#{dir}/expected-#{dispatcher.result_file_name}.json"
+    actual_data = prepare_file "#{dir}/#{dispatcher.result_file_name}.json"
 
-    assert_equal expected_csv, actual_csv, "Difference on #{dir} buildlogs!"
+    assert_equal expected_data, actual_data, "Difference on #{dir} buildlogs!"
   end
 
   def test_ant

@@ -658,7 +658,7 @@ usage:
         # [doc] Whether this build was triggered as part of a pull request on GitHub.
         :gh_is_pr => is_pr?(build),
 
-        # [doc] If the build is a pull request, the creation timestamp for this pull request.
+        # [doc] If the build is a pull request, the creation timestamp for this pull request, in UTC.
         :gh_pr_created_at => build[:pull_req_created_at],
 
         # [doc] If the build is a pull request, its ID on GitHub.
@@ -695,7 +695,7 @@ usage:
         # then this is nil.
         :tr_prev_build => build[:prev_build].nil? ? nil : build[:prev_build][:build_id],
 
-        # [doc] Timestamp of first commit in the push that triggered the build. In rare cases, GHTorrent has not
+        # [doc] Timestamp of first commit in the push that triggered the build, in UTC. In rare cases, GHTorrent has not
         # recorded a push event for the commit that created the build in which case `first_commit_created_at` is nil.
         :gh_first_commit_created_at => build[:first_commit_created_at],
 
@@ -791,10 +791,10 @@ usage:
         # [doc] If the build is a pull request, the total number of words in the pull request title and description.
         :gh_description_complexity => is_pr?(build) ? description_complexity(build) : nil,
 
-        # [doc] Timestamp of the push that triggered the build (GitHub provided).
+        # [doc] Timestamp of the push that triggered the build (GitHub provided), in UTC.
         :gh_pushed_at => build[:commit_pushed_at],
 
-        # [doc] Timestamp of the push that triggered the build (Travis provided).
+        # [doc] Timestamp of the push that triggered the build (Travis provided), in UTC.
         :gh_build_started_at => build[:started_at],
 
         # [doc] Age of the repository, from the latest commit to its first commit, in days

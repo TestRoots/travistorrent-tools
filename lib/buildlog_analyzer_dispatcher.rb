@@ -1,4 +1,6 @@
 require 'csv'
+require 'json'
+
 
 load 'lib/log_file_analyzer.rb'
 load 'lib/languages/java_log_file_analyzer_dispatcher.rb'
@@ -22,7 +24,7 @@ class BuildlogAnalyzerDispatcher
   end
 
   def result_file_name
-    'buildlog-data-travis.csv'
+    'buildlog-data-travis'
   end
 
   def start
@@ -54,12 +56,19 @@ class BuildlogAnalyzerDispatcher
     end
 
     if !@results.empty?
-      result_file = "#{@directory}/#{result_file_name}"
+      result_file = "#{@directory}/#{result_file_name}.csv"
       puts "  writing #{result_file}"
       csv = array_of_hashes_to_csv @results
       File.open(result_file, 'w') { |file|
         file.puts csv
       }
+
+      result_file = "#{@directory}/#{result_file_name}.json"
+      puts "  writing #{result_file}"
+      File.open(result_file, 'w') do |f|
+        f.puts JSON.dump(@results)
+      end
+
     end
 
   end
