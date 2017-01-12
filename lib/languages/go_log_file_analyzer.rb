@@ -3,7 +3,7 @@
 module GoLogFileAnalyzer
   attr_reader :tests_failed, :test_duration, :reactor_lines, :pure_build_duration
 
-  def init_deep
+  def init
     @reactor_lines = Array.new
     @tests_failed_lines = Array.new
     @tests_failed = Array.new
@@ -65,6 +65,7 @@ module GoLogFileAnalyzer
         setup_go_tests
         @num_tests_run += 1
         @test_duration += convert_go_time_to_seconds $3
+        # matches the likes of: ok  	github.com/dghubble/gologin	0.004s
       elsif !(line =~ /--- SKIP: /).nil?
         setup_go_tests
         @num_tests_skipped += 1
