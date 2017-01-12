@@ -9,9 +9,6 @@ class SystemTest < MiniTest::Test
 
   def prepare_file(file)
     csv = File.open(file).readlines
-    header = csv.slice!(0)
-    csv.sort!
-    csv.insert(0, header)
     csv
   end
 
