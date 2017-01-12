@@ -1,0 +1,439 @@
+Using worker: worker-linux-docker-273f60df.prod.travis-ci.org:travis-linux-11
+
+travis_fold:start:system_info[0K[33;1mBuild system information[0m
+Build language: go
+Build group: stable
+Build dist: precise
+Build id: 166107244
+Job id: 166107245
+travis-build version: c31595e05
+[34m[1mBuild image provisioning date and time[0m
+Thu Feb  5 15:09:33 UTC 2015
+[34m[1mOperating System Details[0m
+Distributor ID:	Ubuntu
+Description:	Ubuntu 12.04.5 LTS
+Release:	12.04
+Codename:	precise
+[34m[1mLinux Version[0m
+3.13.0-29-generic
+[34m[1mCookbooks Version[0m
+a68419e https://github.com/travis-ci/travis-cookbooks/tree/a68419e
+[34m[1mGCC version[0m
+gcc (Ubuntu/Linaro 4.6.3-1ubuntu5) 4.6.3
+Copyright (C) 2011 Free Software Foundation, Inc.
+This is free software; see the source for copying conditions.  There is NO
+warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+[34m[1mLLVM version[0m
+clang version 3.4 (tags/RELEASE_34/final)
+Target: x86_64-unknown-linux-gnu
+Thread model: posix
+[34m[1mPre-installed Ruby versions[0m
+ruby-1.9.3-p551
+[34m[1mPre-installed Node.js versions[0m
+v0.10.36
+[34m[1mPre-installed Go versions[0m
+1.4.1
+[34m[1mRedis version[0m
+redis-server 2.8.19
+[34m[1mriak version[0m
+2.0.2
+[34m[1mMongoDB version[0m
+MongoDB 2.4.12
+[34m[1mCouchDB version[0m
+couchdb 1.6.1
+[34m[1mNeo4j version[0m
+1.9.4
+[34m[1mRabbitMQ Version[0m
+3.4.3
+[34m[1mElasticSearch version[0m
+1.4.0
+[34m[1mInstalled Sphinx versions[0m
+2.0.10
+2.1.9
+2.2.6
+[34m[1mDefault Sphinx version[0m
+2.2.6
+[34m[1mInstalled Firefox version[0m
+firefox 31.0esr
+[34m[1mPhantomJS version[0m
+1.9.8
+[34m[1mant -version[0m
+Apache Ant(TM) version 1.8.2 compiled on December 3 2011
+[34m[1mmvn -version[0m
+Apache Maven 3.2.5 (12a6b3acb947671f09b81f49094c53f426d8cea1; 2014-12-14T17:29:23+00:00)
+Maven home: /usr/local/maven
+Java version: 1.7.0_76, vendor: Oracle Corporation
+Java home: /usr/lib/jvm/java-7-oracle/jre
+Default locale: en_US, platform encoding: ANSI_X3.4-1968
+OS name: "linux", version: "3.13.0-29-generic", arch: "amd64", family: "unix"
+travis_fold:end:system_info[0K
+travis_fold:start:fix.CVE-2015-7547[0K$ export DEBIAN_FRONTEND=noninteractive
+W: Size of file /var/lib/apt/lists/us.archive.ubuntu.com_ubuntu_dists_precise-backports_multiverse_source_Sources.gz is not what the server reported 5886 5888
+W: Size of file /var/lib/apt/lists/ppa.launchpad.net_travis-ci_zero-mq_ubuntu_dists_precise_main_binary-amd64_Packages.gz is not what the server reported 832 1195
+W: Size of file /var/lib/apt/lists/ppa.launchpad.net_ubuntugis_ppa_ubuntu_dists_precise_main_binary-amd64_Packages.gz is not what the server reported 33653 36677
+W: Size of file /var/lib/apt/lists/ppa.launchpad.net_ubuntugis_ppa_ubuntu_dists_precise_main_binary-i386_Packages.gz is not what the server reported 33699 36733
+Reading package lists...
+Building dependency tree...
+Reading state information...
+The following extra packages will be installed:
+  libc-bin libc-dev-bin libc6-dev
+Suggested packages:
+  glibc-doc
+The following packages will be upgraded:
+  libc-bin libc-dev-bin libc6 libc6-dev
+4 upgraded, 0 newly installed, 0 to remove and 241 not upgraded.
+Need to get 8,840 kB of archives.
+After this operation, 14.3 kB disk space will be freed.
+Get:1 http://us.archive.ubuntu.com/ubuntu/ precise-updates/main libc6-dev amd64 2.15-0ubuntu10.15 [2,943 kB]
+Get:2 http://us.archive.ubuntu.com/ubuntu/ precise-updates/main libc-dev-bin amd64 2.15-0ubuntu10.15 [84.7 kB]
+Get:3 http://us.archive.ubuntu.com/ubuntu/ precise-updates/main libc-bin amd64 2.15-0ubuntu10.15 [1,177 kB]
+Get:4 http://us.archive.ubuntu.com/ubuntu/ precise-updates/main libc6 amd64 2.15-0ubuntu10.15 [4,636 kB]
+Fetched 8,840 kB in 0s (34.5 MB/s)
+Preconfiguring packages ...
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 69991 files and directories currently installed.)
+Preparing to replace libc6-dev 2.15-0ubuntu10.10 (using .../libc6-dev_2.15-0ubuntu10.15_amd64.deb) ...
+Unpacking replacement libc6-dev ...
+Preparing to replace libc-dev-bin 2.15-0ubuntu10.10 (using .../libc-dev-bin_2.15-0ubuntu10.15_amd64.deb) ...
+Unpacking replacement libc-dev-bin ...
+Preparing to replace libc-bin 2.15-0ubuntu10.10 (using .../libc-bin_2.15-0ubuntu10.15_amd64.deb) ...
+Unpacking replacement libc-bin ...
+Processing triggers for man-db ...
+Setting up libc-bin (2.15-0ubuntu10.15) ...
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 69990 files and directories currently installed.)
+Preparing to replace libc6 2.15-0ubuntu10.10 (using .../libc6_2.15-0ubuntu10.15_amd64.deb) ...
+Unpacking replacement libc6 ...
+Setting up libc6 (2.15-0ubuntu10.15) ...
+Setting up libc-dev-bin (2.15-0ubuntu10.15) ...
+Setting up libc6-dev (2.15-0ubuntu10.15) ...
+Processing triggers for libc-bin ...
+ldconfig deferred processing now taking place
+travis_fold:end:fix.CVE-2015-7547[0Ktravis_fold:start:git.checkout[0Ktravis_time:start:02975860[0K$ git clone --depth=50 --branch=master https://github.com/facebookgo/rocks-strata.git facebookgo/rocks-strata
+Cloning into 'facebookgo/rocks-strata'...
+remote: Counting objects: 261, done.[K
+Receiving objects:   0% (1/261)   Receiving objects:   1% (3/261)   Receiving objects:   2% (6/261)   Receiving objects:   3% (8/261)   Receiving objects:   4% (11/261)   Receiving objects:   5% (14/261)   Receiving objects:   6% (16/261)   Receiving objects:   7% (19/261)   Receiving objects:   8% (21/261)   Receiving objects:   9% (24/261)   Receiving objects:  10% (27/261)   Receiving objects:  11% (29/261)   Receiving objects:  12% (32/261)   Receiving objects:  13% (34/261)   remote: Total 261 (delta 0), reused 0 (delta 0), pack-reused 260[K
+Receiving objects:  14% (37/261)   Receiving objects:  15% (40/261)   Receiving objects:  16% (42/261)   Receiving objects:  17% (45/261)   Receiving objects:  18% (47/261)   Receiving objects:  19% (50/261)   Receiving objects:  20% (53/261)   Receiving objects:  21% (55/261)   Receiving objects:  22% (58/261)   Receiving objects:  23% (61/261)   Receiving objects:  24% (63/261)   Receiving objects:  25% (66/261)   Receiving objects:  26% (68/261)   Receiving objects:  27% (71/261)   Receiving objects:  28% (74/261)   Receiving objects:  29% (76/261)   Receiving objects:  30% (79/261)   Receiving objects:  31% (81/261)   Receiving objects:  32% (84/261)   Receiving objects:  33% (87/261)   Receiving objects:  34% (89/261)   Receiving objects:  35% (92/261)   Receiving objects:  36% (94/261)   Receiving objects:  37% (97/261)   Receiving objects:  38% (100/261)   Receiving objects:  39% (102/261)   Receiving objects:  40% (105/261)   Receiving objects:  41% (108/261)   Receiving objects:  42% (110/261)   Receiving objects:  43% (113/261)   Receiving objects:  44% (115/261)   Receiving objects:  45% (118/261)   Receiving objects:  46% (121/261)   Receiving objects:  47% (123/261)   Receiving objects:  48% (126/261)   Receiving objects:  49% (128/261)   Receiving objects:  50% (131/261)   Receiving objects:  51% (134/261)   Receiving objects:  52% (136/261)   Receiving objects:  53% (139/261)   Receiving objects:  54% (141/261)   Receiving objects:  55% (144/261)   Receiving objects:  56% (147/261)   Receiving objects:  57% (149/261)   Receiving objects:  58% (152/261)   Receiving objects:  59% (154/261)   Receiving objects:  60% (157/261)   Receiving objects:  61% (160/261)   Receiving objects:  62% (162/261)   Receiving objects:  63% (165/261)   Receiving objects:  64% (168/261)   Receiving objects:  65% (170/261)   Receiving objects:  66% (173/261)   Receiving objects:  67% (175/261)   Receiving objects:  68% (178/261)   Receiving objects:  69% (181/261)   Receiving objects:  70% (183/261)   Receiving objects:  71% (186/261)   Receiving objects:  72% (188/261)   Receiving objects:  73% (191/261)   Receiving objects:  74% (194/261)   Receiving objects:  75% (196/261)   Receiving objects:  76% (199/261)   Receiving objects:  77% (201/261)   Receiving objects:  78% (204/261)   Receiving objects:  79% (207/261)   Receiving objects:  80% (209/261)   Receiving objects:  81% (212/261)   Receiving objects:  82% (215/261)   Receiving objects:  83% (217/261)   Receiving objects:  84% (220/261)   Receiving objects:  85% (222/261)   Receiving objects:  86% (225/261)   Receiving objects:  87% (228/261)   Receiving objects:  88% (230/261)   Receiving objects:  89% (233/261)   Receiving objects:  90% (235/261)   Receiving objects:  91% (238/261)   Receiving objects:  92% (241/261)   Receiving objects:  93% (243/261)   Receiving objects:  94% (246/261)   Receiving objects:  95% (248/261)   Receiving objects:  96% (251/261)   Receiving objects:  97% (254/261)   Receiving objects:  98% (256/261)   Receiving objects:  99% (259/261)   Receiving objects: 100% (261/261)   Receiving objects: 100% (261/261), 75.16 KiB | 0 bytes/s, done.
+Resolving deltas:   0% (0/104)   Resolving deltas:   1% (2/104)   Resolving deltas:   3% (4/104)   Resolving deltas:   6% (7/104)   Resolving deltas:   9% (10/104)   Resolving deltas:  12% (13/104)   Resolving deltas:  13% (14/104)   Resolving deltas:  14% (15/104)   Resolving deltas:  17% (18/104)   Resolving deltas:  18% (19/104)   Resolving deltas:  19% (20/104)   Resolving deltas:  20% (21/104)   Resolving deltas:  21% (22/104)   Resolving deltas:  22% (23/104)   Resolving deltas:  24% (25/104)   Resolving deltas:  25% (27/104)   Resolving deltas:  29% (31/104)   Resolving deltas:  30% (32/104)   Resolving deltas:  31% (33/104)   Resolving deltas:  34% (36/104)   Resolving deltas:  35% (37/104)   Resolving deltas:  38% (40/104)   Resolving deltas:  39% (41/104)   Resolving deltas:  40% (42/104)   Resolving deltas:  68% (71/104)   Resolving deltas:  87% (91/104)   Resolving deltas:  90% (94/104)   Resolving deltas:  94% (98/104)   Resolving deltas:  95% (99/104)   Resolving deltas:  96% (100/104)   Resolving deltas:  97% (101/104)   Resolving deltas:  98% (102/104)   Resolving deltas: 100% (104/104)   Resolving deltas: 100% (104/104), done.
+Checking connectivity... done.
+
+travis_time:end:02975860:start=1475959632656562746,finish=1475959633024301038,duration=367738292[0K$ cd facebookgo/rocks-strata
+$ git checkout -qf fc38ec00e1c18e957d30573718f3a64d36714692
+travis_fold:end:git.checkout[0K
+[33;1mThis job is running on container-based infrastructure, which does not allow use of 'sudo', setuid and setguid executables.[0m
+[33;1mIf you require sudo, add 'sudo: required' to your .travis.yml[0m
+[33;1mSee https://docs.travis-ci.com/user/workers/container-based-infrastructure/ for details.[0m
+
+[33;1mSetting environment variables from .travis.yml[0m
+$ export USING_MONGO_3X=false
+
+travis_time:start:031b677e[0K$ GIMME_OUTPUT=$(gimme 1.4) && eval "$GIMME_OUTPUT"
+go version go1.4 linux/amd64
+
+travis_time:end:031b677e:start=1475959634811618658,finish=1475959638082612346,duration=3270993688[0K$ export GOPATH=$HOME/gopath
+$ export PATH=$HOME/gopath/bin:$PATH
+$ mkdir -p $HOME/gopath/src/github.com/facebookgo/rocks-strata
+$ rsync -az ${TRAVIS_BUILD_DIR}/ $HOME/gopath/src/github.com/facebookgo/rocks-strata/
+$ export TRAVIS_BUILD_DIR=$HOME/gopath/src/github.com/facebookgo/rocks-strata
+$ cd $HOME/gopath/src/github.com/facebookgo/rocks-strata
+$ gimme version
+v0.2.2
+$ go version
+go version go1.4 linux/amd64
+travis_fold:start:go.env[0K$ go env
+GOARCH="amd64"
+GOBIN=""
+GOCHAR="6"
+GOEXE=""
+GOHOSTARCH="amd64"
+GOHOSTOS="linux"
+GOOS="linux"
+GOPATH="/home/travis/gopath"
+GORACE=""
+GOROOT="/home/travis/.gimme/versions/go1.4.linux.amd64"
+GOTOOLDIR="/home/travis/.gimme/versions/go1.4.linux.amd64/pkg/tool/linux_amd64"
+CC="gcc"
+GOGCCFLAGS="-fPIC -m64 -pthread -fmessage-length=0"
+CXX="g++"
+CGO_ENABLED="1"
+travis_fold:end:go.env[0Ktravis_fold:start:install[0Ktravis_time:start:1ac4bfa0[0K$ go get -t -v ./...
+github.com/facebookgo/ensure (download)
+github.com/davecgh/go-spew (download)
+github.com/facebookgo/stack (download)
+github.com/facebookgo/subset (download)
+github.com/jessevdk/go-flags (download)
+github.com/AdRoll/goamz (download)
+github.com/facebookgo/mgotest (download)
+github.com/facebookgo/freeport (download)
+github.com/facebookgo/testname (download)
+github.com/facebookgo/waitout (download)
+Fetching https://gopkg.in/mgo.v2?go-get=1
+Parsing meta tags from https://gopkg.in/mgo.v2?go-get=1 (status code 200)
+get "gopkg.in/mgo.v2": found meta tag main.metaImport{Prefix:"gopkg.in/mgo.v2", VCS:"git", RepoRoot:"https://gopkg.in/mgo.v2"} at https://gopkg.in/mgo.v2?go-get=1
+gopkg.in/mgo.v2 (download)
+Fetching https://gopkg.in/mgo.v2/bson?go-get=1
+Parsing meta tags from https://gopkg.in/mgo.v2/bson?go-get=1 (status code 200)
+get "gopkg.in/mgo.v2/bson": found meta tag main.metaImport{Prefix:"gopkg.in/mgo.v2", VCS:"git", RepoRoot:"https://gopkg.in/mgo.v2"} at https://gopkg.in/mgo.v2/bson?go-get=1
+get "gopkg.in/mgo.v2/bson": verifying non-authoritative meta tag
+Fetching https://gopkg.in/mgo.v2?go-get=1
+Parsing meta tags from https://gopkg.in/mgo.v2?go-get=1 (status code 200)
+github.com/minio/minio-go (download)
+github.com/kr/pty (download)
+Fetching https://golang.org/x/crypto/ssh/terminal?go-get=1
+Parsing meta tags from https://golang.org/x/crypto/ssh/terminal?go-get=1 (status code 200)
+get "golang.org/x/crypto/ssh/terminal": found meta tag main.metaImport{Prefix:"golang.org/x/crypto", VCS:"git", RepoRoot:"https://go.googlesource.com/crypto"} at https://golang.org/x/crypto/ssh/terminal?go-get=1
+get "golang.org/x/crypto/ssh/terminal": verifying non-authoritative meta tag
+Fetching https://golang.org/x/crypto?go-get=1
+Parsing meta tags from https://golang.org/x/crypto?go-get=1 (status code 200)
+golang.org/x/crypto (download)
+github.com/davecgh/go-spew/spew
+github.com/facebookgo/stack
+github.com/facebookgo/subset
+github.com/jessevdk/go-flags
+github.com/facebookgo/ensure
+github.com/AdRoll/goamz/aws
+github.com/facebookgo/rocks-strata/strata
+github.com/AdRoll/goamz/s3
+github.com/facebookgo/freeport
+github.com/facebookgo/testname
+github.com/facebookgo/waitout
+gopkg.in/mgo.v2/internal/json
+gopkg.in/mgo.v2/internal/scram
+github.com/AdRoll/goamz/s3/s3test
+gopkg.in/mgo.v2/bson
+github.com/facebookgo/rocks-strata/strata/s3storage
+github.com/facebookgo/rocks-strata/strata/lstorage
+github.com/minio/minio-go/pkg/set
+github.com/minio/minio-go/pkg/policy
+github.com/minio/minio-go
+gopkg.in/mgo.v2
+github.com/facebookgo/rocks-strata/strata/miniostorage
+github.com/kr/pty
+golang.org/x/crypto/ssh/terminal
+github.com/facebookgo/rocks-strata/strata/mongo
+github.com/facebookgo/rocks-strata/strata/tests/lrs3test
+github.com/facebookgo/mgotest
+github.com/facebookgo/rocks-strata/strata/mongo/lreplica
+github.com/facebookgo/rocks-strata/strata/cmd/mongo/lreplica_drivers/lrs3driver
+github.com/facebookgo/rocks-strata/strata/cmd/mongo/lreplica_drivers/lrldriver
+github.com/facebookgo/rocks-strata/strata/cmd/mongo/lreplica_drivers/lrminiodriver
+github.com/facebookgo/rocks-strata/strata/cmd/mongo/lreplica_drivers/mongoq
+github.com/facebookgo/rocks-strata/strata/cmd/mongo/lreplica_drivers/strata
+
+travis_time:end:1ac4bfa0:start=1475959638221815181,finish=1475959650414925677,duration=12193110496[0Ktravis_fold:end:install[0Ktravis_time:start:17c0b824[0K$ go test -v ./...
+=== RUN TestStoreAndRetrieveSnapshot-2
+=== RUN TestCreateAndRetrieveSnapshot-2
+=== RUN TestGetBackupStats-2
+=== RUN TestCreateAndDeleteSnapshot-2
+=== RUN TestRestoreSnapshot-2
+=== RUN TestCorruptedSnapshot-2
+=== RUN TestSaveSingleReplicaMetadata-2
+=== RUN TestMetadata-2
+--- PASS: TestMetadata-2 (0.00s)
+=== RUN TestMergeFileSets-2
+--- PASS: TestMergeFileSets-2 (0.00s)
+=== RUN TestSubtractFileSets-2
+--- PASS: TestSubtractFileSets-2 (0.00s)
+2016/10/08 20:47:32 Creating snapshot for replset1_host1 with ID 0
+2016/10/08 20:47:32 Found 0 persistent files with prefix replset1_host1/
+2016/10/08 20:47:32 3 files in this snapshot
+2016/10/08 20:47:32 3 incremental files in this snapshot
+2016/10/08 20:47:32 Starting to save a
+2016/10/08 20:47:32 Finished saving a
+2016/10/08 20:47:32 1 out of 3 files saved
+2016/10/08 20:47:32 Starting to save b
+2016/10/08 20:47:32 Finished saving b
+2016/10/08 20:47:32 2 out of 3 files saved
+2016/10/08 20:47:32 Starting to save c
+2016/10/08 20:47:32 Finished saving c
+2016/10/08 20:47:32 3 out of 3 files saved
+2016/10/08 20:47:32 Creating snapshot for replset1_host1 with ID 0
+2016/10/08 20:47:32 Found 0 persistent files with prefix replset1_host1/
+2016/10/08 20:47:32 3 files in this snapshot
+2016/10/08 20:47:32 3 incremental files in this snapshot
+2016/10/08 20:47:32 Starting to save a
+2016/10/08 20:47:32 Finished saving a
+2016/10/08 20:47:32 1 out of 3 files saved
+2016/10/08 20:47:32 Starting to save b
+2016/10/08 20:47:32 Finished saving b
+2016/10/08 20:47:32 2 out of 3 files saved
+2016/10/08 20:47:32 Starting to save c
+2016/10/08 20:47:32 Finished saving c
+2016/10/08 20:47:32 3 out of 3 files saved
+2016/10/08 20:47:32 Saving backup stats
+2016/10/08 20:47:32 Saved backup stats
+--- PASS: TestCreateAndRetrieveSnapshot-2 (0.00s)
+2016/10/08 20:47:32 Creating snapshot for replset1_host1 with ID 0
+2016/10/08 20:47:32 Found 0 persistent files with prefix replset1_host1/
+2016/10/08 20:47:32 3 files in this snapshot
+2016/10/08 20:47:32 3 incremental files in this snapshot
+2016/10/08 20:47:32 Starting to save a
+2016/10/08 20:47:32 Starting to save b
+2016/10/08 20:47:32 Starting to save c
+2016/10/08 20:47:32 Saving backup stats
+2016/10/08 20:47:32 Saved backup stats
+--- PASS: TestStoreAndRetrieveSnapshot-2 (0.00s)
+2016/10/08 20:47:32 Creating snapshot for replset1_host1 with ID 0
+2016/10/08 20:47:32 Found 0 persistent files with prefix replset1_host1/
+2016/10/08 20:47:32 3 files in this snapshot
+2016/10/08 20:47:32 3 incremental files in this snapshot
+2016/10/08 20:47:32 Starting to save a
+2016/10/08 20:47:32 Finished saving a
+2016/10/08 20:47:32 1 out of 3 files saved
+2016/10/08 20:47:32 Starting to save b
+2016/10/08 20:47:32 Finished saving b
+2016/10/08 20:47:32 2 out of 3 files saved
+2016/10/08 20:47:32 Starting to save c
+2016/10/08 20:47:32 Finished saving c
+2016/10/08 20:47:32 3 out of 3 files saved
+2016/10/08 20:47:32 Saving backup stats
+2016/10/08 20:47:32 Saved backup stats
+2016/10/08 20:47:32 Creating snapshot for replset1_host1 with ID 1
+2016/10/08 20:47:32 Found 3 persistent files with prefix replset1_host1/
+2016/10/08 20:47:32 3 files in this snapshot
+2016/10/08 20:47:32 0 incremental files in this snapshot
+2016/10/08 20:47:32 Saving backup stats
+2016/10/08 20:47:32 Saved backup stats
+--- PASS: TestCreateAndDeleteSnapshot-2 (0.00s)
+2016/10/08 20:47:32 Creating snapshot for replset1_host1 with ID 0
+2016/10/08 20:47:32 Found 0 persistent files with prefix replset1_host1/
+2016/10/08 20:47:32 3 files in this snapshot
+2016/10/08 20:47:32 3 incremental files in this snapshot
+2016/10/08 20:47:32 Starting to save a
+2016/10/08 20:47:32 Finished saving a
+2016/10/08 20:47:32 1 out of 3 files saved
+2016/10/08 20:47:32 Starting to save b
+2016/10/08 20:47:32 Finished saving b
+2016/10/08 20:47:32 2 out of 3 files saved
+2016/10/08 20:47:32 Starting to save c
+2016/10/08 20:47:32 Finished saving c
+2016/10/08 20:47:32 3 out of 3 files saved
+2016/10/08 20:47:32 Saving backup stats
+2016/10/08 20:47:32 Saved backup stats
+2016/10/08 20:47:32 Determining files to restore
+2016/10/08 20:47:32 Keeping 0 files in current database
+2016/10/08 20:47:32 Starting to restore a
+2016/10/08 20:47:32 Finished restoring a
+2016/10/08 20:47:32 1 out of 3 files restored
+2016/10/08 20:47:32 Starting to restore b
+2016/10/08 20:47:32 Finished restoring b
+2016/10/08 20:47:32 2 out of 3 files restored
+2016/10/08 20:47:32 Starting to restore c
+2016/10/08 20:47:32 Finished restoring c
+2016/10/08 20:47:32 3 out of 3 files restored
+--- PASS: TestRestoreSnapshot-2 (0.00s)
+2016/10/08 20:47:32 Creating snapshot for replset1_host1 with ID 0
+2016/10/08 20:47:32 Found 0 persistent files with prefix replset1_host1/
+2016/10/08 20:47:32 3 files in this snapshot
+2016/10/08 20:47:32 3 incremental files in this snapshot
+2016/10/08 20:47:32 Starting to save a
+2016/10/08 20:47:32 Finished saving a
+2016/10/08 20:47:32 1 out of 3 files saved
+2016/10/08 20:47:32 Starting to save b
+2016/10/08 20:47:32 Finished saving b
+2016/10/08 20:47:32 2 out of 3 files saved
+2016/10/08 20:47:32 Starting to save c
+2016/10/08 20:47:32 Finished saving c
+2016/10/08 20:47:32 3 out of 3 files saved
+2016/10/08 20:47:32 Saving backup stats
+2016/10/08 20:47:32 Saved backup stats
+2016/10/08 20:47:32 Determining files to restore
+2016/10/08 20:47:32 Keeping 0 files in current database
+2016/10/08 20:47:32 Starting to restore a
+2016/10/08 20:47:32 a has checksum �pK}����{����n but expected �u�����1Ù�iw&a. a may have become corrupted on storage
+2016/10/08 20:47:32 Starting to restore b
+2016/10/08 20:47:32 Finished restoring b
+2016/10/08 20:47:32 1 out of 3 files restored
+2016/10/08 20:47:32 Starting to restore c
+2016/10/08 20:47:32 Finished restoring c
+2016/10/08 20:47:32 2 out of 3 files restored
+2016/10/08 20:47:32 (try number 2) Starting to restore a
+2016/10/08 20:47:32 a has checksum �pK}����{����n but expected �u�����1Ù�iw&a. a may have become corrupted on storage
+2016/10/08 20:47:32 (try number 3) Starting to restore a
+2016/10/08 20:47:32 a has checksum �pK}����{����n but expected �u�����1Ù�iw&a. a may have become corrupted on storage
+2016/10/08 20:47:32 (try number 4) Starting to restore a
+2016/10/08 20:47:32 a has checksum �pK}����{����n but expected �u�����1Ù�iw&a. a may have become corrupted on storage
+2016/10/08 20:47:32 (try number 5) Starting to restore a
+2016/10/08 20:47:32 a has checksum �pK}����{����n but expected �u�����1Ù�iw&a. a may have become corrupted on storage
+2016/10/08 20:47:32 Unable to restore a
+--- PASS: TestCorruptedSnapshot-2 (0.80s)
+2016/10/08 20:47:32 Creating snapshot for replset1_host1 with ID 0
+2016/10/08 20:47:32 Found 0 persistent files with prefix replset1_host1/
+2016/10/08 20:47:32 3 files in this snapshot
+2016/10/08 20:47:32 3 incremental files in this snapshot
+2016/10/08 20:47:32 Starting to save a
+2016/10/08 20:47:32 Finished saving a
+2016/10/08 20:47:32 1 out of 3 files saved
+2016/10/08 20:47:32 Starting to save b
+2016/10/08 20:47:32 Finished saving b
+2016/10/08 20:47:32 2 out of 3 files saved
+2016/10/08 20:47:32 Starting to save c
+2016/10/08 20:47:32 Finished saving c
+2016/10/08 20:47:32 3 out of 3 files saved
+2016/10/08 20:47:32 Saving backup stats
+2016/10/08 20:47:32 Saved backup stats
+2016/10/08 20:47:32 Creating snapshot for replset1_host2 with ID 0
+2016/10/08 20:47:32 Found 0 persistent files with prefix replset1_host2/
+2016/10/08 20:47:32 3 files in this snapshot
+2016/10/08 20:47:32 3 incremental files in this snapshot
+2016/10/08 20:47:32 Starting to save a
+2016/10/08 20:47:32 Finished saving a
+2016/10/08 20:47:32 1 out of 3 files saved
+2016/10/08 20:47:32 Starting to save b
+2016/10/08 20:47:32 Finished saving b
+2016/10/08 20:47:32 2 out of 3 files saved
+2016/10/08 20:47:32 Starting to save c
+2016/10/08 20:47:32 Finished saving c
+2016/10/08 20:47:32 3 out of 3 files saved
+2016/10/08 20:47:32 Saving backup stats
+2016/10/08 20:47:32 Saved backup stats
+--- PASS: TestSaveSingleReplicaMetadata-2 (0.00s)
+2016/10/08 20:47:35 Finished saving a
+2016/10/08 20:47:35 1 out of 3 files saved
+2016/10/08 20:47:35 Finished saving b
+2016/10/08 20:47:35 2 out of 3 files saved
+2016/10/08 20:47:35 Finished saving c
+2016/10/08 20:47:35 3 out of 3 files saved
+2016/10/08 20:47:35 Saving backup stats
+2016/10/08 20:47:35 Saved backup stats
+--- PASS: TestGetBackupStats-2 (3.00s)
+PASS
+ok  	github.com/facebookgo/rocks-strata/strata	3.007s
+?   	github.com/facebookgo/rocks-strata/strata/cmd/mongo/lreplica_drivers/lrldriver	[no test files]
+?   	github.com/facebookgo/rocks-strata/strata/cmd/mongo/lreplica_drivers/lrminiodriver	[no test files]
+?   	github.com/facebookgo/rocks-strata/strata/cmd/mongo/lreplica_drivers/lrs3driver	[no test files]
+?   	github.com/facebookgo/rocks-strata/strata/cmd/mongo/lreplica_drivers/mongoq	[no test files]
+?   	github.com/facebookgo/rocks-strata/strata/cmd/mongo/lreplica_drivers/strata	[no test files]
+=== RUN TestLStorage-2
+=== RUN TestLStorageManyFiles-2
+--- PASS: TestLStorage-2 (0.00s)
+--- PASS: TestLStorageManyFiles-2 (1.95s)
+PASS
+ok  	github.com/facebookgo/rocks-strata/strata/lstorage	1.969s
+?   	github.com/facebookgo/rocks-strata/strata/miniostorage	[no test files]
+?   	github.com/facebookgo/rocks-strata/strata/mongo	[no test files]
+?   	github.com/facebookgo/rocks-strata/strata/mongo/lreplica	[no test files]
+=== RUN TestS3Storage-2
+=== RUN TestS3StorageManyFiles-2
+--- PASS: TestS3Storage-2 (4.82s)
+--- PASS: TestS3StorageManyFiles-2 (13.10s)
+PASS
+ok  	github.com/facebookgo/rocks-strata/strata/s3storage	13.114s
+=== RUN TestIntegration-2
+--- SKIP: TestIntegration-2 (0.00s)
+	lrs3_test.go:27: Skipping test. Set USING_MONGO_3X=true to run.
+=== RUN TestCollectGarbage-2
+--- SKIP: TestCollectGarbage-2 (0.00s)
+	lrs3_test.go:27: Skipping test. Set USING_MONGO_3X=true to run.
+=== RUN TestRestoreToDifferentPath-2
+--- SKIP: TestRestoreToDifferentPath-2 (0.00s)
+	lrs3_test.go:27: Skipping test. Set USING_MONGO_3X=true to run.
+=== RUN TestGetReplicaIDs-2
+--- SKIP: TestGetReplicaIDs-2 (0.00s)
+	lrs3_test.go:27: Skipping test. Set USING_MONGO_3X=true to run.
+PASS
+ok  	github.com/facebookgo/rocks-strata/strata/tests/lrs3test	0.008s
+
+travis_time:end:17c0b824:start=1475959650419454870,finish=1475959667478650917,duration=17059196047[0K
+[32;1mThe command "go test -v ./..." exited with 0.[0m
+
+Done. Your build exited with 0.

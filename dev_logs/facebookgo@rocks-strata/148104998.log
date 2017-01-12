@@ -1,0 +1,614 @@
+Using worker: worker-linux-docker-1571fced.prod.travis-ci.org:travis-linux-10
+
+travis_fold:start:system_info[0K[33;1mBuild system information[0m
+Build language: go
+Build group: stable
+Build dist: precise
+Build id: 148104995
+Job id: 148104998
+travis-build version: b60e2713d
+[34m[1mBuild image provisioning date and time[0m
+Thu Feb  5 15:09:33 UTC 2015
+[34m[1mOperating System Details[0m
+Distributor ID:	Ubuntu
+Description:	Ubuntu 12.04.5 LTS
+Release:	12.04
+Codename:	precise
+[34m[1mLinux Version[0m
+3.13.0-29-generic
+[34m[1mCookbooks Version[0m
+a68419e https://github.com/travis-ci/travis-cookbooks/tree/a68419e
+[34m[1mGCC version[0m
+gcc (Ubuntu/Linaro 4.6.3-1ubuntu5) 4.6.3
+Copyright (C) 2011 Free Software Foundation, Inc.
+This is free software; see the source for copying conditions.  There is NO
+warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+[34m[1mLLVM version[0m
+clang version 3.4 (tags/RELEASE_34/final)
+Target: x86_64-unknown-linux-gnu
+Thread model: posix
+[34m[1mPre-installed Ruby versions[0m
+ruby-1.9.3-p551
+[34m[1mPre-installed Node.js versions[0m
+v0.10.36
+[34m[1mPre-installed Go versions[0m
+1.4.1
+[34m[1mRedis version[0m
+redis-server 2.8.19
+[34m[1mriak version[0m
+2.0.2
+[34m[1mMongoDB version[0m
+MongoDB 2.4.12
+[34m[1mCouchDB version[0m
+couchdb 1.6.1
+[34m[1mNeo4j version[0m
+1.9.4
+[34m[1mRabbitMQ Version[0m
+3.4.3
+[34m[1mElasticSearch version[0m
+1.4.0
+[34m[1mInstalled Sphinx versions[0m
+2.0.10
+2.1.9
+2.2.6
+[34m[1mDefault Sphinx version[0m
+2.2.6
+[34m[1mInstalled Firefox version[0m
+firefox 31.0esr
+[34m[1mPhantomJS version[0m
+1.9.8
+[34m[1mant -version[0m
+Apache Ant(TM) version 1.8.2 compiled on December 3 2011
+[34m[1mmvn -version[0m
+Apache Maven 3.2.5 (12a6b3acb947671f09b81f49094c53f426d8cea1; 2014-12-14T17:29:23+00:00)
+Maven home: /usr/local/maven
+Java version: 1.7.0_76, vendor: Oracle Corporation
+Java home: /usr/lib/jvm/java-7-oracle/jre
+Default locale: en_US, platform encoding: ANSI_X3.4-1968
+OS name: "linux", version: "3.13.0-29-generic", arch: "amd64", family: "unix"
+travis_fold:end:system_info[0K
+travis_fold:start:fix.CVE-2015-7547[0K$ export DEBIAN_FRONTEND=noninteractive
+W: Size of file /var/lib/apt/lists/us.archive.ubuntu.com_ubuntu_dists_precise-backports_multiverse_source_Sources.gz is not what the server reported 5886 5888
+W: Size of file /var/lib/apt/lists/ppa.launchpad.net_ubuntugis_ppa_ubuntu_dists_precise_main_binary-amd64_Packages.gz is not what the server reported 36669 36677
+W: Size of file /var/lib/apt/lists/ppa.launchpad.net_ubuntugis_ppa_ubuntu_dists_precise_main_binary-i386_Packages.gz is not what the server reported 36729 36733
+Reading package lists...
+Building dependency tree...
+Reading state information...
+The following extra packages will be installed:
+  libc-bin libc-dev-bin libc6-dev
+Suggested packages:
+  glibc-doc
+The following packages will be upgraded:
+  libc-bin libc-dev-bin libc6 libc6-dev
+4 upgraded, 0 newly installed, 0 to remove and 235 not upgraded.
+Need to get 8,840 kB of archives.
+After this operation, 14.3 kB disk space will be freed.
+Get:1 http://us.archive.ubuntu.com/ubuntu/ precise-updates/main libc6-dev amd64 2.15-0ubuntu10.15 [2,943 kB]
+Get:2 http://us.archive.ubuntu.com/ubuntu/ precise-updates/main libc-dev-bin amd64 2.15-0ubuntu10.15 [84.7 kB]
+Get:3 http://us.archive.ubuntu.com/ubuntu/ precise-updates/main libc-bin amd64 2.15-0ubuntu10.15 [1,177 kB]
+Get:4 http://us.archive.ubuntu.com/ubuntu/ precise-updates/main libc6 amd64 2.15-0ubuntu10.15 [4,636 kB]
+Fetched 8,840 kB in 0s (22.0 MB/s)
+Preconfiguring packages ...
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 69991 files and directories currently installed.)
+Preparing to replace libc6-dev 2.15-0ubuntu10.10 (using .../libc6-dev_2.15-0ubuntu10.15_amd64.deb) ...
+Unpacking replacement libc6-dev ...
+Preparing to replace libc-dev-bin 2.15-0ubuntu10.10 (using .../libc-dev-bin_2.15-0ubuntu10.15_amd64.deb) ...
+Unpacking replacement libc-dev-bin ...
+Preparing to replace libc-bin 2.15-0ubuntu10.10 (using .../libc-bin_2.15-0ubuntu10.15_amd64.deb) ...
+Unpacking replacement libc-bin ...
+Processing triggers for man-db ...
+Setting up libc-bin (2.15-0ubuntu10.15) ...
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 69990 files and directories currently installed.)
+Preparing to replace libc6 2.15-0ubuntu10.10 (using .../libc6_2.15-0ubuntu10.15_amd64.deb) ...
+Unpacking replacement libc6 ...
+Setting up libc6 (2.15-0ubuntu10.15) ...
+Setting up libc-dev-bin (2.15-0ubuntu10.15) ...
+Setting up libc6-dev (2.15-0ubuntu10.15) ...
+Processing triggers for libc-bin ...
+ldconfig deferred processing now taking place
+travis_fold:end:fix.CVE-2015-7547[0Ktravis_fold:start:git.checkout[0Ktravis_time:start:000724c0[0K$ git clone --depth=50 --branch=master https://github.com/facebookgo/rocks-strata.git facebookgo/rocks-strata
+Cloning into 'facebookgo/rocks-strata'...
+remote: Counting objects: 209, done.[K
+remote: Compressing objects:   9% (1/11)   [Kremote: Compressing objects:  18% (2/11)   [Kremote: Compressing objects:  27% (3/11)   [Kremote: Compressing objects:  36% (4/11)   [Kremote: Compressing objects:  45% (5/11)   [Kremote: Compressing objects:  54% (6/11)   [Kremote: Compressing objects:  63% (7/11)   [Kremote: Compressing objects:  72% (8/11)   [Kremote: Compressing objects:  81% (9/11)   [Kremote: Compressing objects:  90% (10/11)   [Kremote: Compressing objects: 100% (11/11)   [Kremote: Compressing objects: 100% (11/11), done.[K
+Receiving objects:   0% (1/209)   Receiving objects:   1% (3/209)   Receiving objects:   2% (5/209)   Receiving objects:   3% (7/209)   Receiving objects:   4% (9/209)   Receiving objects:   5% (11/209)   Receiving objects:   6% (13/209)   Receiving objects:   7% (15/209)   Receiving objects:   8% (17/209)   Receiving objects:   9% (19/209)   Receiving objects:  10% (21/209)   Receiving objects:  11% (23/209)   Receiving objects:  12% (26/209)   Receiving objects:  13% (28/209)   Receiving objects:  14% (30/209)   Receiving objects:  15% (32/209)   Receiving objects:  16% (34/209)   remote: Total 209 (delta 3), reused 0 (delta 0), pack-reused 191[K
+Receiving objects:  17% (36/209)   Receiving objects:  18% (38/209)   Receiving objects:  19% (40/209)   Receiving objects:  20% (42/209)   Receiving objects:  21% (44/209)   Receiving objects:  22% (46/209)   Receiving objects:  23% (49/209)   Receiving objects:  24% (51/209)   Receiving objects:  25% (53/209)   Receiving objects:  26% (55/209)   Receiving objects:  27% (57/209)   Receiving objects:  28% (59/209)   Receiving objects:  29% (61/209)   Receiving objects:  30% (63/209)   Receiving objects:  31% (65/209)   Receiving objects:  32% (67/209)   Receiving objects:  33% (69/209)   Receiving objects:  34% (72/209)   Receiving objects:  35% (74/209)   Receiving objects:  36% (76/209)   Receiving objects:  37% (78/209)   Receiving objects:  38% (80/209)   Receiving objects:  39% (82/209)   Receiving objects:  40% (84/209)   Receiving objects:  41% (86/209)   Receiving objects:  42% (88/209)   Receiving objects:  43% (90/209)   Receiving objects:  44% (92/209)   Receiving objects:  45% (95/209)   Receiving objects:  46% (97/209)   Receiving objects:  47% (99/209)   Receiving objects:  48% (101/209)   Receiving objects:  49% (103/209)   Receiving objects:  50% (105/209)   Receiving objects:  51% (107/209)   Receiving objects:  52% (109/209)   Receiving objects:  53% (111/209)   Receiving objects:  54% (113/209)   Receiving objects:  55% (115/209)   Receiving objects:  56% (118/209)   Receiving objects:  57% (120/209)   Receiving objects:  58% (122/209)   Receiving objects:  59% (124/209)   Receiving objects:  60% (126/209)   Receiving objects:  61% (128/209)   Receiving objects:  62% (130/209)   Receiving objects:  63% (132/209)   Receiving objects:  64% (134/209)   Receiving objects:  65% (136/209)   Receiving objects:  66% (138/209)   Receiving objects:  67% (141/209)   Receiving objects:  68% (143/209)   Receiving objects:  69% (145/209)   Receiving objects:  70% (147/209)   Receiving objects:  71% (149/209)   Receiving objects:  72% (151/209)   Receiving objects:  73% (153/209)   Receiving objects:  74% (155/209)   Receiving objects:  75% (157/209)   Receiving objects:  76% (159/209)   Receiving objects:  77% (161/209)   Receiving objects:  78% (164/209)   Receiving objects:  79% (166/209)   Receiving objects:  80% (168/209)   Receiving objects:  81% (170/209)   Receiving objects:  82% (172/209)   Receiving objects:  83% (174/209)   Receiving objects:  84% (176/209)   Receiving objects:  85% (178/209)   Receiving objects:  86% (180/209)   Receiving objects:  87% (182/209)   Receiving objects:  88% (184/209)   Receiving objects:  89% (187/209)   Receiving objects:  90% (189/209)   Receiving objects:  91% (191/209)   Receiving objects:  92% (193/209)   Receiving objects:  93% (195/209)   Receiving objects:  94% (197/209)   Receiving objects:  95% (199/209)   Receiving objects:  96% (201/209)   Receiving objects:  97% (203/209)   Receiving objects:  98% (205/209)   Receiving objects:  99% (207/209)   Receiving objects: 100% (209/209)   Receiving objects: 100% (209/209), 70.89 KiB | 0 bytes/s, done.
+Resolving deltas:   0% (0/77)   Resolving deltas:   5% (4/77)   Resolving deltas:   6% (5/77)   Resolving deltas:  12% (10/77)   Resolving deltas:  15% (12/77)   Resolving deltas:  16% (13/77)   Resolving deltas:  20% (16/77)   Resolving deltas:  22% (17/77)   Resolving deltas:  23% (18/77)   Resolving deltas:  24% (19/77)   Resolving deltas:  25% (20/77)   Resolving deltas:  28% (22/77)   Resolving deltas:  31% (24/77)   Resolving deltas:  35% (27/77)   Resolving deltas:  36% (28/77)   Resolving deltas:  37% (29/77)   Resolving deltas:  41% (32/77)   Resolving deltas:  45% (35/77)   Resolving deltas:  46% (36/77)   Resolving deltas:  48% (37/77)   Resolving deltas:  75% (58/77)   Resolving deltas:  90% (70/77)   Resolving deltas:  92% (71/77)   Resolving deltas:  93% (72/77)   Resolving deltas:  94% (73/77)   Resolving deltas:  96% (74/77)   Resolving deltas:  97% (75/77)   Resolving deltas:  98% (76/77)   Resolving deltas: 100% (77/77)   Resolving deltas: 100% (77/77), done.
+Checking connectivity... done.
+
+travis_time:end:000724c0:start=1469728361074041502,finish=1469728361515104212,duration=441062710[0K$ cd facebookgo/rocks-strata
+$ git checkout -qf 3b5c20c29d04e06049f0fb681af59815743eb507
+travis_fold:end:git.checkout[0K
+[33;1mThis job is running on container-based infrastructure, which does not allow use of 'sudo', setuid and setguid executables.[0m
+[33;1mIf you require sudo, add 'sudo: required' to your .travis.yml[0m
+[33;1mSee https://docs.travis-ci.com/user/workers/container-based-infrastructure/ for details.[0m
+
+[33;1mSetting environment variables from .travis.yml[0m
+$ export USING_MONGO_3X=false
+
+travis_time:start:0517a55c[0K$ GIMME_OUTPUT=$(gimme tip) && eval "$GIMME_OUTPUT"
+go version devel +be91515 Thu Jul 28 03:03:42 2016 +0000 linux/amd64
+
+travis_time:end:0517a55c:start=1469728363722014353,finish=1469728451482009858,duration=87759995505[0K$ export GOPATH=$HOME/gopath
+$ export PATH=$HOME/gopath/bin:$PATH
+$ mkdir -p $HOME/gopath/src/github.com/facebookgo/rocks-strata
+$ rsync -az ${TRAVIS_BUILD_DIR}/ $HOME/gopath/src/github.com/facebookgo/rocks-strata/
+$ export TRAVIS_BUILD_DIR=$HOME/gopath/src/github.com/facebookgo/rocks-strata
+$ cd $HOME/gopath/src/github.com/facebookgo/rocks-strata
+$ gimme version
+v0.2.2
+$ go version
+go version devel +be91515 Thu Jul 28 03:03:42 2016 +0000 linux/amd64
+travis_fold:start:go.env[0K$ go env
+GOARCH="amd64"
+GOBIN=""
+GOEXE=""
+GOHOSTARCH="amd64"
+GOHOSTOS="linux"
+GOOS="linux"
+GOPATH="/home/travis/gopath"
+GORACE=""
+GOROOT="/home/travis/.gimme/versions/go"
+GOTOOLDIR="/home/travis/.gimme/versions/go/pkg/tool/linux_amd64"
+CC="gcc"
+GOGCCFLAGS="-fPIC -m64 -pthread -fmessage-length=0 -fdebug-prefix-map=/tmp/go-build008197933=/tmp/go-build"
+CXX="g++"
+CGO_ENABLED="1"
+travis_fold:end:go.env[0KUsing Go 1.5 Vendoring, not checking for Godeps
+travis_fold:start:install[0Ktravis_time:start:06d8eb60[0K$ go get -t -v ./...
+github.com/facebookgo/ensure (download)
+github.com/davecgh/go-spew (download)
+github.com/facebookgo/stack (download)
+github.com/facebookgo/subset (download)
+github.com/jessevdk/go-flags (download)
+github.com/AdRoll/goamz (download)
+github.com/facebookgo/mgotest (download)
+github.com/facebookgo/freeport (download)
+github.com/facebookgo/testname (download)
+github.com/facebookgo/waitout (download)
+Fetching https://gopkg.in/mgo.v2?go-get=1
+Parsing meta tags from https://gopkg.in/mgo.v2?go-get=1 (status code 200)
+get "gopkg.in/mgo.v2": found meta tag main.metaImport{Prefix:"gopkg.in/mgo.v2", VCS:"git", RepoRoot:"https://gopkg.in/mgo.v2"} at https://gopkg.in/mgo.v2?go-get=1
+gopkg.in/mgo.v2 (download)
+Fetching https://gopkg.in/mgo.v2/bson?go-get=1
+Parsing meta tags from https://gopkg.in/mgo.v2/bson?go-get=1 (status code 200)
+get "gopkg.in/mgo.v2/bson": found meta tag main.metaImport{Prefix:"gopkg.in/mgo.v2", VCS:"git", RepoRoot:"https://gopkg.in/mgo.v2"} at https://gopkg.in/mgo.v2/bson?go-get=1
+get "gopkg.in/mgo.v2/bson": verifying non-authoritative meta tag
+Fetching https://gopkg.in/mgo.v2?go-get=1
+Parsing meta tags from https://gopkg.in/mgo.v2?go-get=1 (status code 200)
+github.com/kr/pty (download)
+Fetching https://golang.org/x/crypto/ssh/terminal?go-get=1
+Parsing meta tags from https://golang.org/x/crypto/ssh/terminal?go-get=1 (status code 200)
+get "golang.org/x/crypto/ssh/terminal": found meta tag main.metaImport{Prefix:"golang.org/x/crypto", VCS:"git", RepoRoot:"https://go.googlesource.com/crypto"} at https://golang.org/x/crypto/ssh/terminal?go-get=1
+get "golang.org/x/crypto/ssh/terminal": verifying non-authoritative meta tag
+Fetching https://golang.org/x/crypto?go-get=1
+Parsing meta tags from https://golang.org/x/crypto?go-get=1 (status code 200)
+golang.org/x/crypto (download)
+github.com/davecgh/go-spew/spew
+github.com/facebookgo/stack
+github.com/facebookgo/subset
+github.com/jessevdk/go-flags
+github.com/facebookgo/ensure
+github.com/AdRoll/goamz/aws
+github.com/AdRoll/goamz/s3
+github.com/facebookgo/rocks-strata/strata
+github.com/facebookgo/freeport
+github.com/facebookgo/testname
+github.com/facebookgo/waitout
+gopkg.in/mgo.v2/bson
+gopkg.in/mgo.v2/internal/scram
+github.com/AdRoll/goamz/s3/s3test
+gopkg.in/mgo.v2
+github.com/facebookgo/rocks-strata/strata/s3storage
+github.com/kr/pty
+golang.org/x/crypto/ssh/terminal
+github.com/facebookgo/rocks-strata/strata/mongo
+github.com/facebookgo/rocks-strata/strata/lstorage
+github.com/facebookgo/rocks-strata/strata/tests/lrs3test
+github.com/facebookgo/mgotest
+github.com/facebookgo/rocks-strata/strata/mongo/lreplica
+github.com/facebookgo/rocks-strata/strata/cmd/mongo/lreplica_drivers/lrs3driver
+github.com/facebookgo/rocks-strata/strata/cmd/mongo/lreplica_drivers/mongoq
+github.com/facebookgo/rocks-strata/strata/cmd/mongo/lreplica_drivers/strata
+
+travis_time:end:06d8eb60:start=1469728451679546961,finish=1469728463597866144,duration=11918319183[0Ktravis_fold:end:install[0Ktravis_time:start:0b5bee33[0K$ go test -v ./...
+=== RUN   TestStoreAndRetrieveSnapshot
+=== RUN   TestCreateAndRetrieveSnapshot
+=== RUN   TestGetBackupStats
+=== RUN   TestCreateAndDeleteSnapshot
+=== RUN   TestRestoreSnapshot
+=== RUN   TestCorruptedSnapshot
+=== RUN   TestSaveSingleReplicaMetadata
+=== RUN   TestMetadata
+--- PASS: TestMetadata (0.00s)
+=== RUN   TestMergeFileSets
+--- PASS: TestMergeFileSets (0.00s)
+=== RUN   TestSubtractFileSets
+--- PASS: TestSubtractFileSets (0.00s)
+2016/07/28 17:54:24 Creating snapshot for replset1_host1 with ID 0
+2016/07/28 17:54:24 Found 0 persistent files with prefix replset1_host1/
+2016/07/28 17:54:24 3 files in this snapshot
+2016/07/28 17:54:24 3 incremental files in this snapshot
+2016/07/28 17:54:24 Creating snapshot for replset1_host1 with ID 0
+2016/07/28 17:54:24 Found 0 persistent files with prefix replset1_host1/
+2016/07/28 17:54:24 3 files in this snapshot
+2016/07/28 17:54:24 3 incremental files in this snapshot
+2016/07/28 17:54:24 Starting to save a
+2016/07/28 17:54:24 Starting to save a
+2016/07/28 17:54:24 Starting to save b
+2016/07/28 17:54:24 Finished saving b
+2016/07/28 17:54:24 1 out of 3 files saved
+2016/07/28 17:54:24 Finished saving a
+2016/07/28 17:54:24 1 out of 3 files saved
+2016/07/28 17:54:24 Starting to save b
+2016/07/28 17:54:24 Starting to save c
+2016/07/28 17:54:24 Finished saving b
+2016/07/28 17:54:24 2 out of 3 files saved
+2016/07/28 17:54:24 Starting to save c
+2016/07/28 17:54:24 Finished saving c
+2016/07/28 17:54:24 2 out of 3 files saved
+2016/07/28 17:54:24 Finished saving c
+2016/07/28 17:54:24 3 out of 3 files saved
+2016/07/28 17:54:24 Finished saving a
+2016/07/28 17:54:24 3 out of 3 files saved
+2016/07/28 17:54:24 Saving backup stats
+2016/07/28 17:54:24 Saving backup stats
+2016/07/28 17:54:24 Saved backup stats
+2016/07/28 17:54:24 Determining files to restore
+2016/07/28 17:54:24 Keeping 0 files in current database
+2016/07/28 17:54:24 Saved backup stats
+--- PASS: TestStoreAndRetrieveSnapshot (0.00s)
+2016/07/28 17:54:24 Starting to restore a
+2016/07/28 17:54:24 Finished restoring a
+2016/07/28 17:54:24 1 out of 3 files restored
+2016/07/28 17:54:24 Starting to restore c
+2016/07/28 17:54:24 Creating snapshot for replset1_host1 with ID 0
+2016/07/28 17:54:24 Found 0 persistent files with prefix replset1_host1/
+2016/07/28 17:54:24 3 files in this snapshot
+2016/07/28 17:54:24 3 incremental files in this snapshot
+2016/07/28 17:54:24 Finished restoring c
+2016/07/28 17:54:24 2 out of 3 files restored
+2016/07/28 17:54:24 Starting to restore b
+2016/07/28 17:54:24 Finished restoring b
+2016/07/28 17:54:24 3 out of 3 files restored
+2016/07/28 17:54:24 Starting to save a
+--- PASS: TestRestoreSnapshot (0.00s)
+2016/07/28 17:54:24 Finished saving a
+2016/07/28 17:54:24 1 out of 3 files saved
+2016/07/28 17:54:24 Creating snapshot for replset1_host1 with ID 0
+2016/07/28 17:54:24 Starting to save b
+2016/07/28 17:54:24 Found 0 persistent files with prefix replset1_host1/
+2016/07/28 17:54:24 3 files in this snapshot
+2016/07/28 17:54:24 Finished saving b
+2016/07/28 17:54:24 2 out of 3 files saved
+2016/07/28 17:54:24 3 incremental files in this snapshot
+2016/07/28 17:54:24 Starting to save c
+2016/07/28 17:54:24 Finished saving c
+2016/07/28 17:54:24 3 out of 3 files saved
+2016/07/28 17:54:24 Saving backup stats
+2016/07/28 17:54:24 Saved backup stats
+2016/07/28 17:54:24 Creating snapshot for replset1_host2 with ID 0
+2016/07/28 17:54:24 Found 0 persistent files with prefix replset1_host2/
+2016/07/28 17:54:24 3 files in this snapshot
+2016/07/28 17:54:24 3 incremental files in this snapshot
+2016/07/28 17:54:24 Starting to save b
+2016/07/28 17:54:24 Starting to save a
+2016/07/28 17:54:24 Finished saving b
+2016/07/28 17:54:24 1 out of 3 files saved
+2016/07/28 17:54:24 Finished saving a
+2016/07/28 17:54:24 2 out of 3 files saved
+2016/07/28 17:54:24 Starting to save c
+2016/07/28 17:54:24 Starting to save b
+2016/07/28 17:54:24 Starting to save c
+fatal error: concurrent map writes
+
+goroutine 110 [running]:
+runtime.throw(0x5691b3, 0x15)
+	/home/travis/.gimme/versions/go/src/runtime/panic.go:566 +0x95 fp=0xc4200dfae8 sp=0xc4200dfac8
+runtime.mapassign1(0x53f280, 0xc420094300, 0xc4200dfc08, 0xc4200dfc18)
+	/home/travis/.gimme/versions/go/src/runtime/hashmap.go:458 +0x8ef fp=0xc4200dfbd0 sp=0xc4200dfae8
+github.com/facebookgo/rocks-strata/strata.(*MockStorage).PutReader(0xc420092540, 0xc4200f4040, 0x13, 0x5fe6a0, 0xc4200117c0, 0x0, 0x0)
+	/home/travis/gopath/src/github.com/facebookgo/rocks-strata/strata/mock.go:171 +0xc6 fp=0xc4200dfc40 sp=0xc4200dfbd0
+github.com/facebookgo/rocks-strata/strata.(*SnapshotManager).CreateSnapshot.func3.1(0x0, 0x0)
+	/home/travis/gopath/src/github.com/facebookgo/rocks-strata/strata/manager.go:254 +0x291 fp=0xc4200dfd78 sp=0xc4200dfc40
+github.com/facebookgo/rocks-strata/strata.Try(0xc4200dff18, 0xc4200f4060, 0x12, 0x565ab8, 0x1)
+	/home/travis/gopath/src/github.com/facebookgo/rocks-strata/strata/utility.go:61 +0x55 fp=0xc4200dfe10 sp=0xc4200dfd78
+github.com/facebookgo/rocks-strata/strata.(*SnapshotManager).CreateSnapshot.func3(0xc4200ec230, 0xc42001b260, 0x567948, 0xe, 0xc4200ec110, 0xc420094360, 0xc4200ec218, 0x3, 0xc4200ec240)
+	/home/travis/gopath/src/github.com/facebookgo/rocks-strata/strata/manager.go:258 +0x2c5 fp=0xc4200dff68 sp=0xc4200dfe10
+runtime.goexit()
+	/home/travis/.gimme/versions/go/src/runtime/asm_amd64.s:2086 +0x1 fp=0xc4200dff70 sp=0xc4200dff68
+created by github.com/facebookgo/rocks-strata/strata.(*SnapshotManager).CreateSnapshot
+	/home/travis/gopath/src/github.com/facebookgo/rocks-strata/strata/manager.go:268 +0x681
+
+goroutine 1 [chan receive]:
+testing.tRunner.func1(0xc4200720c0)
+	/home/travis/.gimme/versions/go/src/testing/testing.go:590 +0x164
+testing.tRunner(0xc4200720c0, 0xc42003de20)
+	/home/travis/.gimme/versions/go/src/testing/testing.go:612 +0x8b
+testing.RunTests(0x5794d0, 0x612720, 0xa, 0xa, 0xf)
+	/home/travis/.gimme/versions/go/src/testing/testing.go:799 +0x2f0
+testing.(*M).Run(0xc42003dee8, 0xc420018370)
+	/home/travis/.gimme/versions/go/src/testing/testing.go:743 +0x85
+main.main()
+	github.com/facebookgo/rocks-strata/strata/_test/_testmain.go:72 +0xc2
+
+goroutine 6 [chan receive]:
+testing.(*testContext).waitParallel(0xc420012840)
+	/home/travis/.gimme/versions/go/src/testing/testing.go:690 +0xab
+testing.(*T).Parallel(0xc420072240)
+	/home/travis/.gimme/versions/go/src/testing/testing.go:553 +0x167
+github.com/facebookgo/rocks-strata/strata.TestCreateAndRetrieveSnapshot(0xc420072240)
+	/home/travis/gopath/src/github.com/facebookgo/rocks-strata/strata/manager_test.go:46 +0x43
+testing.tRunner(0xc420072240, 0x579478)
+	/home/travis/.gimme/versions/go/src/testing/testing.go:610 +0x81
+created by testing.(*T).Run
+	/home/travis/.gimme/versions/go/src/testing/testing.go:646 +0x2ec
+
+goroutine 7 [chan receive]:
+testing.(*testContext).waitParallel(0xc420012840)
+	/home/travis/.gimme/versions/go/src/testing/testing.go:690 +0xab
+testing.(*T).Parallel(0xc420072300)
+	/home/travis/.gimme/versions/go/src/testing/testing.go:553 +0x167
+github.com/facebookgo/rocks-strata/strata.TestGetBackupStats(0xc420072300)
+	/home/travis/gopath/src/github.com/facebookgo/rocks-strata/strata/manager_test.go:71 +0x40
+testing.tRunner(0xc420072300, 0x579480)
+	/home/travis/.gimme/versions/go/src/testing/testing.go:610 +0x81
+created by testing.(*T).Run
+	/home/travis/.gimme/versions/go/src/testing/testing.go:646 +0x2ec
+
+goroutine 8 [chan receive]:
+testing.(*testContext).waitParallel(0xc420012840)
+	/home/travis/.gimme/versions/go/src/testing/testing.go:690 +0xab
+testing.(*T).Parallel(0xc4200723c0)
+	/home/travis/.gimme/versions/go/src/testing/testing.go:553 +0x167
+github.com/facebookgo/rocks-strata/strata.TestCreateAndDeleteSnapshot(0xc4200723c0)
+	/home/travis/gopath/src/github.com/facebookgo/rocks-strata/strata/manager_test.go:109 +0x43
+testing.tRunner(0xc4200723c0, 0x579470)
+	/home/travis/.gimme/versions/go/src/testing/testing.go:610 +0x81
+created by testing.(*T).Run
+	/home/travis/.gimme/versions/go/src/testing/testing.go:646 +0x2ec
+
+goroutine 9 [chan send]:
+testing.tRunner.func1(0xc420072480)
+	/home/travis/.gimme/versions/go/src/testing/testing.go:606 +0x1dd
+testing.tRunner(0xc420072480, 0x579498)
+	/home/travis/.gimme/versions/go/src/testing/testing.go:612 +0x8b
+created by testing.(*T).Run
+	/home/travis/.gimme/versions/go/src/testing/testing.go:646 +0x2ec
+
+goroutine 10 [semacquire]:
+sync.runtime_Semacquire(0xc4200928bc)
+	/home/travis/.gimme/versions/go/src/runtime/sema.go:47 +0x30
+sync.(*WaitGroup).Wait(0xc4200928b0)
+	/home/travis/.gimme/versions/go/src/sync/waitgroup.go:131 +0x97
+github.com/facebookgo/rocks-strata/strata.(*SnapshotManager).CreateSnapshot(0xc4200d4270, 0x56793a, 0xe, 0x0, 0x0, 0x0)
+	/home/travis/gopath/src/github.com/facebookgo/rocks-strata/strata/manager.go:270 +0x6ab
+github.com/facebookgo/rocks-strata/strata.TestCorruptedSnapshot(0xc420072540)
+	/home/travis/gopath/src/github.com/facebookgo/rocks-strata/strata/manager_test.go:187 +0x1e0
+testing.tRunner(0xc420072540, 0x579468)
+	/home/travis/.gimme/versions/go/src/testing/testing.go:610 +0x81
+created by testing.(*T).Run
+	/home/travis/.gimme/versions/go/src/testing/testing.go:646 +0x2ec
+
+goroutine 11 [semacquire]:
+sync.runtime_Semacquire(0xc4200ec23c)
+	/home/travis/.gimme/versions/go/src/runtime/sema.go:47 +0x30
+sync.(*WaitGroup).Wait(0xc4200ec230)
+	/home/travis/.gimme/versions/go/src/sync/waitgroup.go:131 +0x97
+github.com/facebookgo/rocks-strata/strata.(*SnapshotManager).CreateSnapshot(0xc420094360, 0x567948, 0xe, 0x0, 0x0, 0x0)
+	/home/travis/gopath/src/github.com/facebookgo/rocks-strata/strata/manager.go:270 +0x6ab
+github.com/facebookgo/rocks-strata/strata.TestSaveSingleReplicaMetadata(0xc420072600)
+	/home/travis/gopath/src/github.com/facebookgo/rocks-strata/strata/manager_test.go:216 +0x25f
+testing.tRunner(0xc420072600, 0x5794a0)
+	/home/travis/.gimme/versions/go/src/testing/testing.go:610 +0x81
+created by testing.(*T).Run
+	/home/travis/.gimme/versions/go/src/testing/testing.go:646 +0x2ec
+
+goroutine 15 [chan receive]:
+testing.RunTests.func1.1(0xc4200720c0)
+	/home/travis/.gimme/versions/go/src/testing/testing.go:798 +0x47
+created by testing.RunTests.func1
+	/home/travis/.gimme/versions/go/src/testing/testing.go:798 +0xb5
+
+goroutine 112 [runnable]:
+github.com/facebookgo/rocks-strata/strata.(*SnapshotManager).CreateSnapshot.func3(0xc4200ec230, 0xc42001b260, 0x567948, 0xe, 0xc4200ec110, 0xc420094360, 0xc4200ec218, 0x3, 0xc4200ec240)
+	/home/travis/gopath/src/github.com/facebookgo/rocks-strata/strata/manager.go:241
+created by github.com/facebookgo/rocks-strata/strata.(*SnapshotManager).CreateSnapshot
+	/home/travis/gopath/src/github.com/facebookgo/rocks-strata/strata/manager.go:268 +0x681
+
+goroutine 107 [runnable]:
+github.com/facebookgo/rocks-strata/strata.(*SnapshotManager).CreateSnapshot.func3(0xc4200ec230, 0xc42001b260, 0x567948, 0xe, 0xc4200ec110, 0xc420094360, 0xc4200ec218, 0x3, 0xc4200ec240)
+	/home/travis/gopath/src/github.com/facebookgo/rocks-strata/strata/manager.go:241
+created by github.com/facebookgo/rocks-strata/strata.(*SnapshotManager).CreateSnapshot
+	/home/travis/gopath/src/github.com/facebookgo/rocks-strata/strata/manager.go:268 +0x681
+
+goroutine 105 [runnable]:
+github.com/facebookgo/rocks-strata/strata.(*SnapshotManager).CreateSnapshot.func3(0xc4200ec230, 0xc42001b260, 0x567948, 0xe, 0xc4200ec110, 0xc420094360, 0xc4200ec218, 0x3, 0xc4200ec240)
+	/home/travis/gopath/src/github.com/facebookgo/rocks-strata/strata/manager.go:241
+created by github.com/facebookgo/rocks-strata/strata.(*SnapshotManager).CreateSnapshot
+	/home/travis/gopath/src/github.com/facebookgo/rocks-strata/strata/manager.go:268 +0x681
+
+goroutine 104 [runnable]:
+github.com/facebookgo/rocks-strata/strata.(*SnapshotManager).CreateSnapshot.func3(0xc4200ec230, 0xc42001b260, 0x567948, 0xe, 0xc4200ec110, 0xc420094360, 0xc4200ec218, 0x3, 0xc4200ec240)
+	/home/travis/gopath/src/github.com/facebookgo/rocks-strata/strata/manager.go:241
+created by github.com/facebookgo/rocks-strata/strata.(*SnapshotManager).CreateSnapshot
+	/home/travis/gopath/src/github.com/facebookgo/rocks-strata/strata/manager.go:268 +0x681
+
+goroutine 103 [runnable]:
+github.com/facebookgo/rocks-strata/strata.(*SnapshotManager).CreateSnapshot.func3(0xc4200ec230, 0xc42001b260, 0x567948, 0xe, 0xc4200ec110, 0xc420094360, 0xc4200ec218, 0x3, 0xc4200ec240)
+	/home/travis/gopath/src/github.com/facebookgo/rocks-strata/strata/manager.go:241
+created by github.com/facebookgo/rocks-strata/strata.(*SnapshotManager).CreateSnapshot
+	/home/travis/gopath/src/github.com/facebookgo/rocks-strata/strata/manager.go:268 +0x681
+
+goroutine 102 [runnable]:
+github.com/facebookgo/rocks-strata/strata.(*SnapshotManager).CreateSnapshot.func3(0xc4200ec230, 0xc42001b260, 0x567948, 0xe, 0xc4200ec110, 0xc420094360, 0xc4200ec218, 0x3, 0xc4200ec240)
+	/home/travis/gopath/src/github.com/facebookgo/rocks-strata/strata/manager.go:241
+created by github.com/facebookgo/rocks-strata/strata.(*SnapshotManager).CreateSnapshot
+	/home/travis/gopath/src/github.com/facebookgo/rocks-strata/strata/manager.go:268 +0x681
+
+goroutine 101 [runnable]:
+github.com/facebookgo/rocks-strata/strata.(*SnapshotManager).CreateSnapshot.func3(0xc4200ec230, 0xc42001b260, 0x567948, 0xe, 0xc4200ec110, 0xc420094360, 0xc4200ec218, 0x3, 0xc4200ec240)
+	/home/travis/gopath/src/github.com/facebookgo/rocks-strata/strata/manager.go:241
+created by github.com/facebookgo/rocks-strata/strata.(*SnapshotManager).CreateSnapshot
+	/home/travis/gopath/src/github.com/facebookgo/rocks-strata/strata/manager.go:268 +0x681
+
+goroutine 106 [runnable]:
+github.com/facebookgo/rocks-strata/strata.(*SnapshotManager).CreateSnapshot.func3(0xc4200ec230, 0xc42001b260, 0x567948, 0xe, 0xc4200ec110, 0xc420094360, 0xc4200ec218, 0x3, 0xc4200ec240)
+	/home/travis/gopath/src/github.com/facebookgo/rocks-strata/strata/manager.go:241
+created by github.com/facebookgo/rocks-strata/strata.(*SnapshotManager).CreateSnapshot
+	/home/travis/gopath/src/github.com/facebookgo/rocks-strata/strata/manager.go:268 +0x681
+
+goroutine 99 [runnable]:
+github.com/facebookgo/rocks-strata/strata.(*SnapshotManager).CreateSnapshot.func3(0xc4200ec230, 0xc42001b260, 0x567948, 0xe, 0xc4200ec110, 0xc420094360, 0xc4200ec218, 0x3, 0xc4200ec240)
+	/home/travis/gopath/src/github.com/facebookgo/rocks-strata/strata/manager.go:241
+created by github.com/facebookgo/rocks-strata/strata.(*SnapshotManager).CreateSnapshot
+	/home/travis/gopath/src/github.com/facebookgo/rocks-strata/strata/manager.go:268 +0x681
+
+goroutine 98 [runnable]:
+github.com/facebookgo/rocks-strata/strata.(*SnapshotManager).CreateSnapshot.func2(0xc42000f580, 0x3, 0x3, 0xc42001b260)
+	/home/travis/gopath/src/github.com/facebookgo/rocks-strata/strata/manager.go:233 +0xf0
+created by github.com/facebookgo/rocks-strata/strata.(*SnapshotManager).CreateSnapshot
+	/home/travis/gopath/src/github.com/facebookgo/rocks-strata/strata/manager.go:236 +0x551
+
+goroutine 170 [runnable]:
+github.com/facebookgo/rocks-strata/strata.(*SnapshotManager).CreateSnapshot.func3(0xc4200ec230, 0xc42001b260, 0x567948, 0xe, 0xc4200ec110, 0xc420094360, 0xc4200ec218, 0x3, 0xc4200ec240)
+	/home/travis/gopath/src/github.com/facebookgo/rocks-strata/strata/manager.go:243 +0x106
+created by github.com/facebookgo/rocks-strata/strata.(*SnapshotManager).CreateSnapshot
+	/home/travis/gopath/src/github.com/facebookgo/rocks-strata/strata/manager.go:268 +0x681
+
+goroutine 100 [runnable]:
+github.com/facebookgo/rocks-strata/strata.(*SnapshotManager).CreateSnapshot.func3(0xc4200ec230, 0xc42001b260, 0x567948, 0xe, 0xc4200ec110, 0xc420094360, 0xc4200ec218, 0x3, 0xc4200ec240)
+	/home/travis/gopath/src/github.com/facebookgo/rocks-strata/strata/manager.go:241
+created by github.com/facebookgo/rocks-strata/strata.(*SnapshotManager).CreateSnapshot
+	/home/travis/gopath/src/github.com/facebookgo/rocks-strata/strata/manager.go:268 +0x681
+
+goroutine 169 [runnable]:
+github.com/facebookgo/rocks-strata/strata.(*SnapshotManager).CreateSnapshot.func3(0xc4200ec230, 0xc42001b260, 0x567948, 0xe, 0xc4200ec110, 0xc420094360, 0xc4200ec218, 0x3, 0xc4200ec240)
+	/home/travis/gopath/src/github.com/facebookgo/rocks-strata/strata/manager.go:241
+created by github.com/facebookgo/rocks-strata/strata.(*SnapshotManager).CreateSnapshot
+	/home/travis/gopath/src/github.com/facebookgo/rocks-strata/strata/manager.go:268 +0x681
+
+goroutine 168 [runnable]:
+github.com/facebookgo/rocks-strata/strata.(*SnapshotManager).CreateSnapshot.func3(0xc4200ec230, 0xc42001b260, 0x567948, 0xe, 0xc4200ec110, 0xc420094360, 0xc4200ec218, 0x3, 0xc4200ec240)
+	/home/travis/gopath/src/github.com/facebookgo/rocks-strata/strata/manager.go:241
+created by github.com/facebookgo/rocks-strata/strata.(*SnapshotManager).CreateSnapshot
+	/home/travis/gopath/src/github.com/facebookgo/rocks-strata/strata/manager.go:268 +0x681
+
+goroutine 167 [runnable]:
+github.com/facebookgo/rocks-strata/strata.(*SnapshotManager).CreateSnapshot.func3(0xc4200ec230, 0xc42001b260, 0x567948, 0xe, 0xc4200ec110, 0xc420094360, 0xc4200ec218, 0x3, 0xc4200ec240)
+	/home/travis/gopath/src/github.com/facebookgo/rocks-strata/strata/manager.go:241
+created by github.com/facebookgo/rocks-strata/strata.(*SnapshotManager).CreateSnapshot
+	/home/travis/gopath/src/github.com/facebookgo/rocks-strata/strata/manager.go:268 +0x681
+
+goroutine 166 [runnable]:
+github.com/facebookgo/rocks-strata/strata.(*SnapshotManager).CreateSnapshot.func3(0xc4200ec230, 0xc42001b260, 0x567948, 0xe, 0xc4200ec110, 0xc420094360, 0xc4200ec218, 0x3, 0xc4200ec240)
+	/home/travis/gopath/src/github.com/facebookgo/rocks-strata/strata/manager.go:241
+created by github.com/facebookgo/rocks-strata/strata.(*SnapshotManager).CreateSnapshot
+	/home/travis/gopath/src/github.com/facebookgo/rocks-strata/strata/manager.go:268 +0x681
+
+goroutine 165 [runnable]:
+github.com/facebookgo/rocks-strata/strata.(*SnapshotManager).CreateSnapshot.func3(0xc4200ec230, 0xc42001b260, 0x567948, 0xe, 0xc4200ec110, 0xc420094360, 0xc4200ec218, 0x3, 0xc4200ec240)
+	/home/travis/gopath/src/github.com/facebookgo/rocks-strata/strata/manager.go:241
+created by github.com/facebookgo/rocks-strata/strata.(*SnapshotManager).CreateSnapshot
+	/home/travis/gopath/src/github.com/facebookgo/rocks-strata/strata/manager.go:268 +0x681
+
+goroutine 164 [runnable]:
+github.com/facebookgo/rocks-strata/strata.(*SnapshotManager).CreateSnapshot.func3(0xc4200ec230, 0xc42001b260, 0x567948, 0xe, 0xc4200ec110, 0xc420094360, 0xc4200ec218, 0x3, 0xc4200ec240)
+	/home/travis/gopath/src/github.com/facebookgo/rocks-strata/strata/manager.go:241
+created by github.com/facebookgo/rocks-strata/strata.(*SnapshotManager).CreateSnapshot
+	/home/travis/gopath/src/github.com/facebookgo/rocks-strata/strata/manager.go:268 +0x681
+
+goroutine 163 [runnable]:
+github.com/facebookgo/rocks-strata/strata.(*SnapshotManager).CreateSnapshot.func3(0xc4200ec230, 0xc42001b260, 0x567948, 0xe, 0xc4200ec110, 0xc420094360, 0xc4200ec218, 0x3, 0xc4200ec240)
+	/home/travis/gopath/src/github.com/facebookgo/rocks-strata/strata/manager.go:241
+created by github.com/facebookgo/rocks-strata/strata.(*SnapshotManager).CreateSnapshot
+	/home/travis/gopath/src/github.com/facebookgo/rocks-strata/strata/manager.go:268 +0x681
+
+goroutine 162 [runnable]:
+github.com/facebookgo/rocks-strata/strata.(*SnapshotManager).CreateSnapshot.func3(0xc4200ec230, 0xc42001b260, 0x567948, 0xe, 0xc4200ec110, 0xc420094360, 0xc4200ec218, 0x3, 0xc4200ec240)
+	/home/travis/gopath/src/github.com/facebookgo/rocks-strata/strata/manager.go:241
+created by github.com/facebookgo/rocks-strata/strata.(*SnapshotManager).CreateSnapshot
+	/home/travis/gopath/src/github.com/facebookgo/rocks-strata/strata/manager.go:268 +0x681
+
+goroutine 161 [runnable]:
+github.com/facebookgo/rocks-strata/strata.(*SnapshotManager).CreateSnapshot.func3(0xc4200ec230, 0xc42001b260, 0x567948, 0xe, 0xc4200ec110, 0xc420094360, 0xc4200ec218, 0x3, 0xc4200ec240)
+	/home/travis/gopath/src/github.com/facebookgo/rocks-strata/strata/manager.go:241
+created by github.com/facebookgo/rocks-strata/strata.(*SnapshotManager).CreateSnapshot
+	/home/travis/gopath/src/github.com/facebookgo/rocks-strata/strata/manager.go:268 +0x681
+
+goroutine 108 [runnable]:
+github.com/facebookgo/rocks-strata/strata.(*SnapshotManager).CreateSnapshot.func3(0xc4200ec230, 0xc42001b260, 0x567948, 0xe, 0xc4200ec110, 0xc420094360, 0xc4200ec218, 0x3, 0xc4200ec240)
+	/home/travis/gopath/src/github.com/facebookgo/rocks-strata/strata/manager.go:241
+created by github.com/facebookgo/rocks-strata/strata.(*SnapshotManager).CreateSnapshot
+	/home/travis/gopath/src/github.com/facebookgo/rocks-strata/strata/manager.go:268 +0x681
+
+goroutine 132 [runnable]:
+sync.runtime_Semacquire(0xc420018374)
+	/home/travis/.gimme/versions/go/src/runtime/sema.go:47 +0x30
+sync.(*Mutex).Lock(0xc420018370)
+	/home/travis/.gimme/versions/go/src/sync/mutex.go:85 +0xd0
+log.(*Logger).Output(0xc420018370, 0x2, 0xc4200f4020, 0x12, 0x0, 0x0)
+	/home/travis/.gimme/versions/go/src/log/log.go:147 +0x7a
+log.Println(0xc4200e0de0, 0x1, 0x1)
+	/home/travis/.gimme/versions/go/src/log/log.go:295 +0x6c
+github.com/facebookgo/rocks-strata/strata.Log(0xc4200f4000, 0x11)
+	/home/travis/gopath/src/github.com/facebookgo/rocks-strata/strata/utility.go:16 +0x9e
+github.com/facebookgo/rocks-strata/strata.(*SnapshotManager).CreateSnapshot.func3(0xc4200928b0, 0xc4200b42a0, 0x56793a, 0xe, 0xc420015e30, 0xc4200d4270, 0xc420092898, 0x3, 0xc4200928c0)
+	/home/travis/gopath/src/github.com/facebookgo/rocks-strata/strata/manager.go:260 +0x4ee
+created by github.com/facebookgo/rocks-strata/strata.(*SnapshotManager).CreateSnapshot
+	/home/travis/gopath/src/github.com/facebookgo/rocks-strata/strata/manager.go:268 +0x681
+
+goroutine 109 [runnable]:
+github.com/facebookgo/rocks-strata/strata.(*ChecksummingReader).Close(0xc42009c540, 0x7f39d3cac240, 0xc420090e80)
+	/home/travis/gopath/src/github.com/facebookgo/rocks-strata/strata/checksums.go:107
+github.com/facebookgo/rocks-strata/strata.(*SnapshotManager).CreateSnapshot.func3.1(0x0, 0x0)
+	/home/travis/gopath/src/github.com/facebookgo/rocks-strata/strata/manager.go:257 +0x47c
+github.com/facebookgo/rocks-strata/strata.Try(0xc4200e1f18, 0xc420090e20, 0x12, 0x565ab7, 0x1)
+	/home/travis/gopath/src/github.com/facebookgo/rocks-strata/strata/utility.go:61 +0x55
+github.com/facebookgo/rocks-strata/strata.(*SnapshotManager).CreateSnapshot.func3(0xc4200ec230, 0xc42001b260, 0x567948, 0xe, 0xc4200ec110, 0xc420094360, 0xc4200ec218, 0x3, 0xc4200ec240)
+	/home/travis/gopath/src/github.com/facebookgo/rocks-strata/strata/manager.go:258 +0x2c5
+created by github.com/facebookgo/rocks-strata/strata.(*SnapshotManager).CreateSnapshot
+	/home/travis/gopath/src/github.com/facebookgo/rocks-strata/strata/manager.go:268 +0x681
+
+goroutine 111 [runnable]:
+github.com/facebookgo/rocks-strata/strata.(*SnapshotManager).CreateSnapshot.func3(0xc4200ec230, 0xc42001b260, 0x567948, 0xe, 0xc4200ec110, 0xc420094360, 0xc4200ec218, 0x3, 0xc4200ec240)
+	/home/travis/gopath/src/github.com/facebookgo/rocks-strata/strata/manager.go:241
+created by github.com/facebookgo/rocks-strata/strata.(*SnapshotManager).CreateSnapshot
+	/home/travis/gopath/src/github.com/facebookgo/rocks-strata/strata/manager.go:268 +0x681
+FAIL	github.com/facebookgo/rocks-strata/strata	0.008s
+?   	github.com/facebookgo/rocks-strata/strata/cmd/mongo/lreplica_drivers/lrs3driver	[no test files]
+?   	github.com/facebookgo/rocks-strata/strata/cmd/mongo/lreplica_drivers/mongoq	[no test files]
+?   	github.com/facebookgo/rocks-strata/strata/cmd/mongo/lreplica_drivers/strata	[no test files]
+=== RUN   TestLStorage
+=== RUN   TestLStorageManyFiles
+--- PASS: TestLStorage (0.00s)
+--- PASS: TestLStorageManyFiles (2.93s)
+PASS
+ok  	github.com/facebookgo/rocks-strata/strata/lstorage	2.942s
+?   	github.com/facebookgo/rocks-strata/strata/mongo	[no test files]
+?   	github.com/facebookgo/rocks-strata/strata/mongo/lreplica	[no test files]
+=== RUN   TestS3Storage
+=== RUN   TestS3StorageManyFiles
+--- PASS: TestS3Storage (4.81s)
+--- PASS: TestS3StorageManyFiles (10.42s)
+PASS
+ok  	github.com/facebookgo/rocks-strata/strata/s3storage	10.427s
+=== RUN   TestIntegration
+--- SKIP: TestIntegration (0.00s)
+	lrs3_test.go:27: Skipping test. Set USING_MONGO_3X=true to run.
+=== RUN   TestCollectGarbage
+--- SKIP: TestCollectGarbage (0.00s)
+	lrs3_test.go:27: Skipping test. Set USING_MONGO_3X=true to run.
+=== RUN   TestRestoreToDifferentPath
+--- SKIP: TestRestoreToDifferentPath (0.00s)
+	lrs3_test.go:27: Skipping test. Set USING_MONGO_3X=true to run.
+=== RUN   TestGetReplicaIDs
+--- SKIP: TestGetReplicaIDs (0.00s)
+	lrs3_test.go:27: Skipping test. Set USING_MONGO_3X=true to run.
+PASS
+ok  	github.com/facebookgo/rocks-strata/strata/tests/lrs3test	0.006s
+
+travis_time:end:0b5bee33:start=1469728463601763581,finish=1469728475238976888,duration=11637213307[0K
+[31;1mThe command "go test -v ./..." exited with 1.[0m
+
+Done. Your build exited with 1.

@@ -50,3 +50,4 @@ build/
 
 # Ignore intermediate test outputs
 **/buildlog-data-travis.csv
+**/buildlog-data-travis.json
