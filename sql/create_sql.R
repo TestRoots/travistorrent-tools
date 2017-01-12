@@ -22,6 +22,8 @@ data$tr_log_bool_tests_failed <- data$tr_log_bool_tests_failed == "true"
 # Our dates are in 8601
 data$gh_first_commit_created_at <- parse_date(as.character(data$gh_first_commit_created_at))
 data$gh_build_started_at <- parse_date(as.character(data$gh_build_started_at))
+data$gh_pushed_at <- parse_date(as.character(data$gh_pushed_at))
+data$gh_pr_created_at <- parse_date(as.character(data$gh_pr_created_at))
 
 # convert to data table for easier access and modification of internal variables
 data <- data.table(data)
@@ -62,6 +64,8 @@ dbListTables(con)
 dbWriteTable(con, table.name, data, row.names = F, overwrite = T)
 dbSendQuery(con, sprintf("ALTER TABLE %s MODIFY gh_build_started_at DATETIME;",table.name))
 dbSendQuery(con, sprintf("ALTER TABLE %s MODIFY gh_first_commit_created_at DATETIME;",table.name))
+dbSendQuery(con, sprintf("ALTER TABLE %s MODIFY gh_pushed_at DATETIME;",table.name))
+dbSendQuery(con, sprintf("ALTER TABLE %s MODIFY gh_pr_created_at DATETIME;",table.name))
 dbSendQuery(con, sprintf("CREATE INDEX part_gh_project_name ON %s (gh_project_name(128));",table.name))
 dbSendQuery(con, sprintf("CREATE INDEX tr_build_id ON %s (tr_build_id);",table.name))
 dbSendQuery(con, sprintf("CREATE INDEX tr_prev_build ON %s (tr_prev_build);",table.name))
