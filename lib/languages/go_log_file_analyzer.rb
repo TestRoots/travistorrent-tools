@@ -38,7 +38,10 @@ module GoLogFileAnalyzer
   end
 
   def convert_go_time_to_seconds(string)
-    return string.to_f.round(2)
+    if !(string =~ /(.+)s/).nil?
+      return $1.to_f.round(2)
+    end
+    return 0
   end
 
   def extractTestNameAndMethod(string)
@@ -49,22 +52,27 @@ module GoLogFileAnalyzer
     failed_tests_started = false
 
     @test_lines.each do |line|
-      puts line
       if failed_tests_started
         @tests_failed_lines << line
         if line.strip.empty?
           failed_tests_started = false
         end
       end
-      if !(line =~ /--- PASS:/).nil?
+      # matches the likes of: --- PASS: TestS3StorageManyFiles-2 (13.10s)
+      if !(line =~ /--- PASS: (.+)? (\((.+)\))?/).nil?
         init_tests
         @tests_run = true
         add_framework 'gotest'
         @num_tests_run += 1
-        #@test_duration += convert_go_time_to_seconds $2
-
+        @test_duration += convert_go_time_to_seconds $3
+      elsif !(line =~ /--- SKIP: /).nil?
+        init_tests
+        @tests_run = true
+        add_framework 'gotest'
+        @num_tests_skipped += 1
       end
     end
+
     uninit_ok_tests
   end
 
@@ -75,4 +83,5 @@ module GoLogFileAnalyzer
   def tests_failed?
     return !@tests_failed.empty? || (!@num_tests_failed.nil? && @num_tests_failed > 0)
   end
+
 end
