@@ -31,6 +31,7 @@ module GoLogFileAnalyzer
         @test_lines << line
       end
     end
+
     if @test_lines.empty?
       @test_lines = @folds[@OUT_OF_FOLD].content
     end
@@ -71,11 +72,11 @@ module GoLogFileAnalyzer
         setup_go_tests
         @num_tests_run += 1
         @test_duration += convert_go_time_to_seconds $3
-      elsif !(line =~ /ok\s((\S+)\S(\S+)?)?/).nil? && !use_verbose_style
+      elsif !(line =~ /ok\s+(\S+\s+(\S+))?/).nil? && !use_verbose_style
         # matches the likes of: ok  	github.com/dghubble/gologin	0.004s
         setup_go_tests
         @num_tests_run += 1
-        @test_duration += convert_go_time_to_seconds $3
+        @test_duration += convert_go_time_to_seconds $2
       elsif !(line =~ /--- SKIP: /).nil?
         setup_go_tests
         @num_tests_skipped += 1
