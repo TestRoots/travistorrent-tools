@@ -80,11 +80,18 @@ module GoLogFileAnalyzer
       elsif !(line =~ /--- SKIP: /).nil?
         setup_go_tests
         @num_tests_skipped += 1
-      elsif !(line =~ /FAIL\s(\S+)?(\s(.+))?/).nil?
+      elsif !(line =~ /--- FAIL: (.+)? (\((.+)\))?/).nil?
         setup_go_tests
+        @num_tests_run += 1
         @num_tests_failed += 1
-        @test_duration += convert_go_time_to_seconds $3
         @tests_failed.push($1) unless $1.nil?
+        @test_duration += convert_go_time_to_seconds $3
+      elsif !(line =~ /FAIL\s+(\S+)(\s(.+))?/).nil?
+        setup_go_tests
+        @num_tests_run += 1
+        @num_tests_failed += 1
+        @tests_failed.push($1) unless $1.nil?
+        @test_duration += convert_go_time_to_seconds $3
       end
     end
 
