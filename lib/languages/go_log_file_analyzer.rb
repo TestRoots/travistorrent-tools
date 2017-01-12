@@ -3,8 +3,6 @@
 module GoLogFileAnalyzer
   attr_reader :tests_failed, :test_duration, :reactor_lines, :pure_build_duration
 
-  @test_failed_lines
-
   def init_deep
     @reactor_lines = Array.new
     @tests_failed_lines = Array.new
@@ -15,8 +13,6 @@ module GoLogFileAnalyzer
   def custom_analyze
     extract_tests
     analyze_tests
-
-    getOffendingTests
   end
 
   def extract_tests
@@ -48,6 +44,12 @@ module GoLogFileAnalyzer
     string.split(':')[0].split('.')[0].split('(')
   end
 
+  def setup_go_tests
+    init_tests
+    @tests_run = true
+    add_framework 'gotest'
+  end
+
   def analyze_tests
     failed_tests_started = false
 
@@ -60,24 +62,20 @@ module GoLogFileAnalyzer
       end
       # matches the likes of: --- PASS: TestS3StorageManyFiles-2 (13.10s)
       if !(line =~ /--- PASS: (.+)? (\((.+)\))?/).nil?
-        init_tests
-        @tests_run = true
-        add_framework 'gotest'
+        setup_go_tests
         @num_tests_run += 1
         @test_duration += convert_go_time_to_seconds $3
       elsif !(line =~ /--- SKIP: /).nil?
-        init_tests
-        @tests_run = true
-        add_framework 'gotest'
+        setup_go_tests
         @num_tests_skipped += 1
+      elsif !(line =~ /FAIL\s(\S+)?(\s(.+))?/).nil?
+        setup_go_tests
+        @num_tests_failed += 1
+        @tests_failed.push($1) unless $1.nil?
       end
     end
 
     uninit_ok_tests
-  end
-
-  def getOffendingTests
-    #@tests_failed_lines.each { |l| @tests_failed << extractTestNameAndMethod(l)[0].strip }
   end
 
   def tests_failed?
