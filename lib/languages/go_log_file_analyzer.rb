@@ -103,12 +103,8 @@ module GoLogFileAnalyzer
       end
     end
 
-    # In case we are not verbose, we do not know the number of tests run. Tough luck
-    unless @verbose
-      STDERR.puts "This should never happen: @num_tests_run != 0" if @num_tests_run != 0
-
-      @num_tests_run = nil
-    end
+    # In case we are not verbose, we do not know the number of test cases run. Tough luck
+    @num_tests_run = nil unless @verbose
 
     if (!@num_test_suites_run.nil? && !@num_test_suites_failed.nil?)
       @num_test_suites_ok = @num_test_suites_run - @num_test_suites_failed
