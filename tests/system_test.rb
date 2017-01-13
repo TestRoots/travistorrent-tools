@@ -8,7 +8,7 @@ class SystemTest < MiniTest::Test
   make_my_diffs_pretty!
 
   def prepare_file(file)
-    csv = File.open(file).readlines
+    csv = JSON.pretty_generate File.open(file).readlines
     csv
   end
 
@@ -16,7 +16,7 @@ class SystemTest < MiniTest::Test
     dispatcher = BuildlogAnalyzerDispatcher.new(dir, false)
     dispatcher.start
 
-    expected_data = prepare_file "#{dir}/expected-#{dispatcher.result_file_name}.json"
+    expected_data = prepare_file "#{dir}/#{dispatcher.result_file_name}.json-expected"
     actual_data = prepare_file "#{dir}/#{dispatcher.result_file_name}.json"
 
     assert_equal expected_data, actual_data, "Difference on #{dir} buildlogs!"

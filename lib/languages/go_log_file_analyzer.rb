@@ -1,4 +1,4 @@
-# A Mixin for the analysis of Go build files. Supports GoTest
+# A Mixin for the analysis of Go build files. Supports GoTest and GoConvey, which uses GoTest's output
 
 module GoLogFileAnalyzer
   attr_reader :tests_failed, :test_duration, :reactor_lines, :pure_build_duration
@@ -66,7 +66,6 @@ module GoLogFileAnalyzer
     puts use_verbose_style
 
     @test_lines.each do |line|
-      puts line
       # matches the likes of: --- PASS: TestS3StorageManyFiles-2 (13.10s)
       if !(line =~ /--- PASS: (.+)? (\((.+)\))?/).nil? && use_verbose_style
         setup_go_tests

@@ -66,7 +66,7 @@ class BuildlogAnalyzerDispatcher
       result_file = "#{@directory}/#{result_file_name}.json"
       puts "  writing #{result_file}"
       File.open(result_file, 'w') do |f|
-        f.puts JSON.dump(@results)
+        f.puts JSON.pretty_generate(@results)
       end
 
     end

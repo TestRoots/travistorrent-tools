@@ -1,0 +1,22 @@
+[
+  {
+    "tr_build_id": "46523222",
+    "tr_job_id": "46523223",
+    "tr_build_number": "475",
+    "tr_original_commit": "24c436b8a4583087f715a20b2bcdddb0fda93a7b",
+    "tr_log_lan": "ruby",
+    "tr_log_status": "broken",
+    "tr_log_setup_time": 0,
+    "tr_log_analyzer": "ruby",
+    "tr_log_frameworks": "rspec",
+    "tr_log_bool_tests_ran": true,
+    "tr_log_bool_tests_failed": true,
+    "tr_log_num_tests_ok": 10,
+    "tr_log_num_tests_failed": 1,
+    "tr_log_num_tests_run": 11,
+    "tr_log_num_tests_skipped": 0,
+    "tr_log_tests_failed": "",
+    "tr_log_testduration": 29.33,
+    "tr_log_buildduration": null
+  }
+]
