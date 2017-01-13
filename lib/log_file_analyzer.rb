@@ -14,6 +14,8 @@ class LogFileAnalyzer
   attr_reader :status, :primary_language
   attr_reader :tests_run
   attr_reader :num_tests_run, :num_tests_failed, :num_tests_ok, :num_tests_skipped
+  attr_reader :num_test_suites_run, :num_test_suites_failed, :num_test_suites_ok
+
   attr_reader :test_duration
   attr_reader :setup_time_before_build
 
@@ -168,6 +170,11 @@ class LogFileAnalyzer
       @num_tests_failed = 0
       @num_tests_ok = 0
       @num_tests_skipped = 0
+
+      @num_test_suites_run = nil
+      @num_test_suites_ok = nil
+      @num_test_suites_failed = nil
+
       @init_tests = true
     end
   end
@@ -175,7 +182,7 @@ class LogFileAnalyzer
   # For non-aggregated reporting, at the end (always use this when you use init_tests)
   def uninit_ok_tests
     if (!@num_tests_run.nil? && !@num_tests_failed.nil?)
-      @num_tests_ok += @num_tests_run - @num_tests_failed
+      @num_tests_ok = @num_tests_run - @num_tests_failed
     end
   end
 
@@ -217,6 +224,15 @@ class LogFileAnalyzer
         :tr_log_num_tests_run => @num_tests_run,
         # [doc] Number of tests that were skipped, extracted by build log analysis.
         :tr_log_num_tests_skipped => @num_tests_skipped,
+        # [doc] Number of test suites that ran in total, extracted by build log analysis (currently only supported by Go
+        # analyzer).
+        :tr_log_num_test_suites_run => @num_test_suites_run,
+        # [doc] Number of test suites that succeeded, extracted by build log analysis (currently only supported by Go
+        # analyzer).
+        :tr_log_num_test_suites_ok => @num_test_suites_ok,
+        # [doc] Number of test suites that failed, extracted by build log analysis (currently only supported by Go
+        # analyzer).
+        :tr_log_num_test_suites_failed => @num_test_suites_failed,
         # [doc] Names of the tests that failed, extracted by build log analysis.
         :tr_log_tests_failed => @tests_failed.join('#'),
         # [doc] Duration of the running the tests, in seconds, extracted by build log analysis.

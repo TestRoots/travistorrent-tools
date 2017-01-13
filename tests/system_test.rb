@@ -8,7 +8,7 @@ class SystemTest < MiniTest::Test
   make_my_diffs_pretty!
 
   def prepare_file(file)
-    csv = JSON.pretty_generate File.open(file).readlines
+    csv = File.open(file).readlines
     csv
   end
 

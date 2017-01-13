@@ -15,6 +15,9 @@
     "tr_log_num_tests_failed": 1,
     "tr_log_num_tests_run": 11,
     "tr_log_num_tests_skipped": 0,
+    "tr_log_num_test_suites_run": null,
+    "tr_log_num_test_suites_ok": null,
+    "tr_log_num_test_suites_failed": null,
     "tr_log_tests_failed": "",
     "tr_log_testduration": 29.33,
     "tr_log_buildduration": null

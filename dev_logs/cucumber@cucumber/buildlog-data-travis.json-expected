@@ -15,6 +15,9 @@
     "tr_log_num_tests_failed": 0,
     "tr_log_num_tests_run": 762,
     "tr_log_num_tests_skipped": 0,
+    "tr_log_num_test_suites_run": null,
+    "tr_log_num_test_suites_ok": null,
+    "tr_log_num_test_suites_failed": null,
     "tr_log_tests_failed": "",
     "tr_log_testduration": 108.33,
     "tr_log_buildduration": null
@@ -35,6 +38,9 @@
     "tr_log_num_tests_failed": 1,
     "tr_log_num_tests_run": 762,
     "tr_log_num_tests_skipped": 0,
+    "tr_log_num_test_suites_run": null,
+    "tr_log_num_test_suites_ok": null,
+    "tr_log_num_test_suites_failed": null,
     "tr_log_tests_failed": "features/docs/wire_protocol/invoke_message.feature",
     "tr_log_testduration": 120.77,
     "tr_log_buildduration": null
@@ -55,6 +61,9 @@
     "tr_log_num_tests_failed": 2,
     "tr_log_num_tests_run": 2,
     "tr_log_num_tests_skipped": 0,
+    "tr_log_num_test_suites_run": null,
+    "tr_log_num_test_suites_ok": null,
+    "tr_log_num_test_suites_failed": null,
     "tr_log_tests_failed": "features/rails_integration.feature#features/rails_integration.feature",
     "tr_log_testduration": 12.1,
     "tr_log_buildduration": null

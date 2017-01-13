@@ -15,6 +15,9 @@
     "tr_log_num_tests_failed": 0,
     "tr_log_num_tests_run": 73,
     "tr_log_num_tests_skipped": 4,
+    "tr_log_num_test_suites_run": null,
+    "tr_log_num_test_suites_ok": null,
+    "tr_log_num_test_suites_failed": null,
     "tr_log_tests_failed": "",
     "tr_log_testduration": 46.08,
     "tr_log_buildduration": 192
@@ -35,6 +38,9 @@
     "tr_log_num_tests_failed": null,
     "tr_log_num_tests_run": null,
     "tr_log_num_tests_skipped": null,
+    "tr_log_num_test_suites_run": null,
+    "tr_log_num_test_suites_ok": null,
+    "tr_log_num_test_suites_failed": null,
     "tr_log_tests_failed": "",
     "tr_log_testduration": null,
     "tr_log_buildduration": 334
@@ -55,6 +61,9 @@
     "tr_log_num_tests_failed": null,
     "tr_log_num_tests_run": null,
     "tr_log_num_tests_skipped": null,
+    "tr_log_num_test_suites_run": null,
+    "tr_log_num_test_suites_ok": null,
+    "tr_log_num_test_suites_failed": null,
     "tr_log_tests_failed": "",
     "tr_log_testduration": 0,
     "tr_log_buildduration": 25.03
@@ -75,6 +84,9 @@
     "tr_log_num_tests_failed": null,
     "tr_log_num_tests_run": null,
     "tr_log_num_tests_skipped": null,
+    "tr_log_num_test_suites_run": null,
+    "tr_log_num_test_suites_ok": null,
+    "tr_log_num_test_suites_failed": null,
     "tr_log_tests_failed": "",
     "tr_log_testduration": null,
     "tr_log_buildduration": null
@@ -95,6 +107,9 @@
     "tr_log_num_tests_failed": null,
     "tr_log_num_tests_run": null,
     "tr_log_num_tests_skipped": null,
+    "tr_log_num_test_suites_run": null,
+    "tr_log_num_test_suites_ok": null,
+    "tr_log_num_test_suites_failed": null,
     "tr_log_tests_failed": "",
     "tr_log_testduration": null,
     "tr_log_buildduration": null

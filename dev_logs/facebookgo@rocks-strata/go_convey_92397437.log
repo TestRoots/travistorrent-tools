@@ -1,0 +1,713 @@
+Using worker: worker-linux-docker-8da82574.prod.travis-ci.org:travis-linux-5
+
+travis_fold:start:system_info[0K[33;1mBuild system information[0m
+Build language: go
+Build group: stable
+Build dist: precise
+[34m[1mBuild image provisioning date and time[0m
+Thu Feb  5 15:09:33 UTC 2015
+[34m[1mOperating System Details[0m
+Distributor ID:	Ubuntu
+Description:	Ubuntu 12.04.5 LTS
+Release:	12.04
+Codename:	precise
+[34m[1mLinux Version[0m
+3.13.0-29-generic
+[34m[1mCookbooks Version[0m
+a68419e https://github.com/travis-ci/travis-cookbooks/tree/a68419e
+[34m[1mGCC version[0m
+gcc (Ubuntu/Linaro 4.6.3-1ubuntu5) 4.6.3
+Copyright (C) 2011 Free Software Foundation, Inc.
+This is free software; see the source for copying conditions.  There is NO
+warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+[34m[1mLLVM version[0m
+clang version 3.4 (tags/RELEASE_34/final)
+Target: x86_64-unknown-linux-gnu
+Thread model: posix
+[34m[1mPre-installed Ruby versions[0m
+ruby-1.9.3-p551
+[34m[1mPre-installed Node.js versions[0m
+v0.10.36
+[34m[1mPre-installed Go versions[0m
+1.4.1
+[34m[1mRedis version[0m
+redis-server 2.8.19
+[34m[1mriak version[0m
+2.0.2
+[34m[1mMongoDB version[0m
+MongoDB 2.4.12
+[34m[1mCouchDB version[0m
+couchdb 1.6.1
+[34m[1mNeo4j version[0m
+1.9.4
+[34m[1mRabbitMQ Version[0m
+3.4.3
+[34m[1mElasticSearch version[0m
+1.4.0
+[34m[1mInstalled Sphinx versions[0m
+2.0.10
+2.1.9
+2.2.6
+[34m[1mDefault Sphinx version[0m
+2.2.6
+[34m[1mInstalled Firefox version[0m
+firefox 31.0esr
+[34m[1mPhantomJS version[0m
+1.9.8
+[34m[1mant -version[0m
+Apache Ant(TM) version 1.8.2 compiled on December 3 2011
+[34m[1mmvn -version[0m
+Apache Maven 3.2.5 (12a6b3acb947671f09b81f49094c53f426d8cea1; 2014-12-14T17:29:23+00:00)
+Maven home: /usr/local/maven
+Java version: 1.7.0_76, vendor: Oracle Corporation
+Java home: /usr/lib/jvm/java-7-oracle/jre
+Default locale: en_US, platform encoding: ANSI_X3.4-1968
+OS name: "linux", version: "3.13.0-29-generic", arch: "amd64", family: "unix"
+travis_fold:end:system_info[0K
+travis_fold:start:git.checkout[0Ktravis_time:start:371ac05e[0K$ git clone --depth=50 --branch=master https://github.com/smartystreets/goconvey.git smartystreets/goconvey
+Cloning into 'smartystreets/goconvey'...
+remote: Counting objects: 789, done.[K
+remote: Compressing objects:   0% (1/559)   [Kremote: Compressing objects:   1% (6/559)   [Kremote: Compressing objects:   2% (12/559)   [Kremote: Compressing objects:   3% (17/559)   [Kremote: Compressing objects:   4% (23/559)   [Kremote: Compressing objects:   5% (28/559)   [Kremote: Compressing objects:   6% (34/559)   [Kremote: Compressing objects:   7% (40/559)   [Kremote: Compressing objects:   8% (45/559)   [Kremote: Compressing objects:   9% (51/559)   [Kremote: Compressing objects:  10% (56/559)   [Kremote: Compressing objects:  11% (62/559)   [Kremote: Compressing objects:  12% (68/559)   [Kremote: Compressing objects:  13% (73/559)   [Kremote: Compressing objects:  14% (79/559)   [Kremote: Compressing objects:  15% (84/559)   [Kremote: Compressing objects:  16% (90/559)   [Kremote: Compressing objects:  17% (96/559)   [Kremote: Compressing objects:  18% (101/559)   [Kremote: Compressing objects:  19% (107/559)   [Kremote: Compressing objects:  20% (112/559)   [Kremote: Compressing objects:  21% (118/559)   [Kremote: Compressing objects:  22% (123/559)   [Kremote: Compressing objects:  23% (129/559)   [Kremote: Compressing objects:  24% (135/559)   [Kremote: Compressing objects:  25% (140/559)   [Kremote: Compressing objects:  26% (146/559)   [Kremote: Compressing objects:  27% (151/559)   [Kremote: Compressing objects:  28% (157/559)   [Kremote: Compressing objects:  29% (163/559)   [Kremote: Compressing objects:  30% (168/559)   [Kremote: Compressing objects:  31% (174/559)   [Kremote: Compressing objects:  32% (179/559)   [Kremote: Compressing objects:  33% (185/559)   [Kremote: Compressing objects:  34% (191/559)   [Kremote: Compressing objects:  35% (196/559)   [Kremote: Compressing objects:  36% (202/559)   [Kremote: Compressing objects:  37% (207/559)   [Kremote: Compressing objects:  38% (213/559)   [Kremote: Compressing objects:  39% (219/559)   [Kremote: Compressing objects:  40% (224/559)   [Kremote: Compressing objects:  41% (230/559)   [Kremote: Compressing objects:  42% (235/559)   [Kremote: Compressing objects:  43% (241/559)   [Kremote: Compressing objects:  44% (246/559)   [Kremote: Compressing objects:  45% (252/559)   [Kremote: Compressing objects:  46% (258/559)   [Kremote: Compressing objects:  47% (263/559)   [Kremote: Compressing objects:  48% (269/559)   [Kremote: Compressing objects:  49% (274/559)   [Kremote: Compressing objects:  50% (280/559)   [Kremote: Compressing objects:  51% (286/559)   [Kremote: Compressing objects:  52% (291/559)   [Kremote: Compressing objects:  53% (297/559)   [Kremote: Compressing objects:  54% (302/559)   [Kremote: Compressing objects:  55% (308/559)   [Kremote: Compressing objects:  56% (314/559)   [Kremote: Compressing objects:  57% (319/559)   [Kremote: Compressing objects:  58% (325/559)   [Kremote: Compressing objects:  59% (330/559)   [Kremote: Compressing objects:  60% (336/559)   [Kremote: Compressing objects:  61% (341/559)   [Kremote: Compressing objects:  62% (347/559)   [Kremote: Compressing objects:  63% (353/559)   [Kremote: Compressing objects:  64% (358/559)   [Kremote: Compressing objects:  65% (364/559)   [Kremote: Compressing objects:  66% (369/559)   [Kremote: Compressing objects:  67% (375/559)   [Kremote: Compressing objects:  68% (381/559)   [Kremote: Compressing objects:  69% (386/559)   [Kremote: Compressing objects:  70% (392/559)   [Kremote: Compressing objects:  71% (397/559)   [Kremote: Compressing objects:  72% (403/559)   [Kremote: Compressing objects:  73% (409/559)   [Kremote: Compressing objects:  74% (414/559)   [Kremote: Compressing objects:  75% (420/559)   [Kremote: Compressing objects:  76% (425/559)   [Kremote: Compressing objects:  77% (431/559)   [Kremote: Compressing objects:  78% (437/559)   [Kremote: Compressing objects:  79% (442/559)   [Kremote: Compressing objects:  80% (448/559)   [Kremote: Compressing objects:  81% (453/559)   [Kremote: Compressing objects:  82% (459/559)   [Kremote: Compressing objects:  83% (464/559)   [Kremote: Compressing objects:  84% (470/559)   [Kremote: Compressing objects:  85% (476/559)   [Kremote: Compressing objects:  86% (481/559)   [Kremote: Compressing objects:  87% (487/559)   [Kremote: Compressing objects:  88% (492/559)   [Kremote: Compressing objects:  89% (498/559)   [Kremote: Compressing objects:  90% (504/559)   [Kremote: Compressing objects:  91% (509/559)   [Kremote: Compressing objects:  92% (515/559)   [Kremote: Compressing objects:  93% (520/559)   [Kremote: Compressing objects:  94% (526/559)   [Kremote: Compressing objects:  95% (532/559)   [Kremote: Compressing objects:  96% (537/559)   [Kremote: Compressing objects:  97% (543/559)   [Kremote: Compressing objects:  98% (548/559)   [Kremote: Compressing objects:  99% (554/559)   [Kremote: Compressing objects: 100% (559/559)   [Kremote: Compressing objects: 100% (559/559), done.[K
+Receiving objects:   0% (1/789)   Receiving objects:   1% (8/789)   Receiving objects:   2% (16/789)   Receiving objects:   3% (24/789)   Receiving objects:   4% (32/789)   Receiving objects:   5% (40/789)   Receiving objects:   6% (48/789)   Receiving objects:   7% (56/789)   Receiving objects:   8% (64/789)   Receiving objects:   9% (72/789)   Receiving objects:  10% (79/789)   Receiving objects:  11% (87/789)   Receiving objects:  12% (95/789)   Receiving objects:  13% (103/789)   Receiving objects:  14% (111/789)   Receiving objects:  15% (119/789)   Receiving objects:  16% (127/789)   Receiving objects:  17% (135/789)   Receiving objects:  18% (143/789)   Receiving objects:  19% (150/789)   Receiving objects:  20% (158/789)   Receiving objects:  21% (166/789)   Receiving objects:  22% (174/789)   Receiving objects:  23% (182/789)   Receiving objects:  24% (190/789)   Receiving objects:  25% (198/789)   Receiving objects:  26% (206/789)   Receiving objects:  27% (214/789)   Receiving objects:  28% (221/789)   Receiving objects:  29% (229/789)   Receiving objects:  30% (237/789)   Receiving objects:  31% (245/789)   Receiving objects:  32% (253/789)   Receiving objects:  33% (261/789)   Receiving objects:  34% (269/789)   Receiving objects:  35% (277/789)   Receiving objects:  36% (285/789)   Receiving objects:  37% (292/789)   Receiving objects:  38% (300/789)   Receiving objects:  39% (308/789)   Receiving objects:  40% (316/789)   Receiving objects:  41% (324/789)   Receiving objects:  42% (332/789)   Receiving objects:  43% (340/789)   Receiving objects:  44% (348/789)   Receiving objects:  45% (356/789)   Receiving objects:  46% (363/789)   Receiving objects:  47% (371/789)   Receiving objects:  48% (379/789)   Receiving objects:  49% (387/789)   Receiving objects:  50% (395/789)   Receiving objects:  51% (403/789)   Receiving objects:  52% (411/789)   Receiving objects:  53% (419/789)   Receiving objects:  54% (427/789)   Receiving objects:  55% (434/789)   Receiving objects:  56% (442/789)   Receiving objects:  57% (450/789)   Receiving objects:  58% (458/789)   Receiving objects:  59% (466/789)   Receiving objects:  60% (474/789)   Receiving objects:  61% (482/789)   Receiving objects:  62% (490/789)   Receiving objects:  63% (498/789)   Receiving objects:  64% (505/789)   Receiving objects:  65% (513/789)   Receiving objects:  66% (521/789)   Receiving objects:  67% (529/789)   Receiving objects:  68% (537/789)   Receiving objects:  69% (545/789)   Receiving objects:  70% (553/789)   Receiving objects:  71% (561/789)   Receiving objects:  72% (569/789)   Receiving objects:  73% (576/789)   Receiving objects:  74% (584/789)   remote: Total 789 (delta 337), reused 573 (delta 208), pack-reused 0[K
+Receiving objects:  75% (592/789)   Receiving objects:  76% (600/789)   Receiving objects:  77% (608/789)   Receiving objects:  78% (616/789)   Receiving objects:  79% (624/789)   Receiving objects:  80% (632/789)   Receiving objects:  81% (640/789)   Receiving objects:  82% (647/789)   Receiving objects:  83% (655/789)   Receiving objects:  84% (663/789)   Receiving objects:  85% (671/789)   Receiving objects:  86% (679/789)   Receiving objects:  87% (687/789)   Receiving objects:  88% (695/789)   Receiving objects:  89% (703/789)   Receiving objects:  90% (711/789)   Receiving objects:  91% (718/789)   Receiving objects:  92% (726/789)   Receiving objects:  93% (734/789)   Receiving objects:  94% (742/789)   Receiving objects:  95% (750/789)   Receiving objects:  96% (758/789)   Receiving objects:  97% (766/789)   Receiving objects:  98% (774/789)   Receiving objects:  99% (782/789)   Receiving objects: 100% (789/789)   Receiving objects: 100% (789/789), 1.09 MiB | 0 bytes/s, done.
+Resolving deltas:   0% (0/337)   Resolving deltas:   8% (27/337)   Resolving deltas:   9% (32/337)   Resolving deltas:  10% (34/337)   Resolving deltas:  15% (53/337)   Resolving deltas:  17% (60/337)   Resolving deltas:  18% (64/337)   Resolving deltas:  19% (65/337)   Resolving deltas:  20% (68/337)   Resolving deltas:  21% (72/337)   Resolving deltas:  22% (75/337)   Resolving deltas:  23% (78/337)   Resolving deltas:  24% (82/337)   Resolving deltas:  25% (86/337)   Resolving deltas:  26% (88/337)   Resolving deltas:  27% (91/337)   Resolving deltas:  28% (96/337)   Resolving deltas:  30% (102/337)   Resolving deltas:  31% (107/337)   Resolving deltas:  32% (111/337)   Resolving deltas:  35% (120/337)   Resolving deltas:  37% (128/337)   Resolving deltas:  38% (130/337)   Resolving deltas:  40% (135/337)   Resolving deltas:  41% (140/337)   Resolving deltas:  42% (142/337)   Resolving deltas:  43% (146/337)   Resolving deltas:  44% (151/337)   Resolving deltas:  45% (155/337)   Resolving deltas:  46% (158/337)   Resolving deltas:  47% (159/337)   Resolving deltas:  48% (162/337)   Resolving deltas:  49% (167/337)   Resolving deltas:  50% (169/337)   Resolving deltas:  51% (174/337)   Resolving deltas:  52% (176/337)   Resolving deltas:  53% (181/337)   Resolving deltas:  54% (184/337)   Resolving deltas:  55% (187/337)   Resolving deltas:  57% (193/337)   Resolving deltas:  59% (199/337)   Resolving deltas:  60% (205/337)   Resolving deltas:  62% (209/337)   Resolving deltas:  63% (213/337)   Resolving deltas:  65% (221/337)   Resolving deltas:  67% (228/337)   Resolving deltas:  70% (237/337)   Resolving deltas:  74% (252/337)   Resolving deltas:  75% (253/337)   Resolving deltas:  84% (285/337)   Resolving deltas:  85% (289/337)   Resolving deltas:  86% (290/337)   Resolving deltas:  87% (295/337)   Resolving deltas:  88% (297/337)   Resolving deltas:  89% (300/337)   Resolving deltas:  90% (304/337)   Resolving deltas:  91% (308/337)   Resolving deltas:  92% (311/337)   Resolving deltas:  93% (314/337)   Resolving deltas:  94% (317/337)   Resolving deltas:  95% (321/337)   Resolving deltas:  96% (324/337)   Resolving deltas:  97% (328/337)   Resolving deltas:  98% (332/337)   Resolving deltas:  99% (334/337)   Resolving deltas: 100% (337/337)   Resolving deltas: 100% (337/337), done.
+Checking connectivity... done.
+travis_time:end:371ac05e:start=1448081309864187263,finish=1448081310489217805,duration=625030542[0K$ cd smartystreets/goconvey
+$ git checkout -qf 382624df32e35dcc672176170126b1df27faea2a
+travis_fold:end:git.checkout[0K
+[33;1mThis job is running on container-based infrastructure, which does not allow use of 'sudo', setuid and setguid executables.[0m
+[33;1mIf you require sudo, add 'sudo: required' to your .travis.yml[0m
+[33;1mSee http://docs.travis-ci.com/user/workers/container-based-infrastructure/ for details.[0m
+travis_time:start:0b4ed42c[0K$ eval "$(gimme 1.4)"
+go version go1.4 linux/amd64
+travis_time:end:0b4ed42c:start=1448081312806535886,finish=1448081315365296195,duration=2558760309[0K$ export GOPATH=$HOME/gopath
+$ export PATH=$HOME/gopath/bin:$PATH
+$ mkdir -p $HOME/gopath/src/github.com/smartystreets/goconvey
+$ rsync -az ${TRAVIS_BUILD_DIR}/ $HOME/gopath/src/github.com/smartystreets/goconvey/
+$ export TRAVIS_BUILD_DIR=$HOME/gopath/src/github.com/smartystreets/goconvey
+$ cd $HOME/gopath/src/github.com/smartystreets/goconvey
+$ gimme version
+v0.2.2
+$ go version
+go version go1.4 linux/amd64
+travis_fold:start:go.env[0K$ go env
+GOARCH="amd64"
+GOBIN=""
+GOCHAR="6"
+GOEXE=""
+GOHOSTARCH="amd64"
+GOHOSTOS="linux"
+GOOS="linux"
+GOPATH="/home/travis/gopath"
+GORACE=""
+GOROOT="/home/travis/.gimme/versions/go1.4.linux.amd64"
+GOTOOLDIR="/home/travis/.gimme/versions/go1.4.linux.amd64/pkg/tool/linux_amd64"
+CC="gcc"
+GOGCCFLAGS="-fPIC -m64 -pthread -fmessage-length=0"
+CXX="g++"
+CGO_ENABLED="1"
+travis_fold:end:go.env[0Ktravis_fold:start:install[0Ktravis_time:start:041843d9[0K$ go get -t ./...
+travis_time:end:041843d9:start=1448081315672830766,finish=1448081318334349713,duration=2661518947[0Ktravis_fold:end:install[0Ktravis_time:start:08087d2e[0K$ go test -short -v ./...
+testing: warning: no tests to run
+PASS
+ok  	github.com/smartystreets/goconvey	0.024s
+=== RUN TestFocusOnlyAtTopLevel-2
+--- PASS: TestFocusOnlyAtTopLevel-2 (0.00s)
+=== RUN TestFocus-2
+--- PASS: TestFocus-2 (0.00s)
+=== RUN TestNestedFocus-2
+--- PASS: TestNestedFocus-2 (0.00s)
+=== RUN TestForgotTopLevelFocus-2
+--- PASS: TestForgotTopLevelFocus-2 (0.00s)
+=== RUN TestSingleScope-2
+--- PASS: TestSingleScope-2 (0.00s)
+=== RUN TestSingleScopeWithMultipleConveys-2
+--- PASS: TestSingleScopeWithMultipleConveys-2 (0.00s)
+=== RUN TestNestedScopes-2
+--- PASS: TestNestedScopes-2 (0.00s)
+=== RUN TestNestedScopesWithIsolatedExecution-2
+--- PASS: TestNestedScopesWithIsolatedExecution-2 (0.00s)
+=== RUN TestSingleScopeWithConveyAndNestedReset-2
+--- PASS: TestSingleScopeWithConveyAndNestedReset-2 (0.00s)
+=== RUN TestPanicingReset-2
+--- PASS: TestPanicingReset-2 (0.00s)
+=== RUN TestSingleScopeWithMultipleRegistrationsAndReset-2
+--- PASS: TestSingleScopeWithMultipleRegistrationsAndReset-2 (0.00s)
+=== RUN TestSingleScopeWithMultipleRegistrationsAndMultipleResets-2
+--- PASS: TestSingleScopeWithMultipleRegistrationsAndMultipleResets-2 (0.00s)
+=== RUN Test_Failure_AtHigherLevelScopePreventsChildScopesFromRunning-2
+--- PASS: Test_Failure_AtHigherLevelScopePreventsChildScopesFromRunning-2 (0.00s)
+=== RUN Test_Panic_AtHigherLevelScopePreventsChildScopesFromRunning-2
+--- PASS: Test_Panic_AtHigherLevelScopePreventsChildScopesFromRunning-2 (0.00s)
+=== RUN Test_Panic_InChildScopeDoes_NOT_PreventExecutionOfSiblingScopes-2
+--- PASS: Test_Panic_InChildScopeDoes_NOT_PreventExecutionOfSiblingScopes-2 (0.00s)
+=== RUN Test_Failure_InChildScopeDoes_NOT_PreventExecutionOfSiblingScopes-2
+--- PASS: Test_Failure_InChildScopeDoes_NOT_PreventExecutionOfSiblingScopes-2 (0.00s)
+=== RUN TestResetsAreAlwaysExecutedAfterScope_Panics-2
+--- PASS: TestResetsAreAlwaysExecutedAfterScope_Panics-2 (0.00s)
+=== RUN TestResetsAreAlwaysExecutedAfterScope_Failures-2
+--- PASS: TestResetsAreAlwaysExecutedAfterScope_Failures-2 (0.00s)
+=== RUN TestSkipTopLevel-2
+--- PASS: TestSkipTopLevel-2 (0.00s)
+=== RUN TestSkipNestedLevel-2
+--- PASS: TestSkipNestedLevel-2 (0.00s)
+=== RUN TestSkipNestedLevelSkipsAllChildLevels-2
+--- PASS: TestSkipNestedLevelSkipsAllChildLevels-2 (0.00s)
+=== RUN TestIterativeConveys-2
+--- PASS: TestIterativeConveys-2 (0.00s)
+=== RUN TestClosureVariables-2
+--- PASS: TestClosureVariables-2 (0.00s)
+=== RUN TestClosureVariablesWithReset-2
+--- PASS: TestClosureVariablesWithReset-2 (0.00s)
+=== RUN TestWrappedSimple-2
+--- PASS: TestWrappedSimple-2 (0.00s)
+=== RUN TestWrappedReset-2
+--- PASS: TestWrappedReset-2 (0.00s)
+=== RUN TestWrappedReset2-2
+--- PASS: TestWrappedReset2-2 (0.00s)
+=== RUN TestInfiniteLoopWithTrailingFail-2
+--- FAIL: TestInfiniteLoopWithTrailingFail-2 (0.02s)
+=== RUN TestOutermostResetInvokedForGrandchildren-2
+--- PASS: TestOutermostResetInvokedForGrandchildren-2 (0.00s)
+=== RUN TestFailureOption-2
+--- PASS: TestFailureOption-2 (0.00s)
+=== RUN TestFailureOption2-2
+--- PASS: TestFailureOption2-2 (0.00s)
+=== RUN TestFailureOption3-2
+--- PASS: TestFailureOption3-2 (0.00s)
+=== RUN TestFailureOptionInherit-2
+--- PASS: TestFailureOptionInherit-2 (0.00s)
+=== RUN TestFailureOptionInherit2-2
+--- PASS: TestFailureOptionInherit2-2 (0.00s)
+=== RUN TestFailureOptionInherit3-2
+--- PASS: TestFailureOptionInherit3-2 (0.00s)
+=== RUN TestFailureOptionNestedOverride-2
+--- PASS: TestFailureOptionNestedOverride-2 (0.00s)
+=== RUN TestFailureOptionNestedOverride2-2
+--- PASS: TestFailureOptionNestedOverride2-2 (0.00s)
+=== RUN TestMultipleInvocationInheritance-2
+--- PASS: TestMultipleInvocationInheritance-2 (0.00s)
+=== RUN TestMultipleInvocationInheritance2-2
+--- PASS: TestMultipleInvocationInheritance2-2 (0.00s)
+=== RUN TestSetDefaultFailureMode-2
+--- PASS: TestSetDefaultFailureMode-2 (0.00s)
+=== RUN TestSingleScopeReported-2
+--- PASS: TestSingleScopeReported-2 (0.00s)
+=== RUN TestNestedScopeReported-2
+--- PASS: TestNestedScopeReported-2 (0.00s)
+=== RUN TestFailureReported-2
+--- PASS: TestFailureReported-2 (0.00s)
+=== RUN TestFirstFailureEndsScopeExecution-2
+--- PASS: TestFirstFailureEndsScopeExecution-2 (0.00s)
+=== RUN TestComparisonFailureDeserializedAndReported-2
+--- PASS: TestComparisonFailureDeserializedAndReported-2 (0.00s)
+=== RUN TestNestedFailureReported-2
+--- PASS: TestNestedFailureReported-2 (0.00s)
+=== RUN TestSuccessAndFailureReported-2
+--- PASS: TestSuccessAndFailureReported-2 (0.00s)
+=== RUN TestIncompleteActionReportedAsSkipped-2
+--- PASS: TestIncompleteActionReportedAsSkipped-2 (0.00s)
+=== RUN TestSkippedConveyReportedAsSkipped-2
+--- PASS: TestSkippedConveyReportedAsSkipped-2 (0.00s)
+=== RUN TestMultipleSkipsAreReported-2
+--- PASS: TestMultipleSkipsAreReported-2 (0.00s)
+=== RUN TestSkippedAssertionIsNotReported-2
+--- PASS: TestSkippedAssertionIsNotReported-2 (0.00s)
+=== RUN TestMultipleSkippedAssertionsAreNotReported-2
+--- PASS: TestMultipleSkippedAssertionsAreNotReported-2 (0.00s)
+=== RUN TestErrorByManualPanicReported-2
+--- PASS: TestErrorByManualPanicReported-2 (0.00s)
+=== RUN TestIterativeConveysReported-2
+--- PASS: TestIterativeConveysReported-2 (0.00s)
+=== RUN TestNestedIterativeConveysReported-2
+--- PASS: TestNestedIterativeConveysReported-2 (0.00s)
+=== RUN TestEmbeddedAssertionReported-2
+--- PASS: TestEmbeddedAssertionReported-2 (0.00s)
+=== RUN TestEmbeddedContextHelperReported-2
+--- PASS: TestEmbeddedContextHelperReported-2 (0.01s)
+=== RUN TestMissingTopLevelGoTestReferenceCausesPanic-2
+--- PASS: TestMissingTopLevelGoTestReferenceCausesPanic-2 (0.00s)
+=== RUN TestMissingTopLevelGoTestReferenceAfterGoodExample-2
+--- PASS: TestMissingTopLevelGoTestReferenceAfterGoodExample-2 (0.00s)
+=== RUN TestExtraReferencePanics-2
+--- PASS: TestExtraReferencePanics-2 (0.00s)
+=== RUN TestParseRegistrationMissingRequiredElements-2
+--- PASS: TestParseRegistrationMissingRequiredElements-2 (0.00s)
+=== RUN TestParseRegistration_MissingNameString-2
+--- PASS: TestParseRegistration_MissingNameString-2 (0.00s)
+=== RUN TestParseRegistration_MissingActionFunc-2
+--- PASS: TestParseRegistration_MissingActionFunc-2 (0.00s)
+=== RUN TestFailureModeNoContext-2
+--- PASS: TestFailureModeNoContext-2 (0.00s)
+=== RUN TestFailureModeDuplicateSuite-2
+--- PASS: TestFailureModeDuplicateSuite-2 (0.01s)
+=== RUN TestFailureModeIndeterminentSuiteNames-2
+--- PASS: TestFailureModeIndeterminentSuiteNames-2 (0.00s)
+=== RUN TestFailureModeNestedIndeterminentSuiteNames-2
+--- PASS: TestFailureModeNestedIndeterminentSuiteNames-2 (0.00s)
+=== RUN TestFailureModeParameterButMissing-2
+--- PASS: TestFailureModeParameterButMissing-2 (0.00s)
+=== RUN TestFailureModeParameterWithAction-2
+--- PASS: TestFailureModeParameterWithAction-2 (0.00s)
+=== RUN TestExtraConveyParameters-2
+--- PASS: TestExtraConveyParameters-2 (0.00s)
+=== RUN TestExtraConveyParameters2-2
+--- PASS: TestExtraConveyParameters2-2 (0.00s)
+=== RUN TestExtraConveyParameters3-2
+--- PASS: TestExtraConveyParameters3-2 (0.00s)
+FAIL
+FAIL	github.com/smartystreets/goconvey/convey	0.099s
+testing: warning: no tests to run
+PASS
+ok  	github.com/smartystreets/goconvey/convey/gotest	0.003s
+=== RUN TestDotReporterAssertionPrinting-2
+--- PASS: TestDotReporterAssertionPrinting-2 (0.00s)
+=== RUN TestDotReporterOnlyReportsAssertions-2
+--- PASS: TestDotReporterOnlyReportsAssertions-2 (0.00s)
+=== RUN TestReporterReceivesSuccessfulReport-2
+--- PASS: TestReporterReceivesSuccessfulReport-2 (0.00s)
+=== RUN TestReporterReceivesFailureReport-2
+--- PASS: TestReporterReceivesFailureReport-2 (0.00s)
+=== RUN TestReporterReceivesErrorReport-2
+--- PASS: TestReporterReceivesErrorReport-2 (0.00s)
+=== RUN TestReporterIsResetAtTheEndOfTheStory-2
+--- PASS: TestReporterIsResetAtTheEndOfTheStory-2 (0.00s)
+=== RUN TestReporterNoopMethods-2
+--- PASS: TestReporterNoopMethods-2 (0.00s)
+=== RUN TestPrint-2
+--- PASS: TestPrint-2 (0.00s)
+=== RUN TestPrintFormat-2
+--- PASS: TestPrintFormat-2 (0.00s)
+=== RUN TestPrintPreservesEncodedStrings-2
+--- PASS: TestPrintPreservesEncodedStrings-2 (0.00s)
+=== RUN TestPrintln-2
+--- PASS: TestPrintln-2 (0.00s)
+=== RUN TestPrintlnFormat-2
+--- PASS: TestPrintlnFormat-2 (0.00s)
+=== RUN TestPrintlnPreservesEncodedStrings-2
+--- PASS: TestPrintlnPreservesEncodedStrings-2 (0.00s)
+=== RUN TestPrintIndented-2
+--- PASS: TestPrintIndented-2 (0.00s)
+=== RUN TestPrintDedented-2
+--- PASS: TestPrintDedented-2 (0.00s)
+=== RUN TestPrintlnIndented-2
+--- PASS: TestPrintlnIndented-2 (0.00s)
+=== RUN TestPrintlnDedented-2
+--- PASS: TestPrintlnDedented-2 (0.00s)
+=== RUN TestDedentTooFarShouldNotPanic-2
+--- PASS: TestDedentTooFarShouldNotPanic-2 (0.00s)
+	printer_test.go:146: Getting to this point without panicking means we passed.
+=== RUN TestInsert-2
+--- PASS: TestInsert-2 (0.00s)
+=== RUN TestNoopProblemReporterActions-2
+--- PASS: TestNoopProblemReporterActions-2 (0.00s)
+=== RUN TestReporterPrintsFailuresAndErrorsAtTheEndOfTheStory-2
+--- PASS: TestReporterPrintsFailuresAndErrorsAtTheEndOfTheStory-2 (0.00s)
+=== RUN TestEachNestedReporterReceivesTheCallFromTheContainingReporter-2
+--- PASS: TestEachNestedReporterReceivesTheCallFromTheContainingReporter-2 (0.00s)
+PASS
+ok  	github.com/smartystreets/goconvey/convey/reporting	0.008s
+=== RUN TestAssertionsAreAvailableFromConveyPackage-2
+
+  Equality assertions should be accessible [32m✔[0m[32m✔[0m[32m✔[0m[32m✔[0m[32m✔[0m[32m✔[0m[32m✔[0m[32m✔[0m[32m✔[0m[32m✔[0m[32m✔[0m[32m✔[0m[32m✔[0m
+
+[31m[0m[33m[0m[32m
+13 total assertions[0m
+
+
+  Numeric comparison assertions should be accessible [32m✔[0m[32m✔[0m[32m✔[0m[32m✔[0m[32m✔[0m[32m✔[0m[32m✔[0m[32m✔[0m
+
+[31m[0m[33m[0m[32m
+21 total assertions[0m
+
+
+  Container assertions should be accessible [32m✔[0m[32m✔[0m[32m✔[0m[32m✔[0m[32m✔[0m[32m✔[0m[32m✔[0m[32m✔[0m[32m✔[0m
+
+[31m[0m[33m[0m[32m
+30 total assertions[0m
+
+
+  String assertions should be accessible [32m✔[0m[32m✔[0m[32m✔[0m[32m✔[0m[32m✔[0m[32m✔[0m[32m✔[0m[32m✔[0m
+
+[31m[0m[33m[0m[32m
+38 total assertions[0m
+
+
+  Panic recovery assertions should be accessible [32m✔[0m[32m✔[0m[32m✔[0m[32m✔[0m
+
+[31m[0m[33m[0m[32m
+42 total assertions[0m
+
+
+  Type-checking assertions should be accessible [32m✔[0m[32m✔[0m[32m✔[0m[32m✔[0m
+
+[31m[0m[33m[0m[32m
+46 total assertions[0m
+
+
+  Time assertions should be accessible [32m✔[0m[32m✔[0m[32m✔[0m[32m✔[0m[32m✔[0m[32m✔[0m[32m✔[0m[32m✔[0m[32m✔[0m[32m✔[0m
+
+[31m[0m[33m[0m[32m
+56 total assertions[0m
+
+--- PASS: TestAssertionsAreAvailableFromConveyPackage-2 (0.00s)
+=== RUN TestBowlingGameScoring-2
+
+  Given a fresh score card 
+    When all gutter balls are thrown 
+      The score should be zero [32m✔[0m
+    When all throws knock down only one pin 
+      The score should be 20 [32m✔[0m
+    When a spare is thrown 
+      The score should include a spare bonus. [32m✔[0m
+    When a strike is thrown 
+      The score should include a strike bonus. [32m✔[0m
+    When all strikes are thrown 
+      The score should be 300. [32m✔[0m
+
+[31m[0m[33m[0m[32m
+61 total assertions[0m
+
+--- PASS: TestBowlingGameScoring-2 (0.00s)
+=== RUN TestIntegerManipulation-2
+
+  Given a starting integer value 
+    When incremented 
+      The value should be greater by one [32m✔[0m
+      The value should NOT be what it used to be [32m✔[0m
+    When decremented 
+      The value should be lesser by one [32m✔[0m
+      The value should NOT be what it used to be [32m✔[0m
+
+[31m[0m[33m[0m[32m
+65 total assertions[0m
+
+--- PASS: TestIntegerManipulation-2 (0.00s)
+PASS
+ok  	github.com/smartystreets/goconvey/examples	0.011s
+=== RUN TestHTTPServer-2
+
+  Subject: HttpServer responds to requests appropriately 
+    Before any update is recieved 
+      When the update is requested 
+        No panic should occur [32m✔[0m
+        The update will be empty [32m✔[0m
+    Given an update is received 
+      When the update is requested 
+        The server returns it [32m✔[0m
+        The server returns 200 [32m✔[0m
+        The server should include important cache-related headers [32m✔[0m[32m✔[0m[32m✔[0m[32m✔[0m[32m✔[0m
+    When the root watch is queried 
+      The server returns it [33m⚠[0m
+      The server returns HTTP 200 - OK [32m✔[0m
+    When the root watch is adjusted [33m⚠[0m
+    When a packge is ignored [33m⚠[0m
+    When a package is reinstated [33m⚠[0m
+    When the status of the executor is requested 
+      The server asks the executor its status and returns it [32m✔[0m
+      The server returns HTTP 200 - OK [32m✔[0m
+    When a manual execution of the test packages is requested 
+      The server invokes the executor using the watcher's listing and save the result [33m⚠[0m
+      The server returns HTTP 200 - OK [32m✔[0m
+    When the pause setting is toggled via the server [33m⚠[0m
+
+[31m[0m[33m[0m[32m
+13 total assertions[33m (one or more sections skipped)[0m
+
+--- PASS: TestHTTPServer-2 (0.21s)
+PASS
+ok  	github.com/smartystreets/goconvey/web/server/api	0.213s
+testing: warning: no tests to run
+PASS
+ok  	github.com/smartystreets/goconvey/web/server/contract	0.006s
+=== RUN TestExecutor-2
+
+  Subject: Execution of test packages and aggregation of parsed results 
+    When tests packages are executed 
+      The result should include parsed results for each test package. [32m✔[0m
+    When the executor is idle 
+      The status of the executor should be 'idle' [32m✔[0m
+    When the status is updated 
+      The status flag should be set to true [32m✔[0m
+    During test execution 
+      The status of the executor should be 'executing' [32m✔[0m
+
+[31m[0m[33m[0m[32m
+4 total assertions[0m
+
+--- PASS: TestExecutor-2 (0.03s)
+=== RUN TestConcurrentTester-2
+--- SKIP: TestConcurrentTester-2 (0.00s)
+	tester_test.go:20: BROKEN!
+PASS
+ok  	github.com/smartystreets/goconvey/web/server/executor	0.033s
+testing: warning: no tests to run
+PASS
+ok  	github.com/smartystreets/goconvey/web/server/messaging	0.007s
+=== RUN TestParsePackage_NoGoFiles_ReturnsPackageResult-2
+--- PASS: TestParsePackage_NoGoFiles_ReturnsPackageResult-2 (0.00s)
+=== RUN TestParsePackage_NoTestFiles_ReturnsPackageResult-2
+--- PASS: TestParsePackage_NoTestFiles_ReturnsPackageResult-2 (0.00s)
+=== RUN TestParsePacakge_NoTestFunctions_ReturnsPackageResult-2
+--- PASS: TestParsePacakge_NoTestFunctions_ReturnsPackageResult-2 (0.00s)
+=== RUN TestParsePackage_BuildFailed_ReturnsPackageResult-2
+--- PASS: TestParsePackage_BuildFailed_ReturnsPackageResult-2 (0.00s)
+=== RUN TestParsePackage_OldSchoolWithFailureOutput_ReturnsCompletePackageResult-2
+--- PASS: TestParsePackage_OldSchoolWithFailureOutput_ReturnsCompletePackageResult-2 (0.00s)
+=== RUN TestParsePackage_OldSchoolWithSuccessOutput_ReturnsCompletePackageResult-2
+--- PASS: TestParsePackage_OldSchoolWithSuccessOutput_ReturnsCompletePackageResult-2 (0.00s)
+=== RUN TestParsePackage_OldSchoolWithPanicOutput_ReturnsCompletePackageResult-2
+--- PASS: TestParsePackage_OldSchoolWithPanicOutput_ReturnsCompletePackageResult-2 (0.00s)
+=== RUN TestParsePackage_GoConveyOutput_ReturnsCompletePackageResult-2
+--- PASS: TestParsePackage_GoConveyOutput_ReturnsCompletePackageResult-2 (0.00s)
+=== RUN TestParsePackage_ActualPackageNameDifferentThanDirectoryName_ReturnsActualPackageName-2
+--- PASS: TestParsePackage_ActualPackageNameDifferentThanDirectoryName_ReturnsActualPackageName-2 (0.00s)
+=== RUN TestParsePackage_GoConveyOutputMalformed_CausesPanic-2
+--- PASS: TestParsePackage_GoConveyOutputMalformed_CausesPanic-2 (0.00s)
+=== RUN TestParsePackage_GoConveyWithRandomOutput_ReturnsPackageResult-2
+--- PASS: TestParsePackage_GoConveyWithRandomOutput_ReturnsPackageResult-2 (0.00s)
+=== RUN TestParsePackage_OldSchoolWithSuccessAndBogusCoverage_ReturnsCompletePackageResult-2
+--- PASS: TestParsePackage_OldSchoolWithSuccessAndBogusCoverage_ReturnsCompletePackageResult-2 (0.00s)
+=== RUN TestParsePackage_NestedTests_ReturnsPackageResult-2
+--- PASS: TestParsePackage_NestedTests_ReturnsPackageResult-2 (0.00s)
+=== RUN TestParsePackage_WithExampleFunctions_ReturnsPackageResult-2
+--- PASS: TestParsePackage_WithExampleFunctions_ReturnsPackageResult-2 (0.00s)
+=== RUN TestParsePackage_Golang15Output_ShouldNotPanic-2
+--- PASS: TestParsePackage_Golang15Output_ShouldNotPanic-2 (0.00s)
+=== RUN TestParser-2
+
+  Subject: Parser parses test output for active packages 
+    When given a collection of packages 
+      The parser uses its internal parsing mechanism to parse the output of only the active packages [32m✔[0m
+      The parser should mark inactive packages as ignored [32m✔[0m
+    When a package could not be tested (maybe it was deleted between scanning and execution?) 
+      The package result should not be parsed and the outcome should actually resemble the problem [32m✔[0m
+
+[31m[0m[33m[0m[32m
+3 total assertions[0m
+
+--- PASS: TestParser-2 (0.00s)
+PASS
+ok  	github.com/smartystreets/goconvey/web/server/parser	0.010s
+=== RUN TestShellIntegration-2
+--- SKIP: TestShellIntegration-2 (0.00s)
+	shell_integration_test.go:14: Skipping potentially long-running integration test...
+=== RUN TestShellCommandComposition-2
+
+  When attempting to run tests with coverage flags 
+    And buildSucceeded failed 
+      Then no action should be taken [32m✔[0m
+    And coverage is not wanted 
+      Then no action should be taken [32m✔[0m
+    And the package being tested usees the GoConvey DSL (`convey` package) 
+      The returned command should be well formed (and include the -json flag) [32m✔[0m
+    And the package being tested does NOT use the GoConvey DSL 
+      The returned command should be well formed (and NOT include the -json flag) [32m✔[0m
+    And the package being tested has been symlinked outside the $GOAPTH 
+      The returned command should be the compilation command [32m✔[0m
+    And the package being tested specifies an alternate covermode 
+      The returned command should allow the alternate value [32m✔[0m
+    And the package being tested specifies an alternate timeout 
+      The returned command should allow the alternate value [32m✔[0m
+
+[31m[0m[33m[0m[32m
+7 total assertions[0m
+
+
+  When attempting to run tests without the coverage flags 
+    And tests already succeeded with coverage 
+      Then no action should be taken [32m✔[0m
+    And tests already failed (legitimately) with coverage 
+      Then no action should be taken [32m✔[0m
+    And tests already failed (timeout) with coverage 
+      Then no action should be taken [32m✔[0m
+    And the build failed earlier 
+      Then no action should be taken [32m✔[0m
+    And the goconvey dsl command failed (probably because of symlinks) 2015/11/21 04:48:41 Please run goconvey from within $GOPATH/src (also, symlinks might be problematic). Output and Error:  This is a wacky error This happens when running goconvey outside your $GOPATH (symlinked code).
+
+      Then no action should be taken [32m✔[0m
+    And the package being tested uses the GoConvey DSL (`convey` package) 2015/11/21 04:48:41 Coverage output: ok
+2015/11/21 04:48:41 Run without coverage
+
+      Then the returned command should be well formed (and include the -json flag) [32m✔[0m
+    And the package being tested does NOT use the GoConvey DSL 2015/11/21 04:48:41 Coverage output: PASS
+ok  	github.com/smartystreets/goconvey/examples	0.012s
+2015/11/21 04:48:41 Run without coverage
+
+      Then the returned command should be well formed (and NOT include the -json flag) [32m✔[0m
+    And the package being tested specifies an alternate timeout 2015/11/21 04:48:41 Coverage output: ok
+2015/11/21 04:48:41 Run without coverage
+
+      The returned command should allow the alternate value [32m✔[0m
+
+[31m[0m[33m[0m[32m
+15 total assertions[0m
+
+
+  When generating coverage reports 
+    And the previous command failed for any reason (compilation or failed tests) 
+      Then no action should be taken [32m✔[0m
+    And coverage reports are unwanted 
+      Then no action should beg taken [32m✔[0m
+    And tests passed and coverage reports are wanted 
+      Then the resulting command should be well-formed [32m✔[0m
+
+[31m[0m[33m[0m[32m
+18 total assertions[0m
+
+--- PASS: TestShellCommandComposition-2 (0.01s)
+PASS
+ok  	github.com/smartystreets/goconvey/web/server/system	0.014s
+=== RUN TestCategorize-2
+
+  A stream of file system items should be categorized correctly [32m✔[0m[32m✔[0m[32m✔[0m
+
+[31m[0m[33m[0m[32m
+3 total assertions[0m
+
+
+  A stream of file system items should be categorized correctly [32m✔[0m[32m✔[0m[32m✔[0m
+
+[31m[0m[33m[0m[32m
+6 total assertions[0m
+
+--- PASS: TestCategorize-2 (0.00s)
+=== RUN TestParseProfile-2
+
+  Profile Parsing, Test Case #0: Blank profile [32m✔[0m[32m✔[0m[32m✔[0m
+
+[31m[0m[33m[0m[32m
+9 total assertions[0m
+
+
+  Profile Parsing, Test Case #1: All lines are blank or whitespace [32m✔[0m[32m✔[0m[32m✔[0m
+
+[31m[0m[33m[0m[32m
+12 total assertions[0m
+
+
+  Profile Parsing, Test Case #2: Ignored package, no args included [32m✔[0m[32m✔[0m[32m✔[0m
+
+[31m[0m[33m[0m[32m
+15 total assertions[0m
+
+
+  Profile Parsing, Test Case #3: Ignore directive is commented, all args are included [32m✔[0m[32m✔[0m[32m✔[0m
+
+[31m[0m[33m[0m[32m
+18 total assertions[0m
+
+
+  Profile Parsing, Test Case #4: No ignore directive, all args are included [32m✔[0m[32m✔[0m[32m✔[0m
+
+[31m[0m[33m[0m[32m
+21 total assertions[0m
+
+
+  Profile Parsing, Test Case #5: Some args are commented, therefore ignored [32m✔[0m[32m✔[0m[32m✔[0m
+
+[31m[0m[33m[0m[32m
+24 total assertions[0m
+
+
+  Profile Parsing, Test Case #6: All args are commented, therefore all are ignored [32m✔[0m[32m✔[0m[32m✔[0m
+
+[31m[0m[33m[0m[32m
+27 total assertions[0m
+
+
+  Profile Parsing, Test Case #7: We ignore certain flags like -v and -cover and -coverprofile because they are specified by the shell [32m✔[0m[32m✔[0m[32m✔[0m
+
+[31m[0m[33m[0m[32m
+30 total assertions[0m
+
+
+  Profile Parsing, Test Case #8: We allow certain coverage flags like -coverpkg and -covermode [32m✔[0m[32m✔[0m[32m✔[0m
+
+[31m[0m[33m[0m[32m
+33 total assertions[0m
+
+
+  Profile Parsing, Test Case #9: We parse out -tags particularly [32m✔[0m[32m✔[0m[32m✔[0m
+
+[31m[0m[33m[0m[32m
+36 total assertions[0m
+
+--- PASS: TestParseProfile-2 (0.00s)
+=== RUN TestCreateFolders-2
+
+  File system items that represent folders should be converted to folder structs correctly [32m✔[0m[32m✔[0m[32m✔[0m
+
+[31m[0m[33m[0m[32m
+39 total assertions[0m
+
+--- PASS: TestCreateFolders-2 (0.00s)
+=== RUN TestLimitDepth-2
+
+  Subject: Limiting folders based on relative depth from a common root 
+    When there is no depth limit 
+      No folders should be excluded [32m✔[0m
+    When there is a limit 
+      The deepest folder (in this case) should be excluded [32m✔[0m[32m✔[0m
+
+[31m[0m[33m[0m[32m
+42 total assertions[0m
+
+--- PASS: TestLimitDepth-2 (0.00s)
+=== RUN TestAttachProfiles-2
+
+  Subject: Attaching profile information to a folder 
+    Profiles that match folders should be merged with those folders 
+      No profiles matched the first folder, so no assignments should occur [32m✔[0m[32m✔[0m
+      The second folder should match the first profile [32m✔[0m[32m✔[0m
+      No profiles match the third folder so no assignments should occur [32m✔[0m[32m✔[0m
+
+[31m[0m[33m[0m[32m
+48 total assertions[0m
+
+--- PASS: TestAttachProfiles-2 (0.00s)
+=== RUN TestMarkIgnored-2
+
+  Subject: folders that have been ignored should be marked as such 
+    When there are no ignored folders 
+      No folders should be marked as ignored [32m✔[0m[32m✔[0m[32m✔[0m
+    When there are ignored folders 
+      The ignored folders should be marked as ignored [32m✔[0m[32m✔[0m[32m✔[0m
+
+[31m[0m[33m[0m[32m
+54 total assertions[0m
+
+--- PASS: TestMarkIgnored-2 (0.00s)
+=== RUN TestActiveFolders-2
+
+  Subject: Folders that are not ignored or disabled are active [32m✔[0m[32m✔[0m
+
+[31m[0m[33m[0m[32m
+56 total assertions[0m
+
+--- PASS: TestActiveFolders-2 (0.00s)
+=== RUN TestSum-2
+
+  Subject: file system items within specified directores should be counted and summed [32m✔[0m
+
+[31m[0m[33m[0m[32m
+57 total assertions[0m
+
+--- PASS: TestSum-2 (0.00s)
+=== RUN TestWatcher-2
+--- SKIP: TestWatcher-2 (0.00s)
+	integration_test.go:20: Skipping potentially long-running integration test...
+PASS
+ok  	github.com/smartystreets/goconvey/web/server/watch	0.030s
+testing: warning: no tests to run
+PASS
+ok  	github.com/smartystreets/goconvey/web/server/watch/integration_testing	0.012s
+=== RUN TestStuff-2
+--- PASS: TestStuff-2 (0.00s)
+PASS
+ok  	github.com/smartystreets/goconvey/web/server/watch/integration_testing/sub	0.004s
+travis_time:end:08087d2e:start=1448081318337905296,finish=1448081322084015093,duration=3746109797[0K
+[31;1mThe command "go test -short -v ./..." exited with 1.[0m
+
+Done. Your build exited with 1.
