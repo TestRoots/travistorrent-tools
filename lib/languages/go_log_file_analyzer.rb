@@ -48,10 +48,6 @@ module GoLogFileAnalyzer
     return 0
   end
 
-  def extractTestNameAndMethod(string)
-    string.split(':')[0].split('.')[0].split('(')
-  end
-
   def setup_go_tests
     unless @init_tests
       init_tests
