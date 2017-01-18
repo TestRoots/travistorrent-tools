@@ -36,6 +36,7 @@ module PythonLogFileAnalyzer
     unless @init_tests
       init_tests
       @tests_run = true
+      @force_tests_passed = false
     end
   end
 
@@ -47,7 +48,14 @@ module PythonLogFileAnalyzer
         add_framework 'unittest'
         @num_tests_run = $1.to_i
         @test_duration += convert_plain_time_to_seconds $2
-        has_summary = true
+        @has_summary = true
+      elsif !(line =~ /^OK /).nil? and @has_summary
+        # This is a somewhat dangerous thing to do as "OK" might be a common line in builds. We mititgate the risk somewhat by having seen a summary
+        # TODO we can make this more clever by checking only AFTER a summary
+        setup_python_tests
+        # If we see this, we know that the overall result was that tests passed
+        @force_tests_passed = true
+        puts $2
       elsif !(line =~ /FAIL: (\S+)/).nil?
         # Matches the likes of FAIL: test_em (__main__.TestMarkdownPy)
         setup_python_tests
@@ -58,7 +66,7 @@ module PythonLogFileAnalyzer
   end
 
   def tests_failed?
-    return !@tests_failed.empty? || (!@num_tests_failed.nil? && @num_tests_failed > 0)
+    return !@force_tests_passed || !@tests_failed.empty? || (!@num_tests_failed.nil? && @num_tests_failed > 0)
   end
 
 end
