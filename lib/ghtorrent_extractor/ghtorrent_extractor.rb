@@ -3,8 +3,6 @@
 
 # (c) 2012 -- 2017 Georgios Gousios <gousiosg@gmail.com>
 # (c) 2015 -- 2017 Moritz Beller <moritzbeller -AT- gmx.de>
-#
-# BSD licensed, see LICENSE in top level dir
 
 require 'time'
 require 'linguist'
