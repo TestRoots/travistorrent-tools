@@ -3,9 +3,6 @@ require 'json'
 
 
 load 'lib/log_file_analyzer.rb'
-load 'lib/languages/java_log_file_analyzer_dispatcher.rb'
-load 'lib/languages/ruby_log_file_analyzer.rb'
-load 'lib/languages/go_log_file_analyzer.rb'
 load 'lib/csv_helper.rb'
 
 # Takes a path to a directory of Travis CI logfiles (named *.log) and tries to dispatch the analysis of the logfiles

@@ -2,6 +2,11 @@ require 'colorize'
 
 load 'lib/travis_fold.rb'
 
+require_relative 'languages/java_log_file_analyzer_dispatcher.rb'
+require_relative 'languages/ruby_log_file_analyzer.rb'
+require_relative 'languages/go_log_file_analyzer.rb'
+require_relative 'languages/python_log_file_analyzer.rb'
+
 
 # Provides general language-independent analyzer for Travis logfiles. Dynamically mixes-in the most specific language
 # analyzer from the languages packages. If no specific analyzer is found, it prrovides basic statistics about any build
@@ -89,11 +94,13 @@ class LogFileAnalyzer
     @build_number, @build_id, @commit, @job_id = File.basename(file, '.log').split('_')
   end
 
-  # TODO Implement early time_limit abort: The job exceeded the maximum time limit for jobs, and has been terminated.
   # Analyze the buildlog exit status
   def anaylze_status
     unless (@folds[@OUT_OF_FOLD].content.last =~/^Done: Job Cancelled/).nil?
       @status = 'cancelled'
+    end
+    unless (@folds[@OUT_OF_FOLD].content.last =~/^The job exceeded the maximum time limit for jobs, and has been terminated.\./).nil?
+      @status = 'timeout'
     end
     unless (@folds[@OUT_OF_FOLD].content.last =~/^Done. Your build exited with (\d*)\./).nil?
       @status = $1.to_i === 0 ? 'ok' : 'broken'

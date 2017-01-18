@@ -19,15 +19,10 @@ module PythonLogFileAnalyzer
   def extract_tests
     test_section_started = false
 
-    if @folds[@OUT_OF_FOLD].content.scan(/Ran .* tests? in /m).size >= 1
-      has_summary = true
-    end
-
     # TODO (MMB) Possible future improvement: We could even get all executed tests (also the ones which succeed)
     @folds[@OUT_OF_FOLD].content.each do |line|
-
-      if test_section_started
-        @test_lines << line
+      if !(line =~ /Ran .* tests? in /).nil?
+        has_summary = true
       end
     end
 
