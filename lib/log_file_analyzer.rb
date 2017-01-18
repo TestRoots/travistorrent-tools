@@ -101,7 +101,9 @@ class LogFileAnalyzer
     end
 
     lineNumbers = @folds[@OUT_OF_FOLD].content.length
-    @folds[@OUT_OF_FOLD].content[lineNumbers-3..lineNumbers-1].each do |line|
+    beginLine = [0, lineNumbers-3].max
+    endLine = [0, lineNumbers-1].max
+    @folds[@OUT_OF_FOLD].content[beginLine..endLine].each do |line|
       @status = 'timeout' unless (line =~/^The job exceeded the maximum time limit for jobs, and has been terminated\./).nil?
     end
 

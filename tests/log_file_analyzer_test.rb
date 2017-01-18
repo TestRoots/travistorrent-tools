@@ -14,5 +14,4 @@ describe LogFileAnalyzer do
     end
 
   end
-
 end
