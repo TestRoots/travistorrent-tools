@@ -99,7 +99,9 @@ class LogFileAnalyzer
     unless (@folds[@OUT_OF_FOLD].content.last =~/^Done: Job Cancelled/).nil?
       @status = 'cancelled'
     end
-    unless (@folds[@OUT_OF_FOLD].content.last =~/^The job exceeded the maximum time limit for jobs, and has been terminated.\./).nil?
+
+    lineNumbers = @folds[@OUT_OF_FOLD].content.length
+    unless (@folds[@OUT_OF_FOLD].content[lineNumbers-3..lineNumbers-1] =~/^The job exceeded the maximum time limit for jobs, and has been terminated\./).nil?
       @status = 'timeout'
     end
     unless (@folds[@OUT_OF_FOLD].content.last =~/^Done. Your build exited with (\d*)\./).nil?

@@ -9,8 +9,9 @@ describe LogFileAnalyzer do
     analyzer.init
     analyzer.analyze
     results = analyzer.output
-
-    #assert results. "Difference on #{dir} buildlogs!"
+    it 'must have timeout as the status' do
+      results[:tr_log_status].must_equal "timeout"
+    end
 
   end
 
