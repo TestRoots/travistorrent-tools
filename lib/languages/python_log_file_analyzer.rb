@@ -1,4 +1,4 @@
-# A Mixin for the analysis of Python build files. Supports
+# A Mixin for the analysis of Python build files. Supports unittest
 
 module PythonLogFileAnalyzer
   attr_reader :tests_failed, :test_duration, :reactor_lines, :pure_build_duration
@@ -36,16 +36,10 @@ module PythonLogFileAnalyzer
     end
   end
 
-  def setup_go_tests
+  def setup_python_tests
     unless @init_tests
       init_tests
       @tests_run = true
-
-      @num_test_suites_failed = 0
-      @num_test_suites_run = 0
-      @num_test_suites_ok = 0
-
-      add_framework 'gotest'
     end
   end
 
@@ -58,42 +52,18 @@ module PythonLogFileAnalyzer
     end
 
     @test_lines.each do |line|
-      # matches the likes of: --- PASS: TestS3StorageManyFiles-2 (13.10s)
-      if !(line =~ /--- PASS: (.+)? (\((.+)\))?/).nil?
-        setup_go_tests
-        @num_tests_run += 1
-        @test_duration += convert_plain_time_to_seconds $3 if @verbose
-      elsif !(line =~ /ok\s+(\S+\s+(\S+))?/).nil?
-        # matches the likes of: ok  	github.com/dghubble/gologin	0.004s
-        setup_go_tests
-        @num_test_suites_run += 1
-        @test_duration += convert_plain_time_to_seconds $2 unless @verbose
-      elsif !(line =~ /--- SKIP: /).nil?
-        setup_go_tests
-        @num_tests_skipped += 1
-      elsif !(line =~ /--- FAIL: (.+)? (\((.+)\))?/).nil?
-        setup_go_tests
-        @num_tests_run += 1
-        @num_tests_failed += 1
+      if !(line =~ /Ran (\d+) tests? in (.+)s/).nil?
+        # Matches the test summary, i.e. "Ran 3 tests in 0.000s"
+        setup_python_tests
+        add_framework 'unittest'
+        @num_tests_run = $1
+        @test_duration += convert_plain_time_to_seconds $2
+      elsif !(line =~ /FAIL: (\S+)/).nil?
+        # Matches the likes of FAIL: test_em (__main__.TestMarkdownPy)
+        setup_python_tests
         @tests_failed.push($1) unless $1.nil?
-        @num_test_suites_failed += 1
-        @test_duration += convert_plain_time_to_seconds $3
-      elsif !(line =~ /FAIL\s+(\S+)(\s(.+))?/).nil?
-        setup_go_tests
-        @num_tests_run += 1
-        @num_tests_failed += 1
-        @tests_failed.push($1) unless $1.nil?
-        @test_duration += convert_plain_time_to_seconds $3
       end
     end
-
-    # In case we are not verbose, we do not know the number of test cases run. Tough luck
-    @num_tests_run = nil unless @verbose
-
-    if (!@num_test_suites_run.nil? && !@num_test_suites_failed.nil?)
-      @num_test_suites_ok = @num_test_suites_run - @num_test_suites_failed
-    end
-
     uninit_ok_tests
   end
 
