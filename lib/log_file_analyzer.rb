@@ -63,6 +63,8 @@ class LogFileAnalyzer
       self.extend(JavaLogFileAnalyzerDispatcher)
     elsif lang == 'go'
       self.extend(GoLogFileAnalyzer)
+    elsif lang == 'python'
+      self.extend(PythonLogFileAnalyzer)
     end
   end
 
@@ -87,6 +89,7 @@ class LogFileAnalyzer
     @build_number, @build_id, @commit, @job_id = File.basename(file, '.log').split('_')
   end
 
+  # TODO Implement early time_limit abort: The job exceeded the maximum time limit for jobs, and has been terminated.
   # Analyze the buildlog exit status
   def anaylze_status
     unless (@folds[@OUT_OF_FOLD].content.last =~/^Done: Job Cancelled/).nil?
@@ -114,6 +117,8 @@ class LogFileAnalyzer
         @primary_language = 'java'
       elsif @logFile.scan(/ruby/m).size >= 3
         @primary_language = 'ruby'
+      elsif @logFile.scan(/python/m).size >= 3
+        @primary_language = 'python'
       elsif @logFile.scan(/go /m).size >= 10
         @primary_language = 'go'
       end

@@ -1,4 +1,4 @@
-# A Mixin for the analysis of Python build files. Supports unittest
+# A Mixin for the analysis of Python build files. Supports unittest, tox
 
 module PythonLogFileAnalyzer
   attr_reader :tests_failed, :test_duration, :reactor_lines, :pure_build_duration
@@ -19,12 +19,12 @@ module PythonLogFileAnalyzer
   def extract_tests
     test_section_started = false
 
+    if @folds[@OUT_OF_FOLD].content.scan(/Ran .* tests? in /m).size >= 1
+      has_summary = true
+    end
+
     # TODO (MMB) Possible future improvement: We could even get all executed tests (also the ones which succeed)
     @folds[@OUT_OF_FOLD].content.each do |line|
-
-      if !(line =~ /----------------------------------------------------------------------/).nil?
-        test_section_started = true
-      end
 
       if test_section_started
         @test_lines << line
@@ -44,13 +44,6 @@ module PythonLogFileAnalyzer
   end
 
   def analyze_tests
-
-    @test_lines.each do |line|
-      if !(line =~ /--- PASS/).nil?
-        @verbose = true
-      end
-    end
-
     @test_lines.each do |line|
       if !(line =~ /Ran (\d+) tests? in (.+)s/).nil?
         # Matches the test summary, i.e. "Ran 3 tests in 0.000s"
@@ -58,6 +51,7 @@ module PythonLogFileAnalyzer
         add_framework 'unittest'
         @num_tests_run = $1
         @test_duration += convert_plain_time_to_seconds $2
+        has_summary = true
       elsif !(line =~ /FAIL: (\S+)/).nil?
         # Matches the likes of FAIL: test_em (__main__.TestMarkdownPy)
         setup_python_tests

@@ -67,7 +67,6 @@ module GoLogFileAnalyzer
         # matches the likes of: --- PASS: TestS3StorageManyFiles-2 (13.10s)
         setup_go_tests
         @num_tests_run += 1
-        @verbose = true
         @test_duration += convert_plain_time_to_seconds $3 if @verbose
       elsif !(line =~ /ok\s+(\S+\s+(\S+))?/).nil?
         # matches the likes of: ok  	github.com/dghubble/gologin	0.004s
