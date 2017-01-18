@@ -41,6 +41,7 @@ module GoLogFileAnalyzer
     end
   end
 
+  # TODO: What about tests which take > 60 seconds?
   def convert_go_time_to_seconds(string)
     if !(string =~ /(.+)s/).nil?
       return $1.to_f.round(2)
@@ -74,6 +75,7 @@ module GoLogFileAnalyzer
       if !(line =~ /--- PASS: (.+)? (\((.+)\))?/).nil?
         setup_go_tests
         @num_tests_run += 1
+        @verbose = true
         @test_duration += convert_go_time_to_seconds $3 if @verbose
       elsif !(line =~ /ok\s+(\S+\s+(\S+))?/).nil?
         # matches the likes of: ok  	github.com/dghubble/gologin	0.004s
