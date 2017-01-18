@@ -14,7 +14,7 @@
     "tr_log_num_tests_ok": 352,
     "tr_log_num_tests_failed": 0,
     "tr_log_num_tests_run": 352,
-    "tr_log_num_tests_skipped": 0,
+    "tr_log_num_tests_skipped": 25,
     "tr_log_num_test_suites_run": null,
     "tr_log_num_test_suites_ok": null,
     "tr_log_num_test_suites_failed": null,

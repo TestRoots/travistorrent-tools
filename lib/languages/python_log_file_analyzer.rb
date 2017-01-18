@@ -21,6 +21,7 @@ module PythonLogFileAnalyzer
     test_section_started = false
 
     # TODO (MMB) Possible future improvement: We could even get all executed tests (also the ones which succeed)
+    # DO something similar for, e.g., the tox framework?
     @folds[@OUT_OF_FOLD].content.each do |line|
       if !(line =~ /Ran .* tests? in /).nil?
         @has_summary = true
@@ -49,19 +50,33 @@ module PythonLogFileAnalyzer
         @num_tests_run = $1.to_i
         @test_duration += convert_plain_time_to_seconds $2
         @has_summary = true
-      elsif !(line =~ /^OK /).nil? and @has_summary
+      elsif !(line =~ /^OK( \((.+)\))?\s*$/).nil? and @has_summary
         # This is a somewhat dangerous thing to do as "OK" might be a common line in builds. We mititgate the risk somewhat by having seen a summary
         # TODO we can make this more clever by checking only AFTER a summary
         setup_python_tests
         # If we see this, we know that the overall result was that tests passed
         @force_tests_passed = true
-        puts $2
+        additional_information = $2.split(', ')
+        additional_information.each do |arg|
+          arg.split('=').each_cons(2) do |key, val|
+            # TODO: we could add xpassed syntax here
+            case key.downcase
+              when 'skip'
+                @num_tests_skipped = val.to_i
+            end
+          end
+        end
+
+        #.split('=') do |key, val|
+        # puts key, val
+        #end
       elsif !(line =~ /FAIL: (\S+)/).nil?
         # Matches the likes of FAIL: test_em (__main__.TestMarkdownPy)
         setup_python_tests
         @tests_failed.push($1) unless $1.nil?
       end
     end
+
     uninit_ok_tests
   end
 
