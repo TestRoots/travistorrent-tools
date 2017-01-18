@@ -101,9 +101,10 @@ class LogFileAnalyzer
     end
 
     lineNumbers = @folds[@OUT_OF_FOLD].content.length
-    unless (@folds[@OUT_OF_FOLD].content[lineNumbers-3..lineNumbers-1] =~/^The job exceeded the maximum time limit for jobs, and has been terminated\./).nil?
-      @status = 'timeout'
+    @folds[@OUT_OF_FOLD].content[lineNumbers-3..lineNumbers-1].each do |line|
+      @status = 'timeout' unless (line =~/^The job exceeded the maximum time limit for jobs, and has been terminated\./).nil?
     end
+
     unless (@folds[@OUT_OF_FOLD].content.last =~/^Done. Your build exited with (\d*)\./).nil?
       @status = $1.to_i === 0 ? 'ok' : 'broken'
     end
