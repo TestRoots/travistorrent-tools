@@ -62,14 +62,15 @@ class LogFileAnalyzer
     lang = primary_language.downcase
 
     # Dynamically add mixins
-    if lang == 'ruby'
-      self.extend(RubyLogFileAnalyzer)
-    elsif lang == 'java'
-      self.extend(JavaLogFileAnalyzerDispatcher)
-    elsif lang == 'go'
-      self.extend(GoLogFileAnalyzer)
-    elsif lang == 'python'
-      self.extend(PythonLogFileAnalyzer)
+    case lang
+      when 'ruby'
+        self.extend(RubyLogFileAnalyzer)
+      when 'java'
+        self.extend(JavaLogFileAnalyzerDispatcher)
+      when 'go'
+        self.extend(GoLogFileAnalyzer)
+      when 'python'
+        self.extend(PythonLogFileAnalyzer)
     end
   end
 
@@ -279,7 +280,7 @@ class LogFileAnalyzer
         # [doc] Names of the tests that failed, extracted by build log analysis.
         :tr_log_tests_failed => @tests_failed.join('#'),
         # [doc] Duration of the running the tests, in seconds, extracted by build log analysis.
-        :tr_log_testduration =>  @test_duration,
+        :tr_log_testduration => @test_duration,
         # [doc] Duration of running the build command like maven or ant (if present, should be longer than
         # `:tr_log_testduration` as it includes this phase), in seconds, extracted by build log analysis.
         :tr_log_buildduration => @pure_build_duration
