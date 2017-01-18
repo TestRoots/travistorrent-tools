@@ -9,6 +9,7 @@ module PythonLogFileAnalyzer
     @tests_failed = Array.new
     @analyzer = 'python'
     @verbose = false
+    @has_summary = false
   end
 
   def custom_analyze
@@ -22,7 +23,7 @@ module PythonLogFileAnalyzer
     # TODO (MMB) Possible future improvement: We could even get all executed tests (also the ones which succeed)
     @folds[@OUT_OF_FOLD].content.each do |line|
       if !(line =~ /Ran .* tests? in /).nil?
-        has_summary = true
+        @has_summary = true
       end
     end
 
@@ -40,11 +41,11 @@ module PythonLogFileAnalyzer
 
   def analyze_tests
     @test_lines.each do |line|
-      if !(line =~ /Ran (\d+) tests? in (.+)s/).nil?
+      if !(line =~ /Ran (\d+) tests? in (.+s)/).nil?
         # Matches the test summary, i.e. "Ran 3 tests in 0.000s"
         setup_python_tests
         add_framework 'unittest'
-        @num_tests_run = $1
+        @num_tests_run = $1.to_i
         @test_duration += convert_plain_time_to_seconds $2
         has_summary = true
       elsif !(line =~ /FAIL: (\S+)/).nil?

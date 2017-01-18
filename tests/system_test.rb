@@ -53,4 +53,8 @@ class SystemTest < MiniTest::Test
   def test_go
     make_comparison("dev_logs/facebookgo@rocks-strata")
   end
+
+  def test_unittest_python
+    make_comparison("dev_logs/waylan@Python-Markdown")
+  end
 end
