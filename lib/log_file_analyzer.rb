@@ -191,6 +191,32 @@ class LogFileAnalyzer
     return nil
   end
 
+  # Assign function values to variables before outputting
+  def pre_output
+    @did_tests_fail = tests_failed?
+  end
+
+  # Perform last-second sanitaztion of variables. Can be used to guarantee invariants.
+  # TODO (MMB) Implement some of the R checks here?
+  def sanitize_output
+    @did_tests_fail = nil if !@tests_run
+
+    if !@pure_build_duration.nil? and !@test_duration.nil?
+
+      if @pure_build_duration < @test_duration
+        @pure_build_duration = nil
+      end
+    end
+  end
+
+  # The output is in seconds, even when it takes longer than a minute
+  def convert_plain_time_to_seconds(string)
+    if !(string =~ /(.+)s/).nil?
+      return $1.to_f.round(2)
+    end
+    return 0
+  end
+
   # Returns a HashMap of results from the analysis
   def output
     {
@@ -242,23 +268,4 @@ class LogFileAnalyzer
         :tr_log_buildduration => @pure_build_duration
     }
   end
-
-  # Assign function values to variables before outputting
-  def pre_output
-    @did_tests_fail = tests_failed?
-  end
-
-  # Perform last-second sanitaztion of variables. Can be used to guarantee invariants.
-  # TODO (MMB) Implement some of the R checks here?
-  def sanitize_output
-    @did_tests_fail = nil if !@tests_run
-
-    if !@pure_build_duration.nil? and !@test_duration.nil?
-
-      if @pure_build_duration < @test_duration
-        @pure_build_duration = nil
-      end
-    end
-  end
-
 end

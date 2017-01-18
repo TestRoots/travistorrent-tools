@@ -22,13 +22,8 @@ module PythonLogFileAnalyzer
     # TODO (MMB) Possible future improvement: We could even get all executed tests (also the ones which succeed)
     @folds[@OUT_OF_FOLD].content.each do |line|
 
-      if !(line =~ /go test/).nil?
+      if !(line =~ /----------------------------------------------------------------------/).nil?
         test_section_started = true
-        if !(line =~ /-v/).nil?
-          @verbose = true
-        end
-      elsif !(line =~ /The command "go test/).nil? && test_section_started
-        test_section_started = false
       end
 
       if test_section_started
@@ -39,13 +34,6 @@ module PythonLogFileAnalyzer
     if @test_lines.empty?
       @test_lines = @folds[@OUT_OF_FOLD].content
     end
-  end
-
-  def convert_go_time_to_seconds(string)
-    if !(string =~ /(.+)s/).nil?
-      return $1.to_f.round(2)
-    end
-    return 0
   end
 
   def setup_go_tests
@@ -74,12 +62,12 @@ module PythonLogFileAnalyzer
       if !(line =~ /--- PASS: (.+)? (\((.+)\))?/).nil?
         setup_go_tests
         @num_tests_run += 1
-        @test_duration += convert_go_time_to_seconds $3 if @verbose
+        @test_duration += convert_plain_time_to_seconds $3 if @verbose
       elsif !(line =~ /ok\s+(\S+\s+(\S+))?/).nil?
         # matches the likes of: ok  	github.com/dghubble/gologin	0.004s
         setup_go_tests
         @num_test_suites_run += 1
-        @test_duration += convert_go_time_to_seconds $2 unless @verbose
+        @test_duration += convert_plain_time_to_seconds $2 unless @verbose
       elsif !(line =~ /--- SKIP: /).nil?
         setup_go_tests
         @num_tests_skipped += 1
@@ -89,13 +77,13 @@ module PythonLogFileAnalyzer
         @num_tests_failed += 1
         @tests_failed.push($1) unless $1.nil?
         @num_test_suites_failed += 1
-        @test_duration += convert_go_time_to_seconds $3
+        @test_duration += convert_plain_time_to_seconds $3
       elsif !(line =~ /FAIL\s+(\S+)(\s(.+))?/).nil?
         setup_go_tests
         @num_tests_run += 1
         @num_tests_failed += 1
         @tests_failed.push($1) unless $1.nil?
-        @test_duration += convert_go_time_to_seconds $3
+        @test_duration += convert_plain_time_to_seconds $3
       end
     end
 
