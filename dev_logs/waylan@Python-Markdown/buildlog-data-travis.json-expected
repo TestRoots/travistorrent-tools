@@ -1,5 +1,28 @@
 [
   {
+    "tr_build_id": "test",
+    "tr_job_id": null,
+    "tr_build_number": "162348481",
+    "tr_original_commit": "failed",
+    "tr_log_lan": "python",
+    "tr_log_status": "broken",
+    "tr_log_setup_time": 0,
+    "tr_log_analyzer": "python",
+    "tr_log_frameworks": "unittest",
+    "tr_log_bool_tests_ran": true,
+    "tr_log_bool_tests_failed": true,
+    "tr_log_num_tests_ok": 351,
+    "tr_log_num_tests_failed": 0,
+    "tr_log_num_tests_run": 351,
+    "tr_log_num_tests_skipped": 25,
+    "tr_log_num_test_suites_run": null,
+    "tr_log_num_test_suites_ok": null,
+    "tr_log_num_test_suites_failed": null,
+    "tr_log_tests_failed": "",
+    "tr_log_testduration": 4.87,
+    "tr_log_buildduration": null
+  },
+  {
     "tr_build_id": null,
     "tr_job_id": null,
     "tr_build_number": "success",

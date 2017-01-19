@@ -41,6 +41,19 @@ module PythonLogFileAnalyzer
     end
   end
 
+  def analyze_status_info_list(string)
+    additional_information = string.split(', ')
+    additional_information.each do |arg|
+      arg.split('=').each_cons(2) do |key, val|
+        # TODO: we could add xpassed syntax here
+        case key.downcase
+          when 'skip'
+            @num_tests_skipped = val.to_i
+        end
+      end
+    end
+  end
+
   def analyze_tests
     @test_lines.each do |line|
       if !(line =~ /Ran (\d+) tests? in (.+s)/).nil?
@@ -56,20 +69,14 @@ module PythonLogFileAnalyzer
         setup_python_tests
         # If we see this, we know that the overall result was that tests passed
         @force_tests_passed = true
-        additional_information = $2.split(', ')
-        additional_information.each do |arg|
-          arg.split('=').each_cons(2) do |key, val|
-            # TODO: we could add xpassed syntax here
-            case key.downcase
-              when 'skip'
-                @num_tests_skipped = val.to_i
-            end
-          end
-        end
-
-        #.split('=') do |key, val|
-        # puts key, val
-        #end
+        analyze_status_info_list $2
+      elsif !(line =~ /^FAILED( \((.+)\))?\s*$/).nil? and @has_summary
+        # This is a somewhat dangerous thing to do as "OK" might be a common line in builds. We mititgate the risk somewhat by having seen a summary
+        # TODO we can make this more clever by checking only AFTER a summary
+        setup_python_tests
+        # If we see this, we know that the overall result was that tests passed
+        @force_tests_passed = false
+        analyze_status_info_list $2
       elsif !(line =~ /FAIL: (\S+)/).nil?
         # Matches the likes of FAIL: test_em (__main__.TestMarkdownPy)
         setup_python_tests
