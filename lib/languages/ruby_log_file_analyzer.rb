@@ -100,7 +100,7 @@ module RubyLogFileAnalyzer
         if (line =~ /rspec (.*\.rb):\d+/).nil?
           failed_rspec_tests_started = false
         else
-          @tests_failed << $1
+          add_failed_test $1
         end
       end
 
@@ -121,7 +121,7 @@ module RubyLogFileAnalyzer
       elsif (cucumber_failing_tests_started)
         if !(line =~ /cucumber (.*?):(\d*)/).nil?
           init_tests
-          @tests_failed << $1
+          add_failed_test $1
         else
           cucumber_failing_tests_started = false
         end
