@@ -44,5 +44,28 @@
     "tr_log_tests_failed": "",
     "tr_log_testduration": 3.24,
     "tr_log_buildduration": null
+  },
+  {
+    "tr_build_id": "failing",
+    "tr_job_id": null,
+    "tr_build_number": "very",
+    "tr_original_commit": "67570973",
+    "tr_log_lan": "python",
+    "tr_log_status": "broken",
+    "tr_log_setup_time": 18,
+    "tr_log_analyzer": "python",
+    "tr_log_frameworks": "unittest",
+    "tr_log_bool_tests_ran": true,
+    "tr_log_bool_tests_failed": true,
+    "tr_log_num_tests_ok": 256,
+    "tr_log_num_tests_failed": 68,
+    "tr_log_num_tests_run": 324,
+    "tr_log_num_tests_skipped": 26,
+    "tr_log_num_test_suites_run": null,
+    "tr_log_num_test_suites_ok": null,
+    "tr_log_num_test_suites_failed": null,
+    "tr_log_tests_failed": "TestSyntax: \"pl/Tests_2007/Markdown Documentation - Syntax\"#TestSyntax: \"pl/Tests_2007/Literal quotes in titles\"#TestSyntax: \"pl/Tests_2007/Links, inline style\"#TestSyntax: \"pl/Tests_2007/Amps and angle encoding\"#TestSyntax: \"pl/Tests_2004/Yuri-Links-in-Headers\"#TestSyntax: \"pl/Tests_2004/Markdown Documentation - Syntax\"#TestSyntax: \"pl/Tests_2004/Literal quotes in titles\"#TestSyntax: \"pl/Tests_2004/Links, inline style\"#TestSyntax: \"pl/Tests_2004/Amps and angle encoding\"#TestSyntax: \"php/Parens in URL\"#TestSyntax: \"php/Nesting\"#TestSyntax: \"php/Links, inline style\"#TestSyntax: \"misc/url_spaces\"#TestSyntax: \"misc/uche\"#TestSyntax: \"misc/stronintags\"#TestSyntax: \"misc/russian\"#TestSyntax: \"misc/normalize\"#TestSyntax: \"misc/nested-patterns\"#TestSyntax: \"misc/link-with-parenthesis\"#TestSyntax: \"misc/japanese\"#TestSyntax: \"misc/image_in_links\"#TestSyntax: \"misc/image\"#TestSyntax: \"misc/image-2\"#TestSyntax: \"misc/html\"#TestSyntax: \"misc/headers\"#TestSyntax: \"misc/escaped_links\"#TestSyntax: \"misc/em-around-links\"#TestSyntax: \"misc/brackets-in-img-title\"#TestSyntax: \"misc/bold_links\"#TestSyntax: \"misc/bidi\"#TestSyntax: \"misc/arabic\"#TestSyntax: \"misc/amp-in-url\"#TestSyntax: \"extensions/wikilinks\"#TestSyntax: \"extensions/toc\"#TestSyntax: \"extensions/smarty\"#TestSyntax: \"extensions/legacy_attrs\"#TestSyntax: \"extensions/attr_list\"#TestSyntax: \"extensions/extra/named_markers\"#TestSyntax: \"extensions/extra/markdown-syntax\"#TestSyntax: \"extensions/extra/footnote_placeholder\"#TestSyntax: \"extensions/extra/footnote_many_footnotes\"#TestSyntax: \"extensions/extra/footnote\"#TestSyntax: \"extensions/extra/extra_config\"#TestSyntax: \"basic/markdown-syntax\"#TestSyntax: \"basic/literal-quotes\"#TestSyntax: \"basic/links-inline\"#TestSyntax: \"basic/inline-html-simple\"#TestSyntax: \"basic/angle-links-and-img\"#TestSyntax: \"basic/amps-and-angle-encoding\"#Test Nested Abbreviations.#Test Headers with inline markup.#Test that a nested AtomicString is not parsed.#Test that a simple AtomicString is not parsed.#Test that a regular string is parsed.#testHTMLOutput#testXHTMLOutput#Test Abbreviations.#testCustomSubstitutions#Test TOC with disabled marker.#Test Headers with HTML Entities.#Test TOC with a Marker.#Test Headers with raw HTML.#Test [[wikilinks]].#Test Complex Settings.#Test Simple Settings.#Test used of a custom URL builder.#Test whitespace in wikilinks.#test MetaData with Wikilinks Extension.",
+    "tr_log_testduration": 1.82,
+    "tr_log_buildduration": null
   }
 ]

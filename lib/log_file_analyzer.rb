@@ -138,6 +138,12 @@ class LogFileAnalyzer
     end
   end
 
+  def add_failed_test(testname)
+    return if testname.nil?
+    testname = testname.strip
+    @tests_failed.push(testname) unless testname.nil?
+  end
+
   # Split buildlog into different Folds
   def split
     currentFold = @OUT_OF_FOLD

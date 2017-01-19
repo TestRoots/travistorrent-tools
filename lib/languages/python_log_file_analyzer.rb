@@ -49,7 +49,7 @@ module PythonLogFileAnalyzer
         case key.downcase
           when 'skip'
             @num_tests_skipped = val.to_i
-          when 'errors', 'failures'
+          when 'errors', 'failures', 'error', 'failure'
             @num_tests_failed += val.to_i
         end
       end
@@ -57,6 +57,8 @@ module PythonLogFileAnalyzer
   end
 
   def analyze_tests
+    summary_seen = false
+
     @test_lines.each do |line|
       if !(line =~ /Ran (\d+) tests? in (.+s)/).nil?
         # Matches the test summary, i.e. "Ran 3 tests in 0.000s"
@@ -72,6 +74,7 @@ module PythonLogFileAnalyzer
         # If we see this, we know that the overall result was that tests passed
         @force_tests_passed = true
         analyze_status_info_list $2
+        summary_seen = true
       elsif !(line =~ /^FAILED( \((.+)\))?\s*$/).nil? and @has_summary
         # This is a somewhat dangerous thing to do as "OK" might be a common line in builds. We mititgate the risk somewhat by having seen a summary
         # TODO we can make this more clever by checking only AFTER a summary
@@ -79,10 +82,16 @@ module PythonLogFileAnalyzer
         # If we see this, we know that the overall result was that tests passed
         @force_tests_passed = false
         analyze_status_info_list $2
-      elsif !(line =~ /FAIL: (\S+)/).nil?
+        summary_seen = true
+      elsif !(line =~ /^((FAIL)|(ERROR)): ([^(]+)$/).nil? and !summary_seen
+        # TODO: clear stuff ala "py27: commands failed" from it
         # Matches the likes of FAIL: test_em (__main__.TestMarkdownPy)
         setup_python_tests
-        @tests_failed.push($1) unless $1.nil?
+        add_failed_test $4 # TODO use member method everywhere
+      elsif !(line =~ /^FAIL: (\S+)/).nil? and !summary_seen
+        # Matches the likes of FAIL: test_em (__main__.TestMarkdownPy)
+        setup_python_tests
+        add_failed_test $1
       end
     end
 
