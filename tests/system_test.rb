@@ -57,4 +57,8 @@ class SystemTest < MiniTest::Test
   def test_unittest_python
     make_comparison("dev_logs/waylan@Python-Markdown")
   end
+
+  def test_various_python
+    make_comparison("dev_logs/python@pythontests")
+  end
 end
