@@ -49,6 +49,8 @@ module PythonLogFileAnalyzer
         case key.downcase
           when 'skip'
             @num_tests_skipped = val.to_i
+          when 'errors', 'failures'
+            @num_tests_failed += val.to_i
         end
       end
     end
