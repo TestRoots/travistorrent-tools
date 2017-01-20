@@ -29,7 +29,7 @@ class BuildlogAnalyzerDispatcher
 
     # dir foreach is much faster than Dir.glob, because the latter builds an array of matched files up-front
     Dir.foreach(@directory).sort.each do |logfile|
-      #begin
+      begin
         next if logfile == '.' or logfile == '..'
         file = "#{@directory}/#{logfile}"
 
@@ -47,9 +47,9 @@ class BuildlogAnalyzerDispatcher
         analyzer.init
         analyzer.analyze
         @results << analyzer.output
-      #rescue Exception => e
-      #  puts "Error analyzing #{file}, rescued: #{e}"
-      #end
+      rescue Exception => e
+        puts "Error analyzing #{file}, rescued: #{e}"
+      end
     end
 
     if !@results.empty?

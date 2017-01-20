@@ -50,6 +50,7 @@ module PythonLogFileAnalyzer
   end
 
   def analyze_pytest_status_info_list(string)
+    return if string.nil?
     additional_information = string.split(', ')
     additional_information.each do |arg|
       arg.split(' ').each_cons(2) do |val, key|
@@ -68,6 +69,7 @@ module PythonLogFileAnalyzer
   end
 
   def analyze_status_info_list(string)
+    return if string.nil?
     additional_information = string.split(', ')
     additional_information.each do |arg|
       arg.split('=').each_cons(2) do |key, val|
