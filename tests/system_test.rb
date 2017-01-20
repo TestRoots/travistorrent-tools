@@ -65,4 +65,8 @@ class SystemTest < MiniTest::Test
   def test_various_python_tests
     make_comparison("dev_logs/python@pythontests")
   end
+
+  def test_generic
+    make_comparison("dev_logs/generics")
+  end
 end

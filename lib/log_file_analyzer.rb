@@ -78,7 +78,7 @@ class LogFileAnalyzer
   def analyze
     anaylze_status
     analyzeSetupTimeBeforeBuild
-    custom_analyze
+    custom_analyze unless @status == 'terminated'
     pre_output
     sanitize_output
   end
@@ -97,6 +97,11 @@ class LogFileAnalyzer
 
   # Analyze the buildlog exit status
   def anaylze_status
+    if @folds[@OUT_OF_FOLD].nil?
+      @status = 'terminated'
+      return
+    end
+
     unless (@folds[@OUT_OF_FOLD].content.last =~/^Done: Job Cancelled/).nil?
       @status = 'cancelled'
     end
