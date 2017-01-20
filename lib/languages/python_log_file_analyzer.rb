@@ -1,4 +1,4 @@
-# A Mixin for the analysis of Python build files. Supports unittest, tox, pytest
+# A Mixin for the analysis of Python build files. Supports unittest, tox, pytest, nose
 
 module PythonLogFileAnalyzer
   attr_reader :tests_failed, :test_duration, :pure_build_duration
@@ -104,7 +104,6 @@ module PythonLogFileAnalyzer
         summary_seen = true
       elsif !(line =~ /^OK( \((.+)\))?\s*$/).nil? and @has_summary
         # This is a somewhat dangerous thing to do as "OK" might be a common line in builds. We mititgate the risk somewhat by having seen a summary
-        # TODO we can make this more clever by checking only AFTER a summary
         setup_python_tests
         # If we see this, we know that the overall result was that tests passed
         @force_tests_passed = true
@@ -112,7 +111,6 @@ module PythonLogFileAnalyzer
         summary_seen = true
       elsif !(line =~ /^FAILED( \((.+)\))?\s*$/).nil? and @has_summary
         # This is a somewhat dangerous thing to do as "OK" might be a common line in builds. We mititgate the risk somewhat by having seen a summary
-        # TODO we can make this more clever by checking only AFTER a summary
         setup_python_tests
         # If we see this, we know that the overall result was that tests failed
         @force_tests_passed = false
@@ -120,7 +118,6 @@ module PythonLogFileAnalyzer
         analyze_status_info_list $2
         summary_seen = true
       elsif !(line =~ /^((FAIL)|(ERROR)): ([^(]+)$/).nil? and !summary_seen
-        # TODO: clear stuff ala "py27: commands failed" from it
         # Matches the likes of FAIL: test_em (__main__.TestMarkdownPy)
         setup_python_tests
         add_failed_test $4
