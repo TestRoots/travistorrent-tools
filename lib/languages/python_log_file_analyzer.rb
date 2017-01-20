@@ -38,6 +38,7 @@ module PythonLogFileAnalyzer
       init_tests
       @tests_run = true
       @force_tests_passed = false
+      @force_tests_failed = false
     end
   end
 
@@ -85,6 +86,7 @@ module PythonLogFileAnalyzer
         @has_summary = true
       elsif !(line =~ /==================== (.+) in (.+) seconds ====================/).nil?
         # Matches the pytest test summary, i.e. "==================== 442 passed, 2 xpassed in 50.65 seconds ===================="
+        # TODO: pytest: missing fail detection
         setup_python_tests
         add_framework 'pytest'
         analyze_pytest_status_info_list $1
@@ -101,8 +103,9 @@ module PythonLogFileAnalyzer
         # This is a somewhat dangerous thing to do as "OK" might be a common line in builds. We mititgate the risk somewhat by having seen a summary
         # TODO we can make this more clever by checking only AFTER a summary
         setup_python_tests
-        # If we see this, we know that the overall result was that tests passed
+        # If we see this, we know that the overall result was that tests failed
         @force_tests_passed = false
+        @force_tests_failed = true
         analyze_status_info_list $2
         summary_seen = true
       elsif !(line =~ /^((FAIL)|(ERROR)): ([^(]+)$/).nil? and !summary_seen
@@ -121,9 +124,8 @@ module PythonLogFileAnalyzer
   end
 
   def tests_failed?
-    if @force_tests_passed
-      return false
-    end
+    return false if @force_tests_passed
+    return true if @force_tests_failed
 
     return !@tests_failed.empty? || (!@num_tests_failed.nil? && @num_tests_failed > 0)
   end
