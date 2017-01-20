@@ -49,6 +49,7 @@ class BuildlogAnalyzerDispatcher
         @results << analyzer.output
       rescue Exception => e
         puts "Error analyzing #{file}, rescued: #{e}"
+        puts e.backtrace.join("\n")
       end
     end
 
