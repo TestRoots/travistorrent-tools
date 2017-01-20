@@ -93,7 +93,6 @@ module PythonLogFileAnalyzer
         @has_summary = true
       elsif !(line =~ /==================== (.+) in (.+) seconds ====================/).nil?
         # Matches the pytest test summary, i.e. "==================== 442 passed, 2 xpassed in 50.65 seconds ===================="
-        # TODO: pytest: missing fail detection
         setup_python_tests
         add_framework 'pytest'
         analyze_pytest_status_info_list $1

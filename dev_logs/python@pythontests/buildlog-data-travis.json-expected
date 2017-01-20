@@ -1,0 +1,25 @@
+[
+  {
+    "tr_build_id": "192847149",
+    "tr_job_id": null,
+    "tr_build_number": "pallets@flask",
+    "tr_original_commit": null,
+    "tr_log_lan": "python",
+    "tr_log_status": "ok",
+    "tr_log_setup_time": 1,
+    "tr_log_analyzer": "python",
+    "tr_log_frameworks": "pytest",
+    "tr_log_bool_tests_ran": true,
+    "tr_log_bool_tests_failed": false,
+    "tr_log_num_tests_ok": 335,
+    "tr_log_num_tests_failed": 0,
+    "tr_log_num_tests_run": 335,
+    "tr_log_num_tests_skipped": 0,
+    "tr_log_num_test_suites_run": null,
+    "tr_log_num_test_suites_ok": null,
+    "tr_log_num_test_suites_failed": null,
+    "tr_log_tests_failed": "",
+    "tr_log_testduration": 9.64,
+    "tr_log_buildduration": null
+  }
+]

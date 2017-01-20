@@ -61,4 +61,8 @@ class SystemTest < MiniTest::Test
   def test_pytest_python
     make_comparison("dev_logs/kennethreitz@requests")
   end
+
+  def test_various_python_tests
+    make_comparison("dev_logs/python@pythontests")
+  end
 end
