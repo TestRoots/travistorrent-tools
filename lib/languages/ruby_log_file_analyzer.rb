@@ -55,6 +55,7 @@ module RubyLogFileAnalyzer
   end
 
   def extractTestNameAndMethod(string)
+    return nil if string.nil?
     string.split(' ')[0].split('#').map { |t| t.split }
   end
 
