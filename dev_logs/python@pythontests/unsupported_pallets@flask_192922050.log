@@ -1,0 +1,934 @@
+travis_fold:start:worker_info[0K[33;1mWorker information[0m
+hostname: i-060f240-precise-production-2-worker-org-docker.travisci.net:44e9ee19-1b72-48de-ba3e-a5e3a882fa53
+version: v2.5.0-8-g19ea9c2 https://github.com/travis-ci/worker/tree/19ea9c20425c78100500c7cc935892b47024922c
+instance: e1260f5:travis:python
+startup: 547.2506ms
+travis_fold:end:worker_info[0Ktravis_fold:start:system_info[0K[33;1mBuild system information[0m
+Build language: python
+Build group: stable
+Build dist: precise
+Build id: 192922049
+Job id: 192922050
+travis-build version: 401a05f3f
+[34m[1mBuild image provisioning date and time[0m
+Thu Feb  5 15:09:33 UTC 2015
+[34m[1mOperating System Details[0m
+Distributor ID:	Ubuntu
+Description:	Ubuntu 12.04.5 LTS
+Release:	12.04
+Codename:	precise
+[34m[1mLinux Version[0m
+3.13.0-29-generic
+[34m[1mCookbooks Version[0m
+a68419e https://github.com/travis-ci/travis-cookbooks/tree/a68419e
+[34m[1mGCC version[0m
+gcc (Ubuntu/Linaro 4.6.3-1ubuntu5) 4.6.3
+Copyright (C) 2011 Free Software Foundation, Inc.
+This is free software; see the source for copying conditions.  There is NO
+warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+[34m[1mLLVM version[0m
+clang version 3.4 (tags/RELEASE_34/final)
+Target: x86_64-unknown-linux-gnu
+Thread model: posix
+[34m[1mPre-installed Ruby versions[0m
+ruby-1.9.3-p551
+[34m[1mPre-installed Node.js versions[0m
+v0.10.36
+[34m[1mPre-installed Go versions[0m
+1.4.1
+[34m[1mRedis version[0m
+redis-server 2.8.19
+[34m[1mriak version[0m
+2.0.2
+[34m[1mMongoDB version[0m
+MongoDB 2.4.12
+[34m[1mCouchDB version[0m
+couchdb 1.6.1
+[34m[1mNeo4j version[0m
+1.9.4
+[34m[1mRabbitMQ Version[0m
+3.4.3
+[34m[1mElasticSearch version[0m
+1.4.0
+[34m[1mInstalled Sphinx versions[0m
+2.0.10
+2.1.9
+2.2.6
+[34m[1mDefault Sphinx version[0m
+2.2.6
+[34m[1mInstalled Firefox version[0m
+firefox 31.0esr
+[34m[1mPhantomJS version[0m
+1.9.8
+[34m[1mant -version[0m
+Apache Ant(TM) version 1.8.2 compiled on December 3 2011
+[34m[1mmvn -version[0m
+Apache Maven 3.2.5 (12a6b3acb947671f09b81f49094c53f426d8cea1; 2014-12-14T17:29:23+00:00)
+Maven home: /usr/local/maven
+Java version: 1.7.0_76, vendor: Oracle Corporation
+Java home: /usr/lib/jvm/java-7-oracle/jre
+Default locale: en_US, platform encoding: ANSI_X3.4-1968
+OS name: "linux", version: "3.13.0-29-generic", arch: "amd64", family: "unix"
+travis_fold:end:system_info[0K
+travis_fold:start:fix.CVE-2015-7547[0K$ export DEBIAN_FRONTEND=noninteractive
+W: Size of file /var/lib/apt/lists/us.archive.ubuntu.com_ubuntu_dists_precise-updates_restricted_binary-amd64_Packages.gz is not what the server reported 19578 20785
+W: Size of file /var/lib/apt/lists/us.archive.ubuntu.com_ubuntu_dists_precise-updates_restricted_binary-i386_Packages.gz is not what the server reported 19540 20707
+W: Size of file /var/lib/apt/lists/us.archive.ubuntu.com_ubuntu_dists_precise-backports_multiverse_source_Sources.gz is not what the server reported 5886 5888
+W: Size of file /var/lib/apt/lists/ppa.launchpad.net_travis-ci_zero-mq_ubuntu_dists_precise_main_binary-amd64_Packages.gz is not what the server reported 832 1195
+W: Size of file /var/lib/apt/lists/ppa.launchpad.net_ubuntugis_ppa_ubuntu_dists_precise_main_binary-amd64_Packages.gz is not what the server reported 33653 36677
+W: Size of file /var/lib/apt/lists/security.ubuntu.com_ubuntu_dists_precise-security_restricted_binary-amd64_Packages.gz is not what the server reported 13782 14904
+W: Size of file /var/lib/apt/lists/ppa.launchpad.net_ubuntugis_ppa_ubuntu_dists_precise_main_binary-i386_Packages.gz is not what the server reported 33699 36733
+W: Size of file /var/lib/apt/lists/security.ubuntu.com_ubuntu_dists_precise-security_restricted_binary-i386_Packages.gz is not what the server reported 13762 14885
+Reading package lists...
+Building dependency tree...
+Reading state information...
+The following extra packages will be installed:
+  libc-bin libc-dev-bin libc6-dev
+Suggested packages:
+  glibc-doc
+The following packages will be upgraded:
+  libc-bin libc-dev-bin libc6 libc6-dev
+4 upgraded, 0 newly installed, 0 to remove and 254 not upgraded.
+Need to get 8,840 kB of archives.
+After this operation, 14.3 kB disk space will be freed.
+Get:1 http://us.archive.ubuntu.com/ubuntu/ precise-updates/main libc6-dev amd64 2.15-0ubuntu10.15 [2,943 kB]
+Get:2 http://us.archive.ubuntu.com/ubuntu/ precise-updates/main libc-dev-bin amd64 2.15-0ubuntu10.15 [84.7 kB]
+Get:3 http://us.archive.ubuntu.com/ubuntu/ precise-updates/main libc-bin amd64 2.15-0ubuntu10.15 [1,177 kB]
+Get:4 http://us.archive.ubuntu.com/ubuntu/ precise-updates/main libc6 amd64 2.15-0ubuntu10.15 [4,636 kB]
+Fetched 8,840 kB in 0s (32.2 MB/s)
+Preconfiguring packages ...
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 72431 files and directories currently installed.)
+Preparing to replace libc6-dev 2.15-0ubuntu10.10 (using .../libc6-dev_2.15-0ubuntu10.15_amd64.deb) ...
+Unpacking replacement libc6-dev ...
+Preparing to replace libc-dev-bin 2.15-0ubuntu10.10 (using .../libc-dev-bin_2.15-0ubuntu10.15_amd64.deb) ...
+Unpacking replacement libc-dev-bin ...
+Preparing to replace libc-bin 2.15-0ubuntu10.10 (using .../libc-bin_2.15-0ubuntu10.15_amd64.deb) ...
+Unpacking replacement libc-bin ...
+Processing triggers for man-db ...
+Setting up libc-bin (2.15-0ubuntu10.15) ...
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 72430 files and directories currently installed.)
+Preparing to replace libc6 2.15-0ubuntu10.10 (using .../libc6_2.15-0ubuntu10.15_amd64.deb) ...
+Unpacking replacement libc6 ...
+Setting up libc6 (2.15-0ubuntu10.15) ...
+Setting up libc-dev-bin (2.15-0ubuntu10.15) ...
+Setting up libc6-dev (2.15-0ubuntu10.15) ...
+Processing triggers for libc-bin ...
+ldconfig deferred processing now taking place
+travis_fold:end:fix.CVE-2015-7547[0K[33;1m3.5 is not installed; attempting download[0m
+travis_fold:start:git.checkout[0Ktravis_time:start:1d86a440[0K$ git clone --depth=50 https://github.com/scrapy/scrapy.git scrapy/scrapy
+Cloning into 'scrapy/scrapy'...
+remote: Counting objects: 6911, done.[K
+remote: Compressing objects:   0% (1/3038)   [Kremote: Compressing objects:   1% (31/3038)   [Kremote: Compressing objects:   2% (61/3038)   [Kremote: Compressing objects:   3% (92/3038)   [Kremote: Compressing objects:   4% (122/3038)   [Kremote: Compressing objects:   5% (152/3038)   [Kremote: Compressing objects:   6% (183/3038)   [Kremote: Compressing objects:   7% (213/3038)   [Kremote: Compressing objects:   8% (244/3038)   [Kremote: Compressing objects:   9% (274/3038)   [Kremote: Compressing objects:  10% (304/3038)   [Kremote: Compressing objects:  11% (335/3038)   [Kremote: Compressing objects:  12% (365/3038)   [Kremote: Compressing objects:  13% (395/3038)   [Kremote: Compressing objects:  14% (426/3038)   [Kremote: Compressing objects:  15% (456/3038)   [Kremote: Compressing objects:  16% (487/3038)   [Kremote: Compressing objects:  17% (517/3038)   [Kremote: Compressing objects:  18% (547/3038)   [Kremote: Compressing objects:  19% (578/3038)   [Kremote: Compressing objects:  20% (608/3038)   [Kremote: Compressing objects:  21% (638/3038)   [Kremote: Compressing objects:  22% (669/3038)   [Kremote: Compressing objects:  23% (699/3038)   [Kremote: Compressing objects:  24% (730/3038)   [Kremote: Compressing objects:  25% (760/3038)   [Kremote: Compressing objects:  26% (790/3038)   [Kremote: Compressing objects:  27% (821/3038)   [Kremote: Compressing objects:  28% (851/3038)   [Kremote: Compressing objects:  29% (882/3038)   [Kremote: Compressing objects:  30% (912/3038)   [Kremote: Compressing objects:  31% (942/3038)   [Kremote: Compressing objects:  32% (973/3038)   [Kremote: Compressing objects:  33% (1003/3038)   [Kremote: Compressing objects:  34% (1033/3038)   [Kremote: Compressing objects:  35% (1064/3038)   [Kremote: Compressing objects:  36% (1094/3038)   [Kremote: Compressing objects:  37% (1125/3038)   [Kremote: Compressing objects:  38% (1155/3038)   [Kremote: Compressing objects:  39% (1185/3038)   [Kremote: Compressing objects:  40% (1216/3038)   [Kremote: Compressing objects:  41% (1246/3038)   [Kremote: Compressing objects:  42% (1276/3038)   [Kremote: Compressing objects:  43% (1307/3038)   [Kremote: Compressing objects:  44% (1337/3038)   [Kremote: Compressing objects:  45% (1368/3038)   [Kremote: Compressing objects:  46% (1398/3038)   [Kremote: Compressing objects:  47% (1428/3038)   [Kremote: Compressing objects:  48% (1459/3038)   [Kremote: Compressing objects:  49% (1489/3038)   [Kremote: Compressing objects:  50% (1519/3038)   [Kremote: Compressing objects:  51% (1550/3038)   [Kremote: Compressing objects:  52% (1580/3038)   [Kremote: Compressing objects:  53% (1611/3038)   [Kremote: Compressing objects:  54% (1641/3038)   [Kremote: Compressing objects:  55% (1671/3038)   [Kremote: Compressing objects:  56% (1702/3038)   [Kremote: Compressing objects:  57% (1732/3038)   [Kremote: Compressing objects:  58% (1763/3038)   [Kremote: Compressing objects:  59% (1793/3038)   [Kremote: Compressing objects:  60% (1823/3038)   [Kremote: Compressing objects:  61% (1854/3038)   [Kremote: Compressing objects:  62% (1884/3038)   [Kremote: Compressing objects:  63% (1914/3038)   [Kremote: Compressing objects:  64% (1945/3038)   [Kremote: Compressing objects:  65% (1975/3038)   [Kremote: Compressing objects:  66% (2006/3038)   [Kremote: Compressing objects:  67% (2036/3038)   [Kremote: Compressing objects:  68% (2066/3038)   [Kremote: Compressing objects:  69% (2097/3038)   [Kremote: Compressing objects:  70% (2127/3038)   [Kremote: Compressing objects:  71% (2157/3038)   [Kremote: Compressing objects:  72% (2188/3038)   [Kremote: Compressing objects:  73% (2218/3038)   [Kremote: Compressing objects:  74% (2249/3038)   [Kremote: Compressing objects:  75% (2279/3038)   [Kremote: Compressing objects:  76% (2309/3038)   [Kremote: Compressing objects:  77% (2340/3038)   [Kremote: Compressing objects:  78% (2370/3038)   [Kremote: Compressing objects:  79% (2401/3038)   [Kremote: Compressing objects:  80% (2431/3038)   [Kremote: Compressing objects:  81% (2461/3038)   [Kremote: Compressing objects:  82% (2492/3038)   [Kremote: Compressing objects:  83% (2522/3038)   [Kremote: Compressing objects:  84% (2552/3038)   [Kremote: Compressing objects:  85% (2583/3038)   [Kremote: Compressing objects:  86% (2613/3038)   [Kremote: Compressing objects:  87% (2644/3038)   [Kremote: Compressing objects:  88% (2674/3038)   [Kremote: Compressing objects:  89% (2704/3038)   [Kremote: Compressing objects:  90% (2735/3038)   [Kremote: Compressing objects:  91% (2765/3038)   [Kremote: Compressing objects:  92% (2795/3038)   [Kremote: Compressing objects:  93% (2826/3038)   [Kremote: Compressing objects:  94% (2856/3038)   [Kremote: Compressing objects:  95% (2887/3038)   [Kremote: Compressing objects:  96% (2917/3038)   [Kremote: Compressing objects:  97% (2947/3038)   [Kremote: Compressing objects:  98% (2978/3038)   [Kremote: Compressing objects:  99% (3008/3038)   [Kremote: Compressing objects: 100% (3038/3038)   [Kremote: Compressing objects: 100% (3038/3038), done.[K
+Receiving objects:   0% (1/6911)   Receiving objects:   1% (70/6911)   Receiving objects:   2% (139/6911)   Receiving objects:   3% (208/6911)   Receiving objects:   4% (277/6911)   Receiving objects:   5% (346/6911)   Receiving objects:   6% (415/6911)   Receiving objects:   7% (484/6911)   Receiving objects:   8% (553/6911)   Receiving objects:   9% (622/6911)   Receiving objects:  10% (692/6911)   Receiving objects:  11% (761/6911)   Receiving objects:  12% (830/6911)   Receiving objects:  13% (899/6911)   Receiving objects:  14% (968/6911)   Receiving objects:  15% (1037/6911)   Receiving objects:  16% (1106/6911)   Receiving objects:  17% (1175/6911)   Receiving objects:  18% (1244/6911)   Receiving objects:  19% (1314/6911)   Receiving objects:  20% (1383/6911)   Receiving objects:  21% (1452/6911)   Receiving objects:  22% (1521/6911)   Receiving objects:  23% (1590/6911)   Receiving objects:  24% (1659/6911)   Receiving objects:  25% (1728/6911)   Receiving objects:  26% (1797/6911)   Receiving objects:  27% (1866/6911)   Receiving objects:  28% (1936/6911)   Receiving objects:  29% (2005/6911)   Receiving objects:  30% (2074/6911)   Receiving objects:  31% (2143/6911)   Receiving objects:  32% (2212/6911)   Receiving objects:  33% (2281/6911)   Receiving objects:  34% (2350/6911)   Receiving objects:  35% (2419/6911)   Receiving objects:  36% (2488/6911)   Receiving objects:  37% (2558/6911)   Receiving objects:  38% (2627/6911)   Receiving objects:  39% (2696/6911)   Receiving objects:  40% (2765/6911)   Receiving objects:  41% (2834/6911)   Receiving objects:  42% (2903/6911)   Receiving objects:  43% (2972/6911)   Receiving objects:  44% (3041/6911)   Receiving objects:  45% (3110/6911)   Receiving objects:  46% (3180/6911)   Receiving objects:  47% (3249/6911)   Receiving objects:  48% (3318/6911)   Receiving objects:  49% (3387/6911)   Receiving objects:  50% (3456/6911)   Receiving objects:  51% (3525/6911)   Receiving objects:  52% (3594/6911)   Receiving objects:  53% (3663/6911)   Receiving objects:  54% (3732/6911)   Receiving objects:  55% (3802/6911)   Receiving objects:  56% (3871/6911)   Receiving objects:  57% (3940/6911)   Receiving objects:  58% (4009/6911)   Receiving objects:  59% (4078/6911)   Receiving objects:  60% (4147/6911)   Receiving objects:  61% (4216/6911)   Receiving objects:  62% (4285/6911)   Receiving objects:  63% (4354/6911)   Receiving objects:  64% (4424/6911)   Receiving objects:  65% (4493/6911)   Receiving objects:  66% (4562/6911)   Receiving objects:  67% (4631/6911)   Receiving objects:  68% (4700/6911)   Receiving objects:  69% (4769/6911)   Receiving objects:  70% (4838/6911)   Receiving objects:  71% (4907/6911)   Receiving objects:  72% (4976/6911)   Receiving objects:  73% (5046/6911)   Receiving objects:  74% (5115/6911)   Receiving objects:  75% (5184/6911)   Receiving objects:  76% (5253/6911)   Receiving objects:  77% (5322/6911)   Receiving objects:  78% (5391/6911)   Receiving objects:  79% (5460/6911)   Receiving objects:  80% (5529/6911)   Receiving objects:  81% (5598/6911)   Receiving objects:  82% (5668/6911)   Receiving objects:  83% (5737/6911)   Receiving objects:  84% (5806/6911)   Receiving objects:  85% (5875/6911)   Receiving objects:  86% (5944/6911)   Receiving objects:  87% (6013/6911)   Receiving objects:  88% (6082/6911)   Receiving objects:  89% (6151/6911)   Receiving objects:  90% (6220/6911)   Receiving objects:  91% (6290/6911)   Receiving objects:  92% (6359/6911)   Receiving objects:  93% (6428/6911)   Receiving objects:  94% (6497/6911)   Receiving objects:  95% (6566/6911)   Receiving objects:  96% (6635/6911)   Receiving objects:  97% (6704/6911)   Receiving objects:  98% (6773/6911)   Receiving objects:  99% (6842/6911)   remote: Total 6911 (delta 4813), reused 5652 (delta 3838), pack-reused 0[K
+Receiving objects: 100% (6911/6911)   Receiving objects: 100% (6911/6911), 2.33 MiB | 0 bytes/s, done.
+Resolving deltas:   0% (0/4813)   Resolving deltas:   1% (51/4813)   Resolving deltas:   2% (102/4813)   Resolving deltas:   3% (161/4813)   Resolving deltas:   4% (193/4813)   Resolving deltas:   6% (319/4813)   Resolving deltas:   7% (360/4813)   Resolving deltas:   8% (399/4813)   Resolving deltas:  12% (585/4813)   Resolving deltas:  18% (900/4813)   Resolving deltas:  20% (986/4813)   Resolving deltas:  21% (1023/4813)   Resolving deltas:  22% (1060/4813)   Resolving deltas:  23% (1111/4813)   Resolving deltas:  24% (1160/4813)   Resolving deltas:  25% (1206/4813)   Resolving deltas:  26% (1255/4813)   Resolving deltas:  27% (1301/4813)   Resolving deltas:  28% (1359/4813)   Resolving deltas:  29% (1408/4813)   Resolving deltas:  30% (1470/4813)   Resolving deltas:  31% (1502/4813)   Resolving deltas:  32% (1543/4813)   Resolving deltas:  33% (1629/4813)   Resolving deltas:  34% (1639/4813)   Resolving deltas:  35% (1687/4813)   Resolving deltas:  36% (1741/4813)   Resolving deltas:  38% (1863/4813)   Resolving deltas:  40% (1940/4813)   Resolving deltas:  41% (1977/4813)   Resolving deltas:  43% (2081/4813)   Resolving deltas:  44% (2128/4813)   Resolving deltas:  45% (2204/4813)   Resolving deltas:  46% (2216/4813)   Resolving deltas:  48% (2330/4813)   Resolving deltas:  49% (2385/4813)   Resolving deltas:  50% (2446/4813)   Resolving deltas:  51% (2475/4813)   Resolving deltas:  53% (2558/4813)   Resolving deltas:  54% (2600/4813)   Resolving deltas:  56% (2730/4813)   Resolving deltas:  57% (2752/4813)   Resolving deltas:  58% (2810/4813)   Resolving deltas:  59% (2845/4813)   Resolving deltas:  60% (2891/4813)   Resolving deltas:  61% (2937/4813)   Resolving deltas:  62% (2991/4813)   Resolving deltas:  63% (3053/4813)   Resolving deltas:  64% (3085/4813)   Resolving deltas:  65% (3133/4813)   Resolving deltas:  66% (3177/4813)   Resolving deltas:  67% (3231/4813)   Resolving deltas:  68% (3274/4813)   Resolving deltas:  69% (3337/4813)   Resolving deltas:  70% (3371/4813)   Resolving deltas:  71% (3433/4813)   Resolving deltas:  72% (3468/4813)   Resolving deltas:  73% (3520/4813)   Resolving deltas:  74% (3562/4813)   Resolving deltas:  75% (3610/4813)   Resolving deltas:  76% (3662/4813)   Resolving deltas:  77% (3710/4813)   Resolving deltas:  78% (3756/4813)   Resolving deltas:  79% (3809/4813)   Resolving deltas:  80% (3852/4813)   Resolving deltas:  81% (3903/4813)   Resolving deltas:  82% (3948/4813)   Resolving deltas:  83% (3995/4813)   Resolving deltas:  84% (4049/4813)   Resolving deltas:  85% (4096/4813)   Resolving deltas:  86% (4141/4813)   Resolving deltas:  87% (4202/4813)   Resolving deltas:  88% (4239/4813)   Resolving deltas:  89% (4287/4813)   Resolving deltas:  90% (4333/4813)   Resolving deltas:  91% (4382/4813)   Resolving deltas:  92% (4430/4813)   Resolving deltas:  93% (4477/4813)   Resolving deltas:  94% (4526/4813)   Resolving deltas:  95% (4574/4813)   Resolving deltas:  96% (4622/4813)   Resolving deltas:  97% (4672/4813)   Resolving deltas:  98% (4717/4813)   Resolving deltas:  99% (4765/4813)   Resolving deltas: 100% (4813/4813)   Resolving deltas: 100% (4813/4813), done.
+Checking connectivity... done.
+
+travis_time:end:1d86a440:start=1484712041327726592,finish=1484712042279458583,duration=951731991[0K$ cd scrapy/scrapy
+travis_time:start:07d860ba[0K$ git fetch origin +refs/pull/2500/merge:
+remote: Counting objects: 11, done.[K
+remote: Compressing objects:  14% (1/7)   [Kremote: Compressing objects:  28% (2/7)   [Kremote: Compressing objects:  42% (3/7)   [Kremote: Compressing objects:  57% (4/7)   [Kremote: Compressing objects:  71% (5/7)   [Kremote: Compressing objects:  85% (6/7)   [Kremote: Compressing objects: 100% (7/7)   [Kremote: Compressing objects: 100% (7/7), done.[K
+remote: Total 11 (delta 8), reused 6 (delta 4), pack-reused 0[K
+Unpacking objects:   9% (1/11)   Unpacking objects:  18% (2/11)   Unpacking objects:  27% (3/11)   Unpacking objects:  36% (4/11)   Unpacking objects:  45% (5/11)   Unpacking objects:  54% (6/11)   Unpacking objects:  63% (7/11)   Unpacking objects:  72% (8/11)   Unpacking objects:  81% (9/11)   Unpacking objects:  90% (10/11)   Unpacking objects: 100% (11/11)   Unpacking objects: 100% (11/11), done.
+From https://github.com/scrapy/scrapy
+ * branch            refs/pull/2500/merge -> FETCH_HEAD
+
+travis_time:end:07d860ba:start=1484712042284534044,finish=1484712042574689401,duration=290155357[0K$ git checkout -qf FETCH_HEAD
+travis_fold:end:git.checkout[0K
+[33;1mThis job is running on container-based infrastructure, which does not allow use of 'sudo', setuid and setguid executables.[0m
+[33;1mIf you require sudo, add 'sudo: required' to your .travis.yml[0m
+[33;1mSee https://docs.travis-ci.com/user/workers/container-based-infrastructure/ for details.[0m
+
+[33;1mSetting environment variables from .travis.yml[0m
+$ export TOXENV=py27
+
+travis_time:start:0bc4f2ae[0K$ source ~/virtualenv/python3.5/bin/activate
+
+travis_time:end:0bc4f2ae:start=1484712046005668887,finish=1484712046010493763,duration=4824876[0Ktravis_fold:start:cache.1[0KSetting up build cache
+$ export CASHER_DIR=$HOME/.casher
+travis_time:start:13c383dd[0K$ Installing caching utilities
+
+travis_time:end:13c383dd:start=1484712046242744852,finish=1484712046267925634,duration=25180782[0Ktravis_time:start:04e0321c[0K
+travis_time:end:04e0321c:start=1484712046273810311,finish=1484712046277765274,duration=3954963[0Ktravis_time:start:11146ef8[0K[32;1mattempting to download cache archive[0m
+[32;1mfetching PR.2500/cache-linux-precise-385f2186a0794ced1bdc2d594d2292732c8956f4eb5c249e52a1b9be99012548--python-3.5.tgz[0m
+[32;1mfound cache[0m
+
+travis_time:end:11146ef8:start=1484712046282341898,finish=1484712052651278830,duration=6368936932[0Ktravis_time:start:0b4fb8b0[0K
+travis_time:end:0b4fb8b0:start=1484712052656637680,finish=1484712052660936155,duration=4298475[0Ktravis_time:start:0b2ca60e[0K[32;1madding /home/travis/.cache/pip to cache[0m
+
+travis_time:end:0b2ca60e:start=1484712052666345013,finish=1484712058586275339,duration=5919930326[0Ktravis_fold:end:cache.1[0K$ python --version
+Python 3.5.2
+$ pip --version
+pip 9.0.1 from /home/travis/virtualenv/python3.5.2/lib/python3.5/site-packages (python 3.5)
+travis_fold:start:install[0Ktravis_time:start:04cb7086[0K$ pip install -U tox twine wheel codecov
+Collecting tox
+  Using cached tox-2.5.0-py2.py3-none-any.whl
+Collecting twine
+  Using cached twine-1.8.1-py2.py3-none-any.whl
+Requirement already up-to-date: wheel in /home/travis/virtualenv/python3.5.2/lib/python3.5/site-packages
+Collecting codecov
+  Using cached codecov-2.0.5-py2.py3-none-any.whl
+Collecting virtualenv>=1.11.2 (from tox)
+  Using cached virtualenv-15.1.0-py2.py3-none-any.whl
+Collecting pluggy<1.0,>=0.3.0 (from tox)
+  Using cached pluggy-0.4.0-py2.py3-none-any.whl
+Requirement already up-to-date: py>=1.4.17 in /home/travis/virtualenv/python3.5.2/lib/python3.5/site-packages (from tox)
+Collecting requests-toolbelt>=0.5.1 (from twine)
+  Using cached requests_toolbelt-0.7.0-py2.py3-none-any.whl
+Collecting clint (from twine)
+Collecting pkginfo>=1.0 (from twine)
+  Using cached pkginfo-1.4.1-py2.py3-none-any.whl
+Requirement already up-to-date: setuptools>=0.7.0 in /home/travis/virtualenv/python3.5.2/lib/python3.5/site-packages (from twine)
+Collecting requests>=2.5.0 (from twine)
+  Using cached requests-2.12.4-py2.py3-none-any.whl
+Collecting coverage (from codecov)
+Collecting argparse (from codecov)
+  Using cached argparse-1.4.0-py2.py3-none-any.whl
+Collecting args (from clint->twine)
+Installing collected packages: virtualenv, pluggy, tox, requests, requests-toolbelt, args, clint, pkginfo, twine, coverage, argparse, codecov
+Successfully installed argparse-1.4.0 args-0.1.0 clint-0.5.1 codecov-2.0.5 coverage-4.3.4 pkginfo-1.4.1 pluggy-0.4.0 requests-2.12.4 requests-toolbelt-0.7.0 tox-2.5.0 twine-1.8.1 virtualenv-15.1.0
+
+travis_time:end:04cb7086:start=1484712058978341075,finish=1484712062894983668,duration=3916642593[0Ktravis_fold:end:install[0Ktravis_time:start:10343fb5[0K$ tox
+[1mGLOB sdist-make: /home/travis/build/scrapy/scrapy/setup.py[0m
+[1mpy27 create: /home/travis/build/scrapy/scrapy/.tox/py27[0m
+[1mpy27 installdeps: -rrequirements.txt, botocore, Pillow != 3.0.0, leveldb, -rtests/requirements.txt[0m
+[1mpy27 inst: /home/travis/build/scrapy/scrapy/.tox/dist/Scrapy-1.3.0.zip[0m
+[1mpy27 installed: attrs==16.3.0,backports.shutil-get-terminal-size==1.0.0,blessings==1.6,botocore==1.5.1,bpython==0.16,cffi==1.9.1,click==6.7,constantly==15.1.0,coverage==4.3.4,cryptography==1.7.1,cssselect==1.0.1,curtsies==0.2.11,decorator==4.0.11,docutils==0.13.1,enum34==1.1.6,Flask==0.12,funcsigs==1.0.2,greenlet==0.4.11,idna==2.2,incremental==16.10.1,ipaddress==1.0.18,ipython==5.1.0,ipython-genutils==0.1.0,itsdangerous==0.24,Jinja2==2.9.4,jmespath==0.9.0,leveldb==0.194,lxml==3.7.2,MarkupSafe==0.23,mitmproxy==0.10.1,mock==2.0.0,netlib==0.10.1,olefile==0.44,parsel==1.1.0,pathlib2==2.2.0,pbr==1.10.0,pexpect==4.2.1,pickleshare==0.7.4,Pillow==4.0.0,prompt-toolkit==1.0.9,ptyprocess==0.5.1,py==1.4.32,pyasn1==0.1.9,pyasn1-modules==0.0.8,pycparser==2.17,PyDispatcher==2.0.5,Pygments==2.1.3,pyOpenSSL==16.2.0,pytest==2.9.2,pytest-cov==2.2.1,pytest-twisted==1.5,python-dateutil==2.6.0,queuelib==1.4.2,requests==2.12.4,scandir==1.4,Scrapy==1.3.0,service-identity==16.0.0,simplegeneric==0.8.1,six==1.10.0,testfixtures==4.13.3,traitlets==4.3.1,Twisted==16.6.0,urwid==1.3.1,w3lib==1.16.0,wcwidth==0.1.7,Werkzeug==0.11.15,zope.interface==4.3.3[0m
+[1mpy27 runtests: PYTHONHASHSEED='3386549795'[0m
+[1mpy27 runtests: commands[0] | py.test --cov=scrapy --cov-report= scrapy tests[0m
+[1m============================= test session starts ==============================[0m
+platform linux2 -- Python 2.7.9, pytest-2.9.2, py-1.4.32, pluggy-0.3.1
+rootdir: /home/travis/build/scrapy/scrapy, inifile: pytest.ini
+plugins: twisted-1.5, cov-2.2.1
+[1mcollecting 0 items[0m[1mcollecting 0 items[0m[1mcollecting 0 items[0m[1mcollecting 0 items[0m[1mcollecting 0 items[0m[1mcollecting 0 items[0m[1mcollecting 0 items[0m[1mcollecting 0 items[0m[1mcollecting 0 items[0m[1mcollecting 0 items[0m[1mcollecting 0 items[0m[1mcollecting 0 items[0m[1mcollecting 0 items[0m[1mcollecting 0 items[0m[1mcollecting 0 items[0m[1mcollecting 0 items[0m[1mcollecting 0 items[0m[1mcollecting 0 items[0m[1mcollecting 0 items[0m[1mcollecting 0 items[0m[1mcollecting 0 items[0m[1mcollecting 0 items[0m[1mcollecting 0 items[0m[1mcollecting 0 items[0m[1mcollecting 0 items[0m[1mcollecting 0 items[0m[1mcollecting 0 items[0m[1mcollecting 0 items[0m[1mcollecting 0 items[0m[1mcollecting 0 items[0m[1mcollecting 0 items[0m[1mcollecting 0 items[0m[1mcollecting 0 items[0m[1mcollecting 0 items[0m[1mcollecting 0 items[0m[1mcollecting 0 items[0m[1mcollecting 0 items[0m[1mcollecting 0 items[0m[1mcollecting 0 items[0m[1mcollecting 0 items[0m[1mcollecting 0 items[0m[1mcollecting 0 items[0m[1mcollecting 0 items[0m[1mcollecting 0 items[0m[1mcollecting 0 items[0m[1mcollecting 0 items[0m[1mcollecting 0 items[0m[1mcollecting 0 items[0m[1mcollecting 0 items[0m[1mcollecting 0 items[0m[1mcollecting 0 items[0m[1mcollecting 0 items[0m[1mcollecting 0 items[0m[1mcollecting 0 items[0m[1mcollecting 0 items[0m[1mcollecting 0 items[0m[1mcollecting 0 items[0m[1mcollecting 0 items[0m[1mcollecting 0 items[0m[1mcollecting 0 items[0m[1mcollecting 0 items[0m[1mcollecting 0 items[0m[1mcollecting 0 items[0m[1mcollecting 0 items[0m[1mcollecting 1 items[0m[1mcollecting 1 items[0m[1mcollecting 1 items[0m[1mcollecting 1 items[0m[1mcollecting 2 items[0m[1mcollecting 2 items[0m[1mcollecting 2 items[0m[1mcollecting 2 items[0m[1mcollecting 2 items[0m[1mcollecting 2 items[0m[1mcollecting 2 items[0m[1mcollecting 2 items[0m[1mcollecting 2 items[0m[1mcollecting 2 items[0m[1mcollecting 2 items[0m[1mcollecting 2 items[0m[1mcollecting 2 items[0m[1mcollecting 2 items[0m[1mcollecting 2 items[0m[1mcollecting 2 items[0m[1mcollecting 2 items[0m[1mcollecting 2 items[0m[1mcollecting 2 items[0m[1mcollecting 2 items[0m[1mcollecting 2 items[0m[1mcollecting 3 items[0m[1mcollecting 3 items[0m[1mcollecting 3 items[0m[1mcollecting 3 items[0m[1mcollecting 3 items[0m[1mcollecting 3 items[0m[1mcollecting 3 items[0m[1mcollecting 3 items[0m[1mcollecting 3 items[0m[1mcollecting 3 items[0m[1mcollecting 3 items[0m[1mcollecting 4 items[0m[1mcollecting 4 items[0m[1mcollecting 4 items[0m[1mcollecting 4 items[0m[1mcollecting 4 items[0m[1mcollecting 4 items[0m[1mcollecting 4 items[0m[1mcollecting 4 items[0m[1mcollecting 4 items[0m[1mcollecting 4 items[0m[1mcollecting 4 items[0m[1mcollecting 4 items[0m[1mcollecting 4 items[0m[1mcollecting 4 items[0m[1mcollecting 4 items[0m[1mcollecting 4 items[0m[1mcollecting 4 items[0m[1mcollecting 4 items[0m[1mcollecting 4 items[0m[1mcollecting 4 items[0m[1mcollecting 4 items[0m[1mcollecting 4 items[0m[1mcollecting 4 items[0m[1mcollecting 4 items[0m[1mcollecting 4 items[0m[1mcollecting 5 items[0m[1mcollecting 5 items[0m[1mcollecting 5 items[0m[1mcollecting 5 items[0m[1mcollecting 5 items[0m[1mcollecting 5 items[0m[1mcollecting 5 items[0m[1mcollecting 5 items[0m[1mcollecting 5 items[0m[1mcollecting 5 items[0m[1mcollecting 5 items[0m[1mcollecting 5 items[0m[1mcollecting 5 items[0m[1mcollecting 5 items[0m[1mcollecting 5 items[0m[1mcollecting 5 items[0m[1mcollecting 5 items[0m[1mcollecting 5 items[0m[1mcollecting 5 items[0m[1mcollecting 5 items[0m[1mcollecting 5 items[0m[1mcollecting 5 items[0m[1mcollecting 5 items[0m[1mcollecting 5 items[0m[1mcollecting 5 items[0m[1mcollecting 5 items[0m[1mcollecting 5 items[0m[1mcollecting 5 items[0m[1mcollecting 5 items[0m[1mcollecting 5 items[0m[1mcollecting 5 items[0m[1mcollecting 5 items[0m[1mcollecting 5 items[0m[1mcollecting 6 items[0m[1mcollecting 6 items[0m[1mcollecting 6 items[0m[1mcollecting 6 items[0m[1mcollecting 6 items[0m[1mcollecting 6 items[0m[1mcollecting 6 items[0m[1mcollecting 6 items[0m[1mcollecting 6 items[0m[1mcollecting 6 items[0m[1mcollecting 6 items[0m[1mcollecting 6 items[0m[1mcollecting 6 items[0m[1mcollecting 6 items[0m[1mcollecting 7 items[0m[1mcollecting 7 items[0m[1mcollecting 7 items[0m[1mcollecting 7 items[0m[1mcollecting 10 items[0m[1mcollecting 10 items[0m[1mcollecting 10 items[0m[1mcollecting 10 items[0m[1mcollecting 10 items[0m[1mcollecting 10 items[0m[1mcollecting 10 items[0m[1mcollecting 10 items[0m[1mcollecting 10 items[0m[1mcollecting 11 items[0m[1mcollecting 11 items[0m[1mcollecting 11 items[0m[1mcollecting 11 items[0m[1mcollecting 12 items[0m[1mcollecting 12 items[0m[1mcollecting 12 items[0m[1mcollecting 12 items[0m[1mcollecting 12 items[0m[1mcollecting 12 items[0m[1mcollecting 12 items[0m[1mcollecting 12 items[0m[1mcollecting 12 items[0m[1mcollecting 12 items[0m[1mcollecting 12 items[0m[1mcollecting 12 items[0m[1mcollecting 16 items[0m[1mcollecting 16 items[0m[1mcollecting 16 items[0m[1mcollecting 20 items[0m[1mcollecting 20 items[0m[1mcollecting 20 items[0m[1mcollecting 30 items[0m[1mcollecting 30 items[0m[1mcollecting 30 items[0m[1mcollecting 30 items[0m[1mcollecting 46 items[0m[1mcollecting 46 items[0m[1mcollecting 46 items[0m[1mcollecting 48 items[0m[1mcollecting 48 items[0m[1mcollecting 48 items[0m[1mcollecting 48 items[0m[1mcollecting 50 items[0m[1mcollecting 51 items[0m[1mcollecting 51 items[0m[1mcollecting 59 items[0m[1mcollecting 60 items[0m[1mcollecting 61 items[0m[1mcollecting 68 items[0m[1mcollecting 69 items[0m[1mcollecting 69 items[0m[1mcollecting 69 items[0m[1mcollecting 72 items[0m[1mcollecting 72 items[0m[1mcollecting 72 items[0m[1mcollecting 72 items[0m[1mcollecting 92 items[0m[1mcollecting 92 items[0m[1mcollecting 92 items[0m[1mcollecting 92 items[0m[1mcollecting 96 items[0m[1mcollecting 97 items[0m[1mcollecting 102 items[0m[1mcollecting 104 items[0m[1mcollecting 104 items[0m[1mcollecting 104 items[0m[1mcollecting 105 items[0m[1mcollecting 105 items[0m[1mcollecting 105 items[0m[1mcollecting 108 items[0m[1mcollecting 110 items[0m[1mcollecting 120 items[0m[1mcollecting 130 items[0m[1mcollecting 140 items[0m[1mcollecting 150 items[0m[1mcollecting 166 items[0m[1mcollecting 182 items[0m[1mcollecting 198 items[0m[1mcollecting 214 items[0m[1mcollecting 217 items[0m[1mcollecting 220 items[0m[1mcollecting 220 items[0m[1mcollecting 223 items[0m[1mcollecting 227 items[0m[1mcollecting 228 items[0m[1mcollecting 236 items[0m[1mcollecting 241 items[0m[1mcollecting 241 items[0m[1mcollecting 241 items[0m[1mcollecting 241 items[0m[1mcollecting 241 items[0m[1mcollecting 244 items[0m[1mcollecting 245 items[0m[1mcollecting 245 items[0m[1mcollecting 245 items[0m[1mcollecting 250 items[0m[1mcollecting 250 items[0m[1mcollecting 250 items[0m[1mcollecting 262 items[0m[1mcollecting 262 items[0m[1mcollecting 262 items[0m[1mcollecting 262 items[0m[1mcollecting 265 items[0m[1mcollecting 265 items[0m[1mcollecting 265 items[0m[1mcollecting 265 items[0m[1mcollecting 267 items[0m[1mcollecting 267 items[0m[1mcollecting 267 items[0m[1mcollecting 267 items[0m[1mcollecting 271 items[0m[1mcollecting 271 items[0m[1mcollecting 271 items[0m[1mcollecting 273 items[0m[1mcollecting 273 items[0m[1mcollecting 273 items[0m[1mcollecting 274 items[0m[1mcollecting 277 items[0m[1mcollecting 280 items[0m[1mcollecting 284 items[0m[1mcollecting 287 items[0m[1mcollecting 290 items[0m[1mcollecting 293 items[0m[1mcollecting 299 items[0m[1mcollecting 308 items[0m[1mcollecting 308 items[0m[1mcollecting 308 items[0m[1mcollecting 320 items[0m[1mcollecting 320 items[0m[1mcollecting 320 items[0m[1mcollecting 320 items[0m[1mcollecting 320 items[0m[1mcollecting 328 items[0m[1mcollecting 328 items[0m[1mcollecting 328 items[0m[1mcollecting 340 items[0m[1mcollecting 347 items[0m[1mcollecting 347 items[0m[1mcollecting 347 items[0m[1mcollecting 353 items[0m[1mcollecting 353 items[0m[1mcollecting 353 items[0m[1mcollecting 362 items[0m[1mcollecting 362 items[0m[1mcollecting 362 items[0m[1mcollecting 365 items[0m[1mcollecting 365 items[0m[1mcollecting 365 items[0m[1mcollecting 365 items[0m[1mcollecting 370 items[0m[1mcollecting 370 items[0m[1mcollecting 370 items[0m[1mcollecting 370 items[0m[1mcollecting 373 items[0m[1mcollecting 373 items[0m[1mcollecting 373 items[0m[1mcollecting 377 items[0m[1mcollecting 377 items[0m[1mcollecting 377 items[0m[1mcollecting 382 items[0m[1mcollecting 393 items[0m[1mcollecting 398 items[0m[1mcollecting 405 items[0m[1mcollecting 411 items[0m[1mcollecting 424 items[0m[1mcollecting 433 items[0m[1mcollecting 441 items[0m[1mcollecting 452 items[0m[1mcollecting 453 items[0m[1mcollecting 453 items[0m[1mcollecting 453 items[0m[1mcollecting 458 items[0m[1mcollecting 459 items[0m[1mcollecting 462 items[0m[1mcollecting 463 items[0m[1mcollecting 464 items[0m[1mcollecting 471 items[0m[1mcollecting 471 items[0m[1mcollecting 471 items[0m[1mcollecting 481 items[0m[1mcollecting 484 items[0m[1mcollecting 484 items[0m[1mcollecting 484 items[0m[1mcollecting 484 items[0m[1mcollecting 501 items[0m[1mcollecting 501 items[0m[1mcollecting 501 items[0m[1mcollecting 519 items[0m[1mcollecting 594 items[0m[1mcollecting 614 items[0m[1mcollecting 614 items[0m[1mcollecting 614 items[0m[1mcollecting 622 items[0m[1mcollecting 641 items[0m[1mcollecting 662 items[0m[1mcollecting 683 items[0m[1mcollecting 683 items[0m[1mcollecting 683 items[0m[1mcollecting 699 items[0m[1mcollecting 699 items[0m[1mcollecting 699 items[0m[1mcollecting 702 items[0m[1mcollecting 702 items[0m[1mcollecting 702 items[0m[1mcollecting 728 items[0m[1mcollecting 728 items[0m[1mcollecting 728 items[0m[1mcollecting 733 items[0m[1mcollecting 735 items[0m[1mcollecting 764 items[0m[1mcollecting 767 items[0m[1mcollecting 767 items[0m[1mcollecting 767 items[0m[1mcollecting 796 items[0m[1mcollecting 801 items[0m[1mcollecting 817 items[0m[1mcollecting 822 items[0m[1mcollecting 823 items[0m[1mcollecting 823 items[0m[1mcollecting 823 items[0m[1mcollecting 826 items[0m[1mcollecting 826 items[0m[1mcollecting 826 items[0m[1mcollecting 832 items[0m[1mcollecting 832 items[0m[1mcollecting 832 items[0m[1mcollecting 836 items[0m[1mcollecting 836 items[0m[1mcollecting 836 items[0m[1mcollecting 840 items[0m[1mcollecting 842 items[0m[1mcollecting 844 items[0m[1mcollecting 852 items[0m[1mcollecting 853 items[0m[1mcollecting 853 items[0m[1mcollecting 853 items[0m[1mcollecting 856 items[0m[1mcollecting 861 items[0m[1mcollecting 863 items[0m[1mcollecting 871 items[0m[1mcollecting 871 items[0m[1mcollecting 871 items[0m[1mcollecting 877 items[0m[1mcollecting 891 items[0m[1mcollecting 891 items[0m[1mcollecting 891 items[0m[1mcollecting 891 items[0m[1mcollecting 897 items[0m[1mcollecting 897 items[0m[1mcollecting 897 items[0m[1mcollecting 898 items[0m[1mcollecting 898 items[0m[1mcollecting 898 items[0m[1mcollecting 905 items[0m[1mcollecting 905 items[0m[1mcollecting 905 items[0m[1mcollecting 916 items[0m[1mcollecting 919 items[0m[1mcollecting 919 items[0m[1mcollecting 919 items[0m[1mcollecting 920 items[0m[1mcollecting 920 items[0m[1mcollecting 920 items[0m[1mcollecting 931 items[0m[1mcollecting 942 items[0m[1mcollecting 954 items[0m[1mcollecting 965 items[0m[1mcollecting 981 items[0m[1mcollecting 997 items[0m[1mcollecting 1001 items[0m[1mcollecting 1001 items[0m[1mcollecting 1001 items[0m[1mcollecting 1002 items[0m[1mcollecting 1002 items[0m[1mcollecting 1002 items[0m[1mcollecting 1002 items[0m[1mcollecting 1002 items[0m[1mcollecting 1005 items[0m[1mcollecting 1008 items[0m[1mcollecting 1010 items[0m[1mcollecting 1013 items[0m[1mcollecting 1013 items[0m[1mcollecting 1013 items[0m[1mcollecting 1013 items[0m[1mcollecting 1014 items[0m[1mcollecting 1015 items[0m[1mcollecting 1016 items[0m[1mcollecting 1017 items[0m[1mcollecting 1017 items[0m[1mcollecting 1017 items[0m[1mcollecting 1017 items[0m[1mcollecting 1018 items[0m[1mcollecting 1018 items[0m[1mcollecting 1018 items[0m[1mcollecting 1018 items[0m[1mcollecting 1019 items[0m[1mcollecting 1019 items[0m[1mcollecting 1019 items[0m[1mcollecting 1019 items[0m[1mcollecting 1022 items[0m[1mcollecting 1022 items[0m[1mcollecting 1022 items[0m[1mcollecting 1035 items[0m[1mcollecting 1048 items[0m[1mcollecting 1061 items[0m[1mcollecting 1074 items[0m[1mcollecting 1087 items[0m[1mcollecting 1103 items[0m[1mcollecting 1119 items[0m[1mcollecting 1135 items[0m[1mcollecting 1151 items[0m[1mcollecting 1167 items[0m[1mcollecting 1180 items[0m[1mcollecting 1196 items[0m[1mcollecting 1196 items[0m[1mcollecting 1196 items[0m[1mcollecting 1198 items[0m[1mcollecting 1198 items[0m[1mcollecting 1198 items[0m[1mcollecting 1204 items[0m[1mcollecting 1204 items[0m[1mcollecting 1204 items[0m[1mcollecting 1204 items[0m[1mcollecting 1205 items[0m[1mcollecting 1205 items[0m[1mcollecting 1205 items[0m[1mcollecting 1213 items[0m[1mcollecting 1214 items[0m[1mcollecting 1214 items[0m[1mcollecting 1214 items[0m[1mcollecting 1217 items[0m[1mcollecting 1217 items[0m[1mcollecting 1217 items[0m[1mcollecting 1228 items[0m[1mcollecting 1235 items[0m[1mcollecting 1235 items[0m[1mcollecting 1235 items[0m[1mcollecting 1237 items[0m[1mcollecting 1241 items[0m[1mcollecting 1243 items[0m[1mcollecting 1243 items[0m[1mcollecting 1243 items[0m[1mcollecting 1256 items[0m[1mcollecting 1259 items[0m[1mcollecting 1259 items[0m[1mcollecting 1259 items[0m[1mcollecting 1271 items[0m[1mcollecting 1271 items[0m[1mcollecting 1271 items[0m[1mcollecting 1272 items[0m[1mcollecting 1272 items[0m[1mcollecting 1272 items[0m[1mcollecting 1273 items[0m[1mcollecting 1273 items[0m[1mcollecting 1273 items[0m[1mcollecting 1281 items[0m[1mcollecting 1291 items[0m[1mcollecting 1300 items[0m[1mcollecting 1301 items[0m[1mcollecting 1301 items[0m[1mcollecting 1301 items[0m[1mcollecting 1303 items[0m[1mcollecting 1307 items[0m[1mcollecting 1310 items[0m[1mcollecting 1311 items[0m[1mcollecting 1311 items[0m[1mcollecting 1311 items[0m[1mcollecting 1313 items[0m[1mcollecting 1313 items[0m[1mcollecting 1313 items[0m[1mcollecting 1318 items[0m[1mcollecting 1323 items[0m[1mcollecting 1324 items[0m[1mcollecting 1328 items[0m[1mcollecting 1335 items[0m[1mcollecting 1335 items[0m[1mcollecting 1335 items[0m[1mcollecting 1342 items[0m[1mcollecting 1342 items[0m[1mcollecting 1342 items[0m[1mcollecting 1346 items[0m[1mcollecting 1346 items[0m[1mcollecting 1346 items[0m[1mcollecting 1351 items[0m[1mcollecting 1351 items[0m[1mcollecting 1351 items[0m[1mcollecting 1355 items[0m[1mcollecting 1355 items[0m[1mcollecting 1355 items[0m[1mcollecting 1356 items[0m[1mcollecting 1357 items[0m[1mcollecting 1358 items[0m[1mcollecting 1359 items[0m[1mcollecting 1359 items[0m[1mcollecting 1359 items[0m[1mcollecting 1369 items[0m[1mcollecting 1369 items[0m[1mcollecting 1369 items[0m[1mcollecting 1371 items[0m[1mcollecting 1371 items[0m[1mcollecting 1371 items[0m[1mcollecting 1372 items[0m[1mcollecting 1372 items[0m[1mcollecting 1372 items[0m[1mcollecting 1377 items[0m[1mcollecting 1377 items[0m[1mcollecting 1377 items[0m[1mcollecting 1382 items[0m[1mcollecting 1408 items[0m[1mcollecting 1429 items[0m[1mcollecting 1429 items[0m[1mcollecting 1429 items[0m[1mcollecting 1431 items[0m[1mcollecting 1433 items[0m[1mcollecting 1443 items[0m[1mcollecting 1443 items[0m[1mcollecting 1443 items[0m[1mcollecting 1443 items[0m[1mcollecting 1443 items[0m[1mcollecting 1443 items[0m[1mcollecting 1448 items[0m[1mcollecting 1448 items[0m[1mcollecting 1448 items[0m[1mcollecting 1448 items[0m[1mcollecting 1448 items[0m[1mcollecting 1449 items[0m[1mcollecting 1454 items[0m[1mcollecting 1476 items[0m[1mcollecting 1480 items[0m[1mcollecting 1481 items[0m[1mcollecting 1481 items[0m[1mcollecting 1481 items[0m[1mcollecting 1481 items[0m[1mcollecting 1490 items[0m[1mcollecting 1490 items[0m[1mcollecting 1490 items[0m[1mcollecting 1490 items[0m[1mcollecting 1490 items[0m[1mcollecting 1490 items[0m[1mcollecting 1490 items[0m[1mcollecting 1490 items[0m[1mcollecting 1490 items[0m[1mcollecting 1490 items[0m[1mcollecting 1490 items[0m[1mcollecting 1490 items[0m[1mcollecting 1494 items[0m[1mcollecting 1494 items[0m[1mcollecting 1494 items[0m[1mcollecting 1494 items[0m[1mcollecting 1494 items[0m[1mcollecting 1494 items[0m[1mcollecting 1494 items[0m[1mcollecting 1494 items[0m[1mcollected 1494 items 
+[0m
+scrapy/core/downloader/handlers/http11.py .
+scrapy/downloadermiddlewares/ajaxcrawl.py .
+scrapy/extensions/httpcache.py .
+scrapy/http/cookies.py .
+scrapy/pipelines/media.py .
+scrapy/utils/datatypes.py .
+scrapy/utils/misc.py .
+scrapy/utils/python.py ...
+scrapy/utils/template.py .
+scrapy/utils/url.py .
+tests/test_closespider.py FFF.
+tests/test_command_fetch.py ....
+tests/test_command_parse.py ..........
+tests/test_command_shell.py ................
+tests/test_command_version.py ..
+tests/test_commands.py .....................
+tests/test_contracts.py ...
+tests/test_crawl.py ..F.F........FF.....
+tests/test_crawler.py ............
+tests/test_dependencies.py .
+tests/test_downloader_handlers.py ................................................................................................................................s.......
+tests/test_downloadermiddleware.py ....
+tests/test_downloadermiddleware_ajaxcrawlable.py .....
+tests/test_downloadermiddleware_cookies.py ............
+tests/test_downloadermiddleware_decompression.py ...
+tests/test_downloadermiddleware_defaultheaders.py ..
+tests/test_downloadermiddleware_downloadtimeout.py ....
+tests/test_downloadermiddleware_httpauth.py ..
+tests/test_downloadermiddleware_httpcache.py ...................................
+tests/test_downloadermiddleware_httpcompression.py ............
+tests/test_downloadermiddleware_httpproxy.py ........
+tests/test_downloadermiddleware_redirect.py ...................
+tests/test_downloadermiddleware_retry.py ......
+tests/test_downloadermiddleware_robotstxt.py .........
+tests/test_downloadermiddleware_stats.py ...
+tests/test_downloadermiddleware_useragent.py .....
+tests/test_dupefilters.py ...
+tests/test_engine.py ...F
+tests/test_exporters.py ............................................................................
+tests/test_feedexport.py .....s...s........
+tests/test_http_cookies.py .............
+tests/test_http_headers.py .................
+tests/test_http_request.py .................................................................................................................
+tests/test_http_response.py .....................................................................
+tests/test_item.py ................
+tests/test_link.py ...
+tests/test_linkextractors.py .....................x....
+tests/test_linkextractors_deprecated.py .......................................
+tests/test_loader.py ........................................................
+tests/test_logformatter.py ...
+tests/test_mail.py ......
+tests/test_middleware.py ....
+tests/test_pipeline_files.py ................s
+tests/test_pipeline_images.py ..................
+tests/test_pipeline_media.py ....................
+tests/test_proxy_connect.py ......
+tests/test_pydispatch_deprecated.py .
+tests/test_responsetypes.py .......
+tests/test_selector.py ..............
+tests/test_selector_csstranslator.py .
+tests/test_spider.py .................................................................................
+tests/test_spidermiddleware_depth.py .
+tests/test_spidermiddleware_httperror.py ...........
+tests/test_spidermiddleware_offsite.py FFFF
+tests/test_spidermiddleware_referer.py .
+tests/test_spidermiddleware_urllength.py .
+tests/test_spiderstate.py ...
+tests/test_squeues.py ......x............x............x............x............x............x...............x...............x...............x...............x...............x............x.........
+tests/test_stats.py ..
+tests/test_toplevel.py ......
+tests/test_urlparse_monkeypatches.py .
+tests/test_utils_conf.py .........
+tests/test_utils_console.py ...
+tests/test_utils_datatypes.py ..................
+tests/test_utils_defer.py ........
+tests/test_utils_deprecate.py ................
+tests/test_utils_gz.py ............
+tests/test_utils_http.py .
+tests/test_utils_httpobj.py .
+tests/test_utils_iterators.py ............................
+tests/test_utils_log.py ..........
+tests/test_utils_project.py ..
+tests/test_utils_python.py ......................
+tests/test_utils_reqser.py .......
+tests/test_utils_request.py ....
+tests/test_utils_response.py .....
+tests/test_utils_serialize.py ....
+tests/test_utils_signal.py ....
+tests/test_utils_sitemap.py ..........
+tests/test_utils_spider.py ..
+tests/test_utils_template.py .
+tests/test_utils_trackref.py .....
+tests/test_utils_url.py ...................................................s
+tests/test_webclient.py ..............
+tests/test_cmdline/__init__.py .....
+tests/test_settings/__init__.py .................................
+tests/test_spiderloader/__init__.py .........
+tests/test_utils_misc/__init__.py ....
+
+=================================== FAILURES ===================================
+[31m[1m_________________ TestCloseSpider.test_closespider_errorcount __________________[0m
+
+result = None
+g = <generator object test_closespider_errorcount at 0x7f064e70d320>
+deferred = <Deferred at 0x7f064e8b5950 current result: None>
+
+[1m    def _inlineCallbacks(result, g, deferred):[0m
+[1m        """[0m
+[1m        See L{inlineCallbacks}.[0m
+[1m        """[0m
+[1m        # This function is complicated by the need to prevent unbounded recursion[0m
+[1m        # arising from repeatedly yielding immediately ready deferreds.  This while[0m
+[1m        # loop and the waiting variable solve that by manually unfolding the[0m
+[1m        # recursion.[0m
+[1m    [0m
+[1m        waiting = [True, # waiting for result?[0m
+[1m                   None] # result[0m
+[1m    [0m
+[1m        while 1:[0m
+[1m            try:[0m
+[1m                # Send the last result back as the result of the yield expression.[0m
+[1m                isFailure = isinstance(result, failure.Failure)[0m
+[1m                if isFailure:[0m
+[1m                    result = result.throwExceptionIntoGenerator(g)[0m
+[1m                else:[0m
+[1m>                   result = g.send(result)[0m
+
+/home/travis/build/scrapy/scrapy/.tox/py27/lib/python2.7/site-packages/twisted/internet/defer.py:1299: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/home/travis/build/scrapy/scrapy/tests/test_closespider.py:43: in test_closespider_errorcount
+[1m    self.assertEqual(reason, 'closespider_errorcount')[0m
+/home/travis/build/scrapy/scrapy/.tox/py27/lib/python2.7/site-packages/twisted/trial/_synctest.py:425: in assertEqual
+[1m    super(_Assertions, self).assertEqual(first, second, msg)[0m
+[31m[1mE   FailTest: 'finished' != 'closespider_errorcount'[0m
+[31m[1m__________________ TestCloseSpider.test_closespider_itemcount __________________[0m
+
+result = None
+g = <generator object test_closespider_itemcount at 0x7f0658d47410>
+deferred = <Deferred at 0x7f064d7bfc20 current result: None>
+
+[1m    def _inlineCallbacks(result, g, deferred):[0m
+[1m        """[0m
+[1m        See L{inlineCallbacks}.[0m
+[1m        """[0m
+[1m        # This function is complicated by the need to prevent unbounded recursion[0m
+[1m        # arising from repeatedly yielding immediately ready deferreds.  This while[0m
+[1m        # loop and the waiting variable solve that by manually unfolding the[0m
+[1m        # recursion.[0m
+[1m    [0m
+[1m        waiting = [True, # waiting for result?[0m
+[1m                   None] # result[0m
+[1m    [0m
+[1m        while 1:[0m
+[1m            try:[0m
+[1m                # Send the last result back as the result of the yield expression.[0m
+[1m                isFailure = isinstance(result, failure.Failure)[0m
+[1m                if isFailure:[0m
+[1m                    result = result.throwExceptionIntoGenerator(g)[0m
+[1m                else:[0m
+[1m>                   result = g.send(result)[0m
+
+/home/travis/build/scrapy/scrapy/.tox/py27/lib/python2.7/site-packages/twisted/internet/defer.py:1299: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/home/travis/build/scrapy/scrapy/tests/test_closespider.py:23: in test_closespider_itemcount
+[1m    self.assertEqual(reason, 'closespider_itemcount')[0m
+/home/travis/build/scrapy/scrapy/.tox/py27/lib/python2.7/site-packages/twisted/trial/_synctest.py:425: in assertEqual
+[1m    super(_Assertions, self).assertEqual(first, second, msg)[0m
+[31m[1mE   FailTest: 'finished' != 'closespider_itemcount'[0m
+[31m[1m__________________ TestCloseSpider.test_closespider_pagecount __________________[0m
+
+result = None
+g = <generator object test_closespider_pagecount at 0x7f064d7c7eb0>
+deferred = <Deferred at 0x7f064d79b878 current result: None>
+
+[1m    def _inlineCallbacks(result, g, deferred):[0m
+[1m        """[0m
+[1m        See L{inlineCallbacks}.[0m
+[1m        """[0m
+[1m        # This function is complicated by the need to prevent unbounded recursion[0m
+[1m        # arising from repeatedly yielding immediately ready deferreds.  This while[0m
+[1m        # loop and the waiting variable solve that by manually unfolding the[0m
+[1m        # recursion.[0m
+[1m    [0m
+[1m        waiting = [True, # waiting for result?[0m
+[1m                   None] # result[0m
+[1m    [0m
+[1m        while 1:[0m
+[1m            try:[0m
+[1m                # Send the last result back as the result of the yield expression.[0m
+[1m                isFailure = isinstance(result, failure.Failure)[0m
+[1m                if isFailure:[0m
+[1m                    result = result.throwExceptionIntoGenerator(g)[0m
+[1m                else:[0m
+[1m>                   result = g.send(result)[0m
+
+/home/travis/build/scrapy/scrapy/.tox/py27/lib/python2.7/site-packages/twisted/internet/defer.py:1299: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/home/travis/build/scrapy/scrapy/tests/test_closespider.py:33: in test_closespider_pagecount
+[1m    self.assertEqual(reason, 'closespider_pagecount')[0m
+/home/travis/build/scrapy/scrapy/.tox/py27/lib/python2.7/site-packages/twisted/trial/_synctest.py:425: in assertEqual
+[1m    super(_Assertions, self).assertEqual(first, second, msg)[0m
+[31m[1mE   FailTest: 'finished' != 'closespider_pagecount'[0m
+[31m[1m___________________________ CrawlTestCase.test_delay ___________________________[0m
+
+result = <twisted.python.failure.Failure exceptions.ZeroDivisionError: float division by zero>
+g = <generator object test_delay at 0x7f064d714e60>
+deferred = <Deferred at 0x7f0652855f38 current result: None>
+
+[1m    def _inlineCallbacks(result, g, deferred):[0m
+[1m        """[0m
+[1m        See L{inlineCallbacks}.[0m
+[1m        """[0m
+[1m        # This function is complicated by the need to prevent unbounded recursion[0m
+[1m        # arising from repeatedly yielding immediately ready deferreds.  This while[0m
+[1m        # loop and the waiting variable solve that by manually unfolding the[0m
+[1m        # recursion.[0m
+[1m    [0m
+[1m        waiting = [True, # waiting for result?[0m
+[1m                   None] # result[0m
+[1m    [0m
+[1m        while 1:[0m
+[1m            try:[0m
+[1m                # Send the last result back as the result of the yield expression.[0m
+[1m                isFailure = isinstance(result, failure.Failure)[0m
+[1m                if isFailure:[0m
+[1m>                   result = result.throwExceptionIntoGenerator(g)[0m
+
+/home/travis/build/scrapy/scrapy/.tox/py27/lib/python2.7/site-packages/twisted/internet/defer.py:1297: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/home/travis/build/scrapy/scrapy/.tox/py27/lib/python2.7/site-packages/twisted/python/failure.py:389: in throwExceptionIntoGenerator
+[1m    return g.throw(self.type, self.value, self.tb)[0m
+/home/travis/build/scrapy/scrapy/tests/test_crawl.py:37: in test_delay
+[1m    yield self._test_delay(0.2, False)[0m
+/home/travis/build/scrapy/scrapy/.tox/py27/lib/python2.7/site-packages/twisted/internet/defer.py:1299: in _inlineCallbacks
+[1m    result = g.send(result)[0m
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <tests.test_crawl.CrawlTestCase testMethod=test_delay>, delay = 0.2
+randomize = False
+
+[1m    @defer.inlineCallbacks[0m
+[1m    def _test_delay(self, delay, randomize):[0m
+[1m        settings = {"DOWNLOAD_DELAY": delay, 'RANDOMIZE_DOWNLOAD_DELAY': randomize}[0m
+[1m        crawler = CrawlerRunner(settings).create_crawler(FollowAllSpider)[0m
+[1m        yield crawler.crawl(maxlatency=delay * 2)[0m
+[1m        t = crawler.spider.times[0m
+[1m        totaltime = t[-1] - t[0][0m
+[1m>       avgd = totaltime / (len(t) - 1)[0m
+[31m[1mE       ZeroDivisionError: float division by zero[0m
+
+/home/travis/build/scrapy/scrapy/tests/test_crawl.py:50: ZeroDivisionError
+[31m[1m________________________ CrawlTestCase.test_follow_all _________________________[0m
+
+result = None, g = <generator object test_follow_all at 0x7f065091ee60>
+deferred = <Deferred at 0x7f064d53cc20 current result: None>
+
+[1m    def _inlineCallbacks(result, g, deferred):[0m
+[1m        """[0m
+[1m        See L{inlineCallbacks}.[0m
+[1m        """[0m
+[1m        # This function is complicated by the need to prevent unbounded recursion[0m
+[1m        # arising from repeatedly yielding immediately ready deferreds.  This while[0m
+[1m        # loop and the waiting variable solve that by manually unfolding the[0m
+[1m        # recursion.[0m
+[1m    [0m
+[1m        waiting = [True, # waiting for result?[0m
+[1m                   None] # result[0m
+[1m    [0m
+[1m        while 1:[0m
+[1m            try:[0m
+[1m                # Send the last result back as the result of the yield expression.[0m
+[1m                isFailure = isinstance(result, failure.Failure)[0m
+[1m                if isFailure:[0m
+[1m                    result = result.throwExceptionIntoGenerator(g)[0m
+[1m                else:[0m
+[1m>                   result = g.send(result)[0m
+
+/home/travis/build/scrapy/scrapy/.tox/py27/lib/python2.7/site-packages/twisted/internet/defer.py:1299: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/home/travis/build/scrapy/scrapy/tests/test_crawl.py:32: in test_follow_all
+[1m    self.assertEqual(len(crawler.spider.urls_visited), 11)  # 10 + start_url[0m
+/home/travis/build/scrapy/scrapy/.tox/py27/lib/python2.7/site-packages/twisted/trial/_synctest.py:425: in assertEqual
+[1m    super(_Assertions, self).assertEqual(first, second, msg)[0m
+[31m[1mE   FailTest: 1 != 11[0m
+[31m[1m______________ CrawlTestCase.test_start_requests_bug_before_yield ______________[0m
+
+result = None
+g = <generator object test_start_requests_bug_before_yield at 0x7f064d699c80>
+deferred = <Deferred at 0x7f064d529518 current result: None>
+
+[1m    def _inlineCallbacks(result, g, deferred):[0m
+[1m        """[0m
+[1m        See L{inlineCallbacks}.[0m
+[1m        """[0m
+[1m        # This function is complicated by the need to prevent unbounded recursion[0m
+[1m        # arising from repeatedly yielding immediately ready deferreds.  This while[0m
+[1m        # loop and the waiting variable solve that by manually unfolding the[0m
+[1m        # recursion.[0m
+[1m    [0m
+[1m        waiting = [True, # waiting for result?[0m
+[1m                   None] # result[0m
+[1m    [0m
+[1m        while 1:[0m
+[1m            try:[0m
+[1m                # Send the last result back as the result of the yield expression.[0m
+[1m                isFailure = isinstance(result, failure.Failure)[0m
+[1m                if isFailure:[0m
+[1m                    result = result.throwExceptionIntoGenerator(g)[0m
+[1m                else:[0m
+[1m>                   result = g.send(result)[0m
+
+/home/travis/build/scrapy/scrapy/.tox/py27/lib/python2.7/site-packages/twisted/internet/defer.py:1299: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/home/travis/build/scrapy/scrapy/tests/test_crawl.py:107: in test_start_requests_bug_before_yield
+[1m    self.assertEqual(len(l.records), 1)[0m
+/home/travis/build/scrapy/scrapy/.tox/py27/lib/python2.7/site-packages/twisted/trial/_synctest.py:425: in assertEqual
+[1m    super(_Assertions, self).assertEqual(first, second, msg)[0m
+[31m[1mE   FailTest: 2 != 1[0m
+[31m[1m________________ CrawlTestCase.test_start_requests_bug_yielding ________________[0m
+
+result = None
+g = <generator object test_start_requests_bug_yielding at 0x7f064dfe9370>
+deferred = <Deferred at 0x7f064d646050 current result: None>
+
+[1m    def _inlineCallbacks(result, g, deferred):[0m
+[1m        """[0m
+[1m        See L{inlineCallbacks}.[0m
+[1m        """[0m
+[1m        # This function is complicated by the need to prevent unbounded recursion[0m
+[1m        # arising from repeatedly yielding immediately ready deferreds.  This while[0m
+[1m        # loop and the waiting variable solve that by manually unfolding the[0m
+[1m        # recursion.[0m
+[1m    [0m
+[1m        waiting = [True, # waiting for result?[0m
+[1m                   None] # result[0m
+[1m    [0m
+[1m        while 1:[0m
+[1m            try:[0m
+[1m                # Send the last result back as the result of the yield expression.[0m
+[1m                isFailure = isinstance(result, failure.Failure)[0m
+[1m                if isFailure:[0m
+[1m                    result = result.throwExceptionIntoGenerator(g)[0m
+[1m                else:[0m
+[1m>                   result = g.send(result)[0m
+
+/home/travis/build/scrapy/scrapy/.tox/py27/lib/python2.7/site-packages/twisted/internet/defer.py:1299: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/home/travis/build/scrapy/scrapy/tests/test_crawl.py:118: in test_start_requests_bug_yielding
+[1m    self.assertEqual(len(l.records), 1)[0m
+/home/travis/build/scrapy/scrapy/.tox/py27/lib/python2.7/site-packages/twisted/trial/_synctest.py:425: in assertEqual
+[1m    super(_Assertions, self).assertEqual(first, second, msg)[0m
+[31m[1mE   FailTest: 3 != 1[0m
+[31m[1m___________________________ EngineTest.test_crawler ____________________________[0m
+
+result = None, g = <generator object test_crawler at 0x7f064d699d70>
+deferred = <Deferred at 0x7f064c1d2d40 current result: None>
+
+[1m    def _inlineCallbacks(result, g, deferred):[0m
+[1m        """[0m
+[1m        See L{inlineCallbacks}.[0m
+[1m        """[0m
+[1m        # This function is complicated by the need to prevent unbounded recursion[0m
+[1m        # arising from repeatedly yielding immediately ready deferreds.  This while[0m
+[1m        # loop and the waiting variable solve that by manually unfolding the[0m
+[1m        # recursion.[0m
+[1m    [0m
+[1m        waiting = [True, # waiting for result?[0m
+[1m                   None] # result[0m
+[1m    [0m
+[1m        while 1:[0m
+[1m            try:[0m
+[1m                # Send the last result back as the result of the yield expression.[0m
+[1m                isFailure = isinstance(result, failure.Failure)[0m
+[1m                if isFailure:[0m
+[1m                    result = result.throwExceptionIntoGenerator(g)[0m
+[1m                else:[0m
+[1m>                   result = g.send(result)[0m
+
+/home/travis/build/scrapy/scrapy/.tox/py27/lib/python2.7/site-packages/twisted/internet/defer.py:1299: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/home/travis/build/scrapy/scrapy/tests/test_engine.py:167: in test_crawler
+[1m    self._assert_visited_urls()[0m
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <tests.test_engine.EngineTest testMethod=test_crawler>
+
+[1m    def _assert_visited_urls(self):[0m
+[1m        must_be_visited = ["/", "/redirect", "/redirected",[0m
+[1m                           "/item1.html", "/item2.html", "/item999.html"][0m
+[1m        urls_visited = set([rp[0].url for rp in self.run.respplug])[0m
+[1m        urls_expected = set([self.run.geturl(p) for p in must_be_visited])[0m
+[1m>       assert urls_expected <= urls_visited, "URLs not visited: %s" % list(urls_expected - urls_visited)[0m
+[31m[1mE       AssertionError: URLs not visited: ['http://localhost:42731/item2.html', 'http://localhost:42731/item999.html', 'http://localhost:42731/item1.html'][0m
+
+/home/travis/build/scrapy/scrapy/tests/test_engine.py:183: AssertionError
+----------------------------- Captured stderr call -----------------------------
+2017-01-18 04:04:13 [scrapy.middleware] INFO: Enabled extensions:
+['scrapy.extensions.telnet.TelnetConsole',
+ 'scrapy.extensions.corestats.CoreStats',
+ 'scrapy.extensions.logstats.LogStats']
+2017-01-18 04:04:13 [scrapy.middleware] INFO: Enabled extensions:
+['scrapy.extensions.telnet.TelnetConsole',
+ 'scrapy.extensions.corestats.CoreStats',
+ 'scrapy.extensions.logstats.LogStats']
+2017-01-18 04:04:13 [scrapy.middleware] INFO: Enabled downloader middlewares:
+['scrapy.downloadermiddlewares.httpauth.HttpAuthMiddleware',
+ 'scrapy.downloadermiddlewares.downloadtimeout.DownloadTimeoutMiddleware',
+ 'scrapy.downloadermiddlewares.defaultheaders.DefaultHeadersMiddleware',
+ 'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware',
+ 'scrapy.downloadermiddlewares.retry.RetryMiddleware',
+ 'scrapy.downloadermiddlewares.redirect.MetaRefreshMiddleware',
+ 'scrapy.downloadermiddlewares.httpcompression.HttpCompressionMiddleware',
+ 'scrapy.downloadermiddlewares.redirect.RedirectMiddleware',
+ 'scrapy.downloadermiddlewares.cookies.CookiesMiddleware',
+ 'scrapy.downloadermiddlewares.stats.DownloaderStats']
+2017-01-18 04:04:13 [scrapy.middleware] INFO: Enabled downloader middlewares:
+['scrapy.downloadermiddlewares.httpauth.HttpAuthMiddleware',
+ 'scrapy.downloadermiddlewares.downloadtimeout.DownloadTimeoutMiddleware',
+ 'scrapy.downloadermiddlewares.defaultheaders.DefaultHeadersMiddleware',
+ 'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware',
+ 'scrapy.downloadermiddlewares.retry.RetryMiddleware',
+ 'scrapy.downloadermiddlewares.redirect.MetaRefreshMiddleware',
+ 'scrapy.downloadermiddlewares.httpcompression.HttpCompressionMiddleware',
+ 'scrapy.downloadermiddlewares.redirect.RedirectMiddleware',
+ 'scrapy.downloadermiddlewares.cookies.CookiesMiddleware',
+ 'scrapy.downloadermiddlewares.stats.DownloaderStats']
+2017-01-18 04:04:13 [scrapy.middleware] INFO: Enabled spider middlewares:
+['scrapy.spidermiddlewares.httperror.HttpErrorMiddleware',
+ 'scrapy.spidermiddlewares.offsite.OffsiteMiddleware',
+ 'scrapy.spidermiddlewares.referer.RefererMiddleware',
+ 'scrapy.spidermiddlewares.urllength.UrlLengthMiddleware',
+ 'scrapy.spidermiddlewares.depth.DepthMiddleware']
+2017-01-18 04:04:13 [scrapy.middleware] INFO: Enabled spider middlewares:
+['scrapy.spidermiddlewares.httperror.HttpErrorMiddleware',
+ 'scrapy.spidermiddlewares.offsite.OffsiteMiddleware',
+ 'scrapy.spidermiddlewares.referer.RefererMiddleware',
+ 'scrapy.spidermiddlewares.urllength.UrlLengthMiddleware',
+ 'scrapy.spidermiddlewares.depth.DepthMiddleware']
+2017-01-18 04:04:13 [scrapy.middleware] INFO: Enabled item pipelines:
+[]
+2017-01-18 04:04:13 [scrapy.middleware] INFO: Enabled item pipelines:
+[]
+2017-01-18 04:04:13 [scrapy.core.engine] INFO: Spider opened
+2017-01-18 04:04:13 [scrapy.core.engine] INFO: Spider opened
+2017-01-18 04:04:13 [scrapy.extensions.logstats] INFO: Crawled 0 pages (at 0 pages/min), scraped 0 items (at 0 items/min)
+2017-01-18 04:04:13 [scrapy.extensions.logstats] INFO: Crawled 0 pages (at 0 pages/min), scraped 0 items (at 0 items/min)
+2017-01-18 04:04:13 [scrapy.utils.signal] ERROR: Error caught on signal handler: <bound method ?.spider_opened of <scrapy.spidermiddlewares.offsite.OffsiteMiddleware object at 0x7f0646eca910>>
+Traceback (most recent call last):
+  File "/home/travis/build/scrapy/scrapy/.tox/py27/lib/python2.7/site-packages/twisted/internet/defer.py", line 150, in maybeDeferred
+    result = f(*args, **kw)
+  File "/home/travis/build/scrapy/scrapy/.tox/py27/lib/python2.7/site-packages/pydispatch/robustapply.py", line 55, in robustApply
+    return receiver(*arguments, **named)
+  File "/home/travis/build/scrapy/scrapy/scrapy/spidermiddlewares/offsite.py", line 72, in spider_opened
+    self.host_regex = self.get_host_regex(spider)
+  File "/home/travis/build/scrapy/scrapy/scrapy/spidermiddlewares/offsite.py", line 58, in get_host_regex
+    from urllib.parse import urlparse
+ImportError: No module named parse
+2017-01-18 04:04:13 [scrapy.utils.signal] ERROR: Error caught on signal handler: <bound method ?.spider_opened of <scrapy.spidermiddlewares.offsite.OffsiteMiddleware object at 0x7f0646eca910>>
+Traceback (most recent call last):
+  File "/home/travis/build/scrapy/scrapy/.tox/py27/lib/python2.7/site-packages/twisted/internet/defer.py", line 150, in maybeDeferred
+    result = f(*args, **kw)
+  File "/home/travis/build/scrapy/scrapy/.tox/py27/lib/python2.7/site-packages/pydispatch/robustapply.py", line 55, in robustApply
+    return receiver(*arguments, **named)
+  File "/home/travis/build/scrapy/scrapy/scrapy/spidermiddlewares/offsite.py", line 72, in spider_opened
+    self.host_regex = self.get_host_regex(spider)
+  File "/home/travis/build/scrapy/scrapy/scrapy/spidermiddlewares/offsite.py", line 58, in get_host_regex
+    from urllib.parse import urlparse
+ImportError: No module named parse
+2017-01-18 04:04:13 [scrapy.extensions.telnet] DEBUG: Telnet console listening on 127.0.0.1:6023
+2017-01-18 04:04:13 [scrapy.extensions.telnet] DEBUG: Telnet console listening on 127.0.0.1:6023
+2017-01-18 04:04:13 [scrapy.core.engine] DEBUG: Crawled (200) <GET http://localhost:42731/> (referer: None)
+2017-01-18 04:04:13 [scrapy.core.engine] DEBUG: Crawled (200) <GET http://localhost:42731/> (referer: None)
+2017-01-18 04:04:13 [scrapy.downloadermiddlewares.redirect] DEBUG: Redirecting (302) to <GET http://localhost:42731/redirected> from <GET http://localhost:42731/redirect>
+2017-01-18 04:04:13 [scrapy.downloadermiddlewares.redirect] DEBUG: Redirecting (302) to <GET http://localhost:42731/redirected> from <GET http://localhost:42731/redirect>
+2017-01-18 04:04:13 [scrapy.downloadermiddlewares.redirect] DEBUG: Redirecting (302) to <GET http://localhost:42731/redirected> from <GET http://localhost:42731/redirect>
+2017-01-18 04:04:13 [scrapy.downloadermiddlewares.redirect] DEBUG: Redirecting (302) to <GET http://localhost:42731/redirected> from <GET http://localhost:42731/redirect>
+2017-01-18 04:04:13 [scrapy.core.engine] DEBUG: Crawled (200) <GET http://localhost:42731/redirected> (referer: None)
+2017-01-18 04:04:13 [scrapy.core.engine] DEBUG: Crawled (200) <GET http://localhost:42731/redirected> (referer: None)
+2017-01-18 04:04:13 [scrapy.core.engine] DEBUG: Crawled (200) <GET http://localhost:42731/redirected> (referer: None)
+2017-01-18 04:04:13 [scrapy.core.engine] DEBUG: Crawled (200) <GET http://localhost:42731/redirected> (referer: None)
+2017-01-18 04:04:13 [scrapy.core.scraper] ERROR: Spider error processing <GET http://localhost:42731/> (referer: None)
+Traceback (most recent call last):
+  File "/home/travis/build/scrapy/scrapy/scrapy/utils/defer.py", line 102, in iter_errback
+    yield next(it)
+  File "/home/travis/build/scrapy/scrapy/scrapy/spidermiddlewares/offsite.py", line 33, in process_spider_output
+    if x.dont_filter or self.should_follow(x, spider):
+  File "/home/travis/build/scrapy/scrapy/scrapy/spidermiddlewares/offsite.py", line 47, in should_follow
+    regex = self.host_regex
+AttributeError: 'OffsiteMiddleware' object has no attribute 'host_regex'
+2017-01-18 04:04:13 [scrapy.core.scraper] ERROR: Spider error processing <GET http://localhost:42731/> (referer: None)
+Traceback (most recent call last):
+  File "/home/travis/build/scrapy/scrapy/scrapy/utils/defer.py", line 102, in iter_errback
+    yield next(it)
+  File "/home/travis/build/scrapy/scrapy/scrapy/spidermiddlewares/offsite.py", line 33, in process_spider_output
+    if x.dont_filter or self.should_follow(x, spider):
+  File "/home/travis/build/scrapy/scrapy/scrapy/spidermiddlewares/offsite.py", line 47, in should_follow
+    regex = self.host_regex
+AttributeError: 'OffsiteMiddleware' object has no attribute 'host_regex'
+2017-01-18 04:04:13 [scrapy.core.engine] INFO: Closing spider (finished)
+2017-01-18 04:04:13 [scrapy.core.engine] INFO: Closing spider (finished)
+2017-01-18 04:04:13 [scrapy.statscollectors] INFO: Dumping Scrapy stats:
+{'downloader/request_bytes': 1071,
+ 'downloader/request_count': 5,
+ 'downloader/request_method_count/GET': 5,
+ 'downloader/response_bytes': 1368,
+ 'downloader/response_count': 5,
+ 'downloader/response_status_count/200': 3,
+ 'downloader/response_status_count/302': 2,
+ 'finish_reason': 'finished',
+ 'finish_time': datetime.datetime(2017, 1, 18, 4, 4, 13, 604043),
+ 'log_count/DEBUG': 6,
+ 'log_count/ERROR': 2,
+ 'log_count/INFO': 7,
+ 'request_depth_max': 1,
+ 'response_received_count': 3,
+ 'scheduler/dequeued': 5,
+ 'scheduler/dequeued/memory': 5,
+ 'scheduler/enqueued': 5,
+ 'scheduler/enqueued/memory': 5,
+ 'spider_exceptions/AttributeError': 1,
+ 'start_time': datetime.datetime(2017, 1, 18, 4, 4, 13, 448874)}
+2017-01-18 04:04:13 [scrapy.statscollectors] INFO: Dumping Scrapy stats:
+{'downloader/request_bytes': 1071,
+ 'downloader/request_count': 5,
+ 'downloader/request_method_count/GET': 5,
+ 'downloader/response_bytes': 1368,
+ 'downloader/response_count': 5,
+ 'downloader/response_status_count/200': 3,
+ 'downloader/response_status_count/302': 2,
+ 'finish_reason': 'finished',
+ 'finish_time': datetime.datetime(2017, 1, 18, 4, 4, 13, 604043),
+ 'log_count/DEBUG': 6,
+ 'log_count/ERROR': 2,
+ 'log_count/INFO': 7,
+ 'request_depth_max': 1,
+ 'response_received_count': 3,
+ 'scheduler/dequeued': 5,
+ 'scheduler/dequeued/memory': 5,
+ 'scheduler/enqueued': 5,
+ 'scheduler/enqueued/memory': 5,
+ 'spider_exceptions/AttributeError': 1,
+ 'start_time': datetime.datetime(2017, 1, 18, 4, 4, 13, 448874)}
+2017-01-18 04:04:13 [scrapy.core.engine] INFO: Spider closed (finished)
+2017-01-18 04:04:13 [scrapy.core.engine] INFO: Spider closed (finished)
+[31m[1m_______________ TestOffsiteMiddleware.test_process_spider_output _______________[0m
+
+self = <tests.test_spidermiddleware_offsite.TestOffsiteMiddleware testMethod=test_process_spider_output>
+
+[1m    def setUp(self):[0m
+[1m        crawler = get_crawler(Spider)[0m
+[1m        self.spider = crawler._create_spider(**self._get_spiderargs())[0m
+[1m        self.mw = OffsiteMiddleware.from_crawler(crawler)[0m
+[1m>       self.mw.spider_opened(self.spider)[0m
+
+/home/travis/build/scrapy/scrapy/tests/test_spidermiddleware_offsite.py:16: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/home/travis/build/scrapy/scrapy/scrapy/spidermiddlewares/offsite.py:72: in spider_opened
+[1m    self.host_regex = self.get_host_regex(spider)[0m
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <scrapy.spidermiddlewares.offsite.OffsiteMiddleware object at 0x7f06458ac050>
+spider = <Spider 'foo' at 0x7f06458ac3d0>
+
+[1m    def get_host_regex(self, spider):[0m
+[1m        """Override this method to implement a different offsite policy"""[0m
+[1m        allowed_domains = getattr(spider, 'allowed_domains', None)[0m
+[1m        try:[0m
+[1m            from urllib import urlparse[0m
+[1m        except ImportError:[0m
+[1m>           from urllib.parse import urlparse[0m
+[31m[1mE           ImportError: No module named parse[0m
+
+/home/travis/build/scrapy/scrapy/scrapy/spidermiddlewares/offsite.py:58: ImportError
+----------------------------- Captured stderr call -----------------------------
+2017-01-18 04:05:45 [scrapy.middleware] INFO: Enabled extensions:
+['scrapy.extensions.telnet.TelnetConsole',
+ 'scrapy.extensions.corestats.CoreStats',
+ 'scrapy.extensions.logstats.LogStats']
+2017-01-18 04:05:45 [scrapy.middleware] INFO: Enabled extensions:
+['scrapy.extensions.telnet.TelnetConsole',
+ 'scrapy.extensions.corestats.CoreStats',
+ 'scrapy.extensions.logstats.LogStats']
+[31m[1m______________ TestOffsiteMiddleware2.test_process_spider_output _______________[0m
+
+self = <tests.test_spidermiddleware_offsite.TestOffsiteMiddleware2 testMethod=test_process_spider_output>
+
+[1m    def setUp(self):[0m
+[1m        crawler = get_crawler(Spider)[0m
+[1m        self.spider = crawler._create_spider(**self._get_spiderargs())[0m
+[1m        self.mw = OffsiteMiddleware.from_crawler(crawler)[0m
+[1m>       self.mw.spider_opened(self.spider)[0m
+
+/home/travis/build/scrapy/scrapy/tests/test_spidermiddleware_offsite.py:16: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/home/travis/build/scrapy/scrapy/scrapy/spidermiddlewares/offsite.py:72: in spider_opened
+[1m    self.host_regex = self.get_host_regex(spider)[0m
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <scrapy.spidermiddlewares.offsite.OffsiteMiddleware object at 0x7f0646192510>
+spider = <Spider 'foo' at 0x7f064595dd10>
+
+[1m    def get_host_regex(self, spider):[0m
+[1m        """Override this method to implement a different offsite policy"""[0m
+[1m        allowed_domains = getattr(spider, 'allowed_domains', None)[0m
+[1m        try:[0m
+[1m            from urllib import urlparse[0m
+[1m        except ImportError:[0m
+[1m>           from urllib.parse import urlparse[0m
+[31m[1mE           ImportError: No module named parse[0m
+
+/home/travis/build/scrapy/scrapy/scrapy/spidermiddlewares/offsite.py:58: ImportError
+----------------------------- Captured stderr call -----------------------------
+2017-01-18 04:05:45 [scrapy.middleware] INFO: Enabled extensions:
+['scrapy.extensions.telnet.TelnetConsole',
+ 'scrapy.extensions.corestats.CoreStats',
+ 'scrapy.extensions.logstats.LogStats']
+2017-01-18 04:05:45 [scrapy.middleware] INFO: Enabled extensions:
+['scrapy.extensions.telnet.TelnetConsole',
+ 'scrapy.extensions.corestats.CoreStats',
+ 'scrapy.extensions.logstats.LogStats']
+[31m[1m______________ TestOffsiteMiddleware3.test_process_spider_output _______________[0m
+
+self = <tests.test_spidermiddleware_offsite.TestOffsiteMiddleware3 testMethod=test_process_spider_output>
+
+[1m    def setUp(self):[0m
+[1m        crawler = get_crawler(Spider)[0m
+[1m        self.spider = crawler._create_spider(**self._get_spiderargs())[0m
+[1m        self.mw = OffsiteMiddleware.from_crawler(crawler)[0m
+[1m>       self.mw.spider_opened(self.spider)[0m
+
+/home/travis/build/scrapy/scrapy/tests/test_spidermiddleware_offsite.py:16: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/home/travis/build/scrapy/scrapy/scrapy/spidermiddlewares/offsite.py:72: in spider_opened
+[1m    self.host_regex = self.get_host_regex(spider)[0m
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <scrapy.spidermiddlewares.offsite.OffsiteMiddleware object at 0x7f0646204d90>
+spider = <Spider 'foo' at 0x7f0646204850>
+
+[1m    def get_host_regex(self, spider):[0m
+[1m        """Override this method to implement a different offsite policy"""[0m
+[1m        allowed_domains = getattr(spider, 'allowed_domains', None)[0m
+[1m        try:[0m
+[1m            from urllib import urlparse[0m
+[1m        except ImportError:[0m
+[1m>           from urllib.parse import urlparse[0m
+[31m[1mE           ImportError: No module named parse[0m
+
+/home/travis/build/scrapy/scrapy/scrapy/spidermiddlewares/offsite.py:58: ImportError
+----------------------------- Captured stderr call -----------------------------
+2017-01-18 04:05:45 [scrapy.middleware] INFO: Enabled extensions:
+['scrapy.extensions.telnet.TelnetConsole',
+ 'scrapy.extensions.corestats.CoreStats',
+ 'scrapy.extensions.logstats.LogStats']
+2017-01-18 04:05:45 [scrapy.middleware] INFO: Enabled extensions:
+['scrapy.extensions.telnet.TelnetConsole',
+ 'scrapy.extensions.corestats.CoreStats',
+ 'scrapy.extensions.logstats.LogStats']
+[31m[1m______________ TestOffsiteMiddleware4.test_process_spider_output _______________[0m
+
+self = <tests.test_spidermiddleware_offsite.TestOffsiteMiddleware4 testMethod=test_process_spider_output>
+
+[1m    def setUp(self):[0m
+[1m        crawler = get_crawler(Spider)[0m
+[1m        self.spider = crawler._create_spider(**self._get_spiderargs())[0m
+[1m        self.mw = OffsiteMiddleware.from_crawler(crawler)[0m
+[1m>       self.mw.spider_opened(self.spider)[0m
+
+/home/travis/build/scrapy/scrapy/tests/test_spidermiddleware_offsite.py:16: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/home/travis/build/scrapy/scrapy/scrapy/spidermiddlewares/offsite.py:72: in spider_opened
+[1m    self.host_regex = self.get_host_regex(spider)[0m
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <scrapy.spidermiddlewares.offsite.OffsiteMiddleware object at 0x7f06461bc4d0>
+spider = <Spider 'foo' at 0x7f06461b8110>
+
+[1m    def get_host_regex(self, spider):[0m
+[1m        """Override this method to implement a different offsite policy"""[0m
+[1m        allowed_domains = getattr(spider, 'allowed_domains', None)[0m
+[1m        try:[0m
+[1m            from urllib import urlparse[0m
+[1m        except ImportError:[0m
+[1m>           from urllib.parse import urlparse[0m
+[31m[1mE           ImportError: No module named parse[0m
+
+/home/travis/build/scrapy/scrapy/scrapy/spidermiddlewares/offsite.py:58: ImportError
+----------------------------- Captured stderr call -----------------------------
+2017-01-18 04:05:45 [scrapy.middleware] INFO: Enabled extensions:
+['scrapy.extensions.telnet.TelnetConsole',
+ 'scrapy.extensions.corestats.CoreStats',
+ 'scrapy.extensions.logstats.LogStats']
+2017-01-18 04:05:45 [scrapy.middleware] INFO: Enabled extensions:
+['scrapy.extensions.telnet.TelnetConsole',
+ 'scrapy.extensions.corestats.CoreStats',
+ 'scrapy.extensions.logstats.LogStats']
+[31m[1m======= 12 failed, 1464 passed, 5 skipped, 13 xfailed in 267.23 seconds ========[0m
+[31mERROR: InvocationError: '/home/travis/build/scrapy/scrapy/.tox/py27/bin/py.test --cov=scrapy --cov-report= scrapy tests'[0m
+___________________________________ summary ____________________________________
+[31mERROR:   py27: commands failed[0m
+
+travis_time:end:10343fb5:start=1484712062900226543,finish=1484712358919527117,duration=296019300574[0K
+[31;1mThe command "tox" exited with 1.[0m
+travis_fold:start:cache.2[0Kstore build cache
+travis_time:start:05b1a8a6[0K
+travis_time:end:05b1a8a6:start=1484712358926620602,finish=1484712358931542979,duration=4922377[0Ktravis_time:start:01747c12[0K[32;1mchange detected (content changed, file is created, or file is deleted):
+/home/travis/.cache/pip/http/0/6/0/7/b/0607bfec44b45165c2faff761ccac99a98d9fd850746c7745c710bfa
+/home/travis/.cache/pip/http/0/8/d/c/e/08dcef3be0bb9cce46e42c11d622ed3fea0797e37de9ffac3f5d70d7
+/home/travis/.cache/pip/http/0/a/8/f/a/0a8faabd212d81beff3ad0e11f3e4746188c0ad05c9190218de2e48a
+/home/travis/.cache/pip/http/0/d/e/2/d/0de2def333d81c5bf5211ffa60584b36f6d465a6a3eff4c58e8a1bd5
+/home/travis/.cache/pip/http/1/6/6/b/1/166b1009731eb4aa4f196ee1e6012b0d1a320e0773fc5b8fbaa9ba22
+/home/travis/.cache/pip/http/1/9/1/e/2/191e2772496ab7c2761201e27896a90312f5405d5f1f2986dfe65a51
+/home/travis/.cache/pip/http/1/9/6/4/b/1964b86110243512a5d6b2189c05a815fdd1fb583f0ea35eaad2cdb4
+/home/travis/.cache/pip/http/1/d/4/f/9/1d4f95bd7275300d9266d91f0d0e840f30b39dd784f2550cb4bc8a3d
+/home/travis/.cache/pip/http/2/2/8/1/d/2281ddaafdd93fe42769bedb55d3a2b9e1e6dc7ec1c52bbbd71e9bf7
+/home/travis/.cache/pip/http/2/a/e/c/a/2aeca392866bf3345843918b645c0f8d7c3525a880d24e94cd10b90c
+/home/travis/.cache/pip/http/2/f/6/0/e/2f
+[0m
+[32;1m...
+[0m
+[32;1mchanges detected, packing new archive[0m
+.
+.
+.
+.
+[32;1muploading archive[0m
+
+travis_time:end:01747c12:start=1484712358937602450,finish=1484712399830399559,duration=40892797109[0Ktravis_fold:end:cache.2[0K
+Done. Your build exited with 1.

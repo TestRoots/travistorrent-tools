@@ -1,4 +1,4 @@
-# A Mixin for the analysis of Python build files. Supports unittest, tox, pytest (WIP)
+# A Mixin for the analysis of Python build files. Supports unittest, tox, pytest
 
 module PythonLogFileAnalyzer
   attr_reader :tests_failed, :test_duration, :pure_build_duration
@@ -25,10 +25,10 @@ module PythonLogFileAnalyzer
       if !(line =~ /Ran .* tests? in /).nil?
         @has_summary = true
         test_failures_started = false
-      elsif !(line =~ /==================== (.+) in (.+) seconds ====================/).nil?
+      elsif !(line =~ /==+ (.+) in (.+) seconds ==+/).nil?
         @has_summary = true
         test_failures_started = false
-      elsif !(line =~ /=================================== FAILURES ===================================/).nil?
+      elsif !(line =~ /=====+ FAILURES? =====+/).nil?
         test_failures_started = true
       elsif test_failures_started
         @tests_failed_lines.push line
@@ -57,9 +57,11 @@ module PythonLogFileAnalyzer
         case key.downcase
           when 'passed'
             @num_tests_run += val.to_i
-          when 'failed'
+          when 'failed', 'errored'
             @num_tests_failed += val.to_i
             @num_tests_run += val.to_i
+          when 'skipped'
+            @num_tests_skipped = val.to_i
         end
       end
     end
@@ -91,12 +93,15 @@ module PythonLogFileAnalyzer
         @num_tests_run = $1.to_i
         @test_duration += convert_plain_time_to_seconds $2
         @has_summary = true
-      elsif !(line =~ /==================== (.+) in (.+) seconds ====================/).nil?
+        summary_seen = true
+      elsif !(line =~ /==+ (.+) in (.+) seconds ==+/).nil?
         # Matches the pytest test summary, i.e. "==================== 442 passed, 2 xpassed in 50.65 seconds ===================="
         setup_python_tests
         add_framework 'pytest'
         analyze_pytest_status_info_list $1
         @test_duration += $2.to_f
+        @has_summary = true
+        summary_seen = true
       elsif !(line =~ /^OK( \((.+)\))?\s*$/).nil? and @has_summary
         # This is a somewhat dangerous thing to do as "OK" might be a common line in builds. We mititgate the risk somewhat by having seen a summary
         # TODO we can make this more clever by checking only AFTER a summary
