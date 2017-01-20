@@ -128,7 +128,7 @@ module PythonLogFileAnalyzer
     end
 
     @tests_failed_lines.each do |line|
-      add_failed_test $1 if !(line =~ /_______________ (.+) _______________/).nil?
+      add_failed_test $1 if !(line =~ /__+ (.+) __+/).nil?
     end
 
     uninit_ok_tests
