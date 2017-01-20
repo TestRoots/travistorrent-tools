@@ -1,10 +1,9 @@
 # A Mixin for the analysis of Python build files. Supports unittest, tox, pytest (WIP)
 
 module PythonLogFileAnalyzer
-  attr_reader :tests_failed, :test_duration, :reactor_lines, :pure_build_duration
+  attr_reader :tests_failed, :test_duration, :pure_build_duration
 
   def init
-    @reactor_lines = Array.new
     @tests_failed_lines = Array.new
     @tests_failed = Array.new
     @analyzer = 'python'
@@ -18,13 +17,21 @@ module PythonLogFileAnalyzer
   end
 
   def extract_tests
-    test_section_started = false
+    test_failures_started = false
 
     # TODO (MMB) Possible future improvement: We could even get all executed tests (also the ones which succeed)
     # DO something similar for, e.g., the tox framework?
     @folds[@OUT_OF_FOLD].content.each do |line|
       if !(line =~ /Ran .* tests? in /).nil?
         @has_summary = true
+        test_failures_started = false
+      elsif !(line =~ /==================== (.+) in (.+) seconds ====================/).nil?
+        @has_summary = true
+        test_failures_started = false
+      elsif !(line =~ /=================================== FAILURES ===================================/).nil?
+        test_failures_started = true
+      elsif test_failures_started
+        @tests_failed_lines.push line
       end
     end
 
@@ -52,7 +59,7 @@ module PythonLogFileAnalyzer
             @num_tests_run += val.to_i
           when 'failed'
             @num_tests_failed += val.to_i
-            @num_tests_runt += val.to_i
+            @num_tests_run += val.to_i
         end
       end
     end
@@ -64,7 +71,7 @@ module PythonLogFileAnalyzer
       arg.split('=').each_cons(2) do |key, val|
         # TODO: we could add xpassed syntax here
         case key.downcase
-        when 'skip'
+          when 'skip'
             @num_tests_skipped = val.to_i
           when 'errors', 'failures', 'error', 'failure'
             @num_tests_failed += val.to_i
@@ -118,6 +125,10 @@ module PythonLogFileAnalyzer
         setup_python_tests
         add_failed_test $1
       end
+    end
+
+    @tests_failed_lines.each do |line|
+      add_failed_test $1 if !(line =~ /_______________ (.+) _______________/).nil?
     end
 
     uninit_ok_tests
