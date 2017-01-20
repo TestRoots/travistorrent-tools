@@ -1,0 +1,327 @@
+Using worker: worker-linux-4-1.bb.travis-ci.org:travis-linux-8
+
+$ export HTTPBIN_URL=http://httpbin.org/
+travis_fold:start:git.1$ git clone --depth=50 --branch=master git://github.com/kennethreitz/requests.git kennethreitz/requests
+Cloning into 'kennethreitz/requests'...
+remote: Counting objects: 1587, done.[K
+remote: Compressing objects:   0% (1/1101)   [Kremote: Compressing objects:   1% (12/1101)   [Kremote: Compressing objects:   2% (23/1101)   [Kremote: Compressing objects:   3% (34/1101)   [Kremote: Compressing objects:   4% (45/1101)   [Kremote: Compressing objects:   5% (56/1101)   [Kremote: Compressing objects:   6% (67/1101)   [Kremote: Compressing objects:   7% (78/1101)   [Kremote: Compressing objects:   8% (89/1101)   [Kremote: Compressing objects:   9% (100/1101)   [Kremote: Compressing objects:  10% (111/1101)   [Kremote: Compressing objects:  11% (122/1101)   [Kremote: Compressing objects:  12% (133/1101)   [Kremote: Compressing objects:  13% (144/1101)   [Kremote: Compressing objects:  14% (155/1101)   [Kremote: Compressing objects:  15% (166/1101)   [Kremote: Compressing objects:  16% (177/1101)   [Kremote: Compressing objects:  17% (188/1101)   [Kremote: Compressing objects:  18% (199/1101)   [Kremote: Compressing objects:  19% (210/1101)   [Kremote: Compressing objects:  20% (221/1101)   [Kremote: Compressing objects:  21% (232/1101)   [Kremote: Compressing objects:  22% (243/1101)   [Kremote: Compressing objects:  23% (254/1101)   [Kremote: Compressing objects:  24% (265/1101)   [Kremote: Compressing objects:  25% (276/1101)   [Kremote: Compressing objects:  26% (287/1101)   [Kremote: Compressing objects:  27% (298/1101)   [Kremote: Compressing objects:  28% (309/1101)   [Kremote: Compressing objects:  29% (320/1101)   [Kremote: Compressing objects:  30% (331/1101)   [Kremote: Compressing objects:  31% (342/1101)   [Kremote: Compressing objects:  32% (353/1101)   [Kremote: Compressing objects:  33% (364/1101)   [Kremote: Compressing objects:  34% (375/1101)   [Kremote: Compressing objects:  35% (386/1101)   [Kremote: Compressing objects:  36% (397/1101)   [Kremote: Compressing objects:  37% (408/1101)   [Kremote: Compressing objects:  38% (419/1101)   [Kremote: Compressing objects:  39% (430/1101)   [Kremote: Compressing objects:  40% (441/1101)   [Kremote: Compressing objects:  41% (452/1101)   [Kremote: Compressing objects:  42% (463/1101)   [Kremote: Compressing objects:  43% (474/1101)   [Kremote: Compressing objects:  44% (485/1101)   [Kremote: Compressing objects:  45% (496/1101)   [Kremote: Compressing objects:  46% (507/1101)   [Kremote: Compressing objects:  47% (518/1101)   [Kremote: Compressing objects:  48% (529/1101)   [Kremote: Compressing objects:  49% (540/1101)   [Kremote: Compressing objects:  50% (551/1101)   [Kremote: Compressing objects:  51% (562/1101)   [Kremote: Compressing objects:  52% (573/1101)   [Kremote: Compressing objects:  53% (584/1101)   [Kremote: Compressing objects:  54% (595/1101)   [Kremote: Compressing objects:  55% (606/1101)   [Kremote: Compressing objects:  56% (617/1101)   [Kremote: Compressing objects:  57% (628/1101)   [Kremote: Compressing objects:  58% (639/1101)   [Kremote: Compressing objects:  59% (650/1101)   [Kremote: Compressing objects:  60% (661/1101)   [Kremote: Compressing objects:  61% (672/1101)   [Kremote: Compressing objects:  62% (683/1101)   [Kremote: Compressing objects:  63% (694/1101)   [Kremote: Compressing objects:  64% (705/1101)   [Kremote: Compressing objects:  65% (716/1101)   [Kremote: Compressing objects:  66% (727/1101)   [Kremote: Compressing objects:  67% (738/1101)   [Kremote: Compressing objects:  68% (749/1101)   [Kremote: Compressing objects:  69% (760/1101)   [Kremote: Compressing objects:  70% (771/1101)   [Kremote: Compressing objects:  71% (782/1101)   [Kremote: Compressing objects:  72% (793/1101)   [Kremote: Compressing objects:  73% (804/1101)   [Kremote: Compressing objects:  74% (815/1101)   [Kremote: Compressing objects:  75% (826/1101)   [Kremote: Compressing objects:  76% (837/1101)   [Kremote: Compressing objects:  77% (848/1101)   [Kremote: Compressing objects:  78% (859/1101)   [Kremote: Compressing objects:  79% (870/1101)   [Kremote: Compressing objects:  80% (881/1101)   [Kremote: Compressing objects:  81% (892/1101)   [Kremote: Compressing objects:  82% (903/1101)   [Kremote: Compressing objects:  83% (914/1101)   [Kremote: Compressing objects:  84% (925/1101)   [Kremote: Compressing objects:  85% (936/1101)   [Kremote: Compressing objects:  86% (947/1101)   [Kremote: Compressing objects:  87% (958/1101)   [Kremote: Compressing objects:  88% (969/1101)   [Kremote: Compressing objects:  89% (980/1101)   [Kremote: Compressing objects:  90% (991/1101)   [Kremote: Compressing objects:  91% (1002/1101)   [Kremote: Compressing objects:  92% (1013/1101)   [Kremote: Compressing objects:  93% (1024/1101)   [Kremote: Compressing objects:  94% (1035/1101)   [Kremote: Compressing objects:  95% (1046/1101)   [Kremote: Compressing objects:  96% (1057/1101)   [Kremote: Compressing objects:  97% (1068/1101)   [Kremote: Compressing objects:  98% (1079/1101)   [Kremote: Compressing objects:  99% (1090/1101)   [Kremote: Compressing objects: 100% (1101/1101)   [Kremote: Compressing objects: 100% (1101/1101), done.[K
+Receiving objects:   0% (1/1587)   Receiving objects:   1% (16/1587)   Receiving objects:   2% (32/1587)   Receiving objects:   3% (48/1587)   Receiving objects:   4% (64/1587)   Receiving objects:   5% (80/1587)   Receiving objects:   6% (96/1587)   Receiving objects:   7% (112/1587)   Receiving objects:   8% (127/1587)   Receiving objects:   9% (143/1587)   Receiving objects:  10% (159/1587)   Receiving objects:  11% (175/1587)   Receiving objects:  12% (191/1587)   Receiving objects:  13% (207/1587)   Receiving objects:  14% (223/1587)   Receiving objects:  15% (239/1587)   Receiving objects:  16% (254/1587)   Receiving objects:  17% (270/1587)   Receiving objects:  18% (286/1587)   Receiving objects:  19% (302/1587)   Receiving objects:  20% (318/1587)   Receiving objects:  21% (334/1587)   Receiving objects:  22% (350/1587)   Receiving objects:  23% (366/1587)   Receiving objects:  24% (381/1587)   Receiving objects:  25% (397/1587)   Receiving objects:  26% (413/1587)   Receiving objects:  27% (429/1587)   Receiving objects:  28% (445/1587)   Receiving objects:  29% (461/1587)   Receiving objects:  30% (477/1587)   Receiving objects:  31% (492/1587)   Receiving objects:  32% (508/1587)   Receiving objects:  33% (524/1587)   Receiving objects:  34% (540/1587)   Receiving objects:  35% (556/1587)   Receiving objects:  36% (572/1587)   Receiving objects:  37% (588/1587)   Receiving objects:  38% (604/1587)   Receiving objects:  39% (619/1587)   Receiving objects:  40% (635/1587)   Receiving objects:  41% (651/1587)   Receiving objects:  42% (667/1587)   Receiving objects:  43% (683/1587)   Receiving objects:  44% (699/1587)   Receiving objects:  45% (715/1587)   Receiving objects:  46% (731/1587)   Receiving objects:  47% (746/1587)   Receiving objects:  48% (762/1587)   Receiving objects:  49% (778/1587)   Receiving objects:  50% (794/1587)   Receiving objects:  51% (810/1587)   Receiving objects:  52% (826/1587)   Receiving objects:  53% (842/1587)   Receiving objects:  54% (857/1587)   Receiving objects:  55% (873/1587)   Receiving objects:  56% (889/1587)   Receiving objects:  57% (905/1587)   Receiving objects:  58% (921/1587)   Receiving objects:  59% (937/1587)   Receiving objects:  60% (953/1587)   Receiving objects:  61% (969/1587)   Receiving objects:  62% (984/1587)   Receiving objects:  63% (1000/1587)   Receiving objects:  64% (1016/1587)   Receiving objects:  65% (1032/1587)   Receiving objects:  66% (1048/1587)   Receiving objects:  67% (1064/1587)   Receiving objects:  68% (1080/1587)   Receiving objects:  69% (1096/1587)   Receiving objects:  70% (1111/1587)   Receiving objects:  71% (1127/1587)   Receiving objects:  72% (1143/1587)   Receiving objects:  73% (1159/1587)   Receiving objects:  74% (1175/1587)   Receiving objects:  75% (1191/1587)   Receiving objects:  76% (1207/1587)   Receiving objects:  77% (1222/1587)   Receiving objects:  78% (1238/1587)   Receiving objects:  79% (1254/1587)   Receiving objects:  80% (1270/1587)   Receiving objects:  81% (1286/1587)   Receiving objects:  82% (1302/1587)   Receiving objects:  83% (1318/1587)   Receiving objects:  84% (1334/1587)   Receiving objects:  85% (1349/1587)   Receiving objects:  86% (1365/1587)   Receiving objects:  87% (1381/1587)   Receiving objects:  88% (1397/1587)   Receiving objects:  89% (1413/1587)   Receiving objects:  90% (1429/1587)   Receiving objects:  91% (1445/1587)   Receiving objects:  92% (1461/1587)   Receiving objects:  93% (1476/1587)   Receiving objects:  94% (1492/1587)   Receiving objects:  95% (1508/1587)   Receiving objects:  96% (1524/1587)   remote: Total 1587 (delta 897), reused 1116 (delta 474)[K
+Receiving objects:  97% (1540/1587)   Receiving objects:  98% (1556/1587)   Receiving objects:  99% (1572/1587)   Receiving objects: 100% (1587/1587)   Receiving objects: 100% (1587/1587), 1.06 MiB | 0 bytes/s, done.
+Resolving deltas:   0% (0/897)   Resolving deltas:   1% (17/897)   Resolving deltas:   2% (22/897)   Resolving deltas:   8% (78/897)   Resolving deltas:  16% (149/897)   Resolving deltas:  17% (155/897)   Resolving deltas:  18% (162/897)   Resolving deltas:  19% (171/897)   Resolving deltas:  21% (193/897)   Resolving deltas:  22% (199/897)   Resolving deltas:  23% (209/897)   Resolving deltas:  25% (233/897)   Resolving deltas:  26% (236/897)   Resolving deltas:  27% (245/897)   Resolving deltas:  29% (269/897)   Resolving deltas:  30% (274/897)   Resolving deltas:  31% (282/897)   Resolving deltas:  33% (301/897)   Resolving deltas:  34% (313/897)   Resolving deltas:  35% (319/897)   Resolving deltas:  39% (353/897)   Resolving deltas:  43% (389/897)   Resolving deltas:  44% (402/897)   Resolving deltas:  47% (428/897)   Resolving deltas:  48% (438/897)   Resolving deltas:  51% (460/897)   Resolving deltas:  53% (477/897)   Resolving deltas:  56% (504/897)   Resolving deltas:  57% (519/897)   Resolving deltas:  58% (525/897)   Resolving deltas:  59% (530/897)   Resolving deltas:  60% (542/897)   Resolving deltas:  61% (550/897)   Resolving deltas:  62% (559/897)   Resolving deltas:  63% (570/897)   Resolving deltas:  64% (578/897)   Resolving deltas:  65% (585/897)   Resolving deltas:  66% (594/897)   Resolving deltas:  67% (603/897)   Resolving deltas:  68% (616/897)   Resolving deltas:  69% (624/897)   Resolving deltas:  70% (631/897)   Resolving deltas:  72% (654/897)   Resolving deltas:  73% (659/897)   Resolving deltas:  74% (665/897)   Resolving deltas:  75% (674/897)   Resolving deltas:  76% (682/897)   Resolving deltas:  79% (712/897)   Resolving deltas:  80% (725/897)   Resolving deltas:  81% (733/897)   Resolving deltas:  82% (743/897)   Resolving deltas:  84% (758/897)   Resolving deltas:  85% (766/897)   Resolving deltas:  86% (772/897)   Resolving deltas:  87% (781/897)   Resolving deltas:  88% (790/897)   Resolving deltas:  89% (800/897)   Resolving deltas:  90% (812/897)   Resolving deltas:  91% (824/897)   Resolving deltas:  92% (827/897)   Resolving deltas:  93% (836/897)   Resolving deltas:  94% (845/897)   Resolving deltas:  95% (855/897)   Resolving deltas:  96% (864/897)   Resolving deltas:  97% (873/897)   Resolving deltas:  98% (880/897)   Resolving deltas:  99% (892/897)   Resolving deltas: 100% (897/897)   Resolving deltas: 100% (897/897), done.
+travis_fold:end:git.1$ cd kennethreitz/requests
+travis_fold:start:git.2$ git checkout -qf 2ec1bdd0ab23dedcd9a37fb464e721b505e22134
+travis_fold:end:git.2$ source ~/virtualenv/python2.7/bin/activate
+$ python --version
+Python 2.7.3
+$ pip --version
+pip 1.3.1 from /home/travis/virtualenv/python2.7/lib/python2.7/site-packages/pip-1.3.1-py2.7.egg (python 2.7)
+travis_fold:start:install$ pip install -r requirements.txt
+Downloading/unpacking py==1.4.12 (from -r requirements.txt (line 1))
+  Downloading py-1.4.12.zip (227kB):   Downloading py-1.4.12.zip (227kB):   1%  4.1kB  Downloading py-1.4.12.zip (227kB):   3%  8.2kB  Downloading py-1.4.12.zip (227kB):   5%  12kB   Downloading py-1.4.12.zip (227kB):   7%  16kB  Downloading py-1.4.12.zip (227kB):   9%  20kB  Downloading py-1.4.12.zip (227kB):  10%  24kB  Downloading py-1.4.12.zip (227kB):  12%  28kB  Downloading py-1.4.12.zip (227kB):  14%  32kB  Downloading py-1.4.12.zip (227kB):  16%  36kB  Downloading py-1.4.12.zip (227kB):  18%  40kB  Downloading py-1.4.12.zip (227kB):  19%  45kB  Downloading py-1.4.12.zip (227kB):  21%  49kB  Downloading py-1.4.12.zip (227kB):  23%  53kB  Downloading py-1.4.12.zip (227kB):  25%  57kB  Downloading py-1.4.12.zip (227kB):  27%  61kB  Downloading py-1.4.12.zip (227kB):  28%  65kB  Downloading py-1.4.12.zip (227kB):  30%  69kB  Downloading py-1.4.12.zip (227kB):  32%  73kB  Downloading py-1.4.12.zip (227kB):  34%  77kB  Downloading py-1.4.12.zip (227kB):  36%  81kB  Downloading py-1.4.12.zip (227kB):  37%  86kB  Downloading py-1.4.12.zip (227kB):  39%  90kB  Downloading py-1.4.12.zip (227kB):  41%  94kB  Downloading py-1.4.12.zip (227kB):  43%  98kB  Downloading py-1.4.12.zip (227kB):  45%  102kB  Downloading py-1.4.12.zip (227kB):  46%  106kB  Downloading py-1.4.12.zip (227kB):  48%  110kB  Downloading py-1.4.12.zip (227kB):  50%  114kB  Downloading py-1.4.12.zip (227kB):  52%  118kB  Downloading py-1.4.12.zip (227kB):  54%  122kB  Downloading py-1.4.12.zip (227kB):  55%  126kB  Downloading py-1.4.12.zip (227kB):  57%  131kB  Downloading py-1.4.12.zip (227kB):  59%  135kB  Downloading py-1.4.12.zip (227kB):  61%  139kB  Downloading py-1.4.12.zip (227kB):  63%  143kB  Downloading py-1.4.12.zip (227kB):  64%  147kB  Downloading py-1.4.12.zip (227kB):  66%  151kB  Downloading py-1.4.12.zip (227kB):  68%  155kB  Downloading py-1.4.12.zip (227kB):  70%  159kB  Downloading py-1.4.12.zip (227kB):  72%  163kB  Downloading py-1.4.12.zip (227kB):  73%  167kB  Downloading py-1.4.12.zip (227kB):  75%  172kB  Downloading py-1.4.12.zip (227kB):  77%  176kB  Downloading py-1.4.12.zip (227kB):  79%  180kB  Downloading py-1.4.12.zip (227kB):  81%  184kB  Downloading py-1.4.12.zip (227kB):  82%  188kB  Downloading py-1.4.12.zip (227kB):  84%  192kB  Downloading py-1.4.12.zip (227kB):  86%  196kB  Downloading py-1.4.12.zip (227kB):  88%  200kB  Downloading py-1.4.12.zip (227kB):  90%  204kB  Downloading py-1.4.12.zip (227kB):  91%  208kB  Downloading py-1.4.12.zip (227kB):  93%  212kB  Downloading py-1.4.12.zip (227kB):  95%  217kB  Downloading py-1.4.12.zip (227kB):  97%  221kB  Downloading py-1.4.12.zip (227kB):  99%  225kB  Downloading py-1.4.12.zip (227kB): 100%  227kB  Downloading py-1.4.12.zip (227kB):              Downloading py-1.4.12.zip (227kB): 227kB downloaded
+  Running setup.py egg_info for package py
+    
+Downloading/unpacking pytest==2.3.4 (from -r requirements.txt (line 2))
+  Downloading pytest-2.3.4.zip (527kB):   Downloading pytest-2.3.4.zip (527kB):   0%  4.1kB  Downloading pytest-2.3.4.zip (527kB):   1%  8.2kB  Downloading pytest-2.3.4.zip (527kB):   2%  12kB   Downloading pytest-2.3.4.zip (527kB):   3%  16kB  Downloading pytest-2.3.4.zip (527kB):   3%  20kB  Downloading pytest-2.3.4.zip (527kB):   4%  24kB  Downloading pytest-2.3.4.zip (527kB):   5%  28kB  Downloading pytest-2.3.4.zip (527kB):   6%  32kB  Downloading pytest-2.3.4.zip (527kB):   6%  36kB  Downloading pytest-2.3.4.zip (527kB):   7%  40kB  Downloading pytest-2.3.4.zip (527kB):   8%  45kB  Downloading pytest-2.3.4.zip (527kB):   9%  49kB  Downloading pytest-2.3.4.zip (527kB):  10%  53kB  Downloading pytest-2.3.4.zip (527kB):  10%  57kB  Downloading pytest-2.3.4.zip (527kB):  11%  61kB  Downloading pytest-2.3.4.zip (527kB):  12%  65kB  Downloading pytest-2.3.4.zip (527kB):  13%  69kB  Downloading pytest-2.3.4.zip (527kB):  13%  73kB  Downloading pytest-2.3.4.zip (527kB):  14%  77kB  Downloading pytest-2.3.4.zip (527kB):  15%  81kB  Downloading pytest-2.3.4.zip (527kB):  16%  86kB  Downloading pytest-2.3.4.zip (527kB):  17%  90kB  Downloading pytest-2.3.4.zip (527kB):  17%  94kB  Downloading pytest-2.3.4.zip (527kB):  18%  98kB  Downloading pytest-2.3.4.zip (527kB):  19%  102kB  Downloading pytest-2.3.4.zip (527kB):  20%  106kB  Downloading pytest-2.3.4.zip (527kB):  20%  110kB  Downloading pytest-2.3.4.zip (527kB):  21%  114kB  Downloading pytest-2.3.4.zip (527kB):  22%  118kB  Downloading pytest-2.3.4.zip (527kB):  23%  122kB  Downloading pytest-2.3.4.zip (527kB):  24%  126kB  Downloading pytest-2.3.4.zip (527kB):  24%  131kB  Downloading pytest-2.3.4.zip (527kB):  25%  135kB  Downloading pytest-2.3.4.zip (527kB):  26%  139kB  Downloading pytest-2.3.4.zip (527kB):  27%  143kB  Downloading pytest-2.3.4.zip (527kB):  27%  147kB  Downloading pytest-2.3.4.zip (527kB):  28%  151kB  Downloading pytest-2.3.4.zip (527kB):  29%  155kB  Downloading pytest-2.3.4.zip (527kB):  30%  159kB  Downloading pytest-2.3.4.zip (527kB):  31%  163kB  Downloading pytest-2.3.4.zip (527kB):  31%  167kB  Downloading pytest-2.3.4.zip (527kB):  32%  172kB  Downloading pytest-2.3.4.zip (527kB):  33%  176kB  Downloading pytest-2.3.4.zip (527kB):  34%  180kB  Downloading pytest-2.3.4.zip (527kB):  34%  184kB  Downloading pytest-2.3.4.zip (527kB):  35%  188kB  Downloading pytest-2.3.4.zip (527kB):  36%  192kB  Downloading pytest-2.3.4.zip (527kB):  37%  196kB  Downloading pytest-2.3.4.zip (527kB):  38%  200kB  Downloading pytest-2.3.4.zip (527kB):  38%  204kB  Downloading pytest-2.3.4.zip (527kB):  39%  208kB  Downloading pytest-2.3.4.zip (527kB):  40%  212kB  Downloading pytest-2.3.4.zip (527kB):  41%  217kB  Downloading pytest-2.3.4.zip (527kB):  41%  221kB  Downloading pytest-2.3.4.zip (527kB):  42%  225kB  Downloading pytest-2.3.4.zip (527kB):  43%  229kB  Downloading pytest-2.3.4.zip (527kB):  44%  233kB  Downloading pytest-2.3.4.zip (527kB):  45%  237kB  Downloading pytest-2.3.4.zip (527kB):  45%  241kB  Downloading pytest-2.3.4.zip (527kB):  46%  245kB  Downloading pytest-2.3.4.zip (527kB):  47%  249kB  Downloading pytest-2.3.4.zip (527kB):  48%  253kB  Downloading pytest-2.3.4.zip (527kB):  48%  258kB  Downloading pytest-2.3.4.zip (527kB):  49%  262kB  Downloading pytest-2.3.4.zip (527kB):  50%  266kB  Downloading pytest-2.3.4.zip (527kB):  51%  270kB  Downloading pytest-2.3.4.zip (527kB):  52%  274kB  Downloading pytest-2.3.4.zip (527kB):  52%  278kB  Downloading pytest-2.3.4.zip (527kB):  53%  282kB  Downloading pytest-2.3.4.zip (527kB):  54%  286kB  Downloading pytest-2.3.4.zip (527kB):  55%  290kB  Downloading pytest-2.3.4.zip (527kB):  55%  294kB  Downloading pytest-2.3.4.zip (527kB):  56%  299kB  Downloading pytest-2.3.4.zip (527kB):  57%  303kB  Downloading pytest-2.3.4.zip (527kB):  58%  307kB  Downloading pytest-2.3.4.zip (527kB):  59%  311kB  Downloading pytest-2.3.4.zip (527kB):  59%  315kB  Downloading pytest-2.3.4.zip (527kB):  60%  319kB  Downloading pytest-2.3.4.zip (527kB):  61%  323kB  Downloading pytest-2.3.4.zip (527kB):  62%  327kB  Downloading pytest-2.3.4.zip (527kB):  62%  331kB  Downloading pytest-2.3.4.zip (527kB):  63%  335kB  Downloading pytest-2.3.4.zip (527kB):  64%  339kB  Downloading pytest-2.3.4.zip (527kB):  65%  344kB  Downloading pytest-2.3.4.zip (527kB):  66%  348kB  Downloading pytest-2.3.4.zip (527kB):  66%  352kB  Downloading pytest-2.3.4.zip (527kB):  67%  356kB  Downloading pytest-2.3.4.zip (527kB):  68%  360kB  Downloading pytest-2.3.4.zip (527kB):  69%  364kB  Downloading pytest-2.3.4.zip (527kB):  69%  368kB  Downloading pytest-2.3.4.zip (527kB):  70%  372kB  Downloading pytest-2.3.4.zip (527kB):  71%  376kB  Downloading pytest-2.3.4.zip (527kB):  72%  380kB  Downloading pytest-2.3.4.zip (527kB):  73%  385kB  Downloading pytest-2.3.4.zip (527kB):  73%  389kB  Downloading pytest-2.3.4.zip (527kB):  74%  393kB  Downloading pytest-2.3.4.zip (527kB):  75%  397kB  Downloading pytest-2.3.4.zip (527kB):  76%  401kB  Downloading pytest-2.3.4.zip (527kB):  76%  405kB  Downloading pytest-2.3.4.zip (527kB):  77%  409kB  Downloading pytest-2.3.4.zip (527kB):  78%  413kB  Downloading pytest-2.3.4.zip (527kB):  79%  417kB  Downloading pytest-2.3.4.zip (527kB):  80%  421kB  Downloading pytest-2.3.4.zip (527kB):  80%  425kB  Downloading pytest-2.3.4.zip (527kB):  81%  430kB  Downloading pytest-2.3.4.zip (527kB):  82%  434kB  Downloading pytest-2.3.4.zip (527kB):  83%  438kB  Downloading pytest-2.3.4.zip (527kB):  83%  442kB  Downloading pytest-2.3.4.zip (527kB):  84%  446kB  Downloading pytest-2.3.4.zip (527kB):  85%  450kB  Downloading pytest-2.3.4.zip (527kB):  86%  454kB  Downloading pytest-2.3.4.zip (527kB):  87%  458kB  Downloading pytest-2.3.4.zip (527kB):  87%  462kB  Downloading pytest-2.3.4.zip (527kB):  88%  466kB  Downloading pytest-2.3.4.zip (527kB):  89%  471kB  Downloading pytest-2.3.4.zip (527kB):  90%  475kB  Downloading pytest-2.3.4.zip (527kB):  90%  479kB  Downloading pytest-2.3.4.zip (527kB):  91%  483kB  Downloading pytest-2.3.4.zip (527kB):  92%  487kB  Downloading pytest-2.3.4.zip (527kB):  93%  491kB  Downloading pytest-2.3.4.zip (527kB):  94%  495kB  Downloading pytest-2.3.4.zip (527kB):  94%  499kB  Downloading pytest-2.3.4.zip (527kB):  95%  503kB  Downloading pytest-2.3.4.zip (527kB):  96%  507kB  Downloading pytest-2.3.4.zip (527kB):  97%  512kB  Downloading pytest-2.3.4.zip (527kB):  97%  516kB  Downloading pytest-2.3.4.zip (527kB):  98%  520kB  Downloading pytest-2.3.4.zip (527kB):  99%  524kB  Downloading pytest-2.3.4.zip (527kB): 100%  527kB  Downloading pytest-2.3.4.zip (527kB):              Downloading pytest-2.3.4.zip (527kB): 527kB downloaded
+  Running setup.py egg_info for package pytest
+    
+Downloading/unpacking invoke==0.2.0 (from -r requirements.txt (line 3))
+  Downloading invoke-0.2.0.tar.gz (108kB):   Downloading invoke-0.2.0.tar.gz (108kB):   3%  4.1kB  Downloading invoke-0.2.0.tar.gz (108kB):   7%  8.2kB  Downloading invoke-0.2.0.tar.gz (108kB):  11%  12kB   Downloading invoke-0.2.0.tar.gz (108kB):  15%  16kB  Downloading invoke-0.2.0.tar.gz (108kB):  18%  20kB  Downloading invoke-0.2.0.tar.gz (108kB):  22%  24kB  Downloading invoke-0.2.0.tar.gz (108kB):  26%  28kB  Downloading invoke-0.2.0.tar.gz (108kB):  30%  32kB  Downloading invoke-0.2.0.tar.gz (108kB):  34%  36kB  Downloading invoke-0.2.0.tar.gz (108kB):  37%  40kB  Downloading invoke-0.2.0.tar.gz (108kB):  41%  45kB  Downloading invoke-0.2.0.tar.gz (108kB):  45%  49kB  Downloading invoke-0.2.0.tar.gz (108kB):  49%  53kB  Downloading invoke-0.2.0.tar.gz (108kB):  53%  57kB  Downloading invoke-0.2.0.tar.gz (108kB):  56%  61kB  Downloading invoke-0.2.0.tar.gz (108kB):  60%  65kB  Downloading invoke-0.2.0.tar.gz (108kB):  64%  69kB  Downloading invoke-0.2.0.tar.gz (108kB):  68%  73kB  Downloading invoke-0.2.0.tar.gz (108kB):  71%  77kB  Downloading invoke-0.2.0.tar.gz (108kB):  75%  81kB  Downloading invoke-0.2.0.tar.gz (108kB):  79%  86kB  Downloading invoke-0.2.0.tar.gz (108kB):  83%  90kB  Downloading invoke-0.2.0.tar.gz (108kB):  87%  94kB  Downloading invoke-0.2.0.tar.gz (108kB):  90%  98kB  Downloading invoke-0.2.0.tar.gz (108kB):  94%  102kB  Downloading invoke-0.2.0.tar.gz (108kB):  98%  106kB  Downloading invoke-0.2.0.tar.gz (108kB): 100%  108kB  Downloading invoke-0.2.0.tar.gz (108kB):              Downloading invoke-0.2.0.tar.gz (108kB): 108kB downloaded
+  Running setup.py egg_info for package invoke
+    
+    warning: no previously-included files matching '*' found under directory 'docs/_build'
+    warning: no previously-included files matching '*.pyc' found under directory 'tests'
+    warning: no previously-included files matching '*.pyo' found under directory 'tests'
+Downloading/unpacking pexpect-u==2.5.1 (from invoke==0.2.0->-r requirements.txt (line 3))
+  Downloading pexpect-u-2.5.1.tar.gz (128kB):   Downloading pexpect-u-2.5.1.tar.gz (128kB):   3%  4.1kB  Downloading pexpect-u-2.5.1.tar.gz (128kB):   6%  8.2kB  Downloading pexpect-u-2.5.1.tar.gz (128kB):   9%  12kB   Downloading pexpect-u-2.5.1.tar.gz (128kB):  12%  16kB  Downloading pexpect-u-2.5.1.tar.gz (128kB):  15%  20kB  Downloading pexpect-u-2.5.1.tar.gz (128kB):  19%  24kB  Downloading pexpect-u-2.5.1.tar.gz (128kB):  22%  28kB  Downloading pexpect-u-2.5.1.tar.gz (128kB):  25%  32kB  Downloading pexpect-u-2.5.1.tar.gz (128kB):  28%  36kB  Downloading pexpect-u-2.5.1.tar.gz (128kB):  31%  40kB  Downloading pexpect-u-2.5.1.tar.gz (128kB):  34%  45kB  Downloading pexpect-u-2.5.1.tar.gz (128kB):  38%  49kB  Downloading pexpect-u-2.5.1.tar.gz (128kB):  41%  53kB  Downloading pexpect-u-2.5.1.tar.gz (128kB):  44%  57kB  Downloading pexpect-u-2.5.1.tar.gz (128kB):  47%  61kB  Downloading pexpect-u-2.5.1.tar.gz (128kB):  50%  65kB  Downloading pexpect-u-2.5.1.tar.gz (128kB):  54%  69kB  Downloading pexpect-u-2.5.1.tar.gz (128kB):  57%  73kB  Downloading pexpect-u-2.5.1.tar.gz (128kB):  60%  77kB  Downloading pexpect-u-2.5.1.tar.gz (128kB):  63%  81kB  Downloading pexpect-u-2.5.1.tar.gz (128kB):  66%  86kB  Downloading pexpect-u-2.5.1.tar.gz (128kB):  69%  90kB  Downloading pexpect-u-2.5.1.tar.gz (128kB):  73%  94kB  Downloading pexpect-u-2.5.1.tar.gz (128kB):  76%  98kB  Downloading pexpect-u-2.5.1.tar.gz (128kB):  79%  102kB  Downloading pexpect-u-2.5.1.tar.gz (128kB):  82%  106kB  Downloading pexpect-u-2.5.1.tar.gz (128kB):  85%  110kB  Downloading pexpect-u-2.5.1.tar.gz (128kB):  89%  114kB  Downloading pexpect-u-2.5.1.tar.gz (128kB):  92%  118kB  Downloading pexpect-u-2.5.1.tar.gz (128kB):  95%  122kB  Downloading pexpect-u-2.5.1.tar.gz (128kB):  98%  126kB  Downloading pexpect-u-2.5.1.tar.gz (128kB): 100%  128kB  Downloading pexpect-u-2.5.1.tar.gz (128kB):              Downloading pexpect-u-2.5.1.tar.gz (128kB): 128kB downloaded
+  Running setup.py egg_info for package pexpect-u
+    
+Installing collected packages: py, pytest, invoke, pexpect-u
+  Found existing installation: py 1.4.15
+    Uninstalling py:
+      Successfully uninstalled py
+  Running setup.py install for py
+    
+  Found existing installation: pytest 2.3.5
+    Uninstalling pytest:
+      Successfully uninstalled pytest
+  Running setup.py install for pytest
+    
+    Installing py.test script to /home/travis/virtualenv/python2.7/bin
+    Installing py.test-2.7 script to /home/travis/virtualenv/python2.7/bin
+  Running setup.py install for invoke
+    
+    warning: no previously-included files matching '*' found under directory 'docs/_build'
+    warning: no previously-included files matching '*.pyc' found under directory 'tests'
+    warning: no previously-included files matching '*.pyo' found under directory 'tests'
+    Installing inv script to /home/travis/virtualenv/python2.7/bin
+    Installing invoke script to /home/travis/virtualenv/python2.7/bin
+  Running setup.py install for pexpect-u
+    
+Successfully installed py pytest invoke pexpect-u
+Cleaning up...
+travis_fold:end:install$ invoke test
+[1m============================= test session starts ==============================[0m
+platform linux2 -- Python 2.7.3 -- pytest-2.3.4
+[1mcollecting 0 items[0m[1mcollecting 61 items[0m[1mcollecting 67 items[0m[1mcollecting 85 items[0m[1mcollecting 86 items[0m[1mcollecting 86 items[0m[1mcollected 86 items 
+[0m
+test_requests.py ..................................................F...................................
+
+=================================== FAILURES ===================================
+___________________ RequestsTestCase.test_set_cookie_on_301 ____________________
+
+self = <test_requests.RequestsTestCase testMethod=test_set_cookie_on_301>
+
+[1m    def test_set_cookie_on_301(self):[0m
+[1m        s = requests.session()[0m
+[1m        url = httpbin('cookies/set?foo=bar')[0m
+[1m>       r = s.get(url)[0m
+
+test_requests.py:140: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <requests.sessions.Session object at 0x2f86dd0>
+url = 'http://httpbin.org/cookies/set?foo=bar'
+kwargs = {'allow_redirects': True}
+
+[1m    def get(self, url, **kwargs):[0m
+[1m        """Sends a GET request. Returns :class:`Response` object.[0m
+[1m    [0m
+[1m            :param url: URL for the new :class:`Request` object.[0m
+[1m            :param \*\*kwargs: Optional arguments that ``request`` takes.[0m
+[1m            """[0m
+[1m    [0m
+[1m        kwargs.setdefault('allow_redirects', True)[0m
+[1m>       return self.request('GET', url, **kwargs)[0m
+
+requests/sessions.py:373: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <requests.sessions.Session object at 0x2f86dd0>, method = 'GET'
+url = 'http://httpbin.org/cookies/set?foo=bar', params = None, data = None
+headers = None, cookies = None, files = None, auth = None, timeout = None
+allow_redirects = True, proxies = OrderedDict(), hooks = None, stream = False
+verify = True, cert = None
+
+[1m    def request(self, method, url,[0m
+[1m        params=None,[0m
+[1m        data=None,[0m
+[1m        headers=None,[0m
+[1m        cookies=None,[0m
+[1m        files=None,[0m
+[1m        auth=None,[0m
+[1m        timeout=None,[0m
+[1m        allow_redirects=True,[0m
+[1m        proxies=None,[0m
+[1m        hooks=None,[0m
+[1m        stream=None,[0m
+[1m        verify=None,[0m
+[1m        cert=None):[0m
+[1m        """Constructs a :class:`Request <Request>`, prepares it and sends it.[0m
+[1m            Returns :class:`Response <Response>` object.[0m
+[1m    [0m
+[1m            :param method: method for the new :class:`Request` object.[0m
+[1m            :param url: URL for the new :class:`Request` object.[0m
+[1m            :param params: (optional) Dictionary or bytes to be sent in the query[0m
+[1m                string for the :class:`Request`.[0m
+[1m            :param data: (optional) Dictionary or bytes to send in the body of the[0m
+[1m                :class:`Request`.[0m
+[1m            :param headers: (optional) Dictionary of HTTP Headers to send with the[0m
+[1m                :class:`Request`.[0m
+[1m            :param cookies: (optional) Dict or CookieJar object to send with the[0m
+[1m                :class:`Request`.[0m
+[1m            :param files: (optional) Dictionary of 'filename': file-like-objects[0m
+[1m                for multipart encoding upload.[0m
+[1m            :param auth: (optional) Auth tuple or callable to enable[0m
+[1m                Basic/Digest/Custom HTTP Auth.[0m
+[1m            :param timeout: (optional) Float describing the timeout of the[0m
+[1m                request.[0m
+[1m            :param allow_redirects: (optional) Boolean. Set to True by default.[0m
+[1m            :param proxies: (optional) Dictionary mapping protocol to the URL of[0m
+[1m                the proxy.[0m
+[1m            :param stream: (optional) whether to immediately download the response[0m
+[1m                content. Defaults to ``False``.[0m
+[1m            :param verify: (optional) if ``True``, the SSL cert will be verified.[0m
+[1m                A CA_BUNDLE path can also be provided.[0m
+[1m            :param cert: (optional) if String, path to ssl client cert file (.pem).[0m
+[1m                If Tuple, ('cert', 'key') pair.[0m
+[1m            """[0m
+[1m        # Create the Request.[0m
+[1m        req = Request([0m
+[1m            method = method.upper(),[0m
+[1m            url = url,[0m
+[1m            headers = headers,[0m
+[1m            files = files,[0m
+[1m            data = data or {},[0m
+[1m            params = params or {},[0m
+[1m            auth = auth,[0m
+[1m            cookies = cookies,[0m
+[1m            hooks = hooks,[0m
+[1m        )[0m
+[1m        prep = self.prepare_request(req)[0m
+[1m    [0m
+[1m        # Add param cookies to session cookies[0m
+[1m        self.cookies = cookiejar_from_dict(cookies, cookiejar=self.cookies, overwrite=False)[0m
+[1m    [0m
+[1m        proxies = proxies or {}[0m
+[1m    [0m
+[1m        # Gather clues from the surrounding environment.[0m
+[1m        if self.trust_env:[0m
+[1m            # Set environment's proxies.[0m
+[1m            env_proxies = get_environ_proxies(url) or {}[0m
+[1m            for (k, v) in env_proxies.items():[0m
+[1m                proxies.setdefault(k, v)[0m
+[1m    [0m
+[1m            # Look for configuration.[0m
+[1m            if not verify and verify is not False:[0m
+[1m                verify = os.environ.get('REQUESTS_CA_BUNDLE')[0m
+[1m    [0m
+[1m            # Curl compatibility.[0m
+[1m            if not verify and verify is not False:[0m
+[1m                verify = os.environ.get('CURL_CA_BUNDLE')[0m
+[1m    [0m
+[1m        # Merge all the kwargs.[0m
+[1m        proxies = merge_setting(proxies, self.proxies)[0m
+[1m        stream = merge_setting(stream, self.stream)[0m
+[1m        verify = merge_setting(verify, self.verify)[0m
+[1m        cert = merge_setting(cert, self.cert)[0m
+[1m    [0m
+[1m        # Send the request.[0m
+[1m        send_kwargs = {[0m
+[1m            'stream': stream,[0m
+[1m            'timeout': timeout,[0m
+[1m            'verify': verify,[0m
+[1m            'cert': cert,[0m
+[1m            'proxies': proxies,[0m
+[1m            'allow_redirects': allow_redirects,[0m
+[1m        }[0m
+[1m>       resp = self.send(prep, **send_kwargs)[0m
+
+requests/sessions.py:361: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <requests.sessions.Session object at 0x2f86dd0>
+request = <PreparedRequest [GET]>
+kwargs = {'cert': None, 'proxies': OrderedDict(), 'stream': False, 'timeout': None, ...}
+allow_redirects = True, stream = False, timeout = None, verify = True
+cert = None, proxies = OrderedDict(), hooks = {'response': []}
+
+[1m    def send(self, request, **kwargs):[0m
+[1m        """Send a given PreparedRequest."""[0m
+[1m        # Set defaults that the hooks can utilize to ensure they always have[0m
+[1m        # the correct parameters to reproduce the previous request.[0m
+[1m        kwargs.setdefault('stream', self.stream)[0m
+[1m        kwargs.setdefault('verify', self.verify)[0m
+[1m        kwargs.setdefault('cert', self.cert)[0m
+[1m        kwargs.setdefault('proxies', self.proxies)[0m
+[1m    [0m
+[1m        # It's possible that users might accidentally send a Request object.[0m
+[1m        # Guard against that specific failure case.[0m
+[1m        if not isinstance(request, PreparedRequest):[0m
+[1m            raise ValueError('You can only send PreparedRequests.')[0m
+[1m    [0m
+[1m        # Set up variables needed for resolve_redirects and dispatching of[0m
+[1m        # hooks[0m
+[1m        allow_redirects = kwargs.pop('allow_redirects', True)[0m
+[1m        stream = kwargs.get('stream')[0m
+[1m        timeout = kwargs.get('timeout')[0m
+[1m        verify = kwargs.get('verify')[0m
+[1m        cert = kwargs.get('cert')[0m
+[1m        proxies = kwargs.get('proxies')[0m
+[1m        hooks = request.hooks[0m
+[1m    [0m
+[1m        # Get the appropriate adapter to use[0m
+[1m        adapter = self.get_adapter(url=request.url)[0m
+[1m    [0m
+[1m        # Start time (approximately) of the request[0m
+[1m        start = datetime.utcnow()[0m
+[1m        # Send the request[0m
+[1m>       r = adapter.send(request, **kwargs)[0m
+
+requests/sessions.py:464: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <requests.adapters.HTTPAdapter object at 0x2f86e50>
+request = <PreparedRequest [GET]>, stream = False
+timeout = <requests.packages.urllib3.util.Timeout object at 0x2f852d0>
+verify = True, cert = None, proxies = OrderedDict()
+
+[1m    def send(self, request, stream=False, timeout=None, verify=True, cert=None, proxies=None):[0m
+[1m        """Sends PreparedRequest object. Returns Response object.[0m
+[1m    [0m
+[1m            :param request: The :class:`PreparedRequest <PreparedRequest>` being sent.[0m
+[1m            :param stream: (optional) Whether to stream the request content.[0m
+[1m            :param timeout: (optional) The timeout on the request.[0m
+[1m            :param verify: (optional) Whether to verify SSL certificates.[0m
+[1m            :param vert: (optional) Any user-provided SSL certificate to be trusted.[0m
+[1m            :param proxies: (optional) The proxies dictionary to apply to the request.[0m
+[1m            """[0m
+[1m    [0m
+[1m        conn = self.get_connection(request.url, proxies)[0m
+[1m    [0m
+[1m        self.cert_verify(conn, request.url, verify, cert)[0m
+[1m        url = self.request_url(request, proxies)[0m
+[1m        self.add_headers(request)[0m
+[1m    [0m
+[1m        chunked = not (request.body is None or 'Content-Length' in request.headers)[0m
+[1m    [0m
+[1m        if stream:[0m
+[1m            timeout = TimeoutSauce(connect=timeout)[0m
+[1m        else:[0m
+[1m            timeout = TimeoutSauce(connect=timeout, read=timeout)[0m
+[1m    [0m
+[1m        try:[0m
+[1m            if not chunked:[0m
+[1m                resp = conn.urlopen([0m
+[1m                    method=request.method,[0m
+[1m                    url=url,[0m
+[1m                    body=request.body,[0m
+[1m                    headers=request.headers,[0m
+[1m                    redirect=False,[0m
+[1m                    assert_same_host=False,[0m
+[1m                    preload_content=False,[0m
+[1m                    decode_content=False,[0m
+[1m                    retries=self.max_retries,[0m
+[1m                    timeout=timeout[0m
+[1m                )[0m
+[1m    [0m
+[1m            # Send the request.[0m
+[1m            else:[0m
+[1m                if hasattr(conn, 'proxy_pool'):[0m
+[1m                    conn = conn.proxy_pool[0m
+[1m    [0m
+[1m                low_conn = conn._get_conn(timeout=timeout)[0m
+[1m                low_conn.putrequest(request.method, url, skip_accept_encoding=True)[0m
+[1m    [0m
+[1m                for header, value in request.headers.items():[0m
+[1m                    low_conn.putheader(header, value)[0m
+[1m    [0m
+[1m                low_conn.endheaders()[0m
+[1m    [0m
+[1m                for i in request.body:[0m
+[1m                    low_conn.send(hex(len(i))[2:].encode('utf-8'))[0m
+[1m                    low_conn.send(b'\r\n')[0m
+[1m                    low_conn.send(i)[0m
+[1m                    low_conn.send(b'\r\n')[0m
+[1m                low_conn.send(b'0\r\n\r\n')[0m
+[1m    [0m
+[1m                r = low_conn.getresponse()[0m
+[1m                resp = HTTPResponse.from_httplib(r,[0m
+[1m                    pool=conn,[0m
+[1m                    connection=low_conn,[0m
+[1m                    preload_content=False,[0m
+[1m                    decode_content=False[0m
+[1m                )[0m
+[1m    [0m
+[1m        except socket.error as sockerr:[0m
+[1m            raise ConnectionError(sockerr)[0m
+[1m    [0m
+[1m        except MaxRetryError as e:[0m
+[1m>           raise ConnectionError(e)[0m
+[1m[31mE           ConnectionError: HTTPConnectionPool(host='httpbin.org', port=80): Max retries exceeded with url: /cookies/set?foo=bar (Caused by <class 'httplib.BadStatusLine'>: '')[0m
+
+requests/adapters.py:356: ConnectionError
+[1m===================== 1 failed, 85 passed in 6.57 seconds ======================[0m
+
+The command "invoke test" exited with 1.
+
+Done. Your build exited with 1.
