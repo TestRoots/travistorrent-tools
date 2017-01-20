@@ -58,7 +58,7 @@ class SystemTest < MiniTest::Test
     make_comparison("dev_logs/waylan@Python-Markdown")
   end
 
-  def test_various_python
-    make_comparison("dev_logs/python@pythontests")
+  def test_pytest_python
+    make_comparison("dev_logs/kennethreitz@requests")
   end
 end
