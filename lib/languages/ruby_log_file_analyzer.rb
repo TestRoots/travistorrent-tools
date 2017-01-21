@@ -56,6 +56,9 @@ module RubyLogFileAnalyzer
 
   def extractTestNameAndMethod(string)
     return nil if string.nil?
+    string.strip!
+    return nil if string.split(' ')[0].nil?
+
     string.split(' ')[0].split('#').map { |t| t.split }
   end
 
@@ -77,8 +80,10 @@ module RubyLogFileAnalyzer
       elsif !(line =~ / Failure:/).nil?
         failed_unit_tests_started = true
       elsif failed_unit_tests_started
-        @tests_failed << extractTestNameAndMethod(line)[0]
-        failed_unit_tests_started = false
+        if !extractTestNameAndMethod(line).nil?
+          @tests_failed << extractTestNameAndMethod(line)[0]
+          failed_unit_tests_started = false
+        end
       end
 
       # shared between TestUnit and RSpec

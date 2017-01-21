@@ -66,6 +66,10 @@ class SystemTest < MiniTest::Test
     make_comparison("dev_logs/python@pythontests")
   end
 
+  def test_regressions
+    make_comparison("dev_logs/caskroom@homebrew-versions")
+  end
+
   def test_generic
     make_comparison("dev_logs/generics")
   end
