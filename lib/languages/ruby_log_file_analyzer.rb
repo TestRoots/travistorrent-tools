@@ -133,7 +133,7 @@ module RubyLogFileAnalyzer
         end
       elsif !(line =~ /\d steps?/).nil?
         expect_cucumber_time = true
-      elsif expect_cucumber_time
+      elsif expect_cucumber_time and @init_tests
         @test_duration += convert_time_to_seconds line
         expect_cucumber_time = false
       end

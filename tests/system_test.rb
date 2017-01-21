@@ -67,7 +67,7 @@ class SystemTest < MiniTest::Test
   end
 
   def test_regressions
-    make_comparison("dev_logs/caskroom@homebrew-versions")
+    make_comparison("dev_logs/regression-tests")
   end
 
   def test_generic
