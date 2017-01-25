@@ -489,16 +489,13 @@ usage:
           repo_commits = []
           push_events_processed = 0
           mongo['events'].find({'repo.name' => "#{repo[:owner]}/#{repo[:repo]}", 'type' => 'PushEvent'},
-                               :timeout => false, :batch_size => 10) do |cursor|
+                               :no_cursor_timeout => false, :batch_size => 10).each do |push|
             # Produce a list of commit object information items
-            while cursor.has_next?
-              push = cursor.next
-              push['payload']['commits'].each do |commit|
-                repo_commits << {:sha => commit['sha'],
-                                 :pushed_at => push['created_at'],
-                                 :push_id => push['id']}
-                push_events_processed += 1
-              end
+            push['payload']['commits'].each do |commit|
+              repo_commits << {:sha => commit['sha'],
+                               :pushed_at => push['created_at'],
+                               :push_id => push['id']}
+              push_events_processed += 1
             end
             log "#{push_events_processed} push events for #{repo[:owner]}/#{repo[:repo]}\n"
           end
