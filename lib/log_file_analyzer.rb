@@ -62,14 +62,15 @@ class LogFileAnalyzer
     lang = primary_language.downcase
 
     # Dynamically add mixins
-    if lang == 'ruby'
-      self.extend(RubyLogFileAnalyzer)
-    elsif lang == 'java'
-      self.extend(JavaLogFileAnalyzerDispatcher)
-    elsif lang == 'go'
-      self.extend(GoLogFileAnalyzer)
-    elsif lang == 'python'
-      self.extend(PythonLogFileAnalyzer)
+    case lang
+      when 'ruby'
+        self.extend(RubyLogFileAnalyzer)
+      when 'java'
+        self.extend(JavaLogFileAnalyzerDispatcher)
+      when 'go'
+        self.extend(GoLogFileAnalyzer)
+      when 'python'
+        self.extend(PythonLogFileAnalyzer)
     end
   end
 
@@ -77,7 +78,7 @@ class LogFileAnalyzer
   def analyze
     anaylze_status
     analyzeSetupTimeBeforeBuild
-    custom_analyze
+    custom_analyze unless @status == 'terminated'
     pre_output
     sanitize_output
   end
@@ -96,12 +97,22 @@ class LogFileAnalyzer
 
   # Analyze the buildlog exit status
   def anaylze_status
+    if @folds[@OUT_OF_FOLD].nil?
+      @status = 'terminated'
+      return
+    end
+
     unless (@folds[@OUT_OF_FOLD].content.last =~/^Done: Job Cancelled/).nil?
       @status = 'cancelled'
     end
-    unless (@folds[@OUT_OF_FOLD].content.last =~/^The job exceeded the maximum time limit for jobs, and has been terminated.\./).nil?
-      @status = 'timeout'
+
+    lineNumbers = @folds[@OUT_OF_FOLD].content.length
+    beginLine = [0, lineNumbers-3].max
+    endLine = [0, lineNumbers-1].max
+    @folds[@OUT_OF_FOLD].content[beginLine..endLine].each do |line|
+      @status = 'timeout' unless (line =~/^The job exceeded the maximum time limit for jobs, and has been terminated\./).nil?
     end
+
     unless (@folds[@OUT_OF_FOLD].content.last =~/^Done. Your build exited with (\d*)\./).nil?
       @status = $1.to_i === 0 ? 'ok' : 'broken'
     end
@@ -130,6 +141,12 @@ class LogFileAnalyzer
         @primary_language = 'go'
       end
     end
+  end
+
+  def add_failed_test(testname)
+    return if testname.nil?
+    testname = testname.strip
+    @tests_failed.push(testname) unless testname.nil?
   end
 
   # Split buildlog into different Folds
@@ -274,7 +291,7 @@ class LogFileAnalyzer
         # [doc] Names of the tests that failed, extracted by build log analysis.
         :tr_log_tests_failed => @tests_failed.join('#'),
         # [doc] Duration of the running the tests, in seconds, extracted by build log analysis.
-        :tr_log_testduration =>  @test_duration,
+        :tr_log_testduration => @test_duration,
         # [doc] Duration of running the build command like maven or ant (if present, should be longer than
         # `:tr_log_testduration` as it includes this phase), in seconds, extracted by build log analysis.
         :tr_log_buildduration => @pure_build_duration

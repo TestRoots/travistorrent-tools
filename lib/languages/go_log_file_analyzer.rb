@@ -80,14 +80,14 @@ module GoLogFileAnalyzer
         setup_go_tests
         @num_tests_run += 1
         @num_tests_failed += 1
-        @tests_failed.push($1) unless $1.nil?
+        add_failed_test $1
         @num_test_suites_failed += 1 # TODO: Is this really true?
         @test_duration += convert_plain_time_to_seconds $3
       elsif !(line =~ /FAIL\s+(\S+)(\s(.+))?/).nil?
         setup_go_tests
         @num_tests_run += 1
         @num_tests_failed += 1
-        @tests_failed.push($1) unless $1.nil?
+        add_failed_test $1
         @test_duration += convert_plain_time_to_seconds $3
       end
     end

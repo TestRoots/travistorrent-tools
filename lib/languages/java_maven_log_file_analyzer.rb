@@ -126,7 +126,7 @@ module JavaMavenLogFileAnalyzer
   end
 
   def getOffendingTests
-    @tests_failed_lines.each { |l| @tests_failed << extractTestNameAndMethod(l)[0].strip }
+    @tests_failed_lines.each { |l| @tests_failed << extractTestNameAndMethod(l)[0].strip unless extractTestNameAndMethod(l)[0].nil? }
   end
 
   def tests_failed?

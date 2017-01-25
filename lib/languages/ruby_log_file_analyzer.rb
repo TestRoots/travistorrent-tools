@@ -55,6 +55,10 @@ module RubyLogFileAnalyzer
   end
 
   def extractTestNameAndMethod(string)
+    return nil if string.nil?
+    string.strip!
+    return nil if string.split(' ')[0].nil?
+
     string.split(' ')[0].split('#').map { |t| t.split }
   end
 
@@ -76,8 +80,10 @@ module RubyLogFileAnalyzer
       elsif !(line =~ / Failure:/).nil?
         failed_unit_tests_started = true
       elsif failed_unit_tests_started
-        @tests_failed << extractTestNameAndMethod(line)[0]
-        failed_unit_tests_started = false
+        if !extractTestNameAndMethod(line).nil?
+          @tests_failed << extractTestNameAndMethod(line)[0]
+          failed_unit_tests_started = false
+        end
       end
 
       # shared between TestUnit and RSpec
@@ -100,7 +106,7 @@ module RubyLogFileAnalyzer
         if (line =~ /rspec (.*\.rb):\d+/).nil?
           failed_rspec_tests_started = false
         else
-          @tests_failed << $1
+          add_failed_test $1
         end
       end
 
@@ -121,13 +127,13 @@ module RubyLogFileAnalyzer
       elsif (cucumber_failing_tests_started)
         if !(line =~ /cucumber (.*?):(\d*)/).nil?
           init_tests
-          @tests_failed << $1
+          add_failed_test $1
         else
           cucumber_failing_tests_started = false
         end
       elsif !(line =~ /\d steps?/).nil?
         expect_cucumber_time = true
-      elsif expect_cucumber_time
+      elsif expect_cucumber_time and @init_tests
         @test_duration += convert_time_to_seconds line
         expect_cucumber_time = false
       end

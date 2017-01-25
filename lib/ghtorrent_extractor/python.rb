@@ -4,7 +4,7 @@
 
 require_relative 'comment_stripper'
 
-# Supported testing frameworks: unittest, pytest and nose
+  # Supported testing frameworks: unittest, pytest and nose
 module PythonData
 
   include CommentStripper
