@@ -732,7 +732,7 @@ usage:
         :gh_num_pr_comments => num_pr_comments(build, prev_build_started_at, Time.parse(build[:started_at])),
 
         # [doc] The emails of the committers of the commits in all `git_all_built_commits`.
-        :git_diff_committers => build[:authors].join('#'),
+        :git_diff_committers => '"' + build[:authors].join('#') + '"',
 
         # [doc] Number of lines of production code changed in all `git_all_built_commits`.
         :git_diff_src_churn => stats[:lines_added] + stats[:lines_deleted],
