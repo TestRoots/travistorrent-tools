@@ -647,6 +647,9 @@ usage:
         # [doc] The analyzed build id, as reported from Travis CI.
         :tr_build_id => build[:build_id],
 
+        # [doc] The timestamp the build  was started at (UTC), as reported by the Travis CI API.
+        :tr_build_started => build[:started_at],
+
         # [doc] Project name on GitHub.
         :gh_project_name => "#{owner}/#{repo}",
 
@@ -769,14 +772,14 @@ usage:
         # [doc] Number of executable production source lines of code, in the entire repository.
         :gh_sloc => sloc,
 
-        # [doc] Test density. Number of lines in test cases per 1000 `gh_sloc`.
-        :gh_test_lines_per_kloc => (test_lines(build[:commit]).to_f / sloc.to_f) * 1000,
+        # [doc] Test density. Number of lines in test cases.
+        :gh_test_lines_per_kloc => test_lines(build[:commit]).to_f,
 
-        # [doc] Test density. Test density. Number of test cases per 1000 `gh_sloc`.
-        :gh_test_cases_per_kloc => (num_test_cases(build[:commit]).to_f / sloc.to_f) * 1000,
+        # [doc] Test density. Test density. Number of test cases.
+        :gh_test_cases_per_kloc => num_test_cases(build[:commit]).to_f,
 
-        # [doc] Test density. Assert density. Number of assertions per 1000 `gh_sloc`.
-        :gh_asserts_cases_per_kloc => (num_assertions(build[:commit]).to_f / sloc.to_f) * 1000,
+        # [doc] Test density. Assert density. Number of assertions.
+        :gh_asserts_cases_per_kloc => num_assertions(build[:commit]).to_f,
 
         # [doc] Whether this commit was authored by a core team member. A core team member is someone who has committed
         # code at least once within the 3 months before this commit, either by directly committing it or by merging
