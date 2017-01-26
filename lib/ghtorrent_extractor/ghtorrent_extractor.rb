@@ -676,7 +676,7 @@ usage:
         :gh_num_commits_in_push => build[:num_commits_in_push],
 
         # [doc] The commits included in the push that triggered the build. In rare cases, GHTorrent has not recorded
-        # a push event for the commit that created the build in which case `gh_commits_in_push` is nil.
+        # a push event for the commit that created the build in which case `gh_commits_in_push` is the empty string.
         :gh_commits_in_push => build[:commits_in_push].nil? ? nil : build[:commits_in_push].join('#'),
 
         # [doc] When walking backwards the branch to find previously built commits, what is the reason for stopping
