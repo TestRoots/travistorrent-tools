@@ -489,16 +489,13 @@ usage:
           repo_commits = []
           push_events_processed = 0
           mongo['events'].find({'repo.name' => "#{repo[:owner]}/#{repo[:repo]}", 'type' => 'PushEvent'},
-                               :timeout => false, :batch_size => 10) do |cursor|
+                               :no_cursor_timeout => false, :batch_size => 10).each do |push|
             # Produce a list of commit object information items
-            while cursor.has_next?
-              push = cursor.next
-              push['payload']['commits'].each do |commit|
-                repo_commits << {:sha => commit['sha'],
-                                 :pushed_at => push['created_at'],
-                                 :push_id => push['id']}
-                push_events_processed += 1
-              end
+            push['payload']['commits'].each do |commit|
+              repo_commits << {:sha => commit['sha'],
+                               :pushed_at => push['created_at'],
+                               :push_id => push['id']}
+              push_events_processed += 1
             end
             log "#{push_events_processed} push events for #{repo[:owner]}/#{repo[:repo]}\n"
           end
@@ -650,6 +647,9 @@ usage:
         # [doc] The analyzed build id, as reported from Travis CI.
         :tr_build_id => build[:build_id],
 
+        # [doc] The timestamp the build  was started at (UTC), as reported by the Travis CI API.
+        :tr_build_started => build[:started_at],
+
         # [doc] Project name on GitHub.
         :gh_project_name => "#{owner}/#{repo}",
 
@@ -732,7 +732,7 @@ usage:
         :gh_num_pr_comments => num_pr_comments(build, prev_build_started_at, Time.parse(build[:started_at])),
 
         # [doc] The emails of the committers of the commits in all `git_all_built_commits`.
-        :git_diff_committers => build[:authors].join('#'),
+        :git_diff_committers => '"' + build[:authors].join('#') + '"',
 
         # [doc] Number of lines of production code changed in all `git_all_built_commits`.
         :git_diff_src_churn => stats[:lines_added] + stats[:lines_deleted],
@@ -772,14 +772,14 @@ usage:
         # [doc] Number of executable production source lines of code, in the entire repository.
         :gh_sloc => sloc,
 
-        # [doc] Test density. Number of lines in test cases per 1000 `gh_sloc`.
-        :gh_test_lines_per_kloc => (test_lines(build[:commit]).to_f / sloc.to_f) * 1000,
+        # [doc] Test density. Number of lines in test cases.
+        :gh_test_lines_per_kloc => test_lines(build[:commit]).to_f,
 
-        # [doc] Test density. Test density. Number of test cases per 1000 `gh_sloc`.
-        :gh_test_cases_per_kloc => (num_test_cases(build[:commit]).to_f / sloc.to_f) * 1000,
+        # [doc] Test density. Test density. Number of test cases.
+        :gh_test_cases_per_kloc => num_test_cases(build[:commit]).to_f,
 
-        # [doc] Test density. Assert density. Number of assertions per 1000 `gh_sloc`.
-        :gh_asserts_cases_per_kloc => (num_assertions(build[:commit]).to_f / sloc.to_f) * 1000,
+        # [doc] Test density. Assert density. Number of assertions.
+        :gh_asserts_cases_per_kloc => num_assertions(build[:commit]).to_f,
 
         # [doc] Whether this commit was authored by a core team member. A core team member is someone who has committed
         # code at least once within the 3 months before this commit, either by directly committing it or by merging
