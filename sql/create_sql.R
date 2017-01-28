@@ -19,20 +19,30 @@ data$gh_by_core_team_member <- data$gh_by_core_team_member == "true"
 data$tr_log_bool_tests_ran <- data$tr_log_bool_tests_ran == "true"
 data$tr_log_bool_tests_failed <- data$tr_log_bool_tests_failed == "true"
 
-# Our dates are in 8601
+# Our dates are in ISO 8601
 data$gh_first_commit_created_at <- parse_date(as.character(data$gh_first_commit_created_at))
 data$gh_build_started_at <- parse_date(as.character(data$gh_build_started_at))
 data$gh_pushed_at <- parse_date(as.character(data$gh_pushed_at))
 data$gh_pr_created_at <- parse_date(as.character(data$gh_pr_created_at))
 
-# convert to data table for easier access and modification of internal variables
+# Convert to data table for easier access and modification of internal variables
 data <- data.table(data)
+setkey(data, tr_build_id)
 
 # Sanitize data runs with NAs instead of 0s
 data[tr_log_bool_tests_failed == T & tr_log_num_tests_failed == 0,]$tr_log_num_tests_failed <- NA
 data[tr_log_bool_tests_failed == T & tr_log_num_tests_run == 0,]$tr_log_num_tests_run <- NA
 data[tr_log_num_tests_ok < 0,]$tr_log_num_tests_ok <- NA
 data[tr_log_num_tests_failed > tr_log_num_tests_run,]$tr_log_num_tests_run <- NA
+
+# Build a boolean vector saying whether the build was completely successful or not (abstracting over all different failure reasons)
+data$build_successful <- data$tr_status == "passed"
+
+# Append the previous build status
+get_prev_build_status <- function(previous_build) {
+  subset(data, tr_build_id == previous_build)$tr_status[1]
+}
+data[, tr_prev_build_status := get_prev_build_status(tr_prev_build[1]), by=tr_build_id]
 
 data <- data.frame(data)
 
