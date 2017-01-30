@@ -773,13 +773,13 @@ usage:
         :gh_sloc => sloc,
 
         # [doc] Test density. Number of lines in test cases.
-        :gh_test_lines_per_kloc => test_lines(build[:commit]).to_f,
+        :gh_test_lines => test_lines(build[:commit]).to_f,
 
         # [doc] Test density. Test density. Number of test cases.
-        :gh_test_cases_per_kloc => num_test_cases(build[:commit]).to_f,
+        :gh_test_cases => num_test_cases(build[:commit]).to_f,
 
         # [doc] Test density. Assert density. Number of assertions.
-        :gh_asserts_cases_per_kloc => num_assertions(build[:commit]).to_f,
+        :gh_asserts_cases => num_assertions(build[:commit]).to_f,
 
         # [doc] Whether this commit was authored by a core team member. A core team member is someone who has committed
         # code at least once within the 3 months before this commit, either by directly committing it or by merging
