@@ -3,16 +3,20 @@
 # We hence use RMySQL 0.10.9 and manually modify the created SQL columns to DATETIME
 
 # Update to create new version of the data set
-table.name <- "travistorrent_11_1_2017"
+table.name <- "travistorrent_30_1_2017"
 
 library(data.table)
+library(foreach)
+library(doMC)
 library(RMySQL)
 library(DBI)
 library(parsedate)
 
-data <- read.csv("final_merged_build_jobs.csv")
+registerDoMC(cores = 4)
 
-data$git_diff_committers <- NULL
+data <- read.csv("complete_merger_pre_sanitized_30_1_2017.csv")
+
+# data$git_diff_committers <- NULL
 
 data$gh_is_pr <- data$gh_is_pr == "true"
 data$gh_by_core_team_member <- data$gh_by_core_team_member == "true"
@@ -39,10 +43,27 @@ data[tr_log_num_tests_failed > tr_log_num_tests_run,]$tr_log_num_tests_run <- NA
 data$build_successful <- data$tr_status == "passed"
 
 # Append the previous build status
-get_prev_build_status <- function(previous_build) {
-  subset(data, tr_build_id == previous_build)$tr_status[1]
+get_prev_build_status <- function(previous_build, project.data) {
+  subset(project.data, tr_build_id == previous_build)$tr_status[1]
 }
-data[, tr_prev_build_status := get_prev_build_status(tr_prev_build[1]), by=tr_build_id]
+
+gen.data <- foreach(project=unique(data$gh_project_name), .combine=rbind) %dopar% {
+  project.data <- subset(data, gh_project_name == project)
+  setkey(project.data, tr_build_id)
+  
+  #project.data[, tr_prev_build_status := get_prev_build_status(tr_prev_build[1]), by=tr_build_id]
+  tmp.res <- list()
+  for(build in unique(project.data$tr_build_id)) {
+    tr_prev_build <- subset(project.data, tr_build_id == build)$tr_prev_build
+    tmp.res <- rbind(tmp.res, list("tr_build_id"=build, "tr_prev_build_status"=get_prev_build_status(tr_prev_build[1], project.data)))
+  }
+  tmp.res
+}
+
+gen.data <- as.data.frame(gen.data)
+gen.data$tr_build_id <- as.integer(gen.data$tr_build_id)
+gen.data$tr_prev_build_status <- unlist(gen.data$tr_prev_build_status)
+data <- merge(data, gen.data, by="tr_build_id")
 
 data <- data.frame(data)
 
