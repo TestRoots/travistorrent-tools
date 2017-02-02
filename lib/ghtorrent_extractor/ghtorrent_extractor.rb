@@ -779,7 +779,7 @@ usage:
         :gh_test_cases => num_test_cases(build[:commit]).to_f,
 
         # [doc] Test density. Assert density. Number of assertions.
-        :gh_asserts_cases => num_assertions(build[:commit]).to_f,
+        :gh_asserts => num_assertions(build[:commit]).to_f,
 
         # [doc] Whether this commit was authored by a core team member. A core team member is someone who has committed
         # code at least once within the 3 months before this commit, either by directly committing it or by merging
