@@ -3,31 +3,26 @@
 # We hence use RMySQL 0.10.9 and manually modify the created SQL columns to DATETIME
 
 # Update to create new version of the data set
-table.name <- "travistorrent_30_1_2017"
+table.name <- "travistorrent_07_2_2017"
 
 library(data.table)
 library(foreach)
 library(doMC)
+# TODO Use Inventitech/parsedate as long as my speed patch is not upstream yet
+library(parsedate)
 library(RMySQL)
 library(DBI)
-library(parsedate)
 
-registerDoMC(cores = 4)
+registerDoMC(cores = 7)
 
-data <- read.csv("complete_merger_pre_sanitized_30_1_2017.csv")
+data <- read.csv("input.csv")
 
-# data$git_diff_committers <- NULL
+data$git_diff_committers <- NULL
 
 data$gh_is_pr <- data$gh_is_pr == "true"
 data$gh_by_core_team_member <- data$gh_by_core_team_member == "true"
 data$tr_log_bool_tests_ran <- data$tr_log_bool_tests_ran == "true"
 data$tr_log_bool_tests_failed <- data$tr_log_bool_tests_failed == "true"
-
-# Our dates are in ISO 8601
-data$gh_first_commit_created_at <- parse_date(as.character(data$gh_first_commit_created_at))
-data$gh_build_started_at <- parse_date(as.character(data$gh_build_started_at))
-data$gh_pushed_at <- parse_date(as.character(data$gh_pushed_at))
-data$gh_pr_created_at <- parse_date(as.character(data$gh_pr_created_at))
 
 # Convert to data table for easier access and modification of internal variables
 data <- data.table(data)
@@ -81,6 +76,12 @@ data[tr_log_bool_tests_ran == T & tr_log_num_tests_run == 0 & tr_log_num_tests_s
 data[tr_duration < 0,]$tr_duration <- NA
 
 data$tr_prev_build <- as.integer(data$tr_prev_build)
+
+# Our dates are in ISO 8601
+data$gh_first_commit_created_at <- parse_date(as.character(data$gh_first_commit_created_at))
+data$gh_build_started_at <- parse_date(as.character(data$gh_build_started_at))
+data$gh_pushed_at <- parse_date(as.character(data$gh_pushed_at))
+data$gh_pr_created_at <- parse_date(as.character(data$gh_pr_created_at))
 
 write.csv(data, paste(table.name, "csv", sep="."), row.names = F)
 
