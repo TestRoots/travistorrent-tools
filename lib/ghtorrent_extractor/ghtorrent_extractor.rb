@@ -749,10 +749,10 @@ usage:
         # [doc] Number of files modified by all `git_all_built_commits`.
         :gh_diff_files_modified => stats[:files_modified],
 
-        # [doc] Lines of testing code added by all `git_all_built_commits`.
+        # [doc] Number of test cases added by `git_all_built_commits`.
         :gh_diff_tests_added => test_diff[:tests_added],
 
-        # [doc] Lines of testing code deleted by all `git_all_built_commits`.
+        # [doc] Number of test cases deleted by `git_all_built_commits`.
         :gh_diff_tests_deleted => test_diff[:tests_deleted],
 
         # [doc] Number of src files changed by all `git_all_built_commits`.
@@ -772,13 +772,13 @@ usage:
         # [doc] Number of executable production source lines of code, in the entire repository.
         :gh_sloc => sloc,
 
-        # [doc] Test density. Number of lines in test cases.
+        # [doc] Overall number of test code lines.
         :gh_test_lines => test_lines(build[:commit]).to_f,
 
-        # [doc] Test density. Test density. Number of test cases.
+        # [doc] Overall number of test cases.
         :gh_test_cases => num_test_cases(build[:commit]).to_f,
 
-        # [doc] Test density. Assert density. Number of assertions.
+        # [doc] Overall number of assertions.
         :gh_asserts => num_assertions(build[:commit]).to_f,
 
         # [doc] Whether this commit was authored by a core team member. A core team member is someone who has committed
