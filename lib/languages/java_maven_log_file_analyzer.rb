@@ -97,12 +97,12 @@ module JavaMavenLogFileAnalyzer
 
     @test_lines.each do |line|
       if failed_tests_started
-        @tests_failed_lines << line
+        #@tests_failed_lines << line
         if line.strip.empty?
           failed_tests_started = false
         end
       end
-      if !(line =~ /Tests run: (\d*), Failures: (\d*), Errors: (\d*)(, Skipped: (\d*))?, Time elapsed: (.* sec) (<<< FAILURE! )?- in /).nil?
+      if !(line =~ /Tests run: (\d*), Failures: (\d*), Errors: (\d*)(, Skipped: (\d*))?, Time elapsed: (.* sec) (<<< FAILURE!)?/).nil?
         has_tests_run_per_testClass = true
       elsif has_tests_run_per_testClass and !(line =~ /([a-zA-Z0-9\.]+)\(([^\)]+)\)\s+Time elapsed/).nil?
         @tests_failed <<  ($2<<"."<<$1)
