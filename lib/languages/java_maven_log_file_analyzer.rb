@@ -5,8 +5,6 @@ module JavaMavenLogFileAnalyzer
 
   @test_failed_lines
   @processFinalSection
-  @FailedTestProcessing
-  @TestInErrorProcessing
   @FailingTestCount
 
   def init_deep
@@ -15,8 +13,6 @@ module JavaMavenLogFileAnalyzer
     @tests_failed = Array.new
     @analyzer = 'java-maven'
     @processFinalSection = true
-    @FailedTestProcessing = false
-    @TestInErrorProcessing = false
     @FailingTestCount = 0
   end
 
@@ -98,31 +94,30 @@ module JavaMavenLogFileAnalyzer
 
   def extractTestNameAndMethod(string)
     return "" if (string.nil?)
-    
-    if @FailedTestProcessing
-      headerstring = "Failed tests:"
-    elsif @TestInErrorProcessing
+
+    if !(string =~ /(Failed tests:)/).nil?
+      headerstring = "Failed tests:" 
+    elsif !(string =~/(Tests in error:)/).nil?
       headerstring = "Tests in error:"
     end
     
-    if string.strip == headerstring
-      return ""
-    elsif string.start_with?(headerstring)
-      string = string.split(":")[1]
+    if !headerstring.nil?
+      if string.strip == headerstring
+        return ""
+      elsif string.start_with?(headerstring)
+        string = "  " << string.split(":")[1].strip
+      end
+    elsif string.start_with?("  Run ")
+      string = "  " << string.split(":")[1].strip
     else
       string = string.split(":")[0]
     end
-    
-    if (string =~ /^  [a-zA-Z0-9\.\_]/).nil? and not(string.start_with?("com.") )
+
+    if (string =~ /^  [a-zA-Z0-9\.\_]/).nil?
       return ""
     end
     
     if (string.start_with?("  Could not initialize class")) 
-      return ""
-    end
-
-    if string.start_with?("  Run ")
-  #    puts "string is : ___________#{string}_________"
       return ""
     end
     
@@ -154,21 +149,24 @@ module JavaMavenLogFileAnalyzer
     has_tests_run_per_testClass = false
     has_tests_run_per_testClass_for_counting = false
     numberoffailures = 0
+    numFailedTests = 0
     
     index = 0
     
     @test_lines.each do |line|
-      if failed_tests_started
-        @tests_failed_lines << line
-        if line.strip.empty?
-          if @test_lines[index+1].strip.empty?
-            failed_tests_started = false
-          end
+      if failed_tests_started and @processFinalSection
+        if (line.strip.empty? and @test_lines[index+1].strip.empty? and @test_lines[index+2].strip.empty? and @test_lines[index+3].strip.empty?) or (line.start_with?("[INFO]"))
+          failed_tests_started = false
         end
+        @tests_failed_lines << line
+      end
+      if line.strip == " T E S T S"
+        @processFinalSection = true
       end
       if !(line =~ /Tests run: (\d*), Failures: (\d*), Errors: (\d*)(, Skipped: (\d*))?, Time elapsed: (.* sec) (<<< FAILURE!)?/).nil?
         has_tests_run_per_testClass_for_counting = true
-        numberoffailures = $2.to_i + $3.to_i
+        numberoffailures = numberoffailures + $2.to_i + $3.to_i
+        numFailedTests = numFailedTests + $2.to_i + $3.to_i
         if numberoffailures > 0
           has_tests_run_per_testClass = true
         else
@@ -177,20 +175,23 @@ module JavaMavenLogFileAnalyzer
       elsif has_tests_run_per_testClass and !(line =~ /([a-zA-Z0-9\.\_]+)\(([^\)]+)\)\s+Time elapsed/).nil?
         @tests_failed <<  ($2<<"."<<$1)
         @processFinalSection = false
+        failed_tests_started = false
         numberoffailures = numberoffailures - 1
         if numberoffailures == 0
           has_tests_run_per_testClass = false
         end
-      elsif has_tests_run_per_testClass and !(line =~ /([a-zA-Z0-9\.\_]+)\[([a-zA-Z0-9\.\_\: =]+)\]\(([^\)]+)\)\s+Time elapsed/).nil?
+      elsif has_tests_run_per_testClass and !(line =~ /([a-zA-Z0-9\.\_]+)\[(.)+\(([^\)]+)\)\s+Time elapsed/).nil?
         @tests_failed <<  ($3<<"."<<$1)
         @processFinalSection = false
+        failed_tests_started = false
         numberoffailures = numberoffailures - 1
         if numberoffailures == 0
           has_tests_run_per_testClass = false
         end
-      elsif has_tests_run_per_testClass and !(line =~ /([a-zA-Z0-9\.\_]+)\s+Time elapsed/).nil?
-        @tests_failed <<  $1
+      elsif has_tests_run_per_testClass and !(line =~ /\[([\d]+)\] ([a-zA-Z0-9\.\_]+) \(([a-zA-Z0-9\.\_]+)\)\(([^\)]+)\)\s+Time elapsed/).nil?
+        @tests_failed <<  ($4<<"."<<$3)
         @processFinalSection = false
+        failed_tests_started = false
         numberoffailures = numberoffailures - 1
         if numberoffailures == 0
           has_tests_run_per_testClass = false
@@ -198,6 +199,15 @@ module JavaMavenLogFileAnalyzer
       elsif has_tests_run_per_testClass and !(line =~ /([a-zA-Z0-9\_]+) on ([a-zA-Z0-9\.\_]+)\(([^\)]+)\)\(([^\)]+)\)\s+Time elapsed/).nil?
         @tests_failed <<  ($3<<"."<<$2)
         @processFinalSection = false
+        failed_tests_started = false
+        numberoffailures = numberoffailures - 1
+        if numberoffailures == 0
+          has_tests_run_per_testClass = false
+        end
+      elsif has_tests_run_per_testClass and !(line =~ /([a-zA-Z0-9\.\_]+)\s+Time elapsed/).nil?
+        @tests_failed <<  $1
+        @processFinalSection = false
+        failed_tests_started = false
         numberoffailures = numberoffailures - 1
         if numberoffailures == 0
           has_tests_run_per_testClass = false
@@ -230,14 +240,16 @@ module JavaMavenLogFileAnalyzer
       elsif !(line =~ /(Failed tests:)|(Tests in error:)/).nil?
         failed_tests_started = true
         if !(line =~ /(Failed tests:)/).nil?
-          @FailedTestProcessing = true
           @tests_failed_lines << line
-        elsif !(line =~ /(Tests in error:)/).nil?
-          @TestInErrorProcessing = true
         end
       end
       index = index + 1
     end
+    
+    if !@num_tests_failed.nil? and @num_tests_failed < numFailedTests
+      @num_tests_failed = numFailedTests
+    end
+    
     uninit_ok_tests
   end
 
