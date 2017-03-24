@@ -206,6 +206,7 @@ module JavaMavenLogFileAnalyzer
         end
       elsif has_tests_run_per_testClass and !(line =~ /([a-zA-Z0-9\.\_]+)\s+Time elapsed/).nil?
         @tests_failed <<  $1
+        puts "Odd Case"
         @processFinalSection = false
         failed_tests_started = false
         numberoffailures = numberoffailures - 1
