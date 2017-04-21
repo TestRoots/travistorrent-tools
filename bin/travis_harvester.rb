@@ -22,7 +22,7 @@ require 'fileutils'
 
 load 'lib/csv_helper.rb'
 
-@date_threshold = Date.parse("2016-09-01")
+@date_threshold = Date.parse("2017-04-01")
 
 def download_job(job, name, wait_in_s = 1)
   if (wait_in_s > 64)
