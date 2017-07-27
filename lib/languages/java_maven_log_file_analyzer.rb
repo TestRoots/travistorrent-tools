@@ -147,9 +147,7 @@ module JavaMavenLogFileAnalyzer
   def analyze_tests
     failed_tests_started = false
     has_tests_run_per_testClass = false
-    has_tests_run_per_testClass_for_counting = false
     numberoffailures = 0
-    numFailedTests = 0
     
     index = 0
     
@@ -164,9 +162,7 @@ module JavaMavenLogFileAnalyzer
         @processFinalSection = true
       end
       if !(line =~ /Tests run: (\d*), Failures: (\d*), Errors: (\d*)(, Skipped: (\d*))?, Time elapsed: (.* sec) (<<< FAILURE!)?/).nil?
-        has_tests_run_per_testClass_for_counting = true
         numberoffailures = numberoffailures + $2.to_i + $3.to_i
-        numFailedTests = numFailedTests + $2.to_i + $3.to_i
         if numberoffailures > 0
           has_tests_run_per_testClass = true
         else
@@ -206,7 +202,6 @@ module JavaMavenLogFileAnalyzer
         end
       elsif has_tests_run_per_testClass and !(line =~ /([a-zA-Z0-9\.\_]+)\s+Time elapsed/).nil?
         @tests_failed <<  $1
-        puts "Odd Case"
         @processFinalSection = false
         failed_tests_started = false
         numberoffailures = numberoffailures - 1
@@ -222,15 +217,9 @@ module JavaMavenLogFileAnalyzer
         init_tests
         @tests_run = true
         add_framework 'junit'
-        if has_tests_run_per_testClass_for_counting
-          @num_tests_run += $1.to_i
-          @num_tests_failed += $2.to_i + $3.to_i
-          @num_tests_skipped += $5.to_i unless $4.nil?
-        else
-          @num_tests_run = $1.to_i
-          @num_tests_failed = $2.to_i + $3.to_i
-          @num_tests_skipped = $5.to_i unless $4.nil?
-        end
+        @num_tests_run = $1.to_i
+        @num_tests_failed = $2.to_i + $3.to_i
+        @num_tests_skipped = $5.to_i unless $4.nil?
       elsif !(line =~ /Total tests run:(\d+), Failures: (\d+), Skips: (\d+)/).nil?
         init_tests
         add_framework 'testng'
@@ -247,10 +236,6 @@ module JavaMavenLogFileAnalyzer
       index = index + 1
     end
     
-    if !@num_tests_failed.nil? and @num_tests_failed < numFailedTests
-      @num_tests_failed = numFailedTests
-    end
-    
     uninit_ok_tests
   end
 
@@ -259,7 +244,10 @@ module JavaMavenLogFileAnalyzer
     
     @tests_failed_lines.each do |l|
       if @FailingTestCount > 0
-        @tests_failed << extractTestNameAndMethod(l)
+        extractTestName = extractTestNameAndMethod(l)
+        if extractTestName != ""
+          @tests_failed << extractTestNameAndMethod(l)
+        end
       end
     end
   end
@@ -268,3 +256,4 @@ module JavaMavenLogFileAnalyzer
     return !@tests_failed.empty? || (!@num_tests_failed.nil? && @num_tests_failed > 0)
   end
 end
+  
