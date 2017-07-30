@@ -5,7 +5,6 @@ module JavaMavenLogFileAnalyzer
 
   @test_failed_lines
   @processFinalSection
-  @FailingTestCount
 
   def init_deep
     @reactor_lines = Array.new
@@ -13,7 +12,6 @@ module JavaMavenLogFileAnalyzer
     @tests_failed = Array.new
     @analyzer = 'java-maven'
     @processFinalSection = true
-    @FailingTestCount = 0
   end
 
   def custom_analyze
@@ -140,7 +138,6 @@ module JavaMavenLogFileAnalyzer
       testName = testName.split(" ")[0]
     end
     
-    @FailingTestCount = @FailingTestCount - 1
     return testName
   end
 
@@ -240,14 +237,14 @@ module JavaMavenLogFileAnalyzer
   end
 
   def getOffendingTests
-    @FailingTestCount = @num_tests_failed
+    FailingTestCount = @num_tests_failed
     
     @tests_failed_lines.each do |l|
-      if @FailingTestCount > 0
+      if FailingTestCount > 0
         extractTestName = extractTestNameAndMethod(l)
         if extractTestName != ""
           @tests_failed << extractTestNameAndMethod(l)
-        end
+          FailingTestCount = FailingTestCount - 1
       end
     end
   end
@@ -256,4 +253,3 @@ module JavaMavenLogFileAnalyzer
     return !@tests_failed.empty? || (!@num_tests_failed.nil? && @num_tests_failed > 0)
   end
 end
-  
