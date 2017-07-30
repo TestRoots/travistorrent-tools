@@ -14,8 +14,7 @@ module JavaLogFileAnalyzerDispatcher
     elsif @logFile.scan(/gradle/m).size >= 2
       self.extend JavaGradleLogFileAnalyzer
     elsif @logFile.scan(/ant/m).size >= 2
-      # self.extend JavaAntLogFileAnalyzer
-      self.extend JavaMavenLogFileAnalyzer
+      self.extend JavaAntLogFileAnalyzer
     else
       # default back to Ant if nothing else found
       self.extend JavaAntLogFileAnalyzer
