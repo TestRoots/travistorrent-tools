@@ -245,6 +245,7 @@ module JavaMavenLogFileAnalyzer
         if extractTestName != ""
           @tests_failed << extractTestNameAndMethod(l)
           failingTestCount = failingTestCount - 1
+        end
       end
     end
   end
