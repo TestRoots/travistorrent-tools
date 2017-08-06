@@ -237,14 +237,14 @@ module JavaMavenLogFileAnalyzer
   end
 
   def getOffendingTests
-    FailingTestCount = @num_tests_failed
+    failingTestCount = @num_tests_failed
     
     @tests_failed_lines.each do |l|
-      if FailingTestCount > 0
+      if failingTestCount > 0
         extractTestName = extractTestNameAndMethod(l)
         if extractTestName != ""
           @tests_failed << extractTestNameAndMethod(l)
-          FailingTestCount = FailingTestCount - 1
+          failingTestCount = failingTestCount - 1
       end
     end
   end
