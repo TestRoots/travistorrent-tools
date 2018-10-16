@@ -86,7 +86,7 @@ module JavaMavenLogFileAnalyzer
   end
 
   def extractTestNameAndMethod(string)
-    string.split(':')[0].split('.')[0].split('(')
+    string.split(':')
   end
 
   def analyze_tests
