@@ -34,6 +34,10 @@ class SystemTest < MiniTest::Test
     make_comparison("dev_logs/cucumber@cucumber")
   end
 
+  def test_dspace
+    make_comparison("dev_logs/DSpace@DSpace")
+  end
+
   def test_mockito
     make_comparison("dev_logs/mockito@mockito")
   end
