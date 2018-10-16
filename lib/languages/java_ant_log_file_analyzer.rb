@@ -58,8 +58,8 @@ module JavaAntLogFileAnalyzer
         init_tests
         add_framework 'junit'
         @tests_run = true
-        @num_tests_run += $1.to_i
-        @num_tests_failed += $2.to_i + $3.to_i
+        @num_tests_run = $1.to_i
+        @num_tests_failed = $2.to_i + $3.to_i
         @num_tests_skipped += $5.to_i unless $4.nil?
         @test_duration = convert_ant_time_to_seconds($6)
       elsif !(line =~ /Total tests run:(\d+), Failures: (\d+), Skips: (\d+)/).nil?
