@@ -19,7 +19,7 @@
     "tr_log_num_test_suites_ok": null,
     "tr_log_num_test_suites_failed": null,
     "tr_log_tests_failed": "DOIIdentifierProviderTest.testStore_DOI_as_item_metadata#DOIIdentifierProviderTest.testGet_DOI_out_of_item_metadata#DOIIdentifierProviderTest.testRemove_DOI_from_item_metadata#DOIIdentifierProviderTest.testGet_DOI_by_DSpaceObject#DOIIdentifierProviderTest.testGet_DOI_lookup#DOIIdentifierProviderTest.testGet_DSpaceObject_by_DOI#DOIIdentifierProviderTest.testResolve_DOI#DOIIdentifierProviderTest.testRemove_two_DOIs_from_item_metadata#DOIIdentifierProviderTest.testMintDOI#DOIIdentifierProviderTest.testMint_returns_existing_DOI#DOIIdentifierProviderTest.testReserve_DOI#DOIIdentifierProviderTest.testRegister_unreserved_DOI#DOIIdentifierProviderTest.testRegister_reserved_DOI#DOIIdentifierProviderTest.testCreate_and_Register_DOI#DOIIdentifierProviderTest.testDelete_specified_DOI#",
-    "tr_log_testduration": 337.3899999999999,
+    "tr_log_testduration": 337.38999999999993,
     "tr_log_buildduration": 366
   },
   {

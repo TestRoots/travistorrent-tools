@@ -1,5 +1,4 @@
 # -*- encoding: utf-8 -*-
-require 'rake'
 
 Gem::Specification.new do |gem|
   gem.authors       = ["Moritz Beller", "Georgios Gousios"]
@@ -15,6 +14,7 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
   gem.version       = 0.1
 
+  gem.add_dependency 'rake'
   gem.add_dependency 'minitest', ['>5.0.0']
   gem.add_dependency "github-linguist", ['>= 4.5']
   gem.add_dependency "rugged", ['>= 0.22']
@@ -28,5 +28,4 @@ Gem::Specification.new do |gem|
   gem.add_dependency 'activesupport', ['<5.0.0']
   gem.add_dependency 'time_difference'
   gem.add_dependency 'json', ['>= 2.0.0']
-
 end
