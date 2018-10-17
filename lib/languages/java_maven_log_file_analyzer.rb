@@ -86,7 +86,7 @@ module JavaMavenLogFileAnalyzer
   end
 
   def extractTestNameAndMethod(string)
-    string.split(':')[0].split('.')[0].split('(')
+    string.split(':')
   end
 
   def analyze_tests
@@ -108,9 +108,9 @@ module JavaMavenLogFileAnalyzer
         init_tests
         @tests_run = true
         add_framework 'junit'
-        @num_tests_run = $1.to_i
-        @num_tests_failed = $2.to_i + $3.to_i
-        @num_tests_skipped = $5.to_i unless $4.nil?
+        @num_tests_run += $1.to_i
+        @num_tests_failed += $2.to_i + $3.to_i
+        @num_tests_skipped += $5.to_i unless $4.nil?
       elsif !(line =~ /Total tests run:(\d+), Failures: (\d+), Skips: (\d+)/).nil?
         init_tests
         add_framework 'testng'
