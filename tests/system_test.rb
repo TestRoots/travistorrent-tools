@@ -46,6 +46,10 @@ class SystemTest < MiniTest::Test
     make_comparison("dev_logs/rails@rails")
   end
 
+   def test_riak
+    make_comparison("dev_logs/basho@riak-java-client")
+  end
+
   def test_connectbot
     make_comparison("dev_logs/connectbot@connectbot")
   end

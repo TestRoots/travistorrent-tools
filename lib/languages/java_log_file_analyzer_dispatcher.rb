@@ -9,7 +9,8 @@ load 'lib/languages/java_gradle_log_file_analyzer.rb'
 module JavaLogFileAnalyzerDispatcher
 
   def init
-    if @logFile.scan(/(Reactor Summary|mvn test)/m).size >= 2
+    if @logFile.scan(/(Reactor Summary|mvn test|mvn -P)/m).size >= 1
+      # if the project contains 1 or more maven modules, or uses a additional plugin to test
       self.extend JavaMavenLogFileAnalyzer
     elsif @logFile.scan(/gradle/m).size >= 2
       self.extend JavaGradleLogFileAnalyzer

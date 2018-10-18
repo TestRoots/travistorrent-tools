@@ -117,6 +117,9 @@ class LogFileAnalyzer
       @status = $1.to_i === 0 ? 'ok' : 'broken'
     end
 
+    unless (@folds[@OUT_OF_FOLD].content.last =~/^Done. Build script exited with: (\d*)./).nil?
+      @status = $1.to_i === 0 ? 'ok' : 'broken'
+    end
   end
 
   # Analyze what the primary language of this build is
