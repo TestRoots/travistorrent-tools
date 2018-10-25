@@ -1,7 +1,7 @@
 # A Mixin for the analysis of Maven build files.
 
 module JavaMavenLogFileAnalyzer
-  attr_reader :tests_failed, :test_duration, :reactor_lines, :pure_build_duration
+  attr_reader :tests_failed, :tests_failed_num, :test_duration, :reactor_lines, :pure_build_duration, :tests_runed, :tests_runed_duration
 
   @test_failed_lines
 
@@ -9,14 +9,16 @@ module JavaMavenLogFileAnalyzer
     @reactor_lines = Array.new
     @tests_failed_lines = Array.new
     @tests_failed = Array.new
+    @tests_failed_num = Array.new
+    @tests_runed = Array.new
+    @tests_runed_num = Array.new
+    @tests_runed_duration = Array.new
     @analyzer = 'java-maven'
   end
 
   def custom_analyze
     extract_tests
     analyze_tests
-
-    getOffendingTests
     analyze_reactor
   end
 
@@ -86,31 +88,55 @@ module JavaMavenLogFileAnalyzer
   end
 
   def extractTestNameAndMethod(string)
+    p string
     string.split(':')
   end
 
   def analyze_tests
-    failed_tests_started = false
-
+    @current_test = ""
     @test_lines.each do |line|
-      if failed_tests_started
-        @tests_failed_lines << line
-        if line.strip.empty?
-          failed_tests_started = false
-        end
+      if line.include? "Running"
+        @current_test = line.split("Running")[1].strip
       end
-      if !(line =~ /Tests run: .*? Time elapsed: (.* sec)/).nil?
+
+      # if !(line =~ /Tests run: (\d*), Failures: (\d*), Errors: (\d*), Skipped: (\d*), Time elapsed: (.*)? .*? - in ([a-zA-Z0-9_.-]*)?/).nil?
+      if !(line =~ /Tests run: (\d*), Failures: (\d*), Errors: (\d*), Skipped: (\d*), Time elapsed: (.*) sec?/).nil?
         init_tests
         @tests_run = true
         add_framework 'junit'
-        @test_duration += convert_maven_time_to_seconds $1
-      elsif !(line =~ /Tests run: (\d*), Failures: (\d*), Errors: (\d*)(, Skipped: (\d*))?/).nil?
-        init_tests
-        @tests_run = true
-        add_framework 'junit'
-        @num_tests_run += $1.to_i
-        @num_tests_failed += $2.to_i + $3.to_i
-        @num_tests_skipped += $5.to_i unless $4.nil?
+        # Tests Run
+        @num_run = $1.to_i 
+        @num_tests_run += @num_run
+        @tests_runed_num << @num_run
+
+        # Tests failed
+        @num_failed = $2.to_i + $3.to_i
+        @num_tests_failed += @num_failed
+
+        # Tests skipped
+        @num_tests_skipped += $4.to_i      
+
+        # Tests duration
+        @duration = $5 
+        # if @duration.include? "sec"
+        #   # if the test failed it contains FAILURE in the line and the regex parse wrong
+        #   @duration = @duration.split("sec")[0].strip
+        # end
+
+        @test_duration += @duration.to_f
+        @tests_runed_duration << @duration
+
+        # Test name
+        # @current_test = $6
+        @tests_runed << @current_test
+
+        # If the test failed add to the failed test set
+        if @num_failed > 0
+          @tests_failed << @current_test
+          @tests_failed_num << @num_failed
+        end
+      elsif !(line =~ /Tests run: (\d*), Failures: (\d*), Errors: (\d*), Skipped: (\d*), Time elapsed: (.*)?/).nil?
+        
       elsif !(line =~ /Total tests run:(\d+), Failures: (\d+), Skips: (\d+)/).nil?
         init_tests
         add_framework 'testng'
@@ -118,15 +144,9 @@ module JavaMavenLogFileAnalyzer
         @num_tests_run += $1.to_i
         @num_tests_failed += $2.to_i
         @num_tests_skipped += $3.to_i
-      elsif !(line =~ /(Failed tests:)|(Tests in error:)/).nil?
-        failed_tests_started = true
       end
     end
     uninit_ok_tests
-  end
-
-  def getOffendingTests
-    @tests_failed_lines.each { |l| @tests_failed << extractTestNameAndMethod(l)[0].strip unless extractTestNameAndMethod(l)[0].nil? }
   end
 
   def tests_failed?

@@ -18,8 +18,8 @@
     "tr_log_num_test_suites_run": null,
     "tr_log_num_test_suites_ok": null,
     "tr_log_num_test_suites_failed": null,
-    "tr_log_tests_failed": "DOIIdentifierProviderTest.testStore_DOI_as_item_metadata#DOIIdentifierProviderTest.testGet_DOI_out_of_item_metadata#DOIIdentifierProviderTest.testRemove_DOI_from_item_metadata#DOIIdentifierProviderTest.testGet_DOI_by_DSpaceObject#DOIIdentifierProviderTest.testGet_DOI_lookup#DOIIdentifierProviderTest.testGet_DSpaceObject_by_DOI#DOIIdentifierProviderTest.testResolve_DOI#DOIIdentifierProviderTest.testRemove_two_DOIs_from_item_metadata#DOIIdentifierProviderTest.testMintDOI#DOIIdentifierProviderTest.testMint_returns_existing_DOI#DOIIdentifierProviderTest.testReserve_DOI#DOIIdentifierProviderTest.testRegister_unreserved_DOI#DOIIdentifierProviderTest.testRegister_reserved_DOI#DOIIdentifierProviderTest.testCreate_and_Register_DOI#DOIIdentifierProviderTest.testDelete_specified_DOI#",
-    "tr_log_testduration": 337.38999999999993,
+    "tr_log_tests_failed": "org.dspace.identifier.DOIIdentifierProviderTest",
+    "tr_log_testduration": 337.3359999999999,
     "tr_log_buildduration": 366
   },
   {
@@ -41,8 +41,8 @@
     "tr_log_num_test_suites_run": null,
     "tr_log_num_test_suites_ok": null,
     "tr_log_num_test_suites_failed": null,
-    "tr_log_tests_failed": "DSpaceCSVTest>AbstractUnitTest.initOnce#DatabaseManagerTest>AbstractUnitTest.initOnce#DOIIdentifierProviderTest>AbstractUnitTest.initOnce#EZIDIdentifierProviderTest>AbstractUnitTest.initOnce#ContextTest>AbstractUnitTest.initOnce#DCSeriesNumberTest>AbstractUnitTest.initOnce#DCDateTest>AbstractUnitTest.initOnce#CollectionTest>AbstractUnitTest.initOnce#VersioningTest>AbstractUnitTest.initOnce#ItemComparatorTest>AbstractUnitTest.initOnce#InstallItemTest>AbstractUnitTest.initOnce#ItemTest>AbstractUnitTest.initOnce#MetadataValueTest>AbstractUnitTest.initOnce#WorkspaceItemTest>AbstractUnitTest.initOnce#ThumbnailTest>AbstractUnitTest.initOnce#BitstreamTest>AbstractUnitTest.initOnce#NonUniqueMetadataExceptionTest>AbstractUnitTest.initOnce#DCLanguageTest>AbstractUnitTest.initOnce#ItemIteratorTest>AbstractUnitTest.initOnce#MetadataSchemaTest>AbstractUnitTest.initOnce#BundleTest>AbstractUnitTest.initOnce#MetadataIntegrationTest>AbstractUnitTest.initOnce#BitstreamFormatTest>AbstractUnitTest.initOnce#SiteTest>AbstractUnitTest.initOnce#DCValueTest>AbstractUnitTest.initOnce#DCPersonNameTest>AbstractUnitTest.initOnce#FormatIdentifierTest>AbstractUnitTest.initOnce#SupervisedItemTest>AbstractUnitTest.initOnce#LicenseUtilsTest>AbstractUnitTest.initOnce#MetadataFieldTest>AbstractUnitTest.initOnce#InProgressSubmissionTest>AbstractUnitTest.initOnce#CommunityCollectionIntegrationTest>AbstractUnitTest.initOnce#CommunityTest>AbstractUnitTest.initOnce#EPersonTest>AbstractUnitTest.initOnce#",
-    "tr_log_testduration": 80.12000000000002,
+    "tr_log_tests_failed": "org.dspace.app.bulkedit.DSpaceCSVTest#org.dspace.storage.rdbms.DatabaseManagerTest#org.dspace.identifier.DOIIdentifierProviderTest#org.dspace.identifier.EZIDIdentifierProviderTest#org.dspace.core.ContextTest#org.dspace.content.DCSeriesNumberTest#org.dspace.content.DCDateTest#org.dspace.content.CollectionTest#org.dspace.content.VersioningTest#org.dspace.content.ItemComparatorTest#org.dspace.content.InstallItemTest#org.dspace.content.ItemTest#org.dspace.content.MetadataValueTest#org.dspace.content.WorkspaceItemTest#org.dspace.content.ThumbnailTest#org.dspace.content.BitstreamTest#org.dspace.content.NonUniqueMetadataExceptionTest#org.dspace.content.DCLanguageTest#org.dspace.content.ItemIteratorTest#org.dspace.content.MetadataSchemaTest#org.dspace.content.BundleTest#org.dspace.content.MetadataIntegrationTest#org.dspace.content.BitstreamFormatTest#org.dspace.content.SiteTest#org.dspace.content.DCValueTest#org.dspace.content.DCPersonNameTest#org.dspace.content.FormatIdentifierTest#org.dspace.content.SupervisedItemTest#org.dspace.content.LicenseUtilsTest#org.dspace.content.MetadataFieldTest#org.dspace.content.InProgressSubmissionTest#org.dspace.content.CommunityCollectionIntegrationTest#org.dspace.content.CommunityTest#org.dspace.eperson.EPersonTest",
+    "tr_log_testduration": 80.08500000000002,
     "tr_log_buildduration": null
   }
 ]

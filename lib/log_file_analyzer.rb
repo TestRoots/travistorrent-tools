@@ -18,7 +18,7 @@ class LogFileAnalyzer
   attr_reader :logFile
   attr_reader :status, :primary_language
   attr_reader :tests_run
-  attr_reader :num_tests_run, :num_tests_failed, :num_tests_ok, :num_tests_skipped
+  attr_reader :num_tests_run, :num_tests_failed, :num_tests_failed_num, :num_tests_ok, :num_tests_skipped
   attr_reader :num_test_suites_run, :num_test_suites_failed, :num_test_suites_ok
 
   attr_reader :test_duration
@@ -51,7 +51,11 @@ class LogFileAnalyzer
     @primary_language = 'unknown'
     @analyzer = 'plain'
     @tests_run = false
+    @tests_runed = Array.new
+    @tests_runed_num = Array.new
+    @tests_runed_duration = Array.new
     @tests_failed = Array.new
+    @tests_failed_num = Array.new
     @status = 'unknown'
     @did_tests_fail = ''
   end
@@ -293,6 +297,64 @@ class LogFileAnalyzer
         :tr_log_num_test_suites_failed => @num_test_suites_failed,
         # [doc] Names of the tests that failed, extracted by build log analysis.
         :tr_log_tests_failed => @tests_failed.join('#'),
+        # [doc] Duration of the running the tests, in seconds, extracted by build log analysis.
+        :tr_log_testduration => @test_duration,
+        # [doc] Duration of running the build command like maven or ant (if present, should be longer than
+        # `:tr_log_testduration` as it includes this phase), in seconds, extracted by build log analysis.
+        :tr_log_buildduration => @pure_build_duration
+    }
+  end
+
+  # Returns a detailed HashMap of results from the analysis
+  def verbose
+    {
+        # [doc] The build id of the travis build.
+        :tr_build_id => @build_id,
+        # [doc] The job id of the build job under analysis.
+        :tr_job_id => @job_id,
+        # [doc] The serial build number of the build under analysis for this project.
+        :tr_build_number => @build_number,
+        # [doc] The SHA of the original Travis commit, unparsed and unchanged.
+        :tr_original_commit => @commit,
+        # [doc] The primary programming language, extracted by build log analysis.
+        :tr_log_lan => @primary_language,
+        # [doc] The overall return status of the build, extracted by build log analysis.
+        :tr_log_status => @status,
+        # [doc] The setup time before the script phase (the actual build) starts, in seconds, extracted by build log analysis.
+        :tr_log_setup_time => @setup_time_before_build,
+        # [doc] The build log analyzer that was invoked for analysis of this build.
+        :tr_log_analyzer => @analyzer,
+        # [doc] The testing frameworks ran extracted by build log analysis.
+        :tr_log_frameworks => @frameworks.join('#'),
+        # [doc] Whether tests were run, extracted by build log analysis.
+        :tr_log_bool_tests_ran => @tests_run,
+        # [doc] Whether tests failed, extracted by build log analysis.
+        :tr_log_bool_tests_failed => @did_tests_fail,
+        # [doc] Number of tests that succeeded, extracted by build log analysis.
+        :tr_log_num_tests_ok => @num_tests_ok,
+        # [doc] Number of tests that failed, extracted by build log analysis.
+        :tr_log_num_tests_failed => @num_tests_failed,
+        # [doc] Number of tests that ran in total, extracted by build log analysis.
+        :tr_log_num_tests_run => @num_tests_run,
+        # [doc] Number of tests that were skipped, extracted by build log analysis.
+        :tr_log_num_tests_skipped => @num_tests_skipped,
+        # [doc] Number of test suites that ran in total, extracted by build log analysis (currently only supported by Go
+        # analyzer).
+        :tr_log_num_test_suites_run => @num_test_suites_run,
+        # [doc] Number of test suites that succeeded, extracted by build log analysis (currently only supported by Go
+        # analyzer).
+        :tr_log_num_test_suites_ok => @num_test_suites_ok,
+        # [doc] Number of test suites that failed, extracted by build log analysis (currently only supported by Go
+        # analyzer).
+        :tr_log_num_test_suites_failed => @num_test_suites_failed,
+        # [doc] Names of the all tests, extracted by build log analysis.
+        :tr_log_tests => @tests_runed.join('#'),
+        :tr_log_tests_num => @tests_runed_num.join('#'),
+        # [doc] Times of the all tests, extracted by build log analysis.
+        :tr_log_tests_duration => @tests_runed_duration.join('#'),
+        # [doc] Names of the tests that failed, extracted by build log analysis.
+        :tr_log_tests_failed => @tests_failed.join('#'),
+        :tr_log_tests_failed_num => @tests_failed_num.join('#'),
         # [doc] Duration of the running the tests, in seconds, extracted by build log analysis.
         :tr_log_testduration => @test_duration,
         # [doc] Duration of running the build command like maven or ant (if present, should be longer than

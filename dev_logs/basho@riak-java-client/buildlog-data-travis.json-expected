@@ -19,7 +19,7 @@
     "tr_log_num_test_suites_ok": null,
     "tr_log_num_test_suites_failed": null,
     "tr_log_tests_failed": "",
-    "tr_log_testduration": 87.99000000000004,
+    "tr_log_testduration": 87.93200000000003,
     "tr_log_buildduration": null
   },
   {
@@ -42,7 +42,7 @@
     "tr_log_num_test_suites_ok": null,
     "tr_log_num_test_suites_failed": null,
     "tr_log_tests_failed": "",
-    "tr_log_testduration": 6.2399999999999975,
+    "tr_log_testduration": 6.1839999999999975,
     "tr_log_buildduration": null
   }
 ]

@@ -1,20 +1,38 @@
 #!/usr/local/bin/ruby
+require 'optparse'
 
 # Command line interface for Buildlog Analysis
 
 load 'lib/buildlog_analyzer_dispatcher.rb'
 
-recurse = false
+options = {}
+optparse = OptionParser.new do |opts|
+  opts.banner = "Usage: buildlog_analysis.rb [options]"
 
-if (ARGV[0].nil?)
-  puts 'Missing argument(s)!'
-  puts ''
-  puts 'usage: buildlog_analyzer_dispatcher.rb directory [-r]'
-  exit(1)
+  opts.on('-d', '--dir=DIRECTORY', 'Directory with the build logs') do |opt| 
+    options[:dir] = opt
+  end
+
+  options[:recursive] = false
+  opts.on("-r", "--recursive", "Exhaustively goes through all directories in search of buildlogs") do |opt|
+   options[:recursive] = opt
+  end
+
+  options[:verbose] = false
+  opts.on("-v", "--[no-]verbose", "Run verbosely") do |opt| 
+    options[:verbose] = opt 
+  end
 end
 
-recurse = true if ARGV[1] == "-r"
-directory = ARGV[0]
-
-dispatcher = BuildlogAnalyzerDispatcher.new(directory, recurse)
-dispatcher.start
+begin
+  optparse.parse!
+  mandatory = [:dir]
+  missing = mandatory.select{ |param| options[param].nil? }
+  raise OptionParser::MissingArgument, missing.join(', ') unless missing.empty?
+  dispatcher = BuildlogAnalyzerDispatcher.new(options[:dir], options[:recursive], options[:verbose])
+  dispatcher.start
+rescue OptionParser::ParseError => e
+  puts e
+  puts optparse
+  exit
+end

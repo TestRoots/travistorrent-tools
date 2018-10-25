@@ -12,11 +12,13 @@ load 'lib/csv_helper.rb'
 class BuildlogAnalyzerDispatcher
   @directory
   @recursive
+  @verbose
   @results
 
-  def initialize(directory, recursive)
+  def initialize(directory, recursive, verbose)
     @directory = directory
     @recursive = recursive
+    @verbose = verbose
     @results = Array.new
   end
 
@@ -46,7 +48,12 @@ class BuildlogAnalyzerDispatcher
         analyzer.mixin_specific_language_analyzer
         analyzer.init
         analyzer.analyze
-        @results << analyzer.output
+
+        if @verbose
+          @results << analyzer.verbose
+        else
+          @results << analyzer.output
+        end
       rescue Exception => e
         puts "Error analyzing #{file}, rescued: #{e}"
         puts e.backtrace.join("\n")

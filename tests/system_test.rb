@@ -13,7 +13,7 @@ class SystemTest < MiniTest::Test
   end
 
   def make_comparison(dir)
-    dispatcher = BuildlogAnalyzerDispatcher.new(dir, false)
+    dispatcher = BuildlogAnalyzerDispatcher.new(dir, false, false)
     dispatcher.start
 
     expected_data = prepare_file "#{dir}/#{dispatcher.result_file_name}.json-expected"
