@@ -95,11 +95,11 @@ module JavaMavenLogFileAnalyzer
   def analyze_tests
     @current_test = ""
     @test_lines.each do |line|
+      # Get the Test Name
       if line.include? "Running"
         @current_test = line.split("Running")[1].strip
       end
 
-      # if !(line =~ /Tests run: (\d*), Failures: (\d*), Errors: (\d*), Skipped: (\d*), Time elapsed: (.*)? .*? - in ([a-zA-Z0-9_.-]*)?/).nil?
       if !(line =~ /Tests run: (\d*), Failures: (\d*), Errors: (\d*), Skipped: (\d*), Time elapsed: (.*) sec?/).nil?
         init_tests
         @tests_run = true
@@ -118,16 +118,10 @@ module JavaMavenLogFileAnalyzer
 
         # Tests duration
         @duration = $5 
-        # if @duration.include? "sec"
-        #   # if the test failed it contains FAILURE in the line and the regex parse wrong
-        #   @duration = @duration.split("sec")[0].strip
-        # end
-
         @test_duration += @duration.to_f
         @tests_runed_duration << @duration
 
         # Test name
-        # @current_test = $6
         @tests_runed << @current_test
 
         # If the test failed add to the failed test set
@@ -135,8 +129,6 @@ module JavaMavenLogFileAnalyzer
           @tests_failed << @current_test
           @tests_failed_num << @num_failed
         end
-      elsif !(line =~ /Tests run: (\d*), Failures: (\d*), Errors: (\d*), Skipped: (\d*), Time elapsed: (.*)?/).nil?
-        
       elsif !(line =~ /Total tests run:(\d+), Failures: (\d+), Skips: (\d+)/).nil?
         init_tests
         add_framework 'testng'
