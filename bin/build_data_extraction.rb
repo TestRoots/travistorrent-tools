@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
 
-require 'travistorrent'
+require './lib/travistorrent'
 
 GhtorrentExtractor.run
