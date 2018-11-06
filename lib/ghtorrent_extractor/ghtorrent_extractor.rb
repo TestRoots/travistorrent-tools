@@ -220,11 +220,11 @@ usage:
       Trollop::die "Cannot find user #{owner}"
     end
 
-    repo_entry = db.from(:projects, :users).\
-                  where(:users__id => :projects__owner_id).\
-                  where(:users__login => owner).\
-                  where(:projects__name => repo).\
-                  select(:projects__id, :projects__language).\
+    user_id = db[:users].where(login: owner).select(:id).first[:id]
+    repo_entry = db[:projects].\
+                  where(:owner_id => user_id).\
+                  where(:name => repo).\
+                  select(:id, :language).\
                   first
 
     if repo_entry.nil?
