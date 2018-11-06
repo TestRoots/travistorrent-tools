@@ -1,6 +1,7 @@
 data
 cache/
 build_logs/
+logs/
 commits/
 repos/
 .idea/
