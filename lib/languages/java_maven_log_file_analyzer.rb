@@ -96,7 +96,7 @@ module JavaMavenLogFileAnalyzer
     @current_test = ""
     @test_lines.each do |line|
       # Get the Test Name
-      if line.include? "Running"
+      if (line =~ %r"Running") == 0
         @current_test = line.split("Running")[1].strip
       end
 
