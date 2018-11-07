@@ -80,6 +80,8 @@ class TravisValidator
 
   def start
     i = 0
+    act = 0
+    hist = 0
     @logger.info("[START] Travis Poker")
     File.open("#{@file_name}-annotated.csv", 'w') { |file|
       file.write("login,name,language,count,active,history,last_build_number\n")
@@ -89,6 +91,15 @@ class TravisValidator
         @logger.info("[STATUS] Line number: #{i} - Analyzing: #{row[0]}/#{row[1]}")
 
         active, history, last_build_number = travis_builds_for_project("#{row[0]}/#{row[1]}", 1)
+
+        if active == 1
+          act += 1
+        end
+
+        if history == 1
+          hist += 1
+        end
+
         # Workaround to add values to row
         curRow << active.to_s
         curRow << history.to_s
@@ -98,6 +109,7 @@ class TravisValidator
         file.flush if i%50 == 0
       end
     }
+    @logger.info("[STATUS] Total of projects: #{i} (#{act} active(s)/ #{hist} have history)")
     @logger.info("[FINISH] Travis Poker")
   end
 end
