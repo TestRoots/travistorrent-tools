@@ -8,7 +8,7 @@ load 'lib/travis_log_miner.rb'
 
 options = {}
 optparse = OptionParser.new do |opts|
-  opts.banner = "Usage: buildlog_analysis.rb [options]"
+  opts.banner = "Usage: travis_harvester.rb [options]"
 
   opts.on('-s', '--slug=SLUG', '[REQUIRED] Repository slug (owner/repository') do |opt|
     options[:slug] = opt
