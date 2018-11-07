@@ -1,4 +1,4 @@
-select u.login, p.name, p.language, count(*)
+select u.login, p.name, p.language, count(*) as count
 from projects p, users u, watchers w
 where
     p.forked_from is null and
