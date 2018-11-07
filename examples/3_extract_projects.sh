@@ -5,5 +5,9 @@ printf "Extracting only active projects to travis_active and extracting only pro
 
 # get only active projects
 grep "^[^,]\+,[^,]\+,[^,]\+,[^,]\+,1," gh-active-java-projects-annotated.csv > travis_active
+# remove unnecessary columns
+sed -i 's/\([^,]*\),\([^,]*\).*/\1 \2/' travis_active
 # get only projects that have history on Travis CI
 grep "^[^,]\+,[^,]\+,[^,]\+,[^,]\+,[^,]\+,1," gh-active-java-projects-annotated.csv > travis_enabled
+# remove unnecessary columns
+sed -i 's/\([^,]*\),\([^,]*\).*/\1 \2/' travis_enabled
