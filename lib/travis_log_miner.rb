@@ -120,12 +120,14 @@ class TravisLogMiner
           started_at = Time.parse(build.started_at.to_s).strftime('%F')
           # @logger.info("Comparing #{started_at} > #{@date_threshold}: " + (started_at >= @date_threshold ? "true" : "false"))
           return {} if started_at > @date_threshold
+	  started_at = build.started_at.to_s
         end
 
         if !build.finished_at.nil?
           ended_at = Time.parse(build.finished_at.to_s).strftime('%F')
           # @logger.info("Comparing #{ended_at} >= #{@date_threshold}: " + (ended_at >= @date_threshold ? "true" : "false"))
           return {} if ended_at > @date_threshold
+          ended_at = build.finished_at.to_s
         end
       rescue Exception => e
         @logger.error("Skipping empty date. Build id: #{build.id} - Build number: #{build.number} - Started at: #{build.started_at} - Finished at: #{build.finished_at} - Error Message: #{e.message}")
