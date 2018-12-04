@@ -13,10 +13,10 @@ These include the
 The following works on Debian Jessie
 
 ```
-$ apt-get install ruby ruby-dev bundler pkg-config libmysqlclient-dev
+$ sudo apt-get install ruby ruby-dev bundler pkg-config libmysqlclient-dev cmake libcurl4-openssl-dev libssl-dev parallel
 $ git clone git@github.com:TestRoots/travistorrent-tools.git
 $ cd travistorrent-tools
-$ bundle install
+$ sudo bundle install
 ```
 
 ### Running the data extraction process
