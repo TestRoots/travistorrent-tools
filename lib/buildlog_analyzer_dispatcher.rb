@@ -1,5 +1,9 @@
 require 'csv'
 require 'json'
+require 'date'
+require 'time'
+require 'fileutils'
+require "logger"
 
 
 load 'lib/log_file_analyzer.rb'
@@ -20,6 +24,25 @@ class BuildlogAnalyzerDispatcher
     @recursive = recursive
     @verbose = verbose
     @results = Array.new
+
+    init_log
+  end
+
+  def init_log
+    log_file_name = "#{Dir.pwd}/logs/BuildlogAnalyzerDispatcher.log"
+    unless File.exist?(File.dirname(log_file_name))
+      FileUtils.mkdir_p(File.dirname(log_file_name))
+      File.new(log_file_name, 'w')
+    end
+
+    @logger = Logger.new(log_file_name, 'monthly')
+
+    # logs for program TravisLogMiner
+    @logger.progname = 'BuildlogAnalyzerDispatcher'
+
+    @logger.formatter = proc do |severity, datetime, progname, msg|
+      %Q|{timestamp: "#{datetime.strftime('%Y-%m-%d %H:%M:%S')}", severity: "#{severity}", message: "#{msg}"}\n|
+    end
   end
 
   def result_file_name
@@ -27,7 +50,7 @@ class BuildlogAnalyzerDispatcher
   end
 
   def start
-    puts "Starting to analyze buildlogs from #{@directory} ..."
+    @logger.info("Starting to analyze buildlogs from #{@directory} ...")
 
     # dir foreach is much faster than Dir.glob, because the latter builds an array of matched files up-front
     Dir.foreach(@directory).sort.each do |logfile|
@@ -42,7 +65,7 @@ class BuildlogAnalyzerDispatcher
 
         next if File.extname(logfile) != '.log'
 
-        puts "Working on #{file}"
+        @logger.info("Working on #{file}")
 
         analyzer = LogFileAnalyzer.new file
         analyzer.mixin_specific_language_analyzer
@@ -55,21 +78,21 @@ class BuildlogAnalyzerDispatcher
           @results << analyzer.output
         end
       rescue Exception => e
-        puts "Error analyzing #{file}, rescued: #{e}"
-        puts e.backtrace.join("\n")
+        @logger.error("Error analyzing #{file}, rescued: #{e}")
+        @logger.error(e.backtrace.join("\n"))
       end
     end
 
     if !@results.empty?
       result_file = "#{@directory}/#{result_file_name}.csv"
-      puts "  writing #{result_file}"
+      @logger.info("  writing #{result_file}")
       csv = array_of_hashes_to_csv @results
       File.open(result_file, 'w') { |file|
         file.puts csv
       }
 
       result_file = "#{@directory}/#{result_file_name}.json"
-      puts "  writing #{result_file}"
+      @logger.info("  writing #{result_file}")
       File.open(result_file, 'w') do |f|
         f.puts JSON.pretty_generate(@results)
       end
