@@ -13,7 +13,7 @@ These include the
 The following works on Debian Jessie
 
 ```
-$ sudo apt-get install ruby ruby-dev bundler pkg-config libmysqlclient-dev cmake libcurl4-openssl-dev libssl-dev parallel
+$ sudo apt-get install ruby ruby-dev bundler pkg-config libmysqlclient-dev cmake libcurl4-openssl-dev libssl-dev libicu-dev parallel
 $ git clone git@github.com:TestRoots/travistorrent-tools.git
 $ cd travistorrent-tools
 $ sudo bundle install
