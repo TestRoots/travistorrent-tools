@@ -568,7 +568,7 @@ usage:
     end.select { |x| !x.nil? }
 
     puts results.first.keys.map { |x| x.to_s }.join(',')
-    results.sort { |a, b| b[:build_id]<=>a[:build_id] }.each { |x| puts x.values.join(',') }
+    results.sort { |a, b| b[:tr_build_id]<=>a[:tr_build_id] }.each { |x| puts x.values.join(',') }
 
   end
 
