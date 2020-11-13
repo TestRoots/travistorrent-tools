@@ -212,7 +212,8 @@ usage:
 
     self.owner = ARGV[0]
     self.repo = ARGV[1]
-    self.token = ARGV[2]
+    # self.token = ARGV[2]
+    self.token = self.config["mirror"]["token"]
 
     user_entry = db[:users].first(:login => owner)
 
