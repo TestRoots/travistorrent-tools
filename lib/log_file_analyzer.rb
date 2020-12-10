@@ -6,7 +6,7 @@ require_relative 'languages/java_log_file_analyzer_dispatcher.rb'
 require_relative 'languages/ruby_log_file_analyzer.rb'
 require_relative 'languages/go_log_file_analyzer.rb'
 require_relative 'languages/python_log_file_analyzer.rb'
-
+require_relative 'languages/c_log_file_analyzer.rb'
 
 # Provides general language-independent analyzer for Travis logfiles. Dynamically mixes-in the most specific language
 # analyzer from the languages packages. If no specific analyzer is found, it prrovides basic statistics about any build
@@ -67,6 +67,8 @@ class LogFileAnalyzer
 
     # Dynamically add mixins
     case lang
+      when 'c'
+        self.extend(CLogFileAnalyzer)
       when 'ruby'
         self.extend(RubyLogFileAnalyzer)
       when 'java'
