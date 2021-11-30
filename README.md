@@ -1,5 +1,7 @@
 ### Running the data extraction process
 
+#### Install dependencies and start extracting build logs
+
 ```
 $ apt-get update
 $ apt-get install ruby ruby-dev bundler pkg-config libmysqlclient-dev cmake libicu-dev parallel
@@ -10,6 +12,13 @@ $ gem install bundler:1.16.2
 $ gem install charlock_holmes -v '0.7.6' --source 'https://rubygems.org/'
 $ bundle install
 $ nohup cat {REPOS_FILE} | parallel -j 5 --colsep ' ' ruby bin/travis_harvester.rb &
+```
+
+#### Useful commands
+
+##### Print all errors file
+```
+find . -name "errors" -exec cat {} \;
 ```
 
 ### Extracting GitHub features about each build
