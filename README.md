@@ -11,7 +11,7 @@ $ git checkout ECS260
 $ gem install bundler:1.16.2
 $ gem install charlock_holmes -v '0.7.6' --source 'https://rubygems.org/'
 $ bundle install
-$ nohup cat {REPOS_FILE} | parallel -j 5 --colsep ' ' ruby bin/travis_harvester.rb &
+$ nohup sh -c "cat {REPOS_FILE} | parallel -j 5 --colsep ' ' ruby bin/travis_harvester.rb" &
 ```
 
 #### Useful commands
