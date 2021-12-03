@@ -50,5 +50,8 @@ build/
 config.yaml
 
 # Ignore intermediate test outputs
-**/buildlog-data-travis.csv
 **/buildlog-data-travis.json
+
+build_logs/**/**.log
+build_logs/**/buildlog-data-travis.json
+build_logs/**/repo-data-travis.json
