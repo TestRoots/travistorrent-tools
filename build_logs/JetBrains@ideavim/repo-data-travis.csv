@@ -1,0 +1,3 @@
+build_id,commit,pull_req,branch,status,duration,started_at,jobs,event_type
+574434088,21384eb9de3216b03c1d314b00a3e78e6f8cb8bf,,travis,passed,365,2019-08-20 15:56:35 UTC,574434089,push
+574432871,2bb18f28dae6b3437d712e84314c912d5069fcac,,travis,errored,12,2019-08-20 15:53:36 UTC,574432872,push
