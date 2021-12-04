@@ -1,0 +1,14 @@
+tr_build_id,tr_job_id,tr_build_number,tr_original_commit,tr_log_lan,tr_log_status,tr_log_setup_time,tr_log_analyzer,tr_log_frameworks,tr_log_bool_tests_ran,tr_log_bool_tests_failed,tr_log_num_tests_ok,tr_log_num_tests_failed,tr_log_num_tests_run,tr_log_num_tests_skipped,tr_log_num_test_suites_run,tr_log_num_test_suites_ok,tr_log_num_test_suites_failed,tr_log_tests_failed,tr_log_testduration,tr_log_buildduration
+671978921,671978922,1051,64cd1c904fa6900fa83ac012b558a675958ef233,java,unknown,0,java-maven,junit,true,false,669,0,669,3,,,,"",1078.5700000000004,1173
+685179619,685179620,1052,2e70750c50aefc7911a18195507c3ba17b51f69c,java,ok,0,java-maven,junit,true,false,669,0,669,3,,,,"",1000.1599999999997,1092
+695997858,695997859,1053,e2af7541804d6a4c7461028c9ab9818450a11d77,java,ok,0,java-maven,junit,true,false,670,0,670,3,,,,"",1042.97,1136
+702712299,702712300,1054,1de08dbf5f1991df80b75c4915af613ebefb9b26,java,unknown,0,java-maven,junit,true,false,673,0,673,3,,,,"",1110.1599999999999,1206
+703096279,703096280,1055,3fd814abf8a1d96c1e8a39f8e4649c83e312a22f,java,broken,0,java-maven,junit,true,true,672,2,674,3,,,,io.searchbox.core.search.aggregation.DateRangeAggregationIntegrationTest.io.searchbox.core.search.aggregation.DateRangeAggregationIntegrationTest#Run 1#Run 2#,1049.34,1144
+704631034,704631035,1056,fbe146ea9d6b1fa37853e850a20093dc327b66a0,unknown,unknown,,plain,"",false,,,,,,,,,"",,
+704631077,704631078,1057,c2a9471b7b8901b99b25b4c16858f9bedadd0412,java,unknown,1,java-maven,junit,true,false,673,0,673,3,,,,"",1104.9399999999996,1201
+704631181,704631182,1058,fd7f20d1a8809b93890eb478e13439977be3ed84,java,unknown,1,java-maven,junit,true,false,674,0,674,3,,,,"",1307.269999999999,1409
+704720050,704720051,1059,fa277faa8e196b5d79adda91571a9ad1e102cad2,java,unknown,1,java-maven,"",false,,,,,,,,,"",0,
+713601648,713601651,1060,868fb1091dd665288be1b7534c8b8a97853fdb85,java,unknown,0,java-maven,"",false,,,,,,,,,"",0,
+715154632,715154633,1061,7c5090115c63721857d0eb998d71198f4a099989,java,unknown,0,java-maven,"",false,,,,,,,,,"",0,
+737228934,737228935,1062,4f77d6b210dc1c4fb5ef70be3a2494f9bdd17e93,java,unknown,1,java-maven,"",false,,,,,,,,,"",0,
+749649789,749649790,1063,2d4916e97ca08b36560efef2f784ec130721d654,java,unknown,1,java-maven,"",false,,,,,,,,,"",0,

@@ -1,0 +1,11 @@
+tr_build_id,tr_job_id,tr_build_number,tr_original_commit,tr_log_lan,tr_log_status,tr_log_setup_time,tr_log_analyzer,tr_log_frameworks,tr_log_bool_tests_ran,tr_log_bool_tests_failed,tr_log_num_tests_ok,tr_log_num_tests_failed,tr_log_num_tests_run,tr_log_num_tests_skipped,tr_log_num_test_suites_run,tr_log_num_test_suites_ok,tr_log_num_test_suites_failed,tr_log_tests_failed,tr_log_testduration,tr_log_buildduration
+54933430,54933431,10,89211ff4cdaf6a941feed63bed40254952ad4b08,ruby,broken,1,ruby,"",false,,,0,,,,,,"",,
+54914301,54914302,1,6dae31e2626c4621579998ee5b536b1beb107322,java,broken,0,java-gradle,"",false,,,0,,,,,,"",,
+54927555,54927556,2,f59e1044c15886e456d3126022cdf1beb8792300,ruby,unknown,3,ruby,"",false,,,0,,,,,,"",,
+54927567,54927568,3,4fdfa47955918fdf723548f589ab7e3ac83a7736,ruby,broken,1,ruby,"",false,,,0,,,,,,"",,
+54928182,54928183,4,8987c7ec746893d15ca030e02d627d8737e957cc,ruby,broken,1,ruby,"",false,,,0,,,,,,"",,
+54928204,54928205,5,8987c7ec746893d15ca030e02d627d8737e957cc,ruby,broken,0,ruby,"",false,,,0,,,,,,"",,
+54928206,54928207,6,391dec8200cceb46d99e265c4916758b219f3a04,ruby,broken,0,ruby,"",false,,,0,,,,,,"",,
+54928906,54928908,7,52d5ffdf23288912794e5b63ed5b3b8151c00a7d,ruby,broken,3,ruby,"",false,,,0,,,,,,"",,
+54929219,54929220,8,5781f9b5962138ad0791eebd7d92d6599fb83b82,ruby,broken,0,ruby,"",false,,,0,,,,,,"",,
+54933414,54933415,9,b731f76f09b21bd3eca6e3aad3cfa9d893198d69,ruby,unknown,3,ruby,"",false,,,0,,,,,,"",,
