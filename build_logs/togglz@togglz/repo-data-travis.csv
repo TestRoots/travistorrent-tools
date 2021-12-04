@@ -1,0 +1,26 @@
+build_id,commit,pull_req,branch,status,duration,started_at,jobs,event_type
+756713088,f34e4ba822a09f8655273745ea62e4269d576919,506,master,errored,22,2021-01-29 14:46:41 UTC,756713089,pull_request
+756713076,c486c0452b98c4e75ff7dd9689292625dce58606,,replace_powermock_with_mockito_inline,passed,871,2021-01-29 14:46:39 UTC,756713077,push
+756712669,1aea7b988a2d75bc3fb9ae97d867560e409d2c61,506,master,canceled,0,,756712670,pull_request
+756712663,d5f086dca5071d50c385ecc04c02db43aade0149,,replace_powermock_with_mockito_inline,canceled,0,,756712664,push
+756712309,19e1bfa3c6a46483db4b14f226b57d798ddf3c94,506,master,canceled,0,,756712310,pull_request
+756712307,253e64f576bc844d1d0ef4becf4c20c84ee147f9,,replace_powermock_with_mockito_inline,canceled,0,,756712308,push
+756712258,c7174bbd4805704d1fca75e62d31680e4ddff646,506,master,canceled,0,,756712259,pull_request
+756712256,a06d6c393a2b4c5cafffb215de85b3a78082cf3f,,replace_powermock_with_mockito_inline,canceled,0,,756712257,push
+756712042,474d26de9a3beb6f4fe29bba7646c85aa5df6f2c,506,master,canceled,0,,756712043,pull_request
+756712040,c43e69afa13f9603ff2aed9b9a8441193a6ec450,,replace_powermock_with_mockito_inline,canceled,0,,756712041,push
+756711463,551d407484eefa5f79005d18bc141c33fcb8b056,506,master,canceled,0,,756711464,pull_request
+756711457,62732d43d540c524e180e72d36a92cb1b18a9a76,,replace_powermock_with_mockito_inline,canceled,0,,756711458,push
+756711171,6a22a89c24da18865d9aaef68e81691bb69face2,506,master,canceled,0,,756711172,pull_request
+756711159,e369e7009c90b112d35917b0f3862f73041aef44,,replace_powermock_with_mockito_inline,canceled,0,,756711160,push
+756705167,c195aad2f2df286b639064bcf1312b069a25a1a3,506,master,canceled,0,,756705168,pull_request
+756705165,a6a00f08a478a43964f7feef65d046e9182ff0e0,,replace_powermock_with_mockito_inline,canceled,0,,756705166,push
+756704316,c98fc5babbf83402e882de673c7804a3078eb622,506,master,canceled,0,,756704317,pull_request
+756704314,88d207e28a95caf7d01fe99e7b82e587ad5710d0,,replace_powermock_with_mockito_inline,canceled,0,,756704315,push
+756703635,24cd9c340951329c95d09e5864d352d36bb1ffbc,506,master,canceled,0,,756703636,pull_request
+756703630,9698b579632d3753e68afb14637239d19f5ba770,,replace_powermock_with_mockito_inline,canceled,0,,756703631,push
+756703209,7fdefa37491cd76e486983d7951fe5deadb27fff,506,master,canceled,0,,756703210,pull_request
+756703203,fc3356003c9dc642cad19e52a957adaa3e13751e,,replace_powermock_with_mockito_inline,canceled,0,,756703204,push
+756703100,3bf16699d407ad9eb558853a94e053f9da1944d1,,master,passed,771,2021-01-29 12:50:14 UTC,756703101,push
+756701735,a4a9220b6b62ac80ef645de9958d2ee60e6e05cc,506,master,canceled,0,,756701736,pull_request
+756699494,0120309afa23a87ba6451392ac83fcbf8a8a677e,,master,canceled,0,,756699495,push

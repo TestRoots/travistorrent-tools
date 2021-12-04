@@ -1,0 +1,6 @@
+tr_build_id,tr_job_id,tr_build_number,tr_original_commit,tr_log_lan,tr_log_status,tr_log_setup_time,tr_log_analyzer,tr_log_frameworks,tr_log_bool_tests_ran,tr_log_bool_tests_failed,tr_log_num_tests_ok,tr_log_num_tests_failed,tr_log_num_tests_run,tr_log_num_tests_skipped,tr_log_num_test_suites_run,tr_log_num_test_suites_ok,tr_log_num_test_suites_failed,tr_log_tests_failed,tr_log_testduration,tr_log_buildduration
+21015998,21015999,1,336e0f2015dff52843dfce12db6afeb1b9ed9045,java,ok,,java-gradle,"",false,,,0,,,,,,"",,
+29801051,29801052,2,c9b827813a892cb867b06a7e89d2ade6c9d8c9f6,java,unknown,,java-gradle,"",false,,,0,,,,,,"",,
+29801090,29801091,3,67f4d4f5d3cfbdbef5c9c494163f4504329b5135,java,unknown,,java-gradle,"",false,,,0,,,,,,"",,
+29801426,29801427,4,80da954d5eff21a87e28f394d1ea7eaf4adb671a,java,unknown,,java-gradle,"",false,,,0,,,,,,"",,
+29801668,29801669,5,eb9b4667bd66308904c2484f588640b96811271b,java,ok,,java-gradle,"",false,,,0,,,,,,"",,
