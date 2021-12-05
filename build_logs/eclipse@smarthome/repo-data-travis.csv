@@ -1,0 +1,3 @@
+build_id,commit,pull_req,branch,status,duration,started_at,jobs,event_type
+681241050,60ff2873f86ec7839b2768137ac85035cf3d4632,6921,master,passed,1803,2020-04-29 22:57:04 UTC,681241051,pull_request
+681240931,3c1e9c0a24a6873e9a4af628d503e4507b969871,,dependabot/npm_and_yarn/extensions/ui/org.eclipse.smarthome.ui.paper/jquery-3.5.0,passed,1807,2020-04-29 22:56:47 UTC,681240932,push
