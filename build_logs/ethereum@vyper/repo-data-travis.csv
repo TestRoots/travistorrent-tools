@@ -1,0 +1,4 @@
+build_id,commit,pull_req,branch,status,duration,started_at,jobs,event_type
+504767791,c47e74ec43fae787c0c1f75fe4ecb3d263edfb3d,1340,master,failed,132,2019-03-11 16:35:00 UTC,504767792,pull_request
+504757122,205c872bb14f5c098fcaac9f32fed8ad8450eccc,1340,master,canceled,0,,504757123,pull_request
+504752295,feb92fd07ed4c86db702831f5129c7168b9d31fc,1340,master,canceled,0,,504752296,pull_request
