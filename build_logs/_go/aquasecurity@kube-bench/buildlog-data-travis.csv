@@ -1,3 +1,15 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:3d1a704fa64007f821a0a7dca7b7e7d1f0db4221dcb52d067bde3c2872f987b6
-size 2811
+tr_build_id,tr_job_id,tr_build_number,tr_original_commit,tr_log_lan,tr_log_status,tr_log_setup_time,tr_log_analyzer,tr_log_frameworks,tr_log_bool_tests_ran,tr_log_bool_tests_failed,tr_log_num_tests_ok,tr_log_num_tests_failed,tr_log_num_tests_run,tr_log_num_tests_skipped,tr_log_num_test_suites_run,tr_log_num_test_suites_ok,tr_log_num_test_suites_failed,tr_log_tests_failed,tr_log_testduration,tr_log_buildduration
+750220866,750220867,2025,41de824bcb048f99388a4125937794df9bf94197,go,ok,126,go,gotest,true,false,8,0,8,0,4,4,0,"",389.42,
+750220972,750220973,2026,eae42758733fcad84b9024d20488f838ec0527d6,go,ok,117,go,gotest,true,false,8,0,8,0,4,4,0,"",386.60999999999996,
+752776068,752776069,2069,06ab5dfc801b040c2b3daa2aab4e227d2537b094,go,ok,181,go,gotest,true,false,8,0,8,0,4,4,0,"",389.32000000000005,
+753833398,753833399,2070,fe1375e25ed6af47ee0c3bfe6b29f290428faf55,go,broken,119,go,gotest,true,true,8,3,11,0,3,1,2,TestMakeSubsitutions#TestMakeSubsitutions/Replace_$thisbin_and_$herebin#github.com/aquasecurity/kube-bench/cmd,383.05,
+753840636,753840637,2071,e269509a722ce1f2141333744a266a7e86228563,go,broken,124,go,gotest,true,true,8,3,11,0,3,1,2,TestMakeSubsitutions#TestMakeSubsitutions/Replace_$thisbin_and_$herebin#github.com/aquasecurity/kube-bench/cmd,386.86999999999995,
+754083571,754083572,2073,98a758f8e29b6bf1ba5743ab1f62d45699895917,go,ok,121,go,gotest,true,false,8,0,8,0,4,4,0,"",381.21,
+754265207,754265208,2074,58c614cf6c35121c9aafe0e1f60f2f8c0c7a566f,go,ok,130,go,gotest,true,false,8,0,8,0,4,4,0,"",430.71,
+754282789,754282790,2075,eab9253f9b0d8d5466559dca74d3e9c3b4d93c6b,go,ok,127,go,gotest,true,false,8,0,8,0,4,4,0,"",486.64,
+754298520,754298521,2076,3641587ab9a46f755c08f8c9de98d9c1b410e9d2,go,unknown,42,go,"",false,,,,,,,,,"",,
+754302818,754302819,2077,9f21f8e1185681fad717f0288b4a0c5619fb1a6b,go,ok,127,go,gotest,true,false,8,0,8,0,4,4,0,"",417.45,
+754449664,754449665,2078,0ea2c9b84f5cd9796b4f6b77f2079d0efee637f0,go,broken,125,go,gotest,true,false,0,0,0,0,3,3,0,"",0,
+754450786,754450787,2079,02c640ac831f9b3bad9412c613b0aabb8b834b34,go,broken,118,go,gotest,true,true,5,4,9,0,5,2,3,TestCheckCIS16WithKind#TestCheckCIS16WithKind/kube-bench#TestCheckCIS16WithKind/kube-bench-master#github.com/aquasecurity/kube-bench/integration,952.1800000000001,
+754608272,754608273,2080,3c82b99f361d430528e60aefdf0b213fdf7a617e,go,broken,122,go,gotest,true,true,5,4,9,0,5,2,3,TestCheckCIS16WithKind#TestCheckCIS16WithKind/kube-bench#TestCheckCIS16WithKind/kube-bench-master#github.com/aquasecurity/kube-bench/integration,811.21,
+754618704,754618705,2081,92a57c82de8f4ab6bf5e61c73ee72ce91d3c4ef8,go,broken,126,go,gotest,true,true,5,4,9,0,3,0,3,TestCheckCIS16WithKind#TestCheckCIS16WithKind/kube-bench#TestCheckCIS16WithKind/kube-bench-master#github.com/aquasecurity/kube-bench/integration,787.96,
