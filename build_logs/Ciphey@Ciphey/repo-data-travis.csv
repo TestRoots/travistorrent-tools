@@ -1,0 +1,5 @@
+build_id,commit,pull_req,branch,status,duration,started_at,jobs,event_type
+727025559,3a02376c0ec4fb4787514e07aafbe4642bf99c7a,404,master,failed,111,2020-09-14 13:08:47 UTC,727025560,pull_request
+727025312,496fd507531a38c0a166a1b28f4f16741dfc0b25,,bee-travis,failed,113,2020-09-14 13:08:10 UTC,727025313,push
+726254855,a0d221679181e490129c2be7450d21cdc5fc7771,404,master,failed,111,2020-09-11 12:19:46 UTC,726254856,pull_request
+726254660,91c23664b8fce1c75ed0674adb1a84399fe4f4e7,,bee-travis,failed,110,2020-09-11 12:19:00 UTC,726254661,push
