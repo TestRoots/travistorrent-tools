@@ -1,0 +1,9 @@
+tr_build_id,tr_job_id,tr_build_number,tr_original_commit,tr_log_lan,tr_log_status,tr_log_setup_time,tr_log_analyzer,tr_log_frameworks,tr_log_bool_tests_ran,tr_log_bool_tests_failed,tr_log_num_tests_ok,tr_log_num_tests_failed,tr_log_num_tests_run,tr_log_num_tests_skipped,tr_log_num_test_suites_run,tr_log_num_test_suites_ok,tr_log_num_test_suites_failed,tr_log_tests_failed,tr_log_testduration,tr_log_buildduration
+666924122,666924126,5884,1de92318c4464843fa877cd11e969193b620f2c3,python,broken,1,python,pytest,true,true,1277,1,1278,0,,,,AuditFileTestCase.test_30_logger_audit_qualname,290.45,
+666924122,666924127,5884,1de92318c4464843fa877cd11e969193b620f2c3,python,ok,2,python,"",false,,,,,,,,,"",,
+666924122,666924128,5884,1de92318c4464843fa877cd11e969193b620f2c3,python,ok,2,python,"",false,,,,,,,,,"",,
+666924122,666924132,5884,1de92318c4464843fa877cd11e969193b620f2c3,python,ok,2,python,"",false,,,,,,,,,"",,
+666924774,666924775,5885,17a41ae62128ce48de094528dad3d0c37b40b0c8,python,broken,3,python,pytest,true,true,1277,1,1278,0,,,,AuditFileTestCase.test_30_logger_audit_qualname,281.15,
+666924774,666924777,5885,17a41ae62128ce48de094528dad3d0c37b40b0c8,python,broken,3,python,"",false,,,,,,,,,AuditFileTestCase.test_30_logger_audit_qualname,,
+666924774,666924778,5885,17a41ae62128ce48de094528dad3d0c37b40b0c8,python,ok,3,python,"",false,,,,,,,,,"",,
+666924774,666924779,5885,17a41ae62128ce48de094528dad3d0c37b40b0c8,python,ok,3,python,"",false,,,,,,,,,"",,
