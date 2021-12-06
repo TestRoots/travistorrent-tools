@@ -1,3 +1,2 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:c0eb8b7906bc78c880a097e3ada81803a404861604d32b7aaec4070d653594a1
-size 196
+build_id,commit,pull_req,branch,status,duration,started_at,jobs,event_type
+504759893,b421a5cf198ef483fe6ce582d325c4f9c3d32952,38840,master,failed,49,2019-03-11 15:43:09 UTC,504759897,pull_request
