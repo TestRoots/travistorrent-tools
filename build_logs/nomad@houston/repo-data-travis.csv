@@ -1,0 +1,3 @@
+build_id,commit,pull_req,branch,status,duration,started_at,jobs,event_type
+588634789,dab9e7122794ab264ddb6b1b7fc61af7a285cfa9,169,master,failed,139,2019-09-23 20:20:50 UTC,588634791,588634792,588634793,pull_request
+587922064,f6c009210aa0b1cd242b1cf673d3ddc96517dc4c,,master,passed,130,2019-09-21 19:57:40 UTC,587922065,587922066,587922067,push
