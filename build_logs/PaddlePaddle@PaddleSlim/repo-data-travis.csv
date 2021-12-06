@@ -1,0 +1,2 @@
+build_id,commit,pull_req,branch,status,duration,started_at,jobs,event_type
+647203606,5807c7a5c34008fd674222c776cb8c3524a93687,92,develop,failed,255,2020-02-07 06:57:50 UTC,647203607,pull_request
