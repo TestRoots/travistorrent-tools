@@ -1,0 +1,2 @@
+build_id,commit,pull_req,branch,status,duration,started_at,jobs,event_type
+1542445,a47fd41f3aa4610ea527dcc1669dfdb9c15c5425,,master,failed,15,2012-06-06 02:39:06 UTC,1542446,push
