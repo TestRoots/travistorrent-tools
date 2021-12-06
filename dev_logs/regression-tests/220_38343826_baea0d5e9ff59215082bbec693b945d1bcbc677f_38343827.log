@@ -1,483 +1,0 @@
-Using worker: saucelabs-mac.worker.travis-ci.org:travis-mac_osx-25
-
-travis_fold:start:git.1[0Ktravis_time:start:0a91a932[0K$ git clone --depth=50 git://github.com/caskroom/homebrew-versions.git caskroom/homebrew-versions
-Cloning into 'caskroom/homebrew-versions'...
-remote: Counting objects: 1904, done.[K
-remote: Compressing objects:   0% (1/924)   [Kremote: Compressing objects:   1% (10/924)   [Kremote: Compressing objects:   2% (19/924)   [Kremote: Compressing objects:   3% (28/924)   [Kremote: Compressing objects:   4% (37/924)   [Kremote: Compressing objects:   5% (47/924)   [Kremote: Compressing objects:   6% (56/924)   [Kremote: Compressing objects:   7% (65/924)   [Kremote: Compressing objects:   8% (74/924)   [Kremote: Compressing objects:   9% (84/924)   [Kremote: Compressing objects:  10% (93/924)   [Kremote: Compressing objects:  11% (102/924)   [Kremote: Compressing objects:  12% (111/924)   [Kremote: Compressing objects:  13% (121/924)   [Kremote: Compressing objects:  14% (130/924)   [Kremote: Compressing objects:  15% (139/924)   [Kremote: Compressing objects:  16% (148/924)   [Kremote: Compressing objects:  17% (158/924)   [Kremote: Compressing objects:  18% (167/924)   [Kremote: Compressing objects:  19% (176/924)   [Kremote: Compressing objects:  20% (185/924)   [Kremote: Compressing objects:  21% (195/924)   [Kremote: Compressing objects:  22% (204/924)   [Kremote: Compressing objects:  23% (213/924)   [Kremote: Compressing objects:  24% (222/924)   [Kremote: Compressing objects:  25% (231/924)   [Kremote: Compressing objects:  26% (241/924)   [Kremote: Compressing objects:  27% (250/924)   [Kremote: Compressing objects:  28% (259/924)   [Kremote: Compressing objects:  29% (268/924)   [Kremote: Compressing objects:  30% (278/924)   [Kremote: Compressing objects:  31% (287/924)   [Kremote: Compressing objects:  32% (296/924)   [Kremote: Compressing objects:  33% (305/924)   [Kremote: Compressing objects:  34% (315/924)   [Kremote: Compressing objects:  35% (324/924)   [Kremote: Compressing objects:  36% (333/924)   [Kremote: Compressing objects:  37% (342/924)   [Kremote: Compressing objects:  38% (352/924)   [Kremote: Compressing objects:  39% (361/924)   [Kremote: Compressing objects:  40% (370/924)   [Kremote: Compressing objects:  41% (379/924)   [Kremote: Compressing objects:  42% (389/924)   [Kremote: Compressing objects:  43% (398/924)   [Kremote: Compressing objects:  44% (407/924)   [Kremote: Compressing objects:  45% (416/924)   [Kremote: Compressing objects:  46% (426/924)   [Kremote: Compressing objects:  47% (435/924)   [Kremote: Compressing objects:  48% (444/924)   [Kremote: Compressing objects:  49% (453/924)   [Kremote: Compressing objects:  50% (462/924)   [Kremote: Compressing objects:  51% (472/924)   [Kremote: Compressing objects:  52% (481/924)   [Kremote: Compressing objects:  53% (490/924)   [Kremote: Compressing objects:  54% (499/924)   [Kremote: Compressing objects:  55% (509/924)   [Kremote: Compressing objects:  56% (518/924)   [Kremote: Compressing objects:  57% (527/924)   [Kremote: Compressing objects:  58% (536/924)   [Kremote: Compressing objects:  59% (546/924)   [Kremote: Compressing objects:  60% (555/924)   [Kremote: Compressing objects:  61% (564/924)   [Kremote: Compressing objects:  62% (573/924)   [Kremote: Compressing objects:  63% (583/924)   [Kremote: Compressing objects:  64% (592/924)   [Kremote: Compressing objects:  65% (601/924)   [Kremote: Compressing objects:  66% (610/924)   [Kremote: Compressing objects:  67% (620/924)   [Kremote: Compressing objects:  68% (629/924)   [Kremote: Compressing objects:  69% (638/924)   [Kremote: Compressing objects:  70% (647/924)   [Kremote: Compressing objects:  71% (657/924)   [Kremote: Compressing objects:  72% (666/924)   [Kremote: Compressing objects:  73% (675/924)   [Kremote: Compressing objects:  74% (684/924)   [Kremote: Compressing objects:  75% (693/924)   [Kremote: Compressing objects:  76% (703/924)   [Kremote: Compressing objects:  77% (712/924)   [Kremote: Compressing objects:  78% (721/924)   [Kremote: Compressing objects:  79% (730/924)   [Kremote: Compressing objects:  80% (740/924)   [Kremote: Compressing objects:  81% (749/924)   [Kremote: Compressing objects:  82% (758/924)   [Kremote: Compressing objects:  83% (767/924)   [Kremote: Compressing objects:  84% (777/924)   [Kremote: Compressing objects:  85% (786/924)   [Kremote: Compressing objects:  86% (795/924)   [Kremote: Compressing objects:  87% (804/924)   [Kremote: Compressing objects:  88% (814/924)   [Kremote: Compressing objects:  89% (823/924)   [Kremote: Compressing objects:  90% (832/924)   [Kremote: Compressing objects:  91% (841/924)   [Kremote: Compressing objects:  92% (851/924)   [Kremote: Compressing objects:  93% (860/924)   [Kremote: Compressing objects:  94% (869/924)   [Kremote: Compressing objects:  95% (878/924)   [Kremote: Compressing objects:  96% (888/924)   [Kremote: Compressing objects:  97% (897/924)   [Kremote: Compressing objects:  98% (906/924)   [Kremote: Compressing objects:  99% (915/924)   [Kremote: Compressing objects: 100% (924/924)   [Kremote: Compressing objects: 100% (924/924), done.[K
-Receiving objects:   0% (1/1904)   Receiving objects:   1% (20/1904)   Receiving objects:   2% (39/1904)   Receiving objects:   3% (58/1904)   Receiving objects:   4% (77/1904)   Receiving objects:   5% (96/1904)   Receiving objects:   6% (115/1904)   Receiving objects:   7% (134/1904)   Receiving objects:   8% (153/1904)   Receiving objects:   9% (172/1904)   Receiving objects:  10% (191/1904)   Receiving objects:  11% (210/1904)   Receiving objects:  12% (229/1904)   Receiving objects:  13% (248/1904)   Receiving objects:  14% (267/1904)   Receiving objects:  15% (286/1904)   Receiving objects:  16% (305/1904)   Receiving objects:  17% (324/1904)   Receiving objects:  18% (343/1904)   Receiving objects:  19% (362/1904)   Receiving objects:  20% (381/1904)   Receiving objects:  21% (400/1904)   Receiving objects:  22% (419/1904)   Receiving objects:  23% (438/1904)   Receiving objects:  24% (457/1904)   Receiving objects:  25% (476/1904)   Receiving objects:  26% (496/1904)   Receiving objects:  27% (515/1904)   Receiving objects:  28% (534/1904)   Receiving objects:  29% (553/1904)   Receiving objects:  30% (572/1904)   Receiving objects:  31% (591/1904)   Receiving objects:  32% (610/1904)   Receiving objects:  33% (629/1904)   Receiving objects:  34% (648/1904)   Receiving objects:  35% (667/1904)   Receiving objects:  36% (686/1904)   Receiving objects:  37% (705/1904)   Receiving objects:  38% (724/1904)   Receiving objects:  39% (743/1904)   Receiving objects:  40% (762/1904)   Receiving objects:  41% (781/1904)   Receiving objects:  42% (800/1904)   Receiving objects:  43% (819/1904)   Receiving objects:  44% (838/1904)   Receiving objects:  45% (857/1904)   Receiving objects:  46% (876/1904)   Receiving objects:  47% (895/1904)   Receiving objects:  48% (914/1904)   Receiving objects:  49% (933/1904)   Receiving objects:  50% (952/1904)   Receiving objects:  51% (972/1904)   Receiving objects:  52% (991/1904)   Receiving objects:  53% (1010/1904)   Receiving objects:  54% (1029/1904)   Receiving objects:  55% (1048/1904)   Receiving objects:  56% (1067/1904)   Receiving objects:  57% (1086/1904)   Receiving objects:  58% (1105/1904)   Receiving objects:  59% (1124/1904)   Receiving objects:  60% (1143/1904)   Receiving objects:  61% (1162/1904)   Receiving objects:  62% (1181/1904)   Receiving objects:  63% (1200/1904)   Receiving objects:  64% (1219/1904)   Receiving objects:  65% (1238/1904)   Receiving objects:  66% (1257/1904)   Receiving objects:  67% (1276/1904)   Receiving objects:  68% (1295/1904)   Receiving objects:  69% (1314/1904)   Receiving objects:  70% (1333/1904)   Receiving objects:  71% (1352/1904)   Receiving objects:  72% (1371/1904)   Receiving objects:  73% (1390/1904)   Receiving objects:  74% (1409/1904)   Receiving objects:  75% (1428/1904)   Receiving objects:  76% (1448/1904)   Receiving objects:  77% (1467/1904)   Receiving objects:  78% (1486/1904)   Receiving objects:  79% (1505/1904)   Receiving objects:  80% (1524/1904)   Receiving objects:  81% (1543/1904)   Receiving objects:  82% (1562/1904)   Receiving objects:  83% (1581/1904)   Receiving objects:  84% (1600/1904)   Receiving objects:  85% (1619/1904)   Receiving objects:  86% (1638/1904)   Receiving objects:  87% (re1657/1904)   Receiving objects:  88% (1676/1904)   mote: Total 1904 (delta 1264), reused 1580 (delta 979)[K
-Receiving objects:  89% (1695/1904)   Receiving objects:  90% (1714/1904)   Receiving objects:  91% (1733/1904)   Receiving objects:  92% (1752/1904)   Receiving objects:  93% (1771/1904)   Receiving objects:  94% (1790/1904)   Receiving objects:  95% (1809/1904)   Receiving objects:  96% (1828/1904)   Receiving objects:  97% (1847/1904)   Receiving objects:  98% (1866/1904)   Receiving objects:  99% (1885/1904)   Receiving objects: 100% (1904/1904)   Receiving objects: 100% (1904/1904), 229.92 KiB | 0 bytes/s, done.
-Resolving deltas:   0% (0/1264)   Resolving deltas:  12% (164/1264)   Resolving deltas:  25% (318/1264)   Resolving deltas:  26% (336/1264)   Resolving deltas:  27% (344/1264)   Resolving deltas:  28% (358/1264)   Resolving deltas:  29% (368/1264)   Resolving deltas:  30% (386/1264)   Resolving deltas:  31% (398/1264)   Resolving deltas:  32% (406/1264)   Resolving deltas:  33% (418/1264)   Resolving deltas:  34% (432/1264)   Resolving deltas:  35% (444/1264)   Resolving deltas:  36% (464/1264)   Resolving deltas:  37% (472/1264)   Resolving deltas:  38% (482/1264)   Resolving deltas:  39% (494/1264)   Resolving deltas:  40% (518/1264)   Resolving deltas:  41% (530/1264)   Resolving deltas:  42% (542/1264)   Resolving deltas:  43% (552/1264)   Resolving deltas:  44% (558/1264)   Resolving deltas:  45% (572/1264)   Resolving deltas:  46% (582/1264)   Resolving deltas:  47% (602/1264)   Resolving deltas:  48% (611/1264)   Resolving deltas:  49% (621/1264)   Resolving deltas:  50% (636/1264)   Resolving deltas:  51% (645/1264)   Resolving deltas:  52% (661/1264)   Resolving deltas:  53% (674/1264)   Resolving deltas:  54% (683/1264)   Resolving deltas:  55% (697/1264)   Resolving deltas:  56% (709/1264)   Resolving deltas:  57% (725/1264)   Resolving deltas:  58% (739/1264)   Resolving deltas:  59% (747/1264)   Resolving deltas:  60% (759/1264)   Resolving deltas:  61% (776/1264)   Resolving deltas:  62% (792/1264)   Resolving deltas:  63% (802/1264)   Resolving deltas:  64% (813/1264)   Resolving deltas:  65% (824/1264)   Resolving deltas:  66% (835/1264)   Resolving deltas:  67% (847/1264)   Resolving deltas:  68% (863/1264)   Resolving deltas:  69% (878/1264)   Resolving deltas:  70% (890/1264)   Resolving deltas:  71% (900/1264)   Resolving deltas:  72% (911/1264)   Resolving deltas:  73% (924/1264)   Resolving deltas:  74% (936/1264)   Resolving deltas:  75% (948/1264)   Resolving deltas:  76% (968/1264)   Resolving deltas:  77% (974/1264)   Resolving deltas:  78% (986/1264)   Resolving deltas:  79% (1000/1264)   Resolving deltas:  80% (1012/1264)   Resolving deltas:  87% (1110/1264)   Resolving deltas:  88% (1114/1264)   Resolving deltas:  89% (1128/1264)   Resolving deltas:  92% (1172/1264)   Resolving deltas:  93% (1178/1264)   Resolving deltas:  94% (1190/1264)   Resolving deltas: 100% (1264/1264)   Resolving deltas: 100% (1264/1264), done.
-Checking connectivity... done.
-travis_time:end:0a91a932:start=1413635874000000000,finish=1413635879000000000,duration=5000000000[0Ktravis_fold:end:git.1[0K$ cd caskroom/homebrew-versions
-travis_fold:start:git.4[0Ktravis_time:start:05c9ae30[0K$ git fetch origin +refs/pull/486/merge:
-remote: Counting objects: 5, done.[K
-remote: Compressing objects:  20% (1/5)   [Kremote: Compressing objects:  40% (2/5)   [Kremote: Compressing objects:  60% (3/5)   [Kremote: Compressing objects:  80% (4/5)   [Kremote: Compressing objects: 100% (5/5)   [Kremote: Compressing objects: 100% (5/5), done.[K
-remote: Total 5 (delta 3), reused 2 (delta 0)[K
-Unpacking objects:  20% (1/5)   Unpacking objects:  40% (2/5)   Unpacking objects:  60% (3/5)   Unpacking objects:  80% (4/5)   Unpacking objects: 100% (5/5)   Unpacking objects: 100% (5/5), done.
-From git://github.com/caskroom/homebrew-versions
- * branch            refs/pull/486/merge -> FETCH_HEAD
-travis_time:end:05c9ae30:start=1413635879000000000,finish=1413635879000000000,duration=0[0Ktravis_fold:end:git.4[0Ktravis_fold:start:git.5[0K$ git checkout -qf FETCH_HEAD
-travis_fold:end:git.5[0K
-[33;1mSetting environment variables from .travis.yml[0m
-$ export CASK_RUBY_TEST_VERSION="1.8"
-
-travis_time:start:158098d6[0K$ rvm use default
-[32mUsing /Users/travis/.rvm/gems/ruby-2.0.0-p481[0m
-travis_time:end:158098d6:start=1413635879000000000,finish=1413635880000000000,duration=1000000000[0K$ export BUNDLE_GEMFILE=$PWD/Gemfile
-travis_time:start:0da72fda[0Ktravis_time:end:0da72fda:start=1413635880000000000,finish=1413635881000000000,duration=1000000000[0Ktravis_time:start:1ceb08bf[0Ktravis_time:end:1ceb08bf:start=1413635881000000000,finish=1413635881000000000,duration=0[0Ktravis_time:start:0571a7f0[0K$ ruby --version
-ruby 2.0.0p481 (2014-05-08 revision 45883) [x86_64-darwin13.1.0]
-travis_time:end:0571a7f0:start=1413635881000000000,finish=1413635881000000000,duration=0[0Ktravis_time:start:0ed70d6d[0K$ rvm --version
-rvm 1.25.27 (master) by Wayne E. Seguin <wayneeseguin@gmail.com>, Michal Papis <mpapis@gmail.com> [https://rvm.io/]
-travis_time:end:0ed70d6d:start=1413635881000000000,finish=1413635881000000000,duration=0[0K$ bundle --version
-Bundler version 1.6.2
-travis_fold:start:announce[0Ktravis_time:start:17c2d67b[0K$ xcodebuild -version -sdk
-MacOSX10.9.sdk - OS X 10.9 (macosx10.9)
-SDKVersion: 10.9
-Path: /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk
-PlatformVersion: 1.1
-PlatformPath: /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform
-ProductBuildVersion: 13F26
-ProductCopyright: 1983-2014 Apple Inc.
-ProductName: Mac OS X
-ProductUserVisibleVersion: 10.9.5
-ProductVersion: 10.9.5
-
-iPhoneOS8.0.sdk - iOS 8.0 (iphoneos8.0)
-SDKVersion: 8.0
-Path: /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.0.sdk
-PlatformVersion: 8.0
-PlatformPath: /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform
-ProductBuildVersion: 12A365
-ProductCopyright: 1983-2014 Apple Inc.
-ProductName: iPhone OS
-ProductVersion: 8.0
-
-iPhoneSimulator7.0.sdk - Simulator - iOS 7.0 (iphonesimulator7.0)
-SDKVersion: 7.0
-Path: /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator7.0.sdk
-PlatformVersion: 8.0
-PlatformPath: /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform
-ProductBuildVersion: 11B507
-ProductCopyright: 1983-2013 Apple Inc.
-ProductName: iPhone OS
-ProductVersion: 7.0.3
-
-iPhoneSimulator7.1.sdk - Simulator - iOS 7.1 (iphonesimulator7.1)
-SDKVersion: 7.1
-Path: /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator7.1.sdk
-PlatformVersion: 8.0
-PlatformPath: /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform
-ProductBuildVersion: 11D167
-ProductCopyright: 1983-2014 Apple Inc.
-ProductName: iPhone OS
-ProductVersion: 7.1
-
-iPhoneSimulator8.0.sdk - Simulator - iOS 8.0 (iphonesimulator8.0)
-SDKVersion: 8.0
-Path: /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator8.0.sdk
-PlatformVersion: 8.0
-PlatformPath: /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform
-ProductBuildVersion: 12A365
-ProductCopyright: 1983-2014 Apple Inc.
-ProductName: iPhone OS
-ProductVersion: 8.0
-
-Xcode 6.0.1
-Build version 6A317
-travis_time:end:17c2d67b:start=1413635881000000000,finish=1413635882000000000,duration=1000000000[0Ktravis_time:start:04cb3d38[0K$ xctool -version
-objc[1171]: Class SimDeviceSet is implemented in both /Applications/Xcode.app/Contents/Developer/Library/PrivateFrameworks/CoreSimulator.framework/Versions/A/CoreSimulator and /usr/local/Cellar/xctool/0.2/libexec/bin/xctool. One of the two will be used. Which one is undefined.
-objc[1171]: Class SimDeviceType is implemented in both /Applications/Xcode.app/Contents/Developer/Library/PrivateFrameworks/CoreSimulator.framework/Versions/A/CoreSimulator and /usr/local/Cellar/xctool/0.2/libexec/bin/xctool. One of the two will be used. Which one is undefined.
-objc[1171]: Class SimRuntime is implemented in both /Applications/Xcode.app/Contents/Developer/Library/PrivateFrameworks/CoreSimulator.framework/Versions/A/CoreSimulator and /usr/local/Cellar/xctool/0.2/libexec/bin/xctool. One of the two will be used. Which one is undefined.
-0.2
-travis_time:end:04cb3d38:start=1413635882000000000,finish=1413635882000000000,duration=0[0Ktravis_fold:end:announce[0Ktravis_fold:start:before_install.1[0Ktravis_time:start:0bac9ee8[0K$ rvm use system
-[32mNow using system ruby.[0m
-travis_time:end:0bac9ee8:start=1413635882000000000,finish=1413635883000000000,duration=1000000000[0Ktravis_fold:end:before_install.1[0Ktravis_fold:start:before_install.2[0Ktravis_time:start:0b71a488[0K$ export PATH="/System/Library/Frameworks/Ruby.framework/Versions/${CASK_RUBY_TEST_VERSION}/usr/bin":"$PATH"
-travis_time:end:0b71a488:start=1413635883000000000,finish=1413635883000000000,duration=0[0Ktravis_fold:end:before_install.2[0Ktravis_fold:start:before_install.3[0Ktravis_time:start:0a89a64d[0K$ brew update
-Updated Homebrew from b40cfe7e to e6bc41de.
-[1;34m==>[1;39m New Formulae[0m
-stty: stdin isn't a terminal
-abduco					mdp
-artifactory				moco
-boost-python				mvptree
-cproto					nut
-dropbear				perl
-glide					powerman
-homebrew/versions/grails23		rgbds
-ios-class-guard				rmate
-iprint					rocksdb
-jrnl					scalastyle
-kyua					signify-osx
-libebur128				subliminal
-libgroove				ticcutils
-libmarisa				tomee-plume
-libmodplug				truecrack
-lutok
-[1;34m==>[1;39m Updated Formulae[0m
-stty: stdin isn't a terminal
-ace					daemon
-admesh					dar
-adobe-air-sdk				ddclient
-aircrack-ng				ddrescue
-ansible					dfu-programmer
-apache-forrest				dmd
-app-engine-java-sdk			dnscrypt-proxy
-arabica					dnsmasq
-arangodb				dnstop
-at-spi2-atk				docker
-at-spi2-core				dos2unix
-atk					doxygen
-auto-scaling				dub
-autoconf				duo_unix
-automake				duply
-awscli					duti
-bash					dwdiff
-bash-git-prompt				dynamodb-local
-bashdb					easy-git
-beecrypt				easy-tag
-bind					echoprint-codegen
-bip					editorconfig
-blink1					ejabberd
-bmon					elasticsearch
-bochs					elixir
-boost					elixir-build
-boost-bcp				emacs
-boot2docker				emscripten
-brew-gem				encfs
-bulk_extractor				epstool
-bup					erlang
-cabal-install				exiftool
-calc					eye-d3
-calcurse				ffmpeg
-camlp5					ffmpeg2theora
-cardpeek				ffmpegthumbnailer
-cask					fig
-caudec					fish
-ccextractor				fits
-ccm					fleetctl
-cdrtools				fontforge
-ceylon					freeling
-checkbashisms				freeradius-server
-chicken					freetds
-chromaprint				fswatch
-chromedriver				fuseki
-clamav					gambit-scheme
-cliclick				gcc
-clojurescript				gdal
-closure-compiler			geographiclib
-clozure-cl				geoserver
-clucene					getdns
-clutter					gettext
-clutter-gtk				gh
-cmake					ghc
-cmus					ghostscript
-coccinelle				gifsicle
-collectd				git
-colordiff				git-annex
-compcert				git-archive-all
-cookiecutter				git-extras
-coreutils				git-flow-avh
-couchdb					gitbucket
-cpanminus				glassfish
-ctemplate				glib
-czmq					glib-networking
-glibmm					jpeg
-gmp					jruby
-gmtl					juise
-gnome-common				juju
-gnu-tar					juju-quickstart
-gnupg2					keybase
-gnuplot					keychain
-go					ktoblzcheck
-go-app-engine-32			kytea
-go-app-engine-64			ledger
-goaccess				lft
-gobject-introspection			lftp
-golo					libbson
-google-app-engine			libcouchbase
-gpac					libffi
-gpm					libfreenect
-gptfdisk				libgee
-grass					libmodbus
-groonga					libmongoclient
-groovy					libmspub
-gsettings-desktop-schemas		libpng
-gsoap					libpst
-gst-libav				libquicktime
-gst-plugins-bad				libressl
-gst-plugins-base			librsvg
-gst-plugins-good			libsigc++
-gst-plugins-ugly			libslax
-gstreamer				libsndfile
-gtk+					libsodium
-gtk+3					libssh
-gtk-doc					libtool
-gtkmm3					libtorrent-rasterbar
-gtksourceview3				libtrace
-harfbuzz				libunwind-headers
-hashpump				libuv
-hatari					libvirt
-haxe					libvisio
-headphones				libvoikko
-help2man				libvpx
-heroku-toolbelt				libxml++
-hevea					libxmp
-homebrew/versions/bash-completion2	libyaml
-homebrew/versions/gcc49			lighttpd
-homebrew/versions/jenkins-lts		lilypond
-homebrew/versions/llvm35		links
-homebrew/versions/node08		llvm
-homebrew/versions/openssl098		lsyncd
-homebrew/versions/ruby182		lua
-homebrew/versions/ruby186		lua51
-homebrew/versions/ruby192		luarocks
-homebrew/versions/ruby193		lv2
-homebrew/versions/ruby20		lynis
-homebrew/versions/tomcat7		lzlib
-horndis					lzo
-htmlcleaner				mackup
-hubflow					macvim
-hydra					makedepend
-icu4c					mapnik
-influxdb				mariadb
-ios-sim					masscan
-iperf3					mecab-jumandic
-irods					mediatomb
-irssi					mercurial
-jam					mesos
-jboss-forge				minidlna
-jenkins					mksh
-mkvdts2ac3				pngcrush
-mlt					polarssl
-mobile-shell				poppler
-moc					postgis
-monetdb					postgresql
-mongo-c					pow
-mongodb					primesieve
-monit					prooftree
-mono					protobuf
-moreutils				psqlodbc
-mpd					pv
-mpfr					pyenv
-mpich2					pyenv-virtualenv
-mplayer					pyexiv2
-muparser				pygobject3
-mupdf					pylucene
-mysql					pypy
-mysql-connector-odbc			pypy3
-ncmpcpp					python
-neo4j					python3
-net-snmp				qemu
-netpbm					qt5
-newlisp					qwt
-nexus					rabbitmq-c
-nginx					ragel
-ngircd					rakudo-star
-node					re2c
-nss					readline
-ntl					redis
-nvm					redland
-nzbget					rethinkdb
-ocrad					riak
-ola					ringojs
-opam					rock
-open-mpi				ruby
-open-scene-graph			ruby-build
-openal-soft				rust
-opensc					sane-backends
-openssl					scantailor
-openvpn					scm-manager
-ophcrack				scons
-optipng					selenium-server-standalone
-orientdb				sfcgal
-ossp-uuid				shrewsoft-vpn-client
-p0f					siege
-pandoc					skytools
-pandoc-citeproc				sl
-pango					snort
-parallel				solr
-pari					sound-touch
-parrot					spdylay
-passenger				speex
-pcal					sphinx
-pcre					spin
-pdf2htmlex				spiped
-pdfcrack				sqlcipher
-pebble-sdk				sqlite
-percona-server				sqlmap
-perlmagick				squashfs
-pgrouting				squid
-phantomjs				ssdeep
-phash					ssh-copy-id
-pianobar				sshguard
-pkg-config				stunnel
-plzip					swi-prolog
-pmd					syncthing
-sysbench				varnish
-sysdig					vgmstream
-szl					voldemort
-task					vte3
-the_platinum_searcher			wakeonlan
-the_silver_searcher			watch
-timbl					weechat
-tinc					wine
-tinyxml2				wireshark
-tlsdate					wtf
-tnef					wxmac
-tomcat					x3270
-tomee-jax-rs				xapian
-tomee-plus				xastir
-tomee-webprofile			xctool
-tor					xmp
-trafficserver				xulrunner
-trash					xvid
-ttfautohint				xz
-tth					yaws
-tuntap					yaz
-tup					ykpers
-unison					youtube-dl
-unixodbc				zabbix
-unrar					zbar
-uwsgi					zeromq
-vala					znc
-valabind				zookeeper
-valgrind
-[1;34m==>[1;39m Deleted Formulae[0m
-stty: stdin isn't a terminal
-dart		electric-fence	fceux		libdlna		ushare
-travis_time:end:0a89a64d:start=1413635883000000000,finish=1413635897000000000,duration=14000000000[0Ktravis_fold:end:before_install.3[0Ktravis_fold:start:before_install.4[0Ktravis_time:start:01bfc660[0K$ printenv PATH
-/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/Users/travis/.rvm/bin
-travis_time:end:01bfc660:start=1413635897000000000,finish=1413635897000000000,duration=0[0Ktravis_fold:end:before_install.4[0Ktravis_fold:start:before_install.5[0Ktravis_time:start:0744a741[0K$ /usr/bin/which ruby
-/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/bin/ruby
-travis_time:end:0744a741:start=1413635897000000000,finish=1413635897000000000,duration=0[0Ktravis_fold:end:before_install.5[0Ktravis_fold:start:before_install.6[0Ktravis_time:start:1070b806[0K$ ruby --version
-ruby 1.8.7 (2012-02-08 patchlevel 358) [universal-darwin13.0]
-travis_time:end:1070b806:start=1413635897000000000,finish=1413635897000000000,duration=0[0Ktravis_fold:end:before_install.6[0Ktravis_fold:start:before_install.7[0Ktravis_time:start:1d440f17[0K$ /usr/bin/which rake
-/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/bin/rake
-travis_time:end:1d440f17:start=1413635897000000000,finish=1413635897000000000,duration=0[0Ktravis_fold:end:before_install.7[0Ktravis_fold:start:before_install.8[0Ktravis_time:start:2dbeac74[0K$ rake --version
-rake, version 0.8.7
-travis_time:end:2dbeac74:start=1413635897000000000,finish=1413635897000000000,duration=0[0Ktravis_fold:end:before_install.8[0Ktravis_fold:start:before_install.9[0Ktravis_time:start:0a4f101d[0K$ echo ls_ruby_bindir; ls "/System/Library/Frameworks/Ruby.framework/Versions/${CASK_RUBY_TEST_VERSION}/usr/bin"
-ls_ruby_bindir
-erb	gem	irb	rake	rdoc	ri	ruby	testrb
-travis_time:end:0a4f101d:start=1413635897000000000,finish=1413635897000000000,duration=0[0Ktravis_fold:end:before_install.9[0Ktravis_fold:start:install.1[0Ktravis_time:start:002c3a12[0K$ echo gem_install_bundler; sudo "/System/Library/Frameworks/Ruby.framework/Versions/${CASK_RUBY_TEST_VERSION}/usr/bin/gem" install bundler --bindir="/System/Library/Frameworks/Ruby.framework/Versions/${CASK_RUBY_TEST_VERSION}/usr/bin"
-gem_install_bundler
-Successfully installed bundler-1.7.3
-1 gem installed
-Installing ri documentation for bundler-1.7.3...
-Installing RDoc documentation for bundler-1.7.3...
-travis_time:end:002c3a12:start=1413635897000000000,finish=1413635919000000000,duration=22000000000[0Ktravis_fold:end:install.1[0Ktravis_fold:start:install.2[0Ktravis_time:start:07b8a0de[0K$ echo bundle; sudo "/System/Library/Frameworks/Ruby.framework/Versions/${CASK_RUBY_TEST_VERSION}/usr/bin/bundle" --system
-bundle
-[33mDon't run Bundler as root. Bundler can ask for sudo if it is needed, and
-installing your bundle as root will break this application for all non-root
-users on this machine.[0m
-Fetching gem metadata from https://rubygems.org/.........
-[32mInstalling rake 10.0.4[0m
-[32mInstalling diff-lcs 1.2.5[0m
-[32mInstalling metaclass 0.0.4[0m
-[32mInstalling minitest 5.4.1[0m
-[32mInstalling minitest-colorize 0.0.5[0m
-[32mInstalling mocha 1.1.0[0m
-[32mInstalling rspec-support 3.0.2[0m
-[32mInstalling rspec-core 3.0.2[0m
-[32mInstalling rspec-expectations 3.0.2[0m
-[32mInstalling rspec-mocks 3.0.2[0m
-[32mInstalling rspec 3.0.0[0m
-Using bundler 1.7.3
-[32mYour bundle is complete![0m
-[32mUse `bundle show [gemname]` to see where a bundled gem is installed.[0m
-travis_time:end:07b8a0de:start=1413635919000000000,finish=1413635930000000000,duration=11000000000[0Ktravis_fold:end:install.2[0Ktravis_fold:start:install.3[0Ktravis_time:start:0d188f99[0K$ brew install caskroom/cask/brew-cask
-Cloning into '/usr/local/Library/Taps/caskroom/homebrew-cask'...
-remote: Counting objects: 80000, done.[K
-remote: Compressing objects:   3% (1/29)   [Kremote: Compressing objects:   6% (2/29)   [Kremote: Compressing objects:  10% (3/29)   [Kremote: Compressing objects:  13% (4/29)   [Kremote: Compressing objects:  17% (5/29)   [Kremote: Compressing objects:  20% (6/29)   [Kremote: Compressing objects:  24% (7/29)   [Kremote: Compressing objects:  27% (8/29)   [Kremote: Compressing objects:  31% (9/29)   [Kremote: Compressing objects:  34% (10/29)   [Kremote: Compressing objects:  37% (11/29)   [Kremote: Compressing objects:  41% (12/29)   [Kremote: Compressing objects:  44% (13/29)   [Kremote: Compressing objects:  48% (14/29)   [Kremote: Compressing objects:  51% (15/29)   [Kremote: Compressing objects:  55% (16/29)   [Kremote: Compressing objects:  58% (17/29)   [Kremote: Compressing objects:  62% (18/29)   [Kremote: Compressing objects:  65% (19/29)   [Kremote: Compressing objects:  68% (20/29)   [Kremote: Compressing objects:  72% (21/29)   [Kremote: Compressing objects:  75% (22/29)   [Kremote: Compressing objects:  79% (23/29)   [Kremote: Compressing objects:  82% (24/29)   [Kremote: Compressing objects:  86% (25/29)   [Kremote: Compressing objects:  89% (26/29)   [Kremote: Compressing objects:  93% (27/29)   [Kremote: Compressing objects:  96% (28/29)   [Kremote: Compressing objects: 100% (29/29)   [Kremote: Compressing objects: 100% (29/29), done.[K
-Receiving objects:   0% (1/80000)   Receiving objects:   1% (800/80000)   Receiving objects:   2% (1600/80000)   Receiving objects:   3% (2400/80000)   Receiving objects:   4% (3200/80000)   Receiving objects:   5% (4000/80000), 612.00 KiB | 1.14 MiB/s   Receiving objects:   6% (4800/80000), 612.00 KiB | 1.14 MiB/s   Receiving objects:   7% (5600/80000), 612.00 KiB | 1.14 MiB/s   Receiving objects:   8% (6400/80000), 612.00 KiB | 1.14 MiB/s   Receiving objects:   9% (7200/80000), 612.00 KiB | 1.14 MiB/s   Receiving objects:  10% (8000/80000), 612.00 KiB | 1.14 MiB/s   Receiving objects:  11% (8800/80000), 612.00 KiB | 1.14 MiB/s   Receiving objects:  12% (9600/80000), 612.00 KiB | 1.14 MiB/s   Receiving objects:  13% (10400/80000), 612.00 KiB | 1.14 MiB/s   Receiving objects:  14% (11200/80000), 612.00 KiB | 1.14 MiB/s   Receiving objects:  15% (12000/80000), 612.00 KiB | 1.14 MiB/s   Receiving objects:  16% (12800/80000), 612.00 KiB | 1.14 MiB/s   Receiving objects:  16% (13103/80000), 612.00 KiB | 1.14 MiB/s   Receiving objects:  17% (13600/80000), 2.39 MiB | 2.34 MiB/s   Receiving objects:  18% (14400/80000), 2.39 MiB | 2.34 MiB/s   Receiving objects:  19% (15200/80000), 2.39 MiB | 2.34 MiB/s   Receiving objects:  20% (16000/80000), 2.39 MiB | 2.34 MiB/s   Receiving objects:  21% (16800/80000), 2.39 MiB | 2.34 MiB/s   Receiving objects:  22% (17600/80000), 2.39 MiB | 2.34 MiB/s   Receiving objects:  23% (18400/80000), 2.39 MiB | 2.34 MiB/s   Receiving objects:  24% (19200/80000), 2.39 MiB | 2.34 MiB/s   Receiving objects:  25% (20000/80000), 2.39 MiB | 2.34 MiB/s   Receiving objects:  26% (20800/80000), 2.39 MiB | 2.34 MiB/s   Receiving objects:  27% (21600/80000), 2.39 MiB | 2.34 MiB/s   Receiving objects:  28% (22400/80000), 2.39 MiB | 2.34 MiB/s   Receiving objects:  29% (23200/80000), 2.39 MiB | 2.34 MiB/s   Receiving objects:  30% (24000/80000), 2.39 MiB | 2.34 MiB/s   Receiving objects:  31% (24800/80000), 2.39 MiB | 2.34 MiB/s   Receiving objects:  31% (24952/80000), 7.54 MiB | 3.73 MiB/s   Receiving objects:  32% (25600/80000), 7.54 MiB | 3.73 MiB/s   Receiving objects:  33% (26400/80000), 7.54 MiB | 3.73 MiB/s   Receiving objects:  34% (27200/80000), 7.54 MiB | 3.73 MiB/s   Receiving objects:  35% (28000/80000), 7.54 MiB | 3.73 MiB/s   Receiving objects:  36% (28800/80000), 7.54 MiB | 3.73 MiB/s   Receiving objects:  37% (29600/80000), 7.54 MiB | 3.73 MiB/s   Receiving objects:  38% (30400/80000), 7.54 MiB | 3.73 MiB/s   Receiving objects:  39% (31200/80000), 7.54 MiB | 3.73 MiB/s   Receiving objects:  40% (32000/80000), 7.54 MiB | 3.73 MiB/s   Receiving objects:  41% (32800/80000), 7.54 MiB | 3.73 MiB/s   Receiving objects:  42% (33600/80000), 10.43 MiB | 4.13 MiB/s   Receiving objects:  43% (34400/80000), 10.43 MiB | 4.13 MiB/s   Receiving objects:  44% (35200/80000), 10.43 MiB | 4.13 MiB/s   Receiving objects:  45% (36000/80000), 10.43 MiB | 4.13 MiB/s   Receiving objects:  46% (36800/80000), 10.43 MiB | 4.13 MiB/s   Receiving objects:  47% (37600/80000), 10.43 MiB | 4.13 MiB/s   Receiving objects:  48% (38400/80000), 10.43 MiB | 4.13 MiB/s   Receiving objects:  49% (39200/80000), 10.43 MiB | 4.13 MiB/s   Receiving objects:  50% (40000/80000), 10.43 MiB | 4.13 MiB/s   Receiving objects:  51% (40800/80000), 10.43 MiB | 4.13 MiB/s   Receiving objects:  52% (41600/80000), 10.43 MiB | 4.13 MiB/s   Receiving objects:  53% (42400/80000), 10.43 MiB | 4.13 MiB/s   Receiving objects:  53% (42842/80000), 10.43 MiB | 4.13 MiB/s   Receiving objects:  54% (43200/80000), 10.43 MiB | 4.13 MiB/s   Receiving objects:  55% (44000/80000), 13.35 MiB | 4.41 MiB/s   Receiving objects:  56% (44800/80000), 13.35 MiB | 4.41 MiB/s   Receiving objects:  57% (45600/80000), 13.35 MiB | 4.41 MiB/s   Receiving objects:  58% (46400/80000), 13.35 MiB | 4.41 MiB/s   Receiving objects:  59% (47200/80000), 13.35 MiB | 4.41 MiB/s   Receiving objects:  60% (48000/80000), 13.35 MiB | 4.41 MiB/s   Receiving objects:  61% (48800/80000), 13.35 MiB | 4.41 MiB/s   Receiving objects:  62% (49600/80000), 13.35 MiB | 4.41 MiB/s   Receiving objects:  63% (50400/80000), 13.35 MiB | 4.41 MiB/s   Receiving objects:  64% (51200/80000), 13.35 MiB | 4.41 MiB/s   Receiving objects:  65% (52000/80000), 13.35 MiB | 4.41 MiB/s   Receiving objects:  66% (52800/80000), 13.35 MiB | 4.41 MiB/s   Receiving objects:  67% (53600/80000), 16.21 MiB | 4.59 MiB/s   Receiving objects:  68% (54400/80000), 16.21 MiB | 4.59 MiB/s   Receiving objects:  69% (55200/80000), 16.21 MiB | 4.59 MiB/s   Receiving objects:  70% (56000/80000), 16.21 MiB | 4.59 MiB/s   Receiving objects:  71% (56800/80000), 16.21 MiB | 4.59 MiB/s   Receiving objects:  72% (57600/80000), 16.21 MiB | 4.59 MiB/s   Receiving objects:  73% (58400/80000), 16.21 MiB | 4.59 MiB/s   Receiving objects:  74% (59200/80000), 16.21 MiB | 4.59 MiB/s   Receiving objects:  75% (60000/80000), 16.21 MiB | 4.59 MiB/s   Receiving objects:  76% (60800/80000), 16.21 MiB | 4.59 MiB/s   Receiving objects:  77% (61600/80000), 16.21 MiB | 4.59 MiB/s   Receiving objects:  78% (62400/80000), 16.21 MiB | 4.59 MiB/s   Receiving objects:  78% (62505/80000), 16.21 MiB | 4.59 MiB/s   Receiving objects:  79% (63200/80000), 19.18 MiB | 4.75 MiB/s   Receiving objects:  80% (64000/80000), 19.18 MiB | 4.75 MiB/s   Receiving objects:  81% (64800/80000), 19.18 MiB | 4.75 MiB/s   Receiving objects:  82% (65600/80000), 19.18 MiB | 4.75 MiB/s   Receiving objects:  83% (66400/80000), 19.18 MiB | 4.75 MiB/s   Receiving objects:  84% (67200/80000), 19.18 MiB | 4.75 MiB/s   Receiving objects:  85% (68000/80000), 19.18 MiB | 4.75 MiB/s   Receiving objects:  86% (68800/80000), 19.18 MiB | 4.75 MiB/s   Receiving objects:  87% (69600/80000), 19.18 MiB | 4.75 MiB/s   Receiving objects:  88% (70400/80000), 19.18 MiB | 4.75 MiB/s   Receiving objects:  89% (71200/80000), 19.18 MiB | 4.75 MiB/s   Receiving objects:  90% (72000/80000), 19.18 MiB | 4.75 MiB/s   Receiving objects:  91% (72800/80000), 19.18 MiB | 4.75 MiB/s   Receiving objects:  92% (73600/80000), 22.07 MiB | 4.86 MiB/s   Receiving objects:  93% (74400/80000), 22.07 MiB | 4.86 MiB/s   Receiving objects:  94% (75200/80000), 22.07 MiB | 4.86 MiB/s   Receiving objects:  95% (76000/80000), 22.07 MiB | 4.86 MiB/s   Receiving objects:  96% (76800/80000), 22.07 MiB | 4.86 MiB/s   Receiving objects:  97% (77600/80000), 22.07 MiB | 4.86 MiB/s   Receiving objects:  98% (78400/80000), 22.07 MiB | 4.86 MiB/s   Receiving objects:  99% (79200/80000), 22.07 MiB | 4.86 MiB/s   remote: Total 80000 (delta 13), reused 2 (delta 0)[K
-Receiving objects: 100% (80000/80000), 22.07 MiB | 4.86 MiB/s   Receiving objects: 100% (80000/80000), 23.01 MiB | 5.34 MiB/s, done.
-Resolving deltas:   0% (0/52029)   Resolving deltas:   1% (522/52029)   Resolving deltas:   2% (1045/52029)   Resolving deltas:   3% (1565/52029)   Resolving deltas:   4% (2083/52029)   Resolving deltas:   5% (2602/52029)   Resolving deltas:   6% (3123/52029)   Resolving deltas:   7% (3644/52029)   Resolving deltas:   8% (4163/52029)   Resolving deltas:   9% (4684/52029)   Resolving deltas:  10% (5205/52029)   Resolving deltas:  11% (5725/52029)   Resolving deltas:  12% (6249/52029)   Resolving deltas:  13% (6771/52029)   Resolving deltas:  14% (7287/52029)   Resolving deltas:  15% (8323/52029)   Resolving deltas:  16% (8326/52029)   Resolving deltas:  17% (8845/52029)   Resolving deltas:  18% (9370/52029)   Resolving deltas:  19% (9891/52029)   Resolving deltas:  20% (10408/52029)   Resolving deltas:  20% (10742/52029)   Resolving deltas:  21% (10932/52029)   Resolving deltas:  22% (11594/52029)   Resolving deltas:  23% (12322/52029)   Resolving deltas:  25% (13432/52029)   Resolving deltas:  26% (13529/52029)   Resolving deltas:  27% (14051/52029)   Resolving deltas:  28% (14569/52029)   Resolving deltas:  29% (15092/52029)   Resolving deltas:  30% (15611/52029)   Resolving deltas:  31% (16135/52029)   Resolving deltas:  32% (16663/52029)   Resolving deltas:  33% (17170/52029)   Resolving deltas:  34% (17692/52029)   Resolving deltas:  35% (18635/52029)   Resolving deltas:  36% (18750/52029)   Resolving deltas:  37% (19273/52029)   Resolving deltas:  38% (20217/52029)   Resolving deltas:  40% (20850/52029)   Resolving deltas:  41% (21805/52029)   Resolving deltas:  42% (22346/52029)   Resolving deltas:  43% (22891/52029)   Resolving deltas:  45% (23440/52029)   Resolving deltas:  46% (24082/52029)   Resolving deltas:  47% (24666/52029)   Resolving deltas:  48% (25081/52029)   Resolving deltas:  50% (26219/52029)   Resolving deltas:  51% (26771/52029)   Resolving deltas:  52% (27449/52029)   Resolving deltas:  53% (28007/52029)   Resolving deltas:  54% (28546/52029)   Resolving deltas:  55% (28654/52029)   Resolving deltas:  56% (29188/52029)   Resolving deltas:  57% (29808/52029)   Resolving deltas:  58% (30191/52029)   Resolving deltas:  58% (30361/52029)   Resolving deltas:  59% (30772/52029)   Resolving deltas:  60% (31335/52029)   Resolving deltas:  61% (31848/52029)   Resolving deltas:  62% (32262/52029)   Resolving deltas:  63% (32804/52029)   Resolving deltas:  64% (33459/52029)   Resolving deltas:  65% (34065/52029)   Resolving deltas:  66% (34386/52029)   Resolving deltas:  67% (34870/52029)   Resolving deltas:  67% (35155/52029)   Resolving deltas:  68% (35456/52029)   Resolving deltas:  69% (36040/52029)   Resolving deltas:  70% (36484/52029)   Resolving deltas:  71% (36955/52029)   Resolving deltas:  72% (37774/52029)   Resolving deltas:  73% (38133/52029)   Resolving deltas:  74% (38514/52029)   Resolving deltas:  75% (39439/52029)   Resolving deltas:  76% (39786/52029)   Resolving deltas:  77% (40154/52029)   Resolving deltas:  78% (40833/52029)   Resolving deltas:  79% (41264/52029)   Resolving deltas:  80% (41649/52029)   Resolving deltas:  80% (41825/52029)   Resolving deltas:  81% (42432/52029)   Resolving deltas:  83% (43286/52029)   Resolving deltas:  84% (44156/52029)   Resolving deltas:  85% (44245/52029)   Resolving deltas:  86% (44788/52029)   Resolving deltas:  87% (45281/52029)   Resolving deltas:  88% (45980/52029)   Resolving deltas:  89% (46323/52029)   Resolving deltas:  90% (47042/52029)   Resolving deltas:  91% (47394/52029)   Resolving deltas:  92% (48238/52029)   Resolving deltas:  93% (48388/52029)   Resolving deltas:  94% (49085/52029)   Resolving deltas:  95% (49796/52029)   Resolving deltas:  96% (49956/52029)   Resolving deltas:  97% (50476/52029)   Resolving deltas:  98% (50989/52029)   Resolving deltas:  99% (51512/52029)   Resolving deltas: 100% (52029/52029)   Resolving deltas: 100% (52029/52029), done.
-Checking connectivity... done.
-Tapped 1 formula
-[1;34m==>[1;39m Cloning https://github.com/caskroom/homebrew-cask.git[0m
-Cloning into '/Library/Caches/Homebrew/brew-cask--git'...
-remote: Counting objects: 2298, done.[K
-remote: Compressing objects:   0% (1/2242)   [Kremote: Compressing objects:   1% (23/2242)   [Kremote: Compressing objects:   2% (45/2242)   [Kremote: Compressing objects:   3% (68/2242)   [Kremote: Compressing objects:   4% (90/2242)   [Kremote: Compressing objects:   5% (113/2242)   [Kremote: Compressing objects:   6% (135/2242)   [Kremote: Compressing objects:   7% (157/2242)   [Kremote: Compressing objects:   8% (180/2242)   [Kremote: Compressing objects:   9% (202/2242)   [Kremote: Compressing objects:  10% (225/2242)   [Kremote: Compressing objects:  11% (247/2242)   [Kremote: Compressing objects:  12% (270/2242)   [Kremote: Compressing objects:  13% (292/2242)   [Kremote: Compressing objects:  14% (314/2242)   [Kremote: Compressing objects:  15% (337/2242)   [Kremote: Compressing objects:  16% (359/2242)   [Kremote: Compressing objects:  17% (382/2242)   [Kremote: Compressing objects:  18% (404/2242)   [Kremote: Compressing objects:  19% (426/2242)   [Kremote: Compressing objects:  20% (449/2242)   [Kremote: Compressing objects:  21% (471/2242)   [Kremote: Compressing objects:  22% (494/2242)   [Kremote: Compressing objects:  23% (516/2242)   [Kremote: Compressing objects:  24% (539/2242)   [Kremote: Compressing objects:  25% (561/2242)   [Kremote: Compressing objects:  26% (583/2242)   [Kremote: Compressing objects:  27% (606/2242)   [Kremote: Compressing objects:  28% (628/2242)   [Kremote: Compressing objects:  29% (651/2242)   [Kremote: Compressing objects:  30% (673/2242)   [Kremote: Compressing objects:  31% (696/2242)   [Kremote: Compressing objects:  32% (718/2242)   [Kremote: Compressing objects:  33% (740/2242)   [Kremote: Compressing objects:  34% (763/2242)   [Kremote: Compressing objects:  35% (785/2242)   [Kremote: Compressing objects:  36% (808/2242)   [Kremote: Compressing objects:  37% (830/2242)   [Kremote: Compressing objects:  38% (852/2242)   [Kremote: Compressing objects:  39% (875/2242)   [Kremote: Compressing objects:  40% (897/2242)   [Kremote: Compressing objects:  41% (920/2242)   [Kremote: Compressing objects:  42% (942/2242)   [Kremote: Compressing objects:  43% (965/2242)   [Kremote: Compressing objects:  44% (987/2242)   [Kremote: Compressing objects:  45% (1009/2242)   [Kremote: Compressing objects:  46% (1032/2242)   [Kremote: Compressing objects:  47% (1054/2242)   [Kremote: Compressing objects:  48% (1077/2242)   [Kremote: Compressing objects:  49% (1099/2242)   [Kremote: Compressing objects:  50% (1121/2242)   [Kremote: Compressing objects:  51% (1144/2242)   [Kremote: Compressing objects:  52% (1166/2242)   [Kremote: Compressing objects:  53% (1189/2242)   [Kremote: Compressing objects:  54% (1211/2242)   [Kremote: Compressing objects:  55% (1234/2242)   [Kremote: Compressing objects:  56% (1256/2242)   [Kremote: Compressing objects:  57% (1278/2242)   [Kremote: Compressing objects:  58% (1301/2242)   [Kremote: Compressing objects:  59% (1323/2242)   [Kremote: Compressing objects:  60% (1346/2242)   [Kremote: Compressing objects:  61% (1368/2242)   [Kremote: Compressing objects:  62% (1391/2242)   [Kremote: Compressing objects:  63% (1413/2242)   [Kremote: Compressing objects:  64% (1435/2242)   [Kremote: Compressing objects:  65% (1458/2242)   [Kremote: Compressing objects:  66% (1480/2242)   [Kremote: Compressing objects:  67% (1503/2242)   [Kremote: Compressing objects:  68% (1525/2242)   [Kremote: Compressing objects:  69% (1547/2242)   [Kremote: Compressing objects:  70% (1570/2242)   [Kremote: Compressing objects:  71% (1592/2242)   [Kremote: Compressing objects:  72% (1615/2242)   [Kremote: Compressing objects:  73% (1637/2242)   [Kremote: Compressing objects:  74% (1660/2242)   [Kremote: Compressing objects:  75% (1682/2242)   [Kremote: Compressing objects:  76% (1704/2242)   [Kremote: Compressing objects:  77% (1727/2242)   [Kremote: Compressing objects:  78% (1749/2242)   [Kremote: Compressing objects:  79% (1772/2242)   [Kremote: Compressing objects:  80% (1794/2242)   [Kremote: Compressing objects:  81% (1817/2242)   [Kremote: Compressing objects:  82% (1839/2242)   [Kremote: Compressing objects:  83% (1861/2242)   [Kremote: Compressing objects:  84% (1884/2242)   [Kremote: Compressing objects:  85% (1906/2242)   [Kremote: Compressing objects:  86% (1929/2242)   [Kremote: Compressing objects:  87% (1951/2242)   [Kremote: Compressing objects:  88% (1973/2242)   [Kremote: Compressing objects:  89% (1996/2242)   [Kremote: Compressing objects:  90% (2018/2242)   [Kremote: Compressing objects:  91% (2041/2242)   [Kremote: Compressing objects:  92% (2063/2242)   [Kremote: Compressing objects:  93% (2086/2242)   [Kremote: Compressing objects:  94% (2108/2242)   [Kremote: Compressing objects:  95% (2130/2242)   [Kremote: Compressing objects:  96% (2153/2242)   [Kremote: Compressing objects:  97% (2175/2242)   [Kremote: Compressing objects:  98% (2198/2242)   [Kremote: Compressing objects:  99% (2220/2242)   [Kremote: Compressing objects: 100% (2242/2242)   [Kremote: Compressing objects: 100% (2242/2242), done.[K
-Receiving objects:   0% (1/2298)   Receiving objects:   1% (23/2298)   Receiving objects:   2% (46/2298)   Receiving objects:   3% (69/2298)   Receiving objects:   4% (92/2298)   Receiving objects:   5% (115/2298)   Receiving objects:   6% (138/2298)   Receiving objects:   7% (161/2298)   Receiving objects:   8% (184/2298)   Receiving objects:   9% (207/2298)   Receiving objects:  10% (230/2298)   Receiving objects:  11% (253/2298)   Receiving objects:  12% (276/2298)   Receiving objects:  13% (299/2298)   Receiving objects:  14% (322/2298)   Receiving objects:  15% (345/2298)   Receiving objects:  16% (368/2298)   Receiving objects:  17% (391/2298)   Receiving objects:  18% (414/2298)   Receiving objects:  19% (437/2298)   Receiving objects:  20% (460/2298)   Receiving objects:  21% (483/2298)   Receiving objects:  22% (506/2298)   Receiving objects:  23% (529/2298)   Receiving objects:  24% (552/2298)   Receiving objects:  25% (575/2298)   Receiving objects:  26% (598/2298)   Receiving objects:  27% (621/2298)   Receiving objects:  28% (644/2298)   Receiving objects:  29% (667/2298)   Receiving objects:  30% (690/2298)   Receiving objects:  31% (713/2298)   Receiving objects:  32% (736/2298)   Receiving objects:  33% (759/2298)   Receiving objects:  34% (782/2298)   Receiving objects:  35% (805/2298)   Receiving objects:  36% (828/2298)   Receiving objects:  37% (851/2298)   Receiving objects:  38% (874/2298)   Receiving objects:  39% (897/2298)   Receiving objects:  40% (920/2298)   Receiving objects:  41% (943/2298)   Receiving objects:  42% (966/2298)   Receiving objects:  43% (989/2298)   Receiving objects:  44% (1012/2298)   Receiving objects:  45% (1035/2298)   Receiving objects:  46% (1058/2298)   Receiving objects:  47% (1081/2298)   Receiving objects:  48% (1104/2298)   Receiving objects:  49% (1127/2298)   Receiving objects:  50% (1149/2298)   Receiving objects:  51% (1172/2298)   Receiving objects:  52% (1195/2298)   Receiving objects:  53% (1218/2298)   Receiving objects:  54% (1241/2298)   Receiving objects:  55% (1264/2298)   Receiving objects:  56% (1287/2298)   Receiving objects:  57% (1310/2298)   Receiving objects:  58% (1333/2298)   Receiving objects:  59% (1356/2298)   Receiving objects:  60% (1379/2298)   Receiving objects:  61% (1402/2298)   Receiving objects:  62% (1425/2298)   Receiving objects:  63% (1448/2298)   Receiving objects:  64% (1471/2298)   Receiving objects:  65% (1494/2298)   Receiving objects:  66% (1517/2298)   Receiving objects:  67% (1540/2298)   Receiving objects:  68% (1563/2298)   Receiving objects:  69% (1586/2298)   Receiving objects:  70% (1609/2298)   Receiving objects:  71% (1632/2298)   Receiving objects:  72% (1655/2298)   Receiving objects:  73% (1678/2298)   Receiving objects:  74% (1701/2298)   Receiving objects:  75% (1724/2298)   Receiving objects:  76% (1747/2298)   Receiving objects:  77% (1770/2298)   Receiving objects:  78% (1793/2298)   Receiving objects:  79% (1816/2298)   Receiving objects:  80% (1839/2298)   Receiving objects:  81% (1862/2298)   Receiving objects:  82% (1885/2298)   Receiving objects:  83% (1908/2298)   Receiving objects:  84% (1931/2298)   Receiving objects:  85% (1954/2298)   Receiving objects:  86% (1977/2298)   Receiving objects:  87% (2000/2298)   Receiving objects:  88% (2023/2298)   Receiving objects:  89% (2046/2298)   Receiving objects:  90% (2069/2298)   Receiving objects:  91% (2092/2298)   Receiving objects:  92% (2115/2298)   Receiving objects:  93% (2138/2298)   Receiving objects:  94% (2161/2298)   Receiving objects:  95% (2184/2298), 668.00 KiB | 1.29 MiB/s   Receiving objects:  96% (2207/2298), 668.00 KiB | 1.29 MiB/s   Receiving objects:  97% (2230/2298), 668.00 KiB | 1.29 MiB/s   Receiving objects:  98% (2253/2298), 668.00 KiB | 1.29 MiB/s   Receiving objects:  99% (2276/2298), 668.00 KiB | 1.29 MiB/s   Receiving objects:  99% (2289/2298), 3.30 MiB | 3.27 MiB/s   remote: Total 2298 (delta 61), reused 441 (delta 44)[K
-Receiving objects: 100% (2298/2298), 3.30 MiB | 3.27 MiB/s   Receiving objects: 100% (2298/2298), 5.18 MiB | 3.27 MiB/s, done.
-Resolving deltas:   0% (0/61)   Resolving deltas:   1% (1/61)   Resolving deltas:   4% (3/61)   Resolving deltas:   6% (4/61)   Resolving deltas:   8% (5/61)   Resolving deltas:   9% (6/61)   Resolving deltas:  13% (8/61)   Resolving deltas:  14% (9/61)   Resolving deltas:  16% (10/61)   Resolving deltas:  19% (12/61)   Resolving deltas:  21% (13/61)   Resolving deltas:  22% (14/61)   Resolving deltas:  24% (15/61)   Resolving deltas:  26% (16/61)   Resolving deltas:  27% (17/61)   Resolving deltas:  32% (20/61)   Resolving deltas:  34% (21/61)   Resolving deltas:  36% (22/61)   Resolving deltas:  37% (23/61)   Resolving deltas:  40% (25/61)   Resolving deltas:  42% (26/61)   Resolving deltas:  44% (27/61)   Resolving deltas:  45% (28/61)   Resolving deltas:  47% (29/61)   Resolving deltas:  49% (30/61)   Resolving deltas:  50% (31/61)   Resolving deltas:  54% (33/61)   Resolving deltas:  57% (35/61)   Resolving deltas:  59% (36/61)   Resolving deltas:  60% (37/61)   Resolving deltas:  63% (39/61)   Resolving deltas:  65% (40/61)   Resolving deltas:  67% (41/61)   Resolving deltas:  72% (44/61)   Resolving deltas:  77% (47/61)   Resolving deltas:  81% (50/61)   Resolving deltas:  88% (54/61)   Resolving deltas:  91% (56/61)   Resolving deltas:  95% (58/61)   Resolving deltas:  96% (59/61)   Resolving deltas:  98% (60/61)   Resolving deltas: 100% (61/61)   Resolving deltas: 100% (61/61), done.
-Checking connectivity... done.
-Note: checking out '6f81574219ca907d51c6814d892486147aa4a371'.
-
-You are in 'detached HEAD' state. You can look around, make experimental
-changes and commit them, and you can discard any commits you make in this
-state without impacting any branches by performing another checkout.
-
-If you want to create a new branch to retain commits you create, you may
-do so (now or later) by using -b with the checkout command again. Example:
-
-  git checkout -b new_branch_name
-
-[1;34m==>[1;39m Checking out tag v0.45.0[0m
-🍺  /usr/local/Cellar/brew-cask/0.45.0: 2081 files, 8.2M, built in 7 seconds
-travis_time:end:0d188f99:start=1413635930000000000,finish=1413635956000000000,duration=26000000000[0Ktravis_fold:end:install.3[0Ktravis_fold:start:before_script.1[0Ktravis_time:start:175da3a8[0K$ printenv PATH
-/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/Users/travis/.rvm/bin
-travis_time:end:175da3a8:start=1413635956000000000,finish=1413635956000000000,duration=0[0Ktravis_fold:end:before_script.1[0Ktravis_fold:start:before_script.2[0Ktravis_time:start:04b0ee5c[0K$ /usr/bin/which ruby
-/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/bin/ruby
-travis_time:end:04b0ee5c:start=1413635956000000000,finish=1413635956000000000,duration=0[0Ktravis_fold:end:before_script.2[0Ktravis_fold:start:before_script.3[0Ktravis_time:start:0ebaff5c[0K$ ruby --version
-ruby 1.8.7 (2012-02-08 patchlevel 358) [universal-darwin13.0]
-travis_time:end:0ebaff5c:start=1413635956000000000,finish=1413635956000000000,duration=0[0Ktravis_fold:end:before_script.3[0Ktravis_fold:start:before_script.4[0Ktravis_time:start:1c6cbe04[0K$ /usr/bin/which bundle
-/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/bin/bundle
-travis_time:end:1c6cbe04:start=1413635956000000000,finish=1413635956000000000,duration=0[0Ktravis_fold:end:before_script.4[0Ktravis_fold:start:before_script.5[0Ktravis_time:start:2dc56d5b[0K$ bundle --version
-Bundler version 1.7.3
-travis_time:end:2dc56d5b:start=1413635956000000000,finish=1413635957000000000,duration=1000000000[0Ktravis_fold:end:before_script.5[0Ktravis_fold:start:before_script.6[0Ktravis_time:start:127aefdd[0K$ /usr/bin/which rake
-/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/bin/rake
-travis_time:end:127aefdd:start=1413635957000000000,finish=1413635957000000000,duration=0[0Ktravis_fold:end:before_script.6[0Ktravis_fold:start:before_script.7[0Ktravis_time:start:20797aa0[0K$ rake --version
-rake, version 0.8.7
-travis_time:end:20797aa0:start=1413635957000000000,finish=1413635957000000000,duration=0[0Ktravis_fold:end:before_script.7[0Ktravis_fold:start:before_script.8[0Ktravis_time:start:321f4baf[0K$ echo ls_ruby_bindir; ls "/System/Library/Frameworks/Ruby.framework/Versions/${CASK_RUBY_TEST_VERSION}/usr/bin"
-ls_ruby_bindir
-bundle	bundler	erb	gem	irb	rake	rdoc	ri	ruby	testrb
-travis_time:end:321f4baf:start=1413635957000000000,finish=1413635957000000000,duration=0[0Ktravis_fold:end:before_script.8[0Ktravis_time:start:0017e30a[0K$ /System/Library/Frameworks/Ruby.framework/Versions/"${CASK_RUBY_TEST_VERSION}"/usr/bin/bundle exec "/System/Library/Frameworks/Ruby.framework/Versions/${CASK_RUBY_TEST_VERSION}/usr/bin/rake" test
-Run options: --seed 43956
-
-# Running:
-
-.................................F....................................................................................................................
-
-Finished in 0.336040s, 446.3754 runs/s, 877.8717 assertions/s.
-
-  1) Failure:
-Casks::omnioutliner3#test_0001_passes audit [/Users/travis/build/caskroom/homebrew-versions/test/Casks/compliance_test.rb:9]:
-[omnioutliner3] Cask audit must be error free.
---- expected
-+++ actual
-@@ -1 +1 @@
--[]
-+["you should use sha256 :no_check when version is :latest"]
-
-
-150 runs, 295 assertions, 1 failures, 0 errors, 0 skips
-rake aborted!
-Command failed with status (1): [ruby -I"lib:test" -I"/Library/Ruby/Gems/1.8/gems/rake-10.0.4/lib" "/Library/Ruby/Gems/1.8/gems/rake-10.0.4/lib/rake/rake_test_loader.rb" "test/**/*_test.rb" ]
-/Library/Ruby/Gems/1.8/gems/rake-10.0.4/lib/rake/testtask.rb:104:in `define'
-/Library/Ruby/Gems/1.8/gems/rake-10.0.4/lib/rake/file_utils.rb:45:in `call'
-/Library/Ruby/Gems/1.8/gems/rake-10.0.4/lib/rake/file_utils.rb:45:in `sh'
-/Library/Ruby/Gems/1.8/gems/rake-10.0.4/lib/rake/file_utils_ext.rb:37:in `sh'
-/Library/Ruby/Gems/1.8/gems/rake-10.0.4/lib/rake/file_utils.rb:82:in `ruby'
-/Library/Ruby/Gems/1.8/gems/rake-10.0.4/lib/rake/file_utils_ext.rb:37:in `ruby'
-/Library/Ruby/Gems/1.8/gems/rake-10.0.4/lib/rake/testtask.rb:100:in `define'
-/Library/Ruby/Gems/1.8/gems/rake-10.0.4/lib/rake/file_utils_ext.rb:58:in `verbose'
-/Library/Ruby/Gems/1.8/gems/rake-10.0.4/lib/rake/testtask.rb:98:in `define'
-/Library/Ruby/Gems/1.8/gems/rake-10.0.4/lib/rake/task.rb:246:in `call'
-/Library/Ruby/Gems/1.8/gems/rake-10.0.4/lib/rake/task.rb:246:in `execute'
-/Library/Ruby/Gems/1.8/gems/rake-10.0.4/lib/rake/task.rb:241:in `each'
-/Library/Ruby/Gems/1.8/gems/rake-10.0.4/lib/rake/task.rb:241:in `execute'
-/Library/Ruby/Gems/1.8/gems/rake-10.0.4/lib/rake/task.rb:184:in `invoke_with_call_chain'
-/Library/Ruby/Gems/1.8/gems/rake-10.0.4/lib/rake/task.rb:177:in `invoke_with_call_chain'
-/Library/Ruby/Gems/1.8/gems/rake-10.0.4/lib/rake/task.rb:170:in `invoke'
-/Library/Ruby/Gems/1.8/gems/rake-10.0.4/lib/rake/application.rb:143:in `invoke_task'
-/Library/Ruby/Gems/1.8/gems/rake-10.0.4/lib/rake/application.rb:101:in `top_level'
-/Library/Ruby/Gems/1.8/gems/rake-10.0.4/lib/rake/application.rb:101:in `each'
-/Library/Ruby/Gems/1.8/gems/rake-10.0.4/lib/rake/application.rb:101:in `top_level'
-/Library/Ruby/Gems/1.8/gems/rake-10.0.4/lib/rake/application.rb:110:in `run_with_threads'
-/Library/Ruby/Gems/1.8/gems/rake-10.0.4/lib/rake/application.rb:95:in `top_level'
-/Library/Ruby/Gems/1.8/gems/rake-10.0.4/lib/rake/application.rb:73:in `run'
-/Library/Ruby/Gems/1.8/gems/rake-10.0.4/lib/rake/application.rb:160:in `standard_exception_handling'
-/Library/Ruby/Gems/1.8/gems/rake-10.0.4/lib/rake/application.rb:70:in `run'
-Tasks: TOP => test
-(See full trace by running task with --trace)
-travis_time:end:0017e30a:start=1413635957000000000,finish=1413635959000000000,duration=2000000000[0K
-[31;1mThe command "/System/Library/Frameworks/Ruby.framework/Versions/"${CASK_RU
