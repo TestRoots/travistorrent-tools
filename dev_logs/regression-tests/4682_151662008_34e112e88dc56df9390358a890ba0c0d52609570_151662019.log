@@ -1,680 +1,0 @@
-travis_fold:start:worker_info[0K[33;1mWorker information[0m
-hostname: travis-worker-gce-org-prod2-4:5e950c85-d594-45fe-9b4e-c8f01cab6890
-version: v2.3.0-5-gef7116f https://github.com/travis-ci/worker/tree/ef7116fac34a232b5d8ecfe0eb9d834b0af9705d
-instance: testing-gce-288a774c-a53f-410d-8890-229deaae35dc:travis-ci-ruby-precise-1470877502
-startup: 23.954415051s
-travis_fold:end:worker_info[0Ktravis_fold:start:system_info[0K[33;1mBuild system information[0m
-Build language: ruby
-Build group: stable
-Build dist: precise
-Build id: 151662008
-Job id: 151662019
-travis-build version: 17f5a31fb
-[34m[1mBuild image provisioning date and time[0m
-Thu Aug 11 01:32:14 UTC 2016
-[34m[1mOperating System Details[0m
-Distributor ID:	Ubuntu
-Description:	Ubuntu 12.04.5 LTS
-Release:	12.04
-Codename:	precise
-[34m[1mLinux Version[0m
-3.13.0-92-generic
-[34m[1mCookbooks Version[0m
-76de666 https://github.com/travis-ci/travis-cookbooks/tree/76de666
-[34m[1mGit version[0m
-git version 1.8.5.6
-[34m[1mbash version[0m
-GNU bash, version 4.2.25(1)-release (x86_64-pc-linux-gnu)
-Copyright (C) 2011 Free Software Foundation, Inc.
-License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
-
-This is free software; you are free to change and redistribute it.
-There is NO WARRANTY, to the extent permitted by law.
-[34m[1mGCC version[0m
-gcc (Ubuntu/Linaro 4.6.3-1ubuntu5) 4.6.3
-Copyright (C) 2011 Free Software Foundation, Inc.
-This is free software; see the source for copying conditions.  There is NO
-warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-
-[34m[1mLLVM version[0m
-clang version 3.4 (tags/RELEASE_34/final)
-Target: x86_64-unknown-linux-gnu
-Thread model: posix
-[34m[1mPre-installed Ruby versions[0m
-ree-1.8.7-2012.02
-ruby-1.8.7-p374
-ruby-1.9.2-p330
-ruby-1.9.3-p551
-ruby-2.0.0-p648-clang
-ruby-2.1.2
-ruby-2.1.3
-ruby-2.1.4
-ruby-2.1.5
-ruby-2.2.5
-[34m[1mPre-installed Node.js versions[0m
-v0.10.36
-[34m[1mPre-installed Go versions[0m
-1.4.2
-[34m[1mmysql --version[0m
-mysql  Ver 14.14 Distrib 5.5.50, for debian-linux-gnu (x86_64) using readline 6.2
-[34m[1mPre-installed PostgreSQL versions[0m
-9.1.22
-9.2.17
-9.3.13
-9.4.8
-[34m[1mRedis version[0m
-redis-server 3.0.6
-[34m[1mriak version[0m
-2.0.2
-[34m[1mmemcached version[0m
-1.4.13
-[34m[1mMongoDB version[0m
-MongoDB 2.4.14
-[34m[1mCouchDB version[0m
-couchdb 1.6.1
-[34m[1mNeo4j version[0m
-1.9.4
-[34m[1mCassandra version[0m
-2.0.9
-[34m[1mElasticSearch version[0m
-1.4.0
-[34m[1mInstalled Sphinx versions[0m
-2.0.10
-2.1.9
-2.2.6
-[34m[1mDefault Sphinx version[0m
-2.2.6
-[34m[1mInstalled Firefox version[0m
-firefox 38.4.0esr
-[34m[1mPhantomJS version[0m
-1.9.8
-[34m[1mant -version[0m
-Apache Ant(TM) version 1.8.2 compiled on December 3 2011
-[34m[1mmvn -version[0m
-Apache Maven 3.2.5 (12a6b3acb947671f09b81f49094c53f426d8cea1; 2014-12-14T17:29:23+00:00)
-Maven home: /usr/local/maven
-Java version: 1.7.0_80, vendor: Oracle Corporation
-Java home: /usr/lib/jvm/java-7-oracle/jre
-Default locale: en, platform encoding: UTF-8
-OS name: "linux", version: "3.13.0-92-generic", arch: "amd64", family: "unix"
-travis_fold:end:system_info[0K
-travis_fold:start:fix.CVE-2015-7547[0K$ export DEBIAN_FRONTEND=noninteractive
-Reading package lists...
-Building dependency tree...
-Reading state information...
-libc6 is already the newest version.
-0 upgraded, 0 newly installed, 0 to remove and 22 not upgraded.
-travis_fold:end:fix.CVE-2015-7547[0Ktravis_fold:start:git.checkout[0Ktravis_time:start:08779aac[0K$ git clone --depth=50 https://github.com/bundler/bundler.git bundler/bundler
-Cloning into 'bundler/bundler'...
-remote: Counting objects: 3890, done.[K
-remote: Compressing objects:   0% (1/1899)   [Kremote: Compressing objects:   1% (19/1899)   [Kremote: Compressing objects:   2% (38/1899)   [Kremote: Compressing objects:   3% (57/1899)   [Kremote: Compressing objects:   4% (76/1899)   [Kremote: Compressing objects:   5% (95/1899)   [Kremote: Compressing objects:   6% (114/1899)   [Kremote: Compressing objects:   7% (133/1899)   [Kremote: Compressing objects:   8% (152/1899)   [Kremote: Compressing objects:   9% (171/1899)   [Kremote: Compressing objects:  10% (190/1899)   [Kremote: Compressing objects:  11% (209/1899)   [Kremote: Compressing objects:  12% (228/1899)   [Kremote: Compressing objects:  13% (247/1899)   [Kremote: Compressing objects:  14% (266/1899)   [Kremote: Compressing objects:  15% (285/1899)   [Kremote: Compressing objects:  16% (304/1899)   [Kremote: Compressing objects:  17% (323/1899)   [Kremote: Compressing objects:  18% (342/1899)   [Kremote: Compressing objects:  19% (361/1899)   [Kremote: Compressing objects:  20% (380/1899)   [Kremote: Compressing objects:  21% (399/1899)   [Kremote: Compressing objects:  22% (418/1899)   [Kremote: Compressing objects:  23% (437/1899)   [Kremote: Compressing objects:  24% (456/1899)   [Kremote: Compressing objects:  25% (475/1899)   [Kremote: Compressing objects:  26% (494/1899)   [Kremote: Compressing objects:  27% (513/1899)   [Kremote: Compressing objects:  28% (532/1899)   [Kremote: Compressing objects:  29% (551/1899)   [Kremote: Compressing objects:  30% (570/1899)   [Kremote: Compressing objects:  31% (589/1899)   [Kremote: Compressing objects:  32% (608/1899)   [Kremote: Compressing objects:  33% (627/1899)   [Kremote: Compressing objects:  34% (646/1899)   [Kremote: Compressing objects:  35% (665/1899)   [Kremote: Compressing objects:  36% (684/1899)   [Kremote: Compressing objects:  37% (703/1899)   [Kremote: Compressing objects:  38% (722/1899)   [Kremote: Compressing objects:  39% (741/1899)   [Kremote: Compressing objects:  40% (760/1899)   [Kremote: Compressing objects:  41% (779/1899)   [Kremote: Compressing objects:  42% (798/1899)   [Kremote: Compressing objects:  43% (817/1899)   [Kremote: Compressing objects:  44% (836/1899)   [Kremote: Compressing objects:  45% (855/1899)   [Kremote: Compressing objects:  46% (874/1899)   [Kremote: Compressing objects:  47% (893/1899)   [Kremote: Compressing objects:  48% (912/1899)   [Kremote: Compressing objects:  49% (931/1899)   [Kremote: Compressing objects:  50% (950/1899)   [Kremote: Compressing objects:  51% (969/1899)   [Kremote: Compressing objects:  52% (988/1899)   [Kremote: Compressing objects:  53% (1007/1899)   [Kremote: Compressing objects:  54% (1026/1899)   [Kremote: Compressing objects:  55% (1045/1899)   [Kremote: Compressing objects:  56% (1064/1899)   [Kremote: Compressing objects:  57% (1083/1899)   [Kremote: Compressing objects:  58% (1102/1899)   [Kremote: Compressing objects:  59% (1121/1899)   [Kremote: Compressing objects:  60% (1140/1899)   [Kremote: Compressing objects:  61% (1159/1899)   [Kremote: Compressing objects:  62% (1178/1899)   [Kremote: Compressing objects:  63% (1197/1899)   [Kremote: Compressing objects:  64% (1216/1899)   [Kremote: Compressing objects:  65% (1235/1899)   [Kremote: Compressing objects:  66% (1254/1899)   [Kremote: Compressing objects:  67% (1273/1899)   [Kremote: Compressing objects:  68% (1292/1899)   [Kremote: Compressing objects:  69% (1311/1899)   [Kremote: Compressing objects:  70% (1330/1899)   [Kremote: Compressing objects:  71% (1349/1899)   [Kremote: Compressing objects:  72% (1368/1899)   [Kremote: Compressing objects:  73% (1387/1899)   [Kremote: Compressing objects:  74% (1406/1899)   [Kremote: Compressing objects:  75% (1425/1899)   [Kremote: Compressing objects:  76% (1444/1899)   [Kremote: Compressing objects:  77% (1463/1899)   [Kremote: Compressing objects:  78% (1482/1899)   [Kremote: Compressing objects:  79% (1501/1899)   [Kremote: Compressing objects:  80% (1520/1899)   [Kremote: Compressing objects:  81% (1539/1899)   [Kremote: Compressing objects:  82% (1558/1899)   [Kremote: Compressing objects:  83% (1577/1899)   [Kremote: Compressing objects:  84% (1596/1899)   [Kremote: Compressing objects:  85% (1615/1899)   [Kremote: Compressing objects:  86% (1634/1899)   [Kremote: Compressing objects:  87% (1653/1899)   [Kremote: Compressing objects:  88% (1672/1899)   [Kremote: Compressing objects:  89% (1691/1899)   [Kremote: Compressing objects:  90% (1710/1899)   [Kremote: Compressing objects:  91% (1729/1899)   [Kremote: Compressing objects:  92% (1748/1899)   [Kremote: Compressing objects:  93% (1767/1899)   [Kremote: Compressing objects:  94% (1786/1899)   [Kremote: Compressing objects:  95% (1805/1899)   [Kremote: Compressing objects:  96% (1824/1899)   [Kremote: Compressing objects:  97% (1843/1899)   [Kremote: Compressing objects:  98% (1862/1899)   [Kremote: Compressing objects:  99% (1881/1899)   [Kremote: Compressing objects: 100% (1899/1899)   [Kremote: Compressing objects: 100% (1899/1899), done.[K
-Receiving objects:   0% (1/3890)   Receiving objects:   1% (39/3890)   Receiving objects:   2% (78/3890)   Receiving objects:   3% (117/3890)   Receiving objects:   4% (156/3890)   Receiving objects:   5% (195/3890)   Receiving objects:   6% (234/3890)   Receiving objects:   7% (273/3890)   Receiving objects:   8% (312/3890)   Receiving objects:   9% (351/3890)   Receiving objects:  10% (389/3890)   Receiving objects:  11% (428/3890)   Receiving objects:  12% (467/3890)   Receiving objects:  13% (506/3890)   Receiving objects:  14% (545/3890)   Receiving objects:  15% (584/3890)   Receiving objects:  16% (623/3890)   Receiving objects:  17% (662/3890)   Receiving objects:  18% (701/3890)   Receiving objects:  19% (740/3890)   Receiving objects:  20% (778/3890)   Receiving objects:  21% (817/3890)   Receiving objects:  22% (856/3890)   Receiving objects:  23% (895/3890)   Receiving objects:  24% (934/3890)   Receiving objects:  25% (973/3890)   Receiving objects:  26% (1012/3890)   Receiving objects:  27% (1051/3890)   Receiving objects:  28% (1090/3890)   Receiving objects:  29% (1129/3890)   Receiving objects:  30% (1167/3890)   Receiving objects:  31% (1206/3890)   Receiving objects:  32% (1245/3890)   Receiving objects:  33% (1284/3890)   Receiving objects:  34% (1323/3890)   Receiving objects:  35% (1362/3890)   Receiving objects:  36% (1401/3890)   Receiving objects:  37% (1440/3890)   Receiving objects:  38% (1479/3890)   Receiving objects:  39% (1518/3890)   Receiving objects:  40% (1556/3890)   Receiving objects:  41% (1595/3890)   Receiving objects:  42% (1634/3890)   Receiving objects:  43% (1673/3890)   Receiving objects:  44% (1712/3890)   Receiving objects:  45% (1751/3890)   Receiving objects:  46% (1790/3890)   Receiving objects:  47% (1829/3890)   Receiving objects:  48% (1868/3890)   Receiving objects:  49% (1907/3890)   Receiving objects:  50% (1945/3890)   Receiving objects:  51% (1984/3890)   Receiving objects:  52% (2023/3890)   Receiving objects:  53% (2062/3890)   Receiving objects:  54% (2101/3890)   Receiving objects:  55% (2140/3890)   Receiving objects:  56% (2179/3890)   Receiving objects:  57% (2218/3890)   Receiving objects:  58% (2257/3890)   Receiving objects:  59% (2296/3890)   Receiving objects:  60% (2334/3890)   Receiving objects:  61% (2373/3890)   Receiving objects:  62% (2412/3890)   Receiving objects:  63% (2451/3890)   Receiving objects:  64% (2490/3890)   Receiving objects:  65% (2529/3890)   Receiving objects:  66% (2568/3890)   Receiving objects:  67% (2607/3890)   Receiving objects:  68% (2646/3890)   Receiving objects:  69% (2685/3890)   Receiving objects:  70% (2723/3890)   Receiving objects:  71% (2762/3890)   Receiving objects:  72% (2801/3890)   Receiving objects:  73% (2840/3890)   Receiving objects:  74% (2879/3890)   Receiving objects:  75% (2918/3890)   Receiving objects:  76% (2957/3890)   Receiving objects:  77% (2996/3890)   Receiving objects:  78% (3035/3890)   Receiving objects:  79% (3074/3890)   Receiving objects:  80% (3112/3890)   Receiving objects:  81% (3151/3890)   Receiving objects:  82% (3190/3890)   remote: Total 3890 (delta 2466), reused 3110 (delta 1928), pack-reused 0[K
-Receiving objects:  83% (3229/3890)   Receiving objects:  84% (3268/3890)   Receiving objects:  85% (3307/3890)   Receiving objects:  86% (3346/3890)   Receiving objects:  87% (3385/3890)   Receiving objects:  88% (3424/3890)   Receiving objects:  89% (3463/3890)   Receiving objects:  90% (3501/3890)   Receiving objects:  91% (3540/3890)   Receiving objects:  92% (3579/3890)   Receiving objects:  93% (3618/3890)   Receiving objects:  94% (3657/3890)   Receiving objects:  95% (3696/3890)   Receiving objects:  96% (3735/3890)   Receiving objects:  97% (3774/3890)   Receiving objects:  98% (3813/3890)   Receiving objects:  99% (3852/3890)   Receiving objects: 100% (3890/3890)   Receiving objects: 100% (3890/3890), 1.08 MiB | 0 bytes/s, done.
-Resolving deltas:   0% (0/2466)   Resolving deltas:  16% (411/2466)   Resolving deltas:  17% (425/2466)   Resolving deltas:  18% (445/2466)   Resolving deltas:  21% (529/2466)   Resolving deltas:  31% (784/2466)   Resolving deltas:  34% (848/2466)   Resolving deltas:  35% (864/2466)   Resolving deltas:  36% (888/2466)   Resolving deltas:  37% (914/2466)   Resolving deltas:  38% (947/2466)   Resolving deltas:  39% (962/2466)   Resolving deltas:  40% (990/2466)   Resolving deltas:  41% (1013/2466)   Resolving deltas:  42% (1039/2466)   Resolving deltas:  43% (1065/2466)   Resolving deltas:  44% (1090/2466)   Resolving deltas:  45% (1126/2466)   Resolving deltas:  46% (1137/2466)   Resolving deltas:  47% (1160/2466)   Resolving deltas:  48% (1185/2466)   Resolving deltas:  49% (1213/2466)   Resolving deltas:  50% (1234/2466)   Resolving deltas:  51% (1260/2466)   Resolving deltas:  52% (1291/2466)   Resolving deltas:  53% (1318/2466)   Resolving deltas:  54% (1345/2466)   Resolving deltas:  55% (1363/2466)   Resolving deltas:  56% (1384/2466)   Resolving deltas:  57% (1406/2466)   Resolving deltas:  58% (1431/2466)   Resolving deltas:  59% (1455/2466)   Resolving deltas:  60% (1488/2466)   Resolving deltas:  62% (1530/2466)   Resolving deltas:  63% (1558/2466)   Resolving deltas:  64% (1589/2466)   Resolving deltas:  65% (1613/2466)   Resolving deltas:  66% (1631/2466)   Resolving deltas:  67% (1655/2466)   Resolving deltas:  68% (1677/2466)   Resolving deltas:  69% (1702/2466)   Resolving deltas:  70% (1729/2466)   Resolving deltas:  71% (1754/2466)   Resolving deltas:  73% (1819/2466)   Resolving deltas:  74% (1828/2466)   Resolving deltas:  75% (1850/2466)   Resolving deltas:  76% (1884/2466)   Resolving deltas:  77% (1900/2466)   Resolving deltas:  78% (1925/2466)   Resolving deltas:  79% (1952/2466)   Resolving deltas:  80% (1975/2466)   Resolving deltas:  81% (2020/2466)   Resolving deltas:  82% (2040/2466)   Resolving deltas:  83% (2049/2466)   Resolving deltas:  84% (2080/2466)   Resolving deltas:  85% (2104/2466)   Resolving deltas:  86% (2136/2466)   Resolving deltas:  87% (2154/2466)   Resolving deltas:  88% (2171/2466)   Resolving deltas:  89% (2197/2466)   Resolving deltas:  90% (2229/2466)   Resolving deltas:  93% (2304/2466)   Resolving deltas:  95% (2343/2466)   Resolving deltas:  96% (2368/2466)   Resolving deltas:  97% (2409/2466)   Resolving deltas:  98% (2430/2466)   Resolving deltas:  99% (2442/2466)   Resolving deltas: 100% (2466/2466)   Resolving deltas: 100% (2466/2466), done.
-Checking connectivity... done.
-
-travis_time:end:08779aac:start=1470958153215282538,finish=1470958154497279590,duration=1281997052[0K$ cd bundler/bundler
-travis_time:start:13c494fa[0K$ git fetch origin +refs/pull/4875/merge:
-remote: Counting objects: 6, done.[K
-remote: Compressing objects:  33% (1/3)   [Kremote: Compressing objects:  66% (2/3)   [Kremote: Compressing objects: 100% (3/3)   [Kremote: Compressing objects: 100% (3/3), done.[K
-remote: Total 6 (delta 4), reused 4 (delta 3), pack-reused 0[K
-Unpacking objects:  16% (1/6)   Unpacking objects:  33% (2/6)   Unpacking objects:  50% (3/6)   Unpacking objects:  66% (4/6)   Unpacking objects:  83% (5/6)   Unpacking objects: 100% (6/6)   Unpacking objects: 100% (6/6), done.
-From https://github.com/bundler/bundler
- * branch            refs/pull/4875/merge -> FETCH_HEAD
-
-travis_time:end:13c494fa:start=1470958154501607778,finish=1470958155227733044,duration=726125266[0K$ git checkout -qf FETCH_HEAD
-travis_fold:end:git.checkout[0K
-[33;1mSetting environment variables from .travis.yml[0m
-$ export RGV=v2.6.4
-
-travis_fold:start:rvm[0Ktravis_time:start:30e48740[0K$ rvm use 2.0.0 --install --binary --fuzzy
-[32mUsing /home/travis/.rvm/gems/ruby-2.0.0-p648-clang[0m
-
-travis_time:end:30e48740:start=1470958155257626787,finish=1470958155797684021,duration=540057234[0Ktravis_fold:end:rvm[0K$ ruby --version
-ruby 2.0.0p648 (2015-12-16 revision 53162) [x86_64-linux]
-$ rvm --version
-rvm 1.26.10 (1.26.10) by Wayne E. Seguin <wayneeseguin@gmail.com>, Michal Papis <mpapis@gmail.com> [https://rvm.io/]
-$ bundle --version
-Bundler version 1.12.5
-$ gem --version
-2.6.6
-travis_fold:start:before_script.1[0Ktravis_time:start:0d7fdfa0[0K$ travis_retry rake spec:travis:deps
-sudo apt-get install groff-base -y
-Reading package lists... 0%Reading package lists... 100%Reading package lists... Done
-Building dependency tree... 0%Building dependency tree... 0%Building dependency tree... 50%Building dependency tree... 50%Building dependency tree       
-Reading state information... 0%Reading state information... 0%Reading state information... Done
-groff-base is already the newest version.
-0 upgraded, 0 newly installed, 0 to remove and 22 not upgraded.
-sudo apt-get install graphviz -y 2>&1 | tail -n 2
-Setting up graphviz (2.26.3-10ubuntu1.2) ...
-Setting up ttf-liberation (1.07.0-2ubuntu0.1) ...
-gem update --system 2.6.4
-Updating rubygems-update
-Fetching: rubygems-update-2.6.4.gemFetching: rubygems-update-2.6.4.gem (  1%)Fetching: rubygems-update-2.6.4.gem (  2%)Fetching: rubygems-update-2.6.4.gem (  3%)Fetching: rubygems-update-2.6.4.gem (  4%)Fetching: rubygems-update-2.6.4.gem (  5%)Fetching: rubygems-update-2.6.4.gem (  6%)Fetching: rubygems-update-2.6.4.gem (  7%)Fetching: rubygems-update-2.6.4.gem ( 11%)Fetching: rubygems-update-2.6.4.gem ( 14%)Fetching: rubygems-update-2.6.4.gem ( 18%)Fetching: rubygems-update-2.6.4.gem ( 21%)Fetching: rubygems-update-2.6.4.gem ( 24%)Fetching: rubygems-update-2.6.4.gem ( 28%)Fetching: rubygems-update-2.6.4.gem ( 31%)Fetching: rubygems-update-2.6.4.gem ( 35%)Fetching: rubygems-update-2.6.4.gem ( 38%)Fetching: rubygems-update-2.6.4.gem ( 42%)Fetching: rubygems-update-2.6.4.gem ( 45%)Fetching: rubygems-update-2.6.4.gem ( 48%)Fetching: rubygems-update-2.6.4.gem ( 52%)Fetching: rubygems-update-2.6.4.gem ( 55%)Fetching: rubygems-update-2.6.4.gem ( 59%)Fetching: rubygems-update-2.6.4.gem ( 62%)Fetching: rubygems-update-2.6.4.gem ( 66%)Fetching: rubygems-update-2.6.4.gem ( 69%)Fetching: rubygems-update-2.6.4.gem ( 72%)Fetching: rubygems-update-2.6.4.gem ( 76%)Fetching: rubygems-update-2.6.4.gem ( 79%)Fetching: rubygems-update-2.6.4.gem ( 83%)Fetching: rubygems-update-2.6.4.gem ( 86%)Fetching: rubygems-update-2.6.4.gem ( 90%)Fetching: rubygems-update-2.6.4.gem ( 93%)Fetching: rubygems-update-2.6.4.gem ( 96%)Fetching: rubygems-update-2.6.4.gem (100%)Fetching: rubygems-update-2.6.4.gem (100%)
-Successfully installed rubygems-update-2.6.4
-Installing RubyGems 2.6.4
-RubyGems 2.6.4 installed
-
-
-
-------------------------------------------------------------------------------
-
-RubyGems installed the following executables:
-	/home/travis/.rvm/rubies/ruby-2.0.0-p648-clang/bin/gem
-
-RubyGems system software updated
-/home/travis/.rvm/rubies/ruby-2.0.0-p648-clang/bin/ruby -S gem list -i "^automatiek$" -v "~> 0.1.0" || /home/travis/.rvm/rubies/ruby-2.0.0-p648-clang/bin/ruby -S gem install automatiek -v "~> 0.1.0" --no-ri --no-rdoc
-false
-Fetching: automatiek-0.1.2.gemFetching: automatiek-0.1.2.gem ( 23%)Fetching: automatiek-0.1.2.gem ( 53%)Fetching: automatiek-0.1.2.gem ( 83%)Fetching: automatiek-0.1.2.gem (100%)Fetching: automatiek-0.1.2.gem (100%)
-Successfully installed automatiek-0.1.2
-1 gem installed
-/home/travis/.rvm/rubies/ruby-2.0.0-p648-clang/bin/ruby -S gem list -i "^mustache$" -v "= 0.99.6" || /home/travis/.rvm/rubies/ruby-2.0.0-p648-clang/bin/ruby -S gem install mustache -v "= 0.99.6" --no-ri --no-rdoc
-false
-Fetching: mustache-0.99.6.gemFetching: mustache-0.99.6.gem (  5%)Fetching: mustache-0.99.6.gem ( 11%)Fetching: mustache-0.99.6.gem ( 17%)Fetching: mustache-0.99.6.gem ( 24%)Fetching: mustache-0.99.6.gem ( 30%)Fetching: mustache-0.99.6.gem ( 36%)Fetching: mustache-0.99.6.gem ( 42%)Fetching: mustache-0.99.6.gem ( 48%)Fetching: mustache-0.99.6.gem ( 54%)Fetching: mustache-0.99.6.gem ( 60%)Fetching: mustache-0.99.6.gem ( 67%)Fetching: mustache-0.99.6.gem ( 72%)Fetching: mustache-0.99.6.gem (100%)Fetching: mustache-0.99.6.gem (100%)
-Successfully installed mustache-0.99.6
-1 gem installed
-/home/travis/.rvm/rubies/ruby-2.0.0-p648-clang/bin/ruby -S gem list -i "^rake$" -v "~> 10.0" || /home/travis/.rvm/rubies/ruby-2.0.0-p648-clang/bin/ruby -S gem install rake -v "~> 10.0" --no-ri --no-rdoc
-true
-/home/travis/.rvm/rubies/ruby-2.0.0-p648-clang/bin/ruby -S gem list -i "^rdiscount$" -v "~> 2.2" || /home/travis/.rvm/rubies/ruby-2.0.0-p648-clang/bin/ruby -S gem install rdiscount -v "~> 2.2" --no-ri --no-rdoc
-false
-Fetching: rdiscount-2.2.0.1.gemFetching: rdiscount-2.2.0.1.gem (  4%)Fetching: rdiscount-2.2.0.1.gem (  8%)Fetching: rdiscount-2.2.0.1.gem ( 12%)Fetching: rdiscount-2.2.0.1.gem ( 16%)Fetching: rdiscount-2.2.0.1.gem ( 20%)Fetching: rdiscount-2.2.0.1.gem ( 24%)Fetching: rdiscount-2.2.0.1.gem ( 28%)Fetching: rdiscount-2.2.0.1.gem ( 32%)Fetching: rdiscount-2.2.0.1.gem ( 36%)Fetching: rdiscount-2.2.0.1.gem ( 40%)Fetching: rdiscount-2.2.0.1.gem ( 44%)Fetching: rdiscount-2.2.0.1.gem ( 48%)Fetching: rdiscount-2.2.0.1.gem ( 72%)Fetching: rdiscount-2.2.0.1.gem ( 96%)Fetching: rdiscount-2.2.0.1.gem (100%)Fetching: rdiscount-2.2.0.1.gem (100%)
-Building native extensions.  This could take a while...
-Successfully installed rdiscount-2.2.0.1
-1 gem installed
-/home/travis/.rvm/rubies/ruby-2.0.0-p648-clang/bin/ruby -S gem list -i "^ronn$" -v "~> 0.7.3" || /home/travis/.rvm/rubies/ruby-2.0.0-p648-clang/bin/ruby -S gem install ronn -v "~> 0.7.3" --no-ri --no-rdoc
-false
-Fetching: hpricot-0.8.6.gemFetching: hpricot-0.8.6.gem (  1%)Fetching: hpricot-0.8.6.gem (  2%)Fetching: hpricot-0.8.6.gem (  3%)Fetching: hpricot-0.8.6.gem (  4%)Fetching: hpricot-0.8.6.gem (  5%)Fetching: hpricot-0.8.6.gem (  6%)Fetching: hpricot-0.8.6.gem (  7%)Fetching: hpricot-0.8.6.gem (  8%)Fetching: hpricot-0.8.6.gem (  9%)Fetching: hpricot-0.8.6.gem ( 10%)Fetching: hpricot-0.8.6.gem ( 11%)Fetching: hpricot-0.8.6.gem ( 17%)Fetching: hpricot-0.8.6.gem ( 23%)Fetching: hpricot-0.8.6.gem ( 28%)Fetching: hpricot-0.8.6.gem ( 34%)Fetching: hpricot-0.8.6.gem ( 39%)Fetching: hpricot-0.8.6.gem ( 45%)Fetching: hpricot-0.8.6.gem ( 50%)Fetching: hpricot-0.8.6.gem ( 56%)Fetching: hpricot-0.8.6.gem ( 62%)Fetching: hpricot-0.8.6.gem ( 67%)Fetching: hpricot-0.8.6.gem ( 73%)Fetching: hpricot-0.8.6.gem ( 78%)Fetching: hpricot-0.8.6.gem ( 84%)Fetching: hpricot-0.8.6.gem ( 89%)Fetching: hpricot-0.8.6.gem ( 95%)Fetching: hpricot-0.8.6.gem (100%)Fetching: hpricot-0.8.6.gem (100%)
-Building native extensions.  This could take a while...
-Successfully installed hpricot-0.8.6
-Fetching: ronn-0.7.3.gemFetching: ronn-0.7.3.gem (  4%)Fetching: ronn-0.7.3.gem (  8%)Fetching: ronn-0.7.3.gem ( 13%)Fetching: ronn-0.7.3.gem ( 17%)Fetching: ronn-0.7.3.gem ( 22%)Fetching: ronn-0.7.3.gem ( 26%)Fetching: ronn-0.7.3.gem ( 31%)Fetching: ronn-0.7.3.gem ( 35%)Fetching: ronn-0.7.3.gem ( 39%)Fetching: ronn-0.7.3.gem ( 44%)Fetching: ronn-0.7.3.gem ( 48%)Fetching: ronn-0.7.3.gem ( 53%)Fetching: ronn-0.7.3.gem ( 79%)Fetching: ronn-0.7.3.gem (100%)Fetching: ronn-0.7.3.gem (100%)
-Successfully installed ronn-0.7.3
-2 gems installed
-/home/travis/.rvm/rubies/ruby-2.0.0-p648-clang/bin/ruby -S gem list -i "^rspec$" -v "~> 3.5" || /home/travis/.rvm/rubies/ruby-2.0.0-p648-clang/bin/ruby -S gem install rspec -v "~> 3.5" --no-ri --no-rdoc
-false
-Fetching: rspec-support-3.5.0.gemFetching: rspec-support-3.5.0.gem (  7%)Fetching: rspec-support-3.5.0.gem ( 15%)Fetching: rspec-support-3.5.0.gem ( 23%)Fetching: rspec-support-3.5.0.gem ( 32%)Fetching: rspec-support-3.5.0.gem ( 40%)Fetching: rspec-support-3.5.0.gem ( 48%)Fetching: rspec-support-3.5.0.gem ( 56%)Fetching: rspec-support-3.5.0.gem ( 64%)Fetching: rspec-support-3.5.0.gem ( 72%)Fetching: rspec-support-3.5.0.gem ( 81%)Fetching: rspec-support-3.5.0.gem ( 89%)Fetching: rspec-support-3.5.0.gem ( 97%)Fetching: rspec-support-3.5.0.gem (100%)Fetching: rspec-support-3.5.0.gem (100%)
-Successfully installed rspec-support-3.5.0
-Fetching: rspec-core-3.5.2.gemFetching: rspec-core-3.5.2.gem (  2%)Fetching: rspec-core-3.5.2.gem (  4%)Fetching: rspec-core-3.5.2.gem (  5%)Fetching: rspec-core-3.5.2.gem (  7%)Fetching: rspec-core-3.5.2.gem (  9%)Fetching: rspec-core-3.5.2.gem ( 11%)Fetching: rspec-core-3.5.2.gem ( 13%)Fetching: rspec-core-3.5.2.gem ( 14%)Fetching: rspec-core-3.5.2.gem ( 16%)Fetching: rspec-core-3.5.2.gem ( 18%)Fetching: rspec-core-3.5.2.gem ( 20%)Fetching: rspec-core-3.5.2.gem ( 22%)Fetching: rspec-core-3.5.2.gem ( 32%)Fetching: rspec-core-3.5.2.gem ( 43%)Fetching: rspec-core-3.5.2.gem ( 54%)Fetching: rspec-core-3.5.2.gem ( 65%)Fetching: rspec-core-3.5.2.gem ( 76%)Fetching: rspec-core-3.5.2.gem ( 87%)Fetching: rspec-core-3.5.2.gem ( 97%)Fetching: rspec-core-3.5.2.gem (100%)Fetching: rspec-core-3.5.2.gem (100%)
-Successfully installed rspec-core-3.5.2
-Fetching: diff-lcs-1.2.5.gemFetching: diff-lcs-1.2.5.gem ( 32%)Fetching: diff-lcs-1.2.5.gem ( 66%)Fetching: diff-lcs-1.2.5.gem ( 99%)Fetching: diff-lcs-1.2.5.gem (100%)Fetching: diff-lcs-1.2.5.gem (100%)
-Successfully installed diff-lcs-1.2.5
-Fetching: rspec-expectations-3.5.0.gemFetching: rspec-expectations-3.5.0.gem ( 21%)Fetching: rspec-expectations-3.5.0.gem ( 42%)Fetching: rspec-expectations-3.5.0.gem ( 63%)Fetching: rspec-expectations-3.5.0.gem ( 84%)Fetching: rspec-expectations-3.5.0.gem (100%)Fetching: rspec-expectations-3.5.0.gem (100%)
-Successfully installed rspec-expectations-3.5.0
-Fetching: rspec-mocks-3.5.0.gemFetching: rspec-mocks-3.5.0.gem ( 21%)Fetching: rspec-mocks-3.5.0.gem ( 42%)Fetching: rspec-mocks-3.5.0.gem ( 64%)Fetching: rspec-mocks-3.5.0.gem ( 85%)Fetching: rspec-mocks-3.5.0.gem (100%)Fetching: rspec-mocks-3.5.0.gem (100%)
-Successfully installed rspec-mocks-3.5.0
-Fetching: rspec-3.5.0.gemFetching: rspec-3.5.0.gem (100%)Fetching: rspec-3.5.0.gem (100%)
-Successfully installed rspec-3.5.0
-6 gems installed
-/home/travis/.rvm/rubies/ruby-2.0.0-p648-clang/bin/ruby -S gem list -i "^rubocop$" -v "= 0.41.2" || /home/travis/.rvm/rubies/ruby-2.0.0-p648-clang/bin/ruby -S gem install rubocop -v "= 0.41.2" --no-ri --no-rdoc
-false
-Fetching: rainbow-2.1.0.gemFetching: rainbow-2.1.0.gem ( 12%)Fetching: rainbow-2.1.0.gem ( 28%)Fetching: rainbow-2.1.0.gem ( 44%)Fetching: rainbow-2.1.0.gem ( 60%)Fetching: rainbow-2.1.0.gem ( 76%)Fetching: rainbow-2.1.0.gem ( 91%)Fetching: rainbow-2.1.0.gem (100%)Fetching: rainbow-2.1.0.gem (100%)
-Successfully installed rainbow-2.1.0
-Fetching: ast-2.3.0.gemFetching: ast-2.3.0.gem ( 14%)Fetching: ast-2.3.0.gem ( 33%)Fetching: ast-2.3.0.gem ( 51%)Fetching: ast-2.3.0.gem ( 70%)Fetching: ast-2.3.0.gem ( 89%)Fetching: ast-2.3.0.gem (100%)Fetching: ast-2.3.0.gem (100%)
-Successfully installed ast-2.3.0
-Fetching: parser-2.3.1.2.gemFetching: parser-2.3.1.2.gem (  1%)Fetching: parser-2.3.1.2.gem (  2%)Fetching: parser-2.3.1.2.gem (  3%)Fetching: parser-2.3.1.2.gem (  4%)Fetching: parser-2.3.1.2.gem (  5%)Fetching: parser-2.3.1.2.gem (  6%)Fetching: parser-2.3.1.2.gem (  9%)Fetching: parser-2.3.1.2.gem ( 12%)Fetching: parser-2.3.1.2.gem ( 16%)Fetching: parser-2.3.1.2.gem ( 19%)Fetching: parser-2.3.1.2.gem ( 22%)Fetching: parser-2.3.1.2.gem ( 25%)Fetching: parser-2.3.1.2.gem ( 28%)Fetching: parser-2.3.1.2.gem ( 31%)Fetching: parser-2.3.1.2.gem ( 34%)Fetching: parser-2.3.1.2.gem ( 37%)Fetching: parser-2.3.1.2.gem ( 40%)Fetching: parser-2.3.1.2.gem ( 43%)Fetching: parser-2.3.1.2.gem ( 46%)Fetching: parser-2.3.1.2.gem ( 49%)Fetching: parser-2.3.1.2.gem ( 52%)Fetching: parser-2.3.1.2.gem ( 55%)Fetching: parser-2.3.1.2.gem ( 58%)Fetching: parser-2.3.1.2.gem ( 61%)Fetching: parser-2.3.1.2.gem ( 64%)Fetching: parser-2.3.1.2.gem ( 67%)Fetching: parser-2.3.1.2.gem ( 70%)Fetching: parser-2.3.1.2.gem ( 73%)Fetching: parser-2.3.1.2.gem ( 76%)Fetching: parser-2.3.1.2.gem ( 79%)Fetching: parser-2.3.1.2.gem ( 82%)Fetching: parser-2.3.1.2.gem ( 85%)Fetching: parser-2.3.1.2.gem ( 88%)Fetching: parser-2.3.1.2.gem ( 91%)Fetching: parser-2.3.1.2.gem ( 94%)Fetching: parser-2.3.1.2.gem ( 97%)Fetching: parser-2.3.1.2.gem (100%)Fetching: parser-2.3.1.2.gem (100%)
-Successfully installed parser-2.3.1.2
-Fetching: powerpack-0.1.1.gemFetching: powerpack-0.1.1.gem (100%)Fetching: powerpack-0.1.1.gem (100%)
-Successfully installed powerpack-0.1.1
-Fetching: ruby-progressbar-1.8.1.gemFetching: ruby-progressbar-1.8.1.gem ( 61%)Fetching: ruby-progressbar-1.8.1.gem (100%)Fetching: ruby-progressbar-1.8.1.gem (100%)
-Successfully installed ruby-progressbar-1.8.1
-Fetching: unicode-display_width-1.1.0.gemFetching: unicode-display_width-1.1.0.gem (100%)Fetching: unicode-display_width-1.1.0.gem (100%)
-Successfully installed unicode-display_width-1.1.0
-Fetching: rubocop-0.41.2.gemFetching: rubocop-0.41.2.gem (  7%)Fetching: rubocop-0.41.2.gem ( 13%)Fetching: rubocop-0.41.2.gem ( 19%)Fetching: rubocop-0.41.2.gem ( 25%)Fetching: rubocop-0.41.2.gem ( 32%)Fetching: rubocop-0.41.2.gem ( 38%)Fetching: rubocop-0.41.2.gem ( 44%)Fetching: rubocop-0.41.2.gem ( 51%)Fetching: rubocop-0.41.2.gem ( 57%)Fetching: rubocop-0.41.2.gem ( 63%)Fetching: rubocop-0.41.2.gem ( 70%)Fetching: rubocop-0.41.2.gem ( 76%)Fetching: rubocop-0.41.2.gem ( 82%)Fetching: rubocop-0.41.2.gem ( 89%)Fetching: rubocop-0.41.2.gem ( 95%)Fetching: rubocop-0.41.2.gem (100%)Fetching: rubocop-0.41.2.gem (100%)
-Successfully installed rubocop-0.41.2
-7 gems installed
-installing gems for the tests to use...
-Fetching: rack-1.6.4.gemFetching: rack-1.6.4.gem (  1%)Fetching: rack-1.6.4.gem (  3%)Fetching: rack-1.6.4.gem (  4%)Fetching: rack-1.6.4.gem (  5%)Fetching: rack-1.6.4.gem (  6%)Fetching: rack-1.6.4.gem (  7%)Fetching: rack-1.6.4.gem (  9%)Fetching: rack-1.6.4.gem ( 10%)Fetching: rack-1.6.4.gem ( 11%)Fetching: rack-1.6.4.gem ( 12%)Fetching: rack-1.6.4.gem ( 13%)Fetching: rack-1.6.4.gem ( 15%)Fetching: rack-1.6.4.gem ( 22%)Fetching: rack-1.6.4.gem ( 29%)Fetching: rack-1.6.4.gem ( 36%)Fetching: rack-1.6.4.gem ( 43%)Fetching: rack-1.6.4.gem ( 50%)Fetching: rack-1.6.4.gem ( 57%)Fetching: rack-1.6.4.gem ( 65%)Fetching: rack-1.6.4.gem ( 72%)Fetching: rack-1.6.4.gem ( 79%)Fetching: rack-1.6.4.gem ( 86%)Fetching: rack-1.6.4.gem ( 93%)Fetching: rack-1.6.4.gem (100%)Fetching: rack-1.6.4.gem (100%)
-Successfully installed rack-1.6.4
-1 gem installed
-Fetching: bundler-1.12.0.gemFetching: bundler-1.12.0.gem (  1%)Fetching: bundler-1.12.0.gem (  2%)Fetching: bundler-1.12.0.gem (  3%)Fetching: bundler-1.12.0.gem (  4%)Fetching: bundler-1.12.0.gem (  5%)Fetching: bundler-1.12.0.gem (  6%)Fetching: bundler-1.12.0.gem (  7%)Fetching: bundler-1.12.0.gem (  8%)Fetching: bundler-1.12.0.gem (  9%)Fetching: bundler-1.12.0.gem ( 10%)Fetching: bundler-1.12.0.gem ( 11%)Fetching: bundler-1.12.0.gem ( 12%)Fetching: bundler-1.12.0.gem ( 18%)Fetching: bundler-1.12.0.gem ( 24%)Fetching: bundler-1.12.0.gem ( 30%)Fetching: bundler-1.12.0.gem ( 36%)Fetching: bundler-1.12.0.gem ( 41%)Fetching: bundler-1.12.0.gem ( 47%)Fetching: bundler-1.12.0.gem ( 53%)Fetching: bundler-1.12.0.gem ( 59%)Fetching: bundler-1.12.0.gem ( 65%)Fetching: bundler-1.12.0.gem ( 71%)Fetching: bundler-1.12.0.gem ( 77%)Fetching: bundler-1.12.0.gem ( 83%)Fetching: bundler-1.12.0.gem ( 89%)Fetching: bundler-1.12.0.gem ( 95%)Fetching: bundler-1.12.0.gem (100%)Fetching: bundler-1.12.0.gem (100%)
-Successfully installed bundler-1.12.0
-1 gem installed
-Fetching: tilt-1.4.1.gemFetching: tilt-1.4.1.gem (  5%)Fetching: tilt-1.4.1.gem ( 12%)Fetching: tilt-1.4.1.gem ( 18%)Fetching: tilt-1.4.1.gem ( 25%)Fetching: tilt-1.4.1.gem ( 31%)Fetching: tilt-1.4.1.gem ( 37%)Fetching: tilt-1.4.1.gem ( 44%)Fetching: tilt-1.4.1.gem ( 50%)Fetching: tilt-1.4.1.gem ( 57%)Fetching: tilt-1.4.1.gem ( 63%)Fetching: tilt-1.4.1.gem ( 70%)Fetching: tilt-1.4.1.gem ( 76%)Fetching: tilt-1.4.1.gem (100%)Fetching: tilt-1.4.1.gem (100%)
-Successfully installed tilt-1.4.1
-Fetching: sinatra-1.2.7.gemFetching: sinatra-1.2.7.gem (  7%)Fetching: sinatra-1.2.7.gem ( 13%)Fetching: sinatra-1.2.7.gem ( 20%)Fetching: sinatra-1.2.7.gem ( 27%)Fetching: sinatra-1.2.7.gem ( 33%)Fetching: sinatra-1.2.7.gem ( 40%)Fetching: sinatra-1.2.7.gem ( 47%)Fetching: sinatra-1.2.7.gem ( 53%)Fetching: sinatra-1.2.7.gem ( 60%)Fetching: sinatra-1.2.7.gem ( 67%)Fetching: sinatra-1.2.7.gem ( 73%)Fetching: sinatra-1.2.7.gem ( 80%)Fetching: sinatra-1.2.7.gem ( 87%)Fetching: sinatra-1.2.7.gem ( 93%)Fetching: sinatra-1.2.7.gem (100%)Fetching: sinatra-1.2.7.gem (100%)
-Successfully installed sinatra-1.2.7
-2 gems installed
-Fetching: builder-2.1.2.gemFetching: builder-2.1.2.gem ( 10%)Fetching: builder-2.1.2.gem ( 22%)Fetching: builder-2.1.2.gem ( 34%)Fetching: builder-2.1.2.gem ( 46%)Fetching: builder-2.1.2.gem ( 59%)Fetching: builder-2.1.2.gem ( 70%)Fetching: builder-2.1.2.gem ( 82%)Fetching: builder-2.1.2.gem ( 95%)Fetching: builder-2.1.2.gem (100%)Fetching: builder-2.1.2.gem (100%)
-Successfully installed builder-2.1.2
-1 gem installed
-Fetching: rake-10.0.2.gemFetching: rake-10.0.2.gem (  2%)Fetching: rake-10.0.2.gem (  5%)Fetching: rake-10.0.2.gem (  7%)Fetching: rake-10.0.2.gem (  9%)Fetching: rake-10.0.2.gem ( 12%)Fetching: rake-10.0.2.gem ( 14%)Fetching: rake-10.0.2.gem ( 16%)Fetching: rake-10.0.2.gem ( 18%)Fetching: rake-10.0.2.gem ( 21%)Fetching: rake-10.0.2.gem ( 23%)Fetching: rake-10.0.2.gem ( 25%)Fetching: rake-10.0.2.gem ( 28%)Fetching: rake-10.0.2.gem ( 41%)Fetching: rake-10.0.2.gem ( 55%)Fetching: rake-10.0.2.gem ( 69%)Fetching: rake-10.0.2.gem ( 83%)Fetching: rake-10.0.2.gem ( 97%)Fetching: rake-10.0.2.gem (100%)Fetching: rake-10.0.2.gem (100%)
-Successfully installed rake-10.0.2
-1 gem installed
-Fetching: ruby-graphviz-1.2.2.gemFetching: ruby-graphviz-1.2.2.gem (  2%)Fetching: ruby-graphviz-1.2.2.gem (  5%)Fetching: ruby-graphviz-1.2.2.gem (  7%)Fetching: ruby-graphviz-1.2.2.gem (  9%)Fetching: ruby-graphviz-1.2.2.gem ( 11%)Fetching: ruby-graphviz-1.2.2.gem ( 14%)Fetching: ruby-graphviz-1.2.2.gem ( 16%)Fetching: ruby-graphviz-1.2.2.gem ( 18%)Fetching: ruby-graphviz-1.2.2.gem ( 21%)Fetching: ruby-graphviz-1.2.2.gem ( 23%)Fetching: ruby-graphviz-1.2.2.gem ( 25%)Fetching: ruby-graphviz-1.2.2.gem ( 27%)Fetching: ruby-graphviz-1.2.2.gem ( 41%)Fetching: ruby-graphviz-1.2.2.gem ( 55%)Fetching: ruby-graphviz-1.2.2.gem ( 69%)Fetching: ruby-graphviz-1.2.2.gem ( 82%)Fetching: ruby-graphviz-1.2.2.gem ( 96%)Fetching: ruby-graphviz-1.2.2.gem (100%)Fetching: ruby-graphviz-1.2.2.gem (100%)
-
-You need to install GraphViz (http://graphviz.org/) to use this Gem.
-
-For more information about Ruby-Graphviz :
-* Doc : http://rdoc.info/projects/glejeune/Ruby-Graphviz
-* Sources : http://github.com/glejeune/Ruby-Graphviz
-* Mailing List : http://groups.google.com/group/ruby-graphviz
-
-Last (important) changes :
-Ruby-Graphviz no longer supports Ruby < 1.9.3
-  
-Successfully installed ruby-graphviz-1.2.2
-1 gem installed
-Fetching: fakeweb-1.3.0.gemFetching: fakeweb-1.3.0.gem (  4%)Fetching: fakeweb-1.3.0.gem (  9%)Fetching: fakeweb-1.3.0.gem ( 13%)Fetching: fakeweb-1.3.0.gem ( 18%)Fetching: fakeweb-1.3.0.gem ( 23%)Fetching: fakeweb-1.3.0.gem ( 27%)Fetching: fakeweb-1.3.0.gem ( 32%)Fetching: fakeweb-1.3.0.gem ( 37%)Fetching: fakeweb-1.3.0.gem ( 42%)Fetching: fakeweb-1.3.0.gem ( 46%)Fetching: fakeweb-1.3.0.gem ( 51%)Fetching: fakeweb-1.3.0.gem ( 55%)Fetching: fakeweb-1.3.0.gem ( 84%)Fetching: fakeweb-1.3.0.gem (100%)Fetching: fakeweb-1.3.0.gem (100%)
-Successfully installed fakeweb-1.3.0
-Fetching: rack-test-0.6.3.gemFetching: rack-test-0.6.3.gem ( 67%)Fetching: rack-test-0.6.3.gem (100%)Fetching: rack-test-0.6.3.gem (100%)
-Successfully installed rack-test-0.6.3
-Fetching: artifice-0.6.gemFetching: artifice-0.6.gem (100%)Fetching: artifice-0.6.gem (100%)
-Successfully installed artifice-0.6
-Fetching: compact_index-0.10.0.gemFetching: compact_index-0.10.0.gem ( 16%)Fetching: compact_index-0.10.0.gem ( 37%)Fetching: compact_index-0.10.0.gem ( 57%)Fetching: compact_index-0.10.0.gem ( 78%)Fetching: compact_index-0.10.0.gem ( 99%)Fetching: compact_index-0.10.0.gem (100%)Fetching: compact_index-0.10.0.gem (100%)
-Successfully installed compact_index-0.10.0
-4 gems installed
-spec:deps ran for   0.000000   0.010000  16.810000 ( 26.203038)
-spec:travis:deps ran for   0.010000   0.010000  22.650000 ( 37.284534)
-
-travis_time:end:0d7fdfa0:start=1470958156294232524,finish=1470958193841407349,duration=37547174825[0Ktravis_fold:end:before_script.1[0Ktravis_fold:start:before_script.2[0Ktravis_time:start:3103e180[0K$ travis_retry rake man:build
-mkdir -p lib/bundler/man
-/home/travis/.rvm/rubies/ruby-2.0.0-p648-clang/bin/ruby -S ronn --roff --pipe man/bundle-install.ronn > lib/bundler/man/bundle-install
-groff -Wall -mtty-char -mandoc -Tascii lib/bundler/man/bundle-install | col -b > lib/bundler/man/bundle-install.txt
-/home/travis/.rvm/rubies/ruby-2.0.0-p648-clang/bin/ruby -S ronn --roff --pipe man/bundle-exec.ronn > lib/bundler/man/bundle-exec
-groff -Wall -mtty-char -mandoc -Tascii lib/bundler/man/bundle-exec | col -b > lib/bundler/man/bundle-exec.txt
-/home/travis/.rvm/rubies/ruby-2.0.0-p648-clang/bin/ruby -S ronn --roff --pipe man/gemfile.5.ronn > lib/bundler/man/gemfile.5
-groff -Wall -mtty-char -mandoc -Tascii lib/bundler/man/gemfile.5 | col -b > lib/bundler/man/gemfile.5.txt
-/home/travis/.rvm/rubies/ruby-2.0.0-p648-clang/bin/ruby -S ronn --roff --pipe man/bundle.ronn > lib/bundler/man/bundle
-groff -Wall -mtty-char -mandoc -Tascii lib/bundler/man/bundle | col -b > lib/bundler/man/bundle.txt
-/home/travis/.rvm/rubies/ruby-2.0.0-p648-clang/bin/ruby -S ronn --roff --pipe man/bundle-package.ronn > lib/bundler/man/bundle-package
-groff -Wall -mtty-char -mandoc -Tascii lib/bundler/man/bundle-package | col -b > lib/bundler/man/bundle-package.txt
-/home/travis/.rvm/rubies/ruby-2.0.0-p648-clang/bin/ruby -S ronn --roff --pipe man/bundle-gem.ronn > lib/bundler/man/bundle-gem
-groff -Wall -mtty-char -mandoc -Tascii lib/bundler/man/bundle-gem | col -b > lib/bundler/man/bundle-gem.txt
-/home/travis/.rvm/rubies/ruby-2.0.0-p648-clang/bin/ruby -S ronn --roff --pipe man/bundle-config.ronn > lib/bundler/man/bundle-config
-groff -Wall -mtty-char -mandoc -Tascii lib/bundler/man/bundle-config | col -b > lib/bundler/man/bundle-config.txt
-/home/travis/.rvm/rubies/ruby-2.0.0-p648-clang/bin/ruby -S ronn --roff --pipe man/bundle-lock.ronn > lib/bundler/man/bundle-lock
-groff -Wall -mtty-char -mandoc -Tascii lib/bundler/man/bundle-lock | col -b > lib/bundler/man/bundle-lock.txt
-/home/travis/.rvm/rubies/ruby-2.0.0-p648-clang/bin/ruby -S ronn --roff --pipe man/bundle-update.ronn > lib/bundler/man/bundle-update
-groff -Wall -mtty-char -mandoc -Tascii lib/bundler/man/bundle-update | col -b > lib/bundler/man/bundle-update.txt
-/home/travis/.rvm/rubies/ruby-2.0.0-p648-clang/bin/ruby -S ronn --roff --pipe man/bundle-platform.ronn > lib/bundler/man/bundle-platform
-groff -Wall -mtty-char -mandoc -Tascii lib/bundler/man/bundle-platform | col -b > lib/bundler/man/bundle-platform.txt
-/home/travis/.rvm/rubies/ruby-2.0.0-p648-clang/bin/ruby -S ronn --roff --pipe man/bundle-binstubs.ronn > lib/bundler/man/bundle-binstubs
-groff -Wall -mtty-char -mandoc -Tascii lib/bundler/man/bundle-binstubs | col -b > lib/bundler/man/bundle-binstubs.txt
-man:build ran for   0.010000   0.000000   2.040000 (  2.041611)
-
-travis_time:end:3103e180:start=1470958193845902589,finish=1470958196148430088,duration=2302527499[0Ktravis_fold:end:before_script.2[0Ktravis_fold:start:before_script.3[0Ktravis_time:start:1d709a00[0K$ travis_retry rake spec:rubygems:clone_rubygems_$RGV
-Cloning into 'tmp/rubygems'...
-remote: Counting objects: 47959, done.[K
-remote: Compressing objects:   7% (1/13)   [Kremote: Compressing objects:  15% (2/13)   [Kremote: Compressing objects:  23% (3/13)   [Kremote: Compressing objects:  30% (4/13)   [Kremote: Compressing objects:  38% (5/13)   [Kremote: Compressing objects:  46% (6/13)   [Kremote: Compressing objects:  53% (7/13)   [Kremote: Compressing objects:  61% (8/13)   [Kremote: Compressing objects:  69% (9/13)   [Kremote: Compressing objects:  76% (10/13)   [Kremote: Compressing objects:  84% (11/13)   [Kremote: Compressing objects:  92% (12/13)   [Kremote: Compressing objects: 100% (13/13)   [Kremote: Compressing objects: 100% (13/13), done.[K
-Receiving objects:   0% (1/47959)   Receiving objects:   1% (480/47959)   Receiving objects:   2% (960/47959)   Receiving objects:   3% (1439/47959)   Receiving objects:   4% (1919/47959)   Receiving objects:   5% (2398/47959)   Receiving objects:   6% (2878/47959)   Receiving objects:   7% (3358/47959)   Receiving objects:   8% (3837/47959)   Receiving objects:   9% (4317/47959)   Receiving objects:  10% (4796/47959)   Receiving objects:  11% (5276/47959)   Receiving objects:  12% (5756/47959)   Receiving objects:  13% (6235/47959)   Receiving objects:  14% (6715/47959)   Receiving objects:  15% (7194/47959)   Receiving objects:  16% (7674/47959)   Receiving objects:  17% (8154/47959)   Receiving objects:  18% (8633/47959)   Receiving objects:  19% (9113/47959)   Receiving objects:  20% (9592/47959)   Receiving objects:  21% (10072/47959)   Receiving objects:  22% (10551/47959)   Receiving objects:  23% (11031/47959)   Receiving objects:  24% (11511/47959)   Receiving objects:  25% (11990/47959)   Receiving objects:  26% (12470/47959)   Receiving objects:  27% (12949/47959)   Receiving objects:  28% (13429/47959)   Receiving objects:  29% (13909/47959)   Receiving objects:  30% (14388/47959)   Receiving objects:  31% (14868/47959)   Receiving objects:  32% (15347/47959)   Receiving objects:  33% (15827/47959)   Receiving objects:  34% (16307/47959)   Receiving objects:  35% (16786/47959)   Receiving objects:  36% (17266/47959), 6.68 MiB | 13.33 MiB/s   Receiving objects:  37% (17745/47959), 6.68 MiB | 13.33 MiB/s   Receiving objects:  38% (18225/47959), 6.68 MiB | 13.33 MiB/s   Receiving objects:  39% (18705/47959), 6.68 MiB | 13.33 MiB/s   Receiving objects:  40% (19184/47959), 6.68 MiB | 13.33 MiB/s   Receiving objects:  41% (19664/47959), 6.68 MiB | 13.33 MiB/s   Receiving objects:  42% (20143/47959), 6.68 MiB | 13.33 MiB/s   Receiving objects:  43% (20623/47959), 6.68 MiB | 13.33 MiB/s   Receiving objects:  44% (21102/47959), 6.68 MiB | 13.33 MiB/s   Receiving objects:  45% (21582/47959), 6.68 MiB | 13.33 MiB/s   Receiving objects:  46% (22062/47959), 6.68 MiB | 13.33 MiB/s   Receiving objects:  47% (22541/47959), 6.68 MiB | 13.33 MiB/s   Receiving objects:  48% (23021/47959), 6.68 MiB | 13.33 MiB/s   Receiving objects:  49% (23500/47959), 6.68 MiB | 13.33 MiB/s   Receiving objects:  50% (23980/47959), 6.68 MiB | 13.33 MiB/s   Receiving objects:  51% (24460/47959), 6.68 MiB | 13.33 MiB/s   Receiving objects:  52% (24939/47959), 6.68 MiB | 13.33 MiB/s   Receiving objects:  53% (25419/47959), 6.68 MiB | 13.33 MiB/s   Receiving objects:  54% (25898/47959), 6.68 MiB | 13.33 MiB/s   Receiving objects:  55% (26378/47959), 6.68 MiB | 13.33 MiB/s   Receiving objects:  56% (26858/47959), 6.68 MiB | 13.33 MiB/s   Receiving objects:  57% (27337/47959), 6.68 MiB | 13.33 MiB/s   Receiving objects:  58% (27817/47959), 6.68 MiB | 13.33 MiB/s   Receiving objects:  59% (28296/47959), 6.68 MiB | 13.33 MiB/s   Receiving objects:  60% (28776/47959), 6.68 MiB | 13.33 MiB/s   Receiving objects:  61% (29255/47959), 6.68 MiB | 13.33 MiB/s   Receiving objects:  62% (29735/47959), 6.68 MiB | 13.33 MiB/s   Receiving objects:  63% (30215/47959), 6.68 MiB | 13.33 MiB/s   Receiving objects:  64% (30694/47959), 6.68 MiB | 13.33 MiB/s   Receiving objects:  65% (31174/47959), 6.68 MiB | 13.33 MiB/s   Receiving objects:  66% (31653/47959), 6.68 MiB | 13.33 MiB/s   Receiving objects:  67% (32133/47959), 6.68 MiB | 13.33 MiB/s   Receiving objects:  68% (32613/47959), 6.68 MiB | 13.33 MiB/s   Receiving objects:  69% (33092/47959), 6.68 MiB | 13.33 MiB/s   Receiving objects:  70% (33572/47959), 6.68 MiB | 13.33 MiB/s   Receiving objects:  71% (34051/47959), 6.68 MiB | 13.33 MiB/s   Receiving objects:  72% (34531/47959), 6.68 MiB | 13.33 MiB/s   Receiving objects:  73% (35011/47959), 6.68 MiB | 13.33 MiB/s   Receiving objects:  74% (35490/47959), 6.68 MiB | 13.33 MiB/s   Receiving objects:  75% (35970/47959), 6.68 MiB | 13.33 MiB/s   Receiving objects:  76% (36449/47959), 6.68 MiB | 13.33 MiB/s   Receiving objects:  77% (36929/47959), 6.68 MiB | 13.33 MiB/s   Receiving objects:  78% (37409/47959), 6.68 MiB | 13.33 MiB/s   Receiving objects:  79% (37888/47959), 6.68 MiB | 13.33 MiB/s   Receiving objects:  80% (38368/47959), 6.68 MiB | 13.33 MiB/s   Receiving objects:  81% (38847/47959), 6.68 MiB | 13.33 MiB/s   Receiving objects:  82% (39327/47959), 6.68 MiB | 13.33 MiB/s   Receiving objects:  83% (39806/47959), 6.68 MiB | 13.33 MiB/s   Receiving objects:  84% (40286/47959), 6.68 MiB | 13.33 MiB/s   Receiving objects:  85% (40766/47959), 6.68 MiB | 13.33 MiB/s   Receiving objects:  86% (41245/47959), 6.68 MiB | 13.33 MiB/s   Receiving objects:  87% (41725/47959), 6.68 MiB | 13.33 MiB/s   Receiving objects:  88% (42204/47959), 6.68 MiB | 13.33 MiB/s   Receiving objects:  89% (42684/47959), 6.68 MiB | 13.33 MiB/s   Receiving objects:  90% (43164/47959), 6.68 MiB | 13.33 MiB/s   Receiving objects:  91% (43643/47959), 6.68 MiB | 13.33 MiB/s   Receiving objects:  92% (44123/47959), 6.68 MiB | 13.33 MiB/s   Receiving objects:  93% (44602/47959), 6.68 MiB | 13.33 MiB/s   Receiving objects:  94% (45082/47959), 6.68 MiB | 13.33 MiB/s   Receiving objects:  95% (45562/47959), 6.68 MiB | 13.33 MiB/s   Receiving objects:  96% (46041/47959), 6.68 MiB | 13.33 MiB/s   Receiving objects:  97% (46521/47959), 6.68 MiB | 13.33 MiB/s   Receiving objects:  98% (47000/47959), 6.68 MiB | 13.33 MiB/s   Receiving objects:  99% (47480/47959), 6.68 MiB | 13.33 MiB/s   remote: Total 47959 (delta 6), reused 0 (delta 0), pack-reused 47945[K
-Receiving objects: 100% (47959/47959), 6.68 MiB | 13.33 MiB/s   Receiving objects: 100% (47959/47959), 12.91 MiB | 13.33 MiB/s, done.
-Resolving deltas:   0% (0/30636)   Resolving deltas:   1% (318/30636)   Resolving deltas:   2% (641/30636)   Resolving deltas:   3% (945/30636)   Resolving deltas:   4% (1242/30636)   Resolving deltas:   5% (1551/30636)   Resolving deltas:   6% (1842/30636)   Resolving deltas:   7% (2145/30636)   Resolving deltas:   8% (2453/30636)   Resolving deltas:   9% (2771/30636)   Resolving deltas:  10% (3077/30636)   Resolving deltas:  11% (3447/30636)   Resolving deltas:  12% (3700/30636)   Resolving deltas:  13% (3983/30636)   Resolving deltas:  14% (4304/30636)   Resolving deltas:  15% (4606/30636)   Resolving deltas:  16% (4903/30636)   Resolving deltas:  17% (5252/30636)   Resolving deltas:  18% (5557/30636)   Resolving deltas:  19% (5827/30636)   Resolving deltas:  20% (6224/30636)   Resolving deltas:  21% (6434/30636)   Resolving deltas:  22% (6811/30636)   Resolving deltas:  23% (7056/30636)   Resolving deltas:  24% (7440/30636)   Resolving deltas:  25% (7799/30636)   Resolving deltas:  26% (7990/30636)   Resolving deltas:  27% (8308/30636)   Resolving deltas:  28% (8603/30636)   Resolving deltas:  29% (8891/30636)   Resolving deltas:  30% (9291/30636)   Resolving deltas:  31% (9559/30636)   Resolving deltas:  32% (10055/30636)   Resolving deltas:  33% (10117/30636)   Resolving deltas:  34% (10425/30636)   Resolving deltas:  35% (10741/30636)   Resolving deltas:  36% (11029/30636)   Resolving deltas:  37% (11340/30636)   Resolving deltas:  41% (12601/30636)   Resolving deltas:  42% (12876/30636)   Resolving deltas:  43% (13281/30636)   Resolving deltas:  44% (13493/30636)   Resolving deltas:  45% (13838/30636)   Resolving deltas:  46% (14221/30636)   Resolving deltas:  48% (14730/30636)   Resolving deltas:  51% (15902/30636)   Resolving deltas:  52% (15947/30636)   Resolving deltas:  53% (16298/30636)   Resolving deltas:  54% (16709/30636)   Resolving deltas:  57% (17685/30636)   Resolving deltas:  58% (18075/30636)   Resolving deltas:  59% (18076/30636)   Resolving deltas:  60% (18391/30636)   Resolving deltas:  61% (18986/30636)   Resolving deltas:  62% (19000/30636)   Resolving deltas:  63% (19345/30636)   Resolving deltas:  64% (19610/30636)   Resolving deltas:  65% (19914/30636)   Resolving deltas:  66% (20227/30636)   Resolving deltas:  67% (20535/30636)   Resolving deltas:  68% (20863/30636)   Resolving deltas:  69% (21144/30636)   Resolving deltas:  70% (21447/30636)   Resolving deltas:  71% (21839/30636)   Resolving deltas:  72% (22059/30636)   Resolving deltas:  73% (22365/30636)   Resolving deltas:  74% (22728/30636)   Resolving deltas:  75% (23114/30636)   Resolving deltas:  76% (23434/30636)   Resolving deltas:  77% (23657/30636)   Resolving deltas:  78% (23939/30636)   Resolving deltas:  79% (24244/30636)   Resolving deltas:  80% (24509/30636)   Resolving deltas:  81% (24819/30636)   Resolving deltas:  82% (25127/30636)   Resolving deltas:  83% (25428/30636)   Resolving deltas:  84% (25763/30636)   Resolving deltas:  85% (26046/30636)   Resolving deltas:  86% (26375/30636)   Resolving deltas:  87% (26660/30636)   Resolving deltas:  88% (26960/30636)   Resolving deltas:  89% (27282/30636)   Resolving deltas:  90% (27576/30636)   Resolving deltas:  91% (27884/30636)   Resolving deltas:  92% (28187/30636)   Resolving deltas:  93% (28545/30636)   Resolving deltas:  94% (28798/30636)   Resolving deltas:  95% (29109/30636)   Resolving deltas:  96% (29416/30636)   Resolving deltas:  97% (29728/30636)   Resolving deltas:  98% (30027/30636)   Resolving deltas:  99% (30331/30636)   Resolving deltas: 100% (30636/30636)   Resolving deltas: 100% (30636/30636), done.
-Checking connectivity... done.
-Fetching origin
-Note: checking out 'v2.6.4'.
-
-You are in 'detached HEAD' state. You can look around, make experimental
-changes and commit them, and you can discard any commits you make in this
-state without impacting any branches by performing another checkout.
-
-If you want to create a new branch to retain commits you create, you may
-do so (now or later) by using -b with the checkout command again. Example:
-
-  git checkout -b new_branch_name
-
-HEAD is now at 9c11011... Version 2.6.4 with updated history
-Checked out rubygems 'v2.6.4' at 9c1101160d1b7394a4acc96f0e183334d7346dfe
-RUBYOPT=-I/home/travis/build/bundler/bundler/tmp/rubygems/lib 
-spec:rubygems:clone_rubygems_v2.6.4 ran for   0.000000   0.000000   4.650000 (  3.583632)
-
-travis_time:end:1d709a00:start=1470958196152798865,finish=1470958199990012439,duration=3837213574[0Ktravis_fold:end:before_script.3[0Ktravis_time:start:1ba207e6[0K$ rake spec:travis
-
-[1;33m[Travis CI] Running bundler linter[m
-
-Running RuboCop...
-Inspecting 302 files
-[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m
-
-302 files inspected, [32mno offenses[0m detected
-rubocop ran for  31.670000   0.160000  31.830000 ( 31.888666)
-
-[1;33m[Travis CI] Running bundler specs against rubygems v2.6.4[m
-
-Fetching origin
-HEAD is now at 9c11011... Version 2.6.4 with updated history
-Checked out rubygems 'v2.6.4' at 9c1101160d1b7394a4acc96f0e183334d7346dfe
-RUBYOPT=-I/home/travis/build/bundler/bundler/tmp/rubygems/lib 
-/home/travis/.rvm/rubies/ruby-2.0.0-p648-clang/bin/ruby -w -I/home/travis/.rvm/gems/ruby-2.0.0-p648-clang/gems/rspec-support-3.5.0/lib:/home/travis/.rvm/gems/ruby-2.0.0-p648-clang/gems/rspec-core-3.5.2/lib /home/travis/.rvm/gems/ruby-2.0.0-p648-clang/gems/rspec-core-3.5.2/exe/rspec --pattern spec/\*\*\{,/\*/\*\*\}/\*_spec.rb --format progress --color
-Run options: exclude {:rubygems_master=>true, :git=>"=< 1.8.5.6", :rubygems=>"=< 2.6.4", :ruby=>"=< 2.0.0", :realworld=>true, :sudo=>true}
-[32m.[0m[32m.[0msyck has been removed, psych is used instead
-[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[33m*[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[33m*[0m[32m.[0m[33m*[0m[33m*[0m[32m.[0m[32m.[0m[32m.[0m[33m*[0m[33m*[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0mbefore sort_versions: ["foo (>= 0)", [["1.4.3", []], ["1.4.4", []], ["1.5.0", []]], :patch, :strict]
- after sort_versions: ["foo (>= 0)", [["1.4.3", []], ["1.4.4", []]], :patch, :strict]
-Starting resolution (2016-08-11 23:45:18 +0000)
-Creating possibility state for foo (2 remaining)
-  Attempting to activate foo (1.4.4)
-  Activated foo at foo (1.4.4)
-  Requiring nested dependencies (bar (~> 2.1.0))
-before sort_versions: ["bar (~> 2.1.0)", [["2.1.1", []]], :patch, :strict]
- after sort_versions: ["bar (~> 2.1.0)", [], :patch, :strict]
-  Creating possibility state for foo (2 remaining)
-    Attempting to activate foo (1.4.4)
-    Found existing spec (foo (1.4.4))
-    Creating possibility state for bar (~> 2.1.0) (0 remaining)
-      Unwinding for conflict: bar (~> 2.1.0)
-  Creating possibility state for foo (1 remaining)
-    Attempting to activate foo (1.4.3)
-    Found existing spec (foo (1.4.4))
-    Creating possibility state for bar (~> 2.1.0) (0 remaining)
-      Unwinding for conflict: bar (~> 2.1.0)
-Finished resolution (5 steps) (Took 0.004072082 seconds) (2016-08-11 23:45:18 +0000)
-[33m*[0m[32m.[0m[33m*[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0mFetching /home/travis/build/bundler/bundler/tmp/libs/bar-1.0
-
-[!] There was an error while loading `bar.gemspec`: cannot load such file -- foobarbaz
-Does it try to require a relative path? That's been removed in Ruby 1.9. Bundler cannot continue.
-
- #  from /home/travis/build/bundler/bundler/tmp/gems/system/bundler/gems/bar-1.0-eb35be4d32ea/bar.gemspec:1
- #  -------------------------------------------
- >  require 'foobarbaz'
- #  -------------------------------------------
-[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m
-
-Retried examples: 0[0m
-
-
-Pending: (Failures listed here are expected and do not affect your suite's status)
-
-  1) bundle update with --source option should not update gems not included in the source that happen to have the same name
-     [36m# Allowed to fail to preserve backwards-compatibility[0m
-     [33mFailure/Error: expect(the_bundle).not_to include_gems "activesupport 3.0"[0m
-     [33m[0m
-     [33m  expected the bundle not to include gems "activesupport 3.0" but:[0m
-     [33m      expected activesupport (3.0) not to be installed, but it was[0m
-     [36m# ./spec/commands/update_spec.rb:141:in `block (3 levels) in <top (required)>'[0m
-[33m
-  2) bundle update conservative patch preferred warns on minor or major increment elsewhere[0m
-     [36m# Not yet implemented[0m
-[36m     # ./spec/commands/update_spec.rb:493
-[0m[33m
-  3) bundle update conservative minor preferred warns on major increment elsewhere[0m
-     [36m# Not yet implemented[0m
-[36m     # ./spec/commands/update_spec.rb:503
-[0m[33m
-  4) bundle update conservative minor preferred warns when something unlocked doesn't update at all[0m
-     [36m# Not yet implemented[0m
-[36m     # ./spec/commands/update_spec.rb:505
-[0m[33m
-  5) bundle update conservative other commands Installer could support --dry-run flag for install and update[0m
-     [36m# Not yet implemented[0m
-[36m     # ./spec/commands/update_spec.rb:531
-[0m[33m
-  6) bundle update conservative other commands outdated should conform its flags to the resolver flags[0m
-     [36m# Not yet implemented[0m
-[36m     # ./spec/commands/update_spec.rb:533
-[0m
-  7) Resolving conservative revert to previous will not revert to a previous version in strict mode level patch
-     [36m# possible issue with molinillo - needs further research[0m
-     [33mFailure/Error: raise VersionConflict.new(e.conflicts.keys.uniq, e.message)[0m
-     [33m[0m
-     [33mBundler::VersionConflict:[0m
-     [33m  Bundler could not find compatible versions for gem "bar":[0m
-     [33m    In Gemfile:[0m
-     [33m      foo was resolved to 1.4.4, which depends on[0m
-     [33m        bar (~> 2.1.0)[0m
-     [33m[0m
-     [33m  Could not find gem 'bar (~> 2.1.0)', which is required by gem 'foo', in any of the sources.[0m
-     [36m# ./spec/support/indexes.rb:24:in `resolve'[0m
-     [36m# ./spec/support/indexes.rb:34:in `should_resolve_and_include'[0m
-     [36m# ./spec/support/indexes.rb:65:in `should_conservative_resolve_and_include'[0m
-     [36m# ./spec/resolver/basic_spec.rb:217:in `block (4 levels) in <top (required)>'[0m
-
-  8) Resolving conservative revert to previous will not revert to a previous version in strict mode level minor
-     [36m# possible issue with molinillo - needs further research[0m
-     [33mFailure/Error: raise VersionConflict.new(e.conflicts.keys.uniq, e.message)[0m
-     [33m[0m
-     [33mBundler::VersionConflict:[0m
-     [33m  Bundler could not find compatible versions for gem "bar":[0m
-     [33m    In Gemfile:[0m
-     [33m      foo was resolved to 1.5.0, which depends on[0m
-     [33m        bar (~> 2.0.0)[0m
-     [33m[0m
-     [33m  Could not find gem 'bar (~> 2.0.0)', which is required by gem 'foo', in any of the sources.[0m
-     [36m# ./spec/support/indexes.rb:24:in `resolve'[0m
-     [36m# ./spec/support/indexes.rb:34:in `should_resolve_and_include'[0m
-     [36m# ./spec/support/indexes.rb:65:in `should_conservative_resolve_and_include'[0m
-     [36m# ./spec/resolver/basic_spec.rb:226:in `block (4 levels) in <top (required)>'[0m
-
-Finished in 15 minutes 57 seconds (files took 1.32 seconds to load)
-[33m2053 examples, 0 failures, 8 pending[0m
-
-spec:rubygems:v2.6.4 ran for   0.010000   0.000000 949.940000 (960.289398)
-
-[1;33m[Travis CI] Running bundler sudo specs against rubygems v2.6.4[m
-
-Fetching origin
-HEAD is now at 9c11011... Version 2.6.4 with updated history
-Checked out rubygems 'v2.6.4' at 9c1101160d1b7394a4acc96f0e183334d7346dfe
-RUBYOPT=-I/home/travis/build/bundler/bundler/tmp/rubygems/lib 
-/home/travis/.rvm/rubies/ruby-2.0.0-p648-clang/bin/ruby -w -I/home/travis/.rvm/gems/ruby-2.0.0-p648-clang/gems/rspec-support-3.5.0/lib:/home/travis/.rvm/gems/ruby-2.0.0-p648-clang/gems/rspec-core-3.5.2/lib /home/travis/.rvm/gems/ruby-2.0.0-p648-clang/gems/rspec-core-3.5.2/exe/rspec --pattern spec/\*\*\{,/\*/\*\*\}/\*_spec.rb --format progress --color
-Run options:
-  include {:sudo=>true}
-  exclude {:rubygems_master=>true, :git=>"=< 1.8.5.6", :rubygems=>"=< 2.6.4", :ruby=>"=< 2.0.0", :realworld=>true}
-[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m
-
-Retried examples: 0[0m
-
-
-Finished in 8.11 seconds (files took 1.31 seconds to load)
-[32m15 examples, 0 failures[0m
-
-Cleaning up sudo test files...
-spec:rubygems:v2.6.4:sudo ran for   0.000000   0.000000   9.720000 ( 10.055605)
-
-[1;33m[Travis CI] Running bundler real world specs against rubygems v2.6.4[m
-
-/home/travis/.rvm/rubies/ruby-2.0.0-p648-clang/bin/ruby -w -I/home/travis/.rvm/gems/ruby-2.0.0-p648-clang/gems/rspec-support-3.5.0/lib:/home/travis/.rvm/gems/ruby-2.0.0-p648-clang/gems/rspec-core-3.5.2/lib /home/travis/.rvm/gems/ruby-2.0.0-p648-clang/gems/rspec-core-3.5.2/exe/rspec --pattern spec/\*\*\{,/\*/\*\*\}/\*_spec.rb --format progress --color
-Run options:
-  include {:realworld=>true}
-  exclude {:rubygems_master=>true, :git=>"=< 1.8.5.6", :rubygems=>"=< 2.6.4", :ruby=>"=< 2.0.0", :sudo=>true}
-[32m.[0m[32m.[0m[32m.[0m[32m.[0m/home/travis/build/bundler/bundler/tmp/gems/base/gems/sinatra-1.2.7/lib/sinatra/base.rb:1258: warning: assigned but unused variable - e
-[2016-08-11 23:46:48] INFO  WEBrick 1.3.1
-[2016-08-11 23:46:48] INFO  ruby 2.0.0 (2015-12-16) [x86_64-linux]
-[2016-08-11 23:46:48] INFO  WEBrick::HTTPServer#start: pid=6289 port=21453
-[2016-08-11 23:46:51] INFO  going to shutdown ...
-[2016-08-11 23:47:05] INFO  WEBrick::HTTPServer#start done.
-[32m.[0m$ /home/travis/.rvm/rubies/ruby-2.0.0-p648-clang/bin/ruby -I/home/travis/build/bundler/bundler/lib:/home/travis/build/bundler/bundler/spec -rsupport/hax /home/travis/build/bundler/bundler/exe/bundle lock --no-color
-Fetching gem metadata from https://rubygems.org/..........
-Fetching version metadata from https://rubygems.org/..
-Fetching dependency metadata from https://rubygems.org/.
-Resolving dependencies...
-Writing lockfile to /home/travis/build/bundler/bundler/tmp/bundled_app/Gemfile.lock
-# $? => 0
-$ /home/travis/.rvm/rubies/ruby-2.0.0-p648-clang/bin/ruby -I/home/travis/build/bundler/bundler/lib:/home/travis/build/bundler/bundler/spec -rsupport/hax /home/travis/build/bundler/bundler/exe/bundle lock --no-color
-Fetching gem metadata from https://rubygems.org/..........
-Fetching version metadata from https://rubygems.org/..
-Fetching dependency metadata from https://rubygems.org/.
-Resolving dependencies...
-Writing lockfile to /home/travis/build/bundler/bundler/tmp/bundled_app/Gemfile.lock
-# $? => 0
-$ /home/travis/.rvm/rubies/ruby-2.0.0-p648-clang/bin/ruby -I/home/travis/build/bundler/bundler/lib:/home/travis/build/bundler/bundler/spec -rsupport/hax /home/travis/build/bundler/bundler/exe/bundle lock --no-color
-Fetching gem metadata from https://rubygems.org/..........
-Fetching version metadata from https://rubygems.org/..
-Fetching dependency metadata from https://rubygems.org/.
-Resolving dependencies...
-Writing lockfile to /home/travis/build/bundler/bundler/tmp/bundled_app/Gemfile.lock
-# $? => 0
-$ /home/travis/.rvm/rubies/ruby-2.0.0-p648-clang/bin/ruby -I/home/travis/build/bundler/bundler/lib:/home/travis/build/bundler/bundler/spec -rsupport/hax /home/travis/build/bundler/bundler/exe/bundle lock --no-color
-Fetching gem metadata from https://rubygems.org/..........
-Fetching version metadata from https://rubygems.org/..
-Fetching dependency metadata from https://rubygems.org/.
-Resolving dependencies...
-Writing lockfile to /home/travis/build/bundler/bundler/tmp/bundled_app/Gemfile.lock
-# $? => 0
-$ /home/travis/.rvm/rubies/ruby-2.0.0-p648-clang/bin/ruby -I/home/travis/build/bundler/bundler/lib:/home/travis/build/bundler/bundler/spec -rsupport/hax /home/travis/build/bundler/bundler/exe/bundle lock --no-color
-Fetching gem metadata from https://rubygems.org/..........
-Fetching version metadata from https://rubygems.org/..
-Fetching dependency metadata from https://rubygems.org/.
-Resolving dependencies...
-Writing lockfile to /home/travis/build/bundler/bundler/tmp/bundled_app/Gemfile.lock
-# $? => 0
-[31mF[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[2016-08-11 23:47:44] INFO  WEBrick 1.3.1
-[2016-08-11 23:47:44] INFO  ruby 2.0.0 (2015-12-16) [x86_64-linux]
-[2016-08-11 23:47:44] INFO  WEBrick::HTTPServer#start: pid=6289 port=21454
-[2016-08-11 23:47:45] INFO  going to shutdown ...
-[2016-08-11 23:47:45] INFO  WEBrick::HTTPServer#start done.
-[32m.[0m[2016-08-11 23:47:45] INFO  WEBrick 1.3.1
-[2016-08-11 23:47:45] INFO  ruby 2.0.0 (2015-12-16) [x86_64-linux]
-[2016-08-11 23:47:45] INFO  WEBrick::HTTPServer#start: pid=6289 port=21455
-[2016-08-11 23:47:47] INFO  going to shutdown ...
-[2016-08-11 23:47:47] INFO  WEBrick::HTTPServer#start done.
-[32m.[0m[2016-08-11 23:47:47] INFO  WEBrick 1.3.1
-[2016-08-11 23:47:47] INFO  ruby 2.0.0 (2015-12-16) [x86_64-linux]
-[2016-08-11 23:47:47] INFO  WEBrick::HTTPServer#start: pid=6289 port=21456
-[2016-08-11 23:47:48] INFO  going to shutdown ...
-[2016-08-11 23:47:48] INFO  WEBrick::HTTPServer#start done.
-[32m.[0m[2016-08-11 23:47:48] INFO  WEBrick 1.3.1
-[2016-08-11 23:47:48] INFO  ruby 2.0.0 (2015-12-16) [x86_64-linux]
-[2016-08-11 23:47:48] INFO  WEBrick::HTTPServer#start: pid=6289 port=21457
-[2016-08-11 23:47:49] INFO  going to shutdown ...
-[2016-08-11 23:47:49] INFO  WEBrick::HTTPServer#start done.
-[32m.[0m[2016-08-11 23:47:49] INFO  WEBrick 1.3.1
-[2016-08-11 23:47:49] INFO  ruby 2.0.0 (2015-12-16) [x86_64-linux]
-[2016-08-11 23:47:49] INFO  WEBrick::HTTPServer#start: pid=6289 port=21458
-[2016-08-11 23:47:50] INFO  going to shutdown ...
-[2016-08-11 23:47:50] INFO  WEBrick::HTTPServer#start done.
-[32m.[0m[32m.[0m[32m.[0m[32m.[0m[33m
-
-Retried examples: 1[0m
-[36m  real world edgecases resolves dependencies correctly[0m
-[36m  [5/5] ./spec/realworld/edgecases_spec.rb:43[0m
-
-
-Failures:
-
-  1) real world edgecases resolves dependencies correctly
-     [31mFailure/Error: expect(lockfile).to include("rails (3.2.22.2)")[0m
-     [31m[0m
-     [31m  expected "GEM\n  remote: https://rubygems.org/\n  specs:\n    actionmailer (3.2.22.4)\n      actionpack (= 3.2...\n  capybara (~> 2.2.0)\n  rack-cache (= 1.2.0)\n  rails (~> 3.0)\n\nBUNDLED WITH\n   1.13.0.rc.1\n" to include "rails (3.2.22.2)"[0m
-     [31m  Diff:[0m[0m
-     [31m  [0m[34m@@ -1,2 +1,104 @@[0m
-     [31m  [0m[31m-rails (3.2.22.2)[0m
-     [31m  [0m[32m+GEM[0m
-     [31m  [0m[32m+  remote: https://rubygems.org/[0m
-     [31m  [0m[32m+  specs:[0m
-     [31m  [0m[32m+    actionmailer (3.2.22.4)[0m
-     [31m  [0m[32m+      actionpack (= 3.2.22.4)[0m
-     [31m  [0m[32m+      mail (~> 2.5.4)[0m
-     [31m  [0m[32m+    actionpack (3.2.22.4)[0m
-     [31m  [0m[32m+      activemodel (= 3.2.22.4)[0m
-     [31m  [0m[32m+      activesupport (= 3.2.22.4)[0m
-     [31m  [0m[32m+      builder (~> 3.0.0)[0m
-     [31m  [0m[32m+      erubis (~> 2.7.0)[0m
-     [31m  [0m[32m+      journey (~> 1.0.4)[0m
-     [31m  [0m[32m+      rack (~> 1.4.5)[0m
-     [31m  [0m[32m+      rack-cache (~> 1.2)[0m
-     [31m  [0m[32m+      rack-test (~> 0.6.1)[0m
-     [31m  [0m[32m+      sprockets (~> 2.2.1)[0m
-     [31m  [0m[32m+    activemodel (3.2.22.4)[0m
-     [31m  [0m[32m+      activesupport (= 3.2.22.4)[0m
-     [31m  [0m[32m+      builder (~> 3.0.0)[0m
-     [31m  [0m[32m+    activerecord (3.2.22.4)[0m
-     [31m  [0m[32m+      activemodel (= 3.2.22.4)[0m
-     [31m  [0m[32m+      activesupport (= 3.2.22.4)[0m
-     [31m  [0m[32m+      arel (~> 3.0.2)[0m
-     [31m  [0m[32m+      tzinfo (~> 0.3.29)[0m
-     [31m  [0m[32m+    activeresource (3.2.22.4)[0m
-     [31m  [0m[32m+      activemodel (= 3.2.22.4)[0m
-     [31m  [0m[32m+      activesupport (= 3.2.22.4)[0m
-     [31m  [0m[32m+    activesupport (3.2.22.4)[0m
-     [31m  [0m[32m+      i18n (~> 0.6, >= 0.6.4)[0m
-     [31m  [0m[32m+      multi_json (~> 1.0)[0m
-     [31m  [0m[32m+    arel (3.0.3)[0m
-     [31m  [0m[32m+    builder (3.0.4)[0m
-     [31m  [0m[32m+    capybara (2.2.1)[0m
-     [31m  [0m[32m+      mime-types (>= 1.16)[0m
-     [31m  [0m[32m+      nokogiri (>= 1.3.3)[0m
-     [31m  [0m[32m+      rack (>= 1.0.0)[0m
-     [31m  [0m[32m+      rack-test (>= 0.5.4)[0m
-     [31m  [0m[32m+      xpath (~> 2.0)[0m
-     [31m  [0m[32m+    erubis (2.7.0)[0m
-     [31m  [0m[32m+    hike (1.2.3)[0m
-     [31m  [0m[32m+    i18n (0.7.0)[0m
-     [31m  [0m[32m+    journey (1.0.4)[0m
-     [31m  [0m[32m+    json (1.8.3)[0m
-     [31m  [0m[32m+    mail (2.5.4)[0m
-     [31m  [0m[32m+      mime-types (~> 1.16)[0m
-     [31m  [0m[32m+      treetop (~> 1.4.8)[0m
-     [31m  [0m[32m+    mime-types (1.25.1)[0m
-     [31m  [0m[32m+    mini_portile2 (2.1.0)[0m
-     [31m  [0m[32m+    multi_json (1.12.1)[0m
-     [31m  [0m[32m+    nokogiri (1.6.8)[0m
-     [31m  [0m[32m+      mini_portile2 (~> 2.1.0)[0m
-     [31m  [0m[32m+      pkg-config (~> 1.1.7)[0m
-     [31m  [0m[32m+    pkg-config (1.1.7)[0m
-     [31m  [0m[32m+    polyglot (0.3.5)[0m
-     [31m  [0m[32m+    rack (1.4.7)[0m
-     [31m  [0m[32m+    rack-cache (1.2)[0m
-     [31m  [0m[32m+      rack (>= 0.4)[0m
-     [31m  [0m[32m+    rack-ssl (1.3.4)[0m
-     [31m  [0m[32m+      rack[0m
-     [31m  [0m[32m+    rack-test (0.6.3)[0m
-     [31m  [0m[32m+      rack (>= 1.0)[0m
-     [31m  [0m[32m+    rails (3.2.22.4)[0m
-     [31m  [0m[32m+      actionmailer (= 3.2.22.4)[0m
-     [31m  [0m[32m+      actionpack (= 3.2.22.4)[0m
-     [31m  [0m[32m+      activerecord (= 3.2.22.4)[0m
-     [31m  [0m[32m+      activeresource (= 3.2.22.4)[0m
-     [31m  [0m[32m+      activesupport (= 3.2.22.4)[0m
-     [31m  [0m[32m+      bundler (~> 1.0)[0m
-     [31m  [0m[32m+      railties (= 3.2.22.4)[0m
-     [31m  [0m[32m+    railties (3.2.22.4)[0m
-     [31m  [0m[32m+      actionpack (= 3.2.22.4)[0m
-     [31m  [0m[32m+      activesupport (= 3.2.22.4)[0m
-     [31m  [0m[32m+      rack-ssl (~> 1.3.2)[0m
-     [31m  [0m[32m+      rake (>= 0.8.7)[0m
-     [31m  [0m[32m+      rdoc (~> 3.4)[0m
-     [31m  [0m[32m+      thor (>= 0.14.6, < 2.0)[0m
-     [31m  [0m[32m+    rake (11.2.2)[0m
-     [31m  [0m[32m+    rdoc (3.12.2)[0m
-     [31m  [0m[32m+      json (~> 1.4)[0m
-     [31m  [0m[32m+    sprockets (2.2.3)[0m
-     [31m  [0m[32m+      hike (~> 1.2)[0m
-     [31m  [0m[32m+      multi_json (~> 1.0)[0m
-     [31m  [0m[32m+      rack (~> 1.0)[0m
-     [31m  [0m[32m+      tilt (~> 1.1, != 1.3.0)[0m
-     [31m  [0m[32m+    thor (0.19.1)[0m
-     [31m  [0m[32m+    tilt (1.4.1)[0m
-     [31m  [0m[32m+    treetop (1.4.15)[0m
-     [31m  [0m[32m+      polyglot[0m
-     [31m  [0m[32m+      polyglot (>= 0.3.1)[0m
-     [31m  [0m[32m+    tzinfo (0.3.51)[0m
-     [31m  [0m[32m+    xpath (2.0.0)[0m
-     [31m  [0m[32m+      nokogiri (~> 1.3)[0m
-     [31m  [0m[32m+[0m
-     [31m  [0m[32m+PLATFORMS[0m
-     [31m  [0m[32m+  ruby[0m
-     [31m  [0m[32m+[0m
-     [31m  [0m[32m+DEPENDENCIES[0m
-     [31m  [0m[32m+  capybara (~> 2.2.0)[0m
-     [31m  [0m[32m+  rack-cache (= 1.2.0)[0m
-     [31m  [0m[32m+  rails (~> 3.0)[0m
-     [31m  [0m[32m+[0m
-     [31m  [0m[32m+BUNDLED WITH[0m
-     [31m  [0m[32m+   1.13.0.rc.1[0m
-     [31m  [0m[0m
-     [31m[0m
-     [31m  Commands:[0m
-     [31m  $ /home/travis/.rvm/rubies/ruby-2.0.0-p648-clang/bin/ruby -I/home/travis/build/bundler/bundler/lib:/home/travis/build/bundler/bundler/spec -rsupport/hax /home/travis/build/bundler/bundler/exe/bundle lock --no-color[0m
-     [31m  Fetching gem metadata from https://rubygems.org/..........[0m
-     [31m  Fetching version metadata from https://rubygems.org/..[0m
-     [31m  Fetching dependency metadata from https://rubygems.org/.[0m
-     [31m  Resolving dependencies...[0m
-     [31m  Writing lockfile to /home/travis/build/bundler/bundler/tmp/bundled_app/Gemfile.lock[0m
-     [31m  # $? => 0[0m
-     [36m# ./spec/realworld/edgecases_spec.rb:52:in `block (2 levels) in <top (required)>'[0m
-     [36m# ./spec/support/sometimes.rb:10:in `block in run_with_retries'[0m
-     [36m# ./spec/support/sometimes.rb:7:in `times'[0m
-     [36m# ./spec/support/sometimes.rb:7:in `run_with_retries'[0m
-     [36m# ./spec/support/sometimes.rb:29:in `block (2 levels) in <top (required)>'[0m
-
-Finished in 1 minute 17.59 seconds (files took 1.33 seconds to load)
-[31m19 examples, 1 failure[0m
-
-Failed examples:
-
-[31mrspec ./spec/realworld/edgecases_spec.rb:43[0m [36m# real world edgecases resolves dependencies correctly[0m
-
-/home/travis/.rvm/rubies/ruby-2.0.0-p648-clang/bin/ruby -w -I/home/travis/.rvm/gems/ruby-2.0.0-p648-clang/gems/rspec-support-3.5.0/lib:/home/travis/.rvm/gems/ruby-2.0.0-p648-clang/gems/rspec-core-3.5.2/lib /home/travis/.rvm/gems/ruby-2.0.0-p648-clang/gems/rspec-core-3.5.2/exe/rspec --pattern spec/\*\*\{,/\*/\*\*\}/\*_spec.rb --format progress --color failed
-
-travis_time:end:1ba207e6:start=1470958199994526125,finish=1470959281978407427,duration=1081983881302[0K
-[31;1mThe command "rake spec:travis" exited with 1.[0m
-
-Done. Your build exited with 1.
