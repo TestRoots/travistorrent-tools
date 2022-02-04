@@ -1,0 +1,2 @@
+build_id,commit,pull_req,branch,status,duration,started_at,jobs,event_type
+329754545,170d07ea2f71808c3cf45d3c122acf046b8c224d,,master,failed,35,2018-01-17 06:45:05 UTC,329754546,push

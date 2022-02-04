@@ -1,0 +1,9 @@
+tr_build_id,tr_job_id,tr_build_number,tr_original_commit,tr_log_lan,tr_log_status,tr_log_setup_time,tr_log_analyzer,tr_log_frameworks,tr_log_bool_tests_ran,tr_log_bool_tests_failed,tr_log_num_tests_ok,tr_log_num_tests_failed,tr_log_num_tests_run,tr_log_num_tests_skipped,tr_log_num_test_suites_run,tr_log_num_test_suites_ok,tr_log_num_test_suites_failed,tr_log_tests_failed,tr_log_testduration,tr_log_buildduration
+51650883,51650884,4243,6740708095f82c11c4353440542816d99593a992,go,broken,1,go,gotest,true,true,237,2,239,25,10,9,1,TestLog_followerLoop#github.com/influxdb/influxdb/raft,29.94000000000006,
+51651055,51651056,4244,efc4f030dc38e83c84bfac12b99df6fb6fed598b,go,broken,0,go,gotest,true,true,237,2,239,25,10,9,1,TestLog_followerLoop#github.com/influxdb/influxdb/raft,30.930000000000057,
+51651194,51651195,4245,d5a612c2261696a2c9fd905985604abc923f37ba,go,broken,1,go,gotest,true,false,306,0,306,25,11,11,0,"",51.88000000000003,
+51651196,51651197,4246,cd074922ef75f2aa5827979d57a285a14b74de34,go,broken,0,go,gotest,true,false,306,0,306,25,11,11,0,"",41.18000000000008,
+51651672,51651674,4247,a52f63883e74fb23d31ccf2f6c0329c044e1b4bb,go,broken,1,go,gotest,true,false,306,0,306,25,11,11,0,"",41.32000000000007,
+51651673,51651675,4247,2e80934d7da8c0cbc87f29d598307f7ae9033789,go,broken,0,go,gotest,true,false,306,0,306,25,11,11,0,"",42.13000000000008,
+51652012,51652013,4248,541fcaf719321cf6315f11a72e28021e17a66d40,go,ok,1,go,gotest,true,false,306,0,306,25,11,11,0,"",44.77000000000008,
+51652014,51652015,4249,f12de3e2a13ec3e850aff6cca7917d894a993cce,go,ok,0,go,gotest,true,false,306,0,306,25,11,11,0,"",40.64000000000007,

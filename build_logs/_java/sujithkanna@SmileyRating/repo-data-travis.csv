@@ -1,0 +1,5 @@
+build_id,commit,pull_req,branch,status,duration,started_at,jobs,event_type
+252247892,80c5fb239857754a8a5e5212d9092d1cd78007ea,25,master,failed,55,2017-07-11 02:52:27 UTC,252247893,pull_request
+252242318,7617f0e0273d5f092b1c9be28cad1ff9f7c51f9c,23,master,failed,57,2017-07-11 02:15:17 UTC,252242319,pull_request
+249659759,374ade702d1d26be36818a379344b084dfbdf90c,,master,failed,53,2017-07-03 14:45:28 UTC,249659760,push
+245763064,a38995b5be3cd55cce9d213f773f32b25c52301e,,master,failed,57,2017-06-22 12:18:36 UTC,245763065,push

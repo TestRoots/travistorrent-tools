@@ -1,1912 +1,0 @@
-travis_fold:start:worker_info[0K[33;1mWorker information[0m
-hostname: i-09be858-precise-production-2-worker-org-docker.travisci.net:d737f85f-85ad-4a56-95db-99431270386a
-version: v2.5.0-8-g19ea9c2 https://github.com/travis-ci/worker/tree/19ea9c20425c78100500c7cc935892b47024922c
-instance: 870b45c:travis:python
-startup: 551.029684ms
-travis_fold:end:worker_info[0Ktravis_fold:start:system_info[0K[33;1mBuild system information[0m
-Build language: python
-Build group: stable
-Build dist: precise
-Build id: 192852536
-Job id: 192852537
-travis-build version: 401a05f3f
-[34m[1mBuild image provisioning date and time[0m
-Thu Feb  5 15:09:33 UTC 2015
-[34m[1mOperating System Details[0m
-Distributor ID:	Ubuntu
-Description:	Ubuntu 12.04.5 LTS
-Release:	12.04
-Codename:	precise
-[34m[1mLinux Version[0m
-3.13.0-29-generic
-[34m[1mCookbooks Version[0m
-a68419e https://github.com/travis-ci/travis-cookbooks/tree/a68419e
-[34m[1mGCC version[0m
-gcc (Ubuntu/Linaro 4.6.3-1ubuntu5) 4.6.3
-Copyright (C) 2011 Free Software Foundation, Inc.
-This is free software; see the source for copying conditions.  There is NO
-warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-
-[34m[1mLLVM version[0m
-clang version 3.4 (tags/RELEASE_34/final)
-Target: x86_64-unknown-linux-gnu
-Thread model: posix
-[34m[1mPre-installed Ruby versions[0m
-ruby-1.9.3-p551
-[34m[1mPre-installed Node.js versions[0m
-v0.10.36
-[34m[1mPre-installed Go versions[0m
-1.4.1
-[34m[1mRedis version[0m
-redis-server 2.8.19
-[34m[1mriak version[0m
-2.0.2
-[34m[1mMongoDB version[0m
-MongoDB 2.4.12
-[34m[1mCouchDB version[0m
-couchdb 1.6.1
-[34m[1mNeo4j version[0m
-1.9.4
-[34m[1mRabbitMQ Version[0m
-3.4.3
-[34m[1mElasticSearch version[0m
-1.4.0
-[34m[1mInstalled Sphinx versions[0m
-2.0.10
-2.1.9
-2.2.6
-[34m[1mDefault Sphinx version[0m
-2.2.6
-[34m[1mInstalled Firefox version[0m
-firefox 31.0esr
-[34m[1mPhantomJS version[0m
-1.9.8
-[34m[1mant -version[0m
-Apache Ant(TM) version 1.8.2 compiled on December 3 2011
-[34m[1mmvn -version[0m
-Apache Maven 3.2.5 (12a6b3acb947671f09b81f49094c53f426d8cea1; 2014-12-14T17:29:23+00:00)
-Maven home: /usr/local/maven
-Java version: 1.7.0_76, vendor: Oracle Corporation
-Java home: /usr/lib/jvm/java-7-oracle/jre
-Default locale: en_US, platform encoding: ANSI_X3.4-1968
-OS name: "linux", version: "3.13.0-29-generic", arch: "amd64", family: "unix"
-travis_fold:end:system_info[0K
-travis_fold:start:fix.CVE-2015-7547[0K$ export DEBIAN_FRONTEND=noninteractive
-W: Size of file /var/lib/apt/lists/security.ubuntu.com_ubuntu_dists_precise-security_restricted_binary-amd64_Packages.gz is not what the server reported 13782 14904
-W: Size of file /var/lib/apt/lists/security.ubuntu.com_ubuntu_dists_precise-security_restricted_binary-i386_Packages.gz is not what the server reported 13751 14885
-W: Size of file /var/lib/apt/lists/us.archive.ubuntu.com_ubuntu_dists_precise-updates_restricted_binary-amd64_Packages.gz is not what the server reported 19576 20785
-W: Size of file /var/lib/apt/lists/us.archive.ubuntu.com_ubuntu_dists_precise-updates_restricted_binary-i386_Packages.gz is not what the server reported 19521 20707
-W: Size of file /var/lib/apt/lists/us.archive.ubuntu.com_ubuntu_dists_precise-backports_multiverse_source_Sources.gz is not what the server reported 5886 5888
-W: Size of file /var/lib/apt/lists/ppa.launchpad.net_travis-ci_zero-mq_ubuntu_dists_precise_main_binary-amd64_Packages.gz is not what the server reported 832 1195
-W: Size of file /var/lib/apt/lists/ppa.launchpad.net_ubuntugis_ppa_ubuntu_dists_precise_main_binary-amd64_Packages.gz is not what the server reported 33653 36677
-W: Size of file /var/lib/apt/lists/ppa.launchpad.net_ubuntugis_ppa_ubuntu_dists_precise_main_binary-i386_Packages.gz is not what the server reported 33699 36733
-Reading package lists...
-Building dependency tree...
-Reading state information...
-The following extra packages will be installed:
-  libc-bin libc-dev-bin libc6-dev
-Suggested packages:
-  glibc-doc
-The following packages will be upgraded:
-  libc-bin libc-dev-bin libc6 libc6-dev
-4 upgraded, 0 newly installed, 0 to remove and 254 not upgraded.
-Need to get 8,840 kB of archives.
-After this operation, 14.3 kB disk space will be freed.
-Get:1 http://us.archive.ubuntu.com/ubuntu/ precise-updates/main libc6-dev amd64 2.15-0ubuntu10.15 [2,943 kB]
-Get:2 http://us.archive.ubuntu.com/ubuntu/ precise-updates/main libc-dev-bin amd64 2.15-0ubuntu10.15 [84.7 kB]
-Get:3 http://us.archive.ubuntu.com/ubuntu/ precise-updates/main libc-bin amd64 2.15-0ubuntu10.15 [1,177 kB]
-Get:4 http://us.archive.ubuntu.com/ubuntu/ precise-updates/main libc6 amd64 2.15-0ubuntu10.15 [4,636 kB]
-Fetched 8,840 kB in 0s (32.8 MB/s)
-Preconfiguring packages ...
-(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 72431 files and directories currently installed.)
-Preparing to replace libc6-dev 2.15-0ubuntu10.10 (using .../libc6-dev_2.15-0ubuntu10.15_amd64.deb) ...
-Unpacking replacement libc6-dev ...
-Preparing to replace libc-dev-bin 2.15-0ubuntu10.10 (using .../libc-dev-bin_2.15-0ubuntu10.15_amd64.deb) ...
-Unpacking replacement libc-dev-bin ...
-Preparing to replace libc-bin 2.15-0ubuntu10.10 (using .../libc-bin_2.15-0ubuntu10.15_amd64.deb) ...
-Unpacking replacement libc-bin ...
-Processing triggers for man-db ...
-Setting up libc-bin (2.15-0ubuntu10.15) ...
-(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 72430 files and directories currently installed.)
-Preparing to replace libc6 2.15-0ubuntu10.10 (using .../libc6_2.15-0ubuntu10.15_amd64.deb) ...
-Unpacking replacement libc6 ...
-Setting up libc6 (2.15-0ubuntu10.15) ...
-Setting up libc-dev-bin (2.15-0ubuntu10.15) ...
-Setting up libc6-dev (2.15-0ubuntu10.15) ...
-Processing triggers for libc-bin ...
-ldconfig deferred processing now taking place
-travis_fold:end:fix.CVE-2015-7547[0Ktravis_fold:start:git.checkout[0Ktravis_time:start:01fa444c[0K$ git clone --depth=50 https://github.com/rg3/youtube-dl.git rg3/youtube-dl
-Cloning into 'rg3/youtube-dl'...
-remote: Counting objects: 1082, done.[K
-remote: Compressing objects:   0% (1/919)   [Kremote: Compressing objects:   1% (10/919)   [Kremote: Compressing objects:   2% (19/919)   [Kremote: Compressing objects:   3% (28/919)   [Kremote: Compressing objects:   4% (37/919)   [Kremote: Compressing objects:   5% (46/919)   [Kremote: Compressing objects:   6% (56/919)   [Kremote: Compressing objects:   7% (65/919)   [Kremote: Compressing objects:   8% (74/919)   [Kremote: Compressing objects:   9% (83/919)   [Kremote: Compressing objects:  10% (92/919)   [Kremote: Compressing objects:  11% (102/919)   [Kremote: Compressing objects:  12% (111/919)   [Kremote: Compressing objects:  13% (120/919)   [Kremote: Compressing objects:  14% (129/919)   [Kremote: Compressing objects:  15% (138/919)   [Kremote: Compressing objects:  16% (148/919)   [Kremote: Compressing objects:  17% (157/919)   [Kremote: Compressing objects:  18% (166/919)   [Kremote: Compressing objects:  19% (175/919)   [Kremote: Compressing objects:  20% (184/919)   [Kremote: Compressing objects:  21% (193/919)   [Kremote: Compressing objects:  22% (203/919)   [Kremote: Compressing objects:  23% (212/919)   [Kremote: Compressing objects:  24% (221/919)   [Kremote: Compressing objects:  25% (230/919)   [Kremote: Compressing objects:  26% (239/919)   [Kremote: Compressing objects:  27% (249/919)   [Kremote: Compressing objects:  28% (258/919)   [Kremote: Compressing objects:  29% (267/919)   [Kremote: Compressing objects:  30% (276/919)   [Kremote: Compressing objects:  31% (285/919)   [Kremote: Compressing objects:  32% (295/919)   [Kremote: Compressing objects:  33% (304/919)   [Kremote: Compressing objects:  34% (313/919)   [Kremote: Compressing objects:  35% (322/919)   [Kremote: Compressing objects:  36% (331/919)   [Kremote: Compressing objects:  37% (341/919)   [Kremote: Compressing objects:  38% (350/919)   [Kremote: Compressing objects:  39% (359/919)   [Kremote: Compressing objects:  40% (368/919)   [Kremote: Compressing objects:  41% (377/919)   [Kremote: Compressing objects:  42% (386/919)   [Kremote: Compressing objects:  43% (396/919)   [Kremote: Compressing objects:  44% (405/919)   [Kremote: Compressing objects:  45% (414/919)   [Kremote: Compressing objects:  46% (423/919)   [Kremote: Compressing objects:  47% (432/919)   [Kremote: Compressing objects:  48% (442/919)   [Kremote: Compressing objects:  49% (451/919)   [Kremote: Compressing objects:  50% (460/919)   [Kremote: Compressing objects:  51% (469/919)   [Kremote: Compressing objects:  52% (478/919)   [Kremote: Compressing objects:  53% (488/919)   [Kremote: Compressing objects:  54% (497/919)   [Kremote: Compressing objects:  55% (506/919)   [Kremote: Compressing objects:  56% (515/919)   [Kremote: Compressing objects:  57% (524/919)   [Kremote: Compressing objects:  58% (534/919)   [Kremote: Compressing objects:  59% (543/919)   [Kremote: Compressing objects:  60% (552/919)   [Kremote: Compressing objects:  61% (561/919)   [Kremote: Compressing objects:  62% (570/919)   [Kremote: Compressing objects:  63% (579/919)   [Kremote: Compressing objects:  64% (589/919)   [Kremote: Compressing objects:  65% (598/919)   [Kremote: Compressing objects:  66% (607/919)   [Kremote: Compressing objects:  67% (616/919)   [Kremote: Compressing objects:  68% (625/919)   [Kremote: Compressing objects:  69% (635/919)   [Kremote: Compressing objects:  70% (644/919)   [Kremote: Compressing objects:  71% (653/919)   [Kremote: Compressing objects:  72% (662/919)   [Kremote: Compressing objects:  73% (671/919)   [Kremote: Compressing objects:  74% (681/919)   [Kremote: Compressing objects:  75% (690/919)   [Kremote: Compressing objects:  76% (699/919)   [Kremote: Compressing objects:  77% (708/919)   [Kremote: Compressing objects:  78% (717/919)   [Kremote: Compressing objects:  79% (727/919)   [Kremote: Compressing objects:  80% (736/919)   [Kremote: Compressing objects:  81% (745/919)   [Kremote: Compressing objects:  82% (754/919)   [Kremote: Compressing objects:  83% (763/919)   [Kremote: Compressing objects:  84% (772/919)   [Kremote: Compressing objects:  85% (782/919)   [Kremote: Compressing objects:  86% (791/919)   [Kremote: Compressing objects:  87% (800/919)   [Kremote: Compressing objects:  88% (809/919)   [Kremote: Compressing objects:  89% (818/919)   [Kremote: Compressing objects:  90% (828/919)   [Kremote: Compressing objects:  91% (837/919)   [Kremote: Compressing objects:  92% (846/919)   [Kremote: Compressing objects:  93% (855/919)   [Kremote: Compressing objects:  94% (864/919)   [Kremote: Compressing objects:  95% (874/919)   [Kremote: Compressing objects:  96% (883/919)   [Kremote: Compressing objects:  97% (892/919)   [Kremote: Compressing objects:  98% (901/919)   [Kremote: Compressing objects:  99% (910/919)   [Kremote: Compressing objects: 100% (919/919)   [Kremote: Compressing objects: 100% (919/919), done.[K
-Receiving objects:   0% (1/1082)   Receiving objects:   1% (11/1082)   Receiving objects:   2% (22/1082)   Receiving objects:   3% (33/1082)   Receiving objects:   4% (44/1082)   Receiving objects:   5% (55/1082)   Receiving objects:   6% (65/1082)   Receiving objects:   7% (76/1082)   Receiving objects:   8% (87/1082)   Receiving objects:   9% (98/1082)   Receiving objects:  10% (109/1082)   Receiving objects:  11% (120/1082)   Receiving objects:  12% (130/1082)   Receiving objects:  13% (141/1082)   Receiving objects:  14% (152/1082)   Receiving objects:  15% (163/1082)   Receiving objects:  16% (174/1082)   Receiving objects:  17% (184/1082)   Receiving objects:  18% (195/1082)   Receiving objects:  19% (206/1082)   Receiving objects:  20% (217/1082)   Receiving objects:  21% (228/1082)   Receiving objects:  22% (239/1082)   Receiving objects:  23% (249/1082)   Receiving objects:  24% (260/1082)   Receiving objects:  25% (271/1082)   Receiving objects:  26% (282/1082)   Receiving objects:  27% (293/1082)   Receiving objects:  28% (303/1082)   Receiving objects:  29% (314/1082)   Receiving objects:  30% (325/1082)   Receiving objects:  31% (336/1082)   Receiving objects:  32% (347/1082)   Receiving objects:  33% (358/1082)   Receiving objects:  34% (368/1082)   Receiving objects:  35% (379/1082)   Receiving objects:  36% (390/1082)   Receiving objects:  37% (401/1082)   Receiving objects:  38% (412/1082)   Receiving objects:  39% (422/1082)   Receiving objects:  40% (433/1082)   Receiving objects:  41% (444/1082)   Receiving objects:  42% (455/1082)   Receiving objects:  43% (466/1082)   Receiving objects:  44% (477/1082)   Receiving objects:  45% (487/1082)   Receiving objects:  46% (498/1082)   Receiving objects:  47% (509/1082)   Receiving objects:  48% (520/1082)   Receiving objects:  49% (531/1082)   Receiving objects:  50% (541/1082)   Receiving objects:  51% (552/1082)   Receiving objects:  52% (563/1082)   Receiving objects:  53% (574/1082)   Receiving objects:  54% (585/1082)   Receiving objects:  55% (596/1082)   Receiving objects:  56% (606/1082)   Receiving objects:  57% (617/1082)   Receiving objects:  58% (628/1082)   Receiving objects:  59% (639/1082)   Receiving objects:  60% (650/1082)   Receiving objects:  61% (661/1082)   Receiving objects:  62% (671/1082)   Receiving objects:  63% (682/1082)   Receiving objects:  64% (693/1082)   Receiving objects:  65% (704/1082)   Receiving objects:  66% (715/1082)   Receiving objects:  67% (725/1082)   Receiving objects:  68% (736/1082)   Receiving objects:  69% (747/1082)   Receiving objects:  70% (758/1082)   Receiving objects:  71% (769/1082)   Receiving objects:  72% (780/1082)   Receiving objects:  73% (790/1082)   Receiving objects:  74% (801/1082)   Receiving objects:  75% (812/1082)   Receiving objects:  76% (823/1082)   Receiving objects:  77% (834/1082)   Receiving objects:  78% (844/1082)   Receiving objects:  79% (855/1082)   Receiving objects:  80% (866/1082)   Receiving objects:  81% (877/1082)   Receiving objects:  82% (888/1082)   Receiving objects:  83% (899/1082)   Receiving objects:  84% (909/1082)   Receiving objects:  85% (920/1082)   Receiving objects:  86% (931/1082)   Receiving objects:  87% (942/1082)   Receiving objects:  88% (953/1082)   Receiving objects:  89% (963/1082)   Receiving objects:  90% (974/1082)   Receiving objects:  91% (985/1082)   Receiving objects:  92% (996/1082)   Receiving objects:  93% (1007/1082)   Receiving objects:  94% (1018/1082)   remote: Total 1082 (delta 211), reused 350 (delta 159), pack-reused 0[K
-Receiving objects:  95% (1028/1082)   Receiving objects:  96% (1039/1082)   Receiving objects:  97% (1050/1082)   Receiving objects:  98% (1061/1082)   Receiving objects:  99% (1072/1082)   Receiving objects: 100% (1082/1082)   Receiving objects: 100% (1082/1082), 1.47 MiB | 0 bytes/s, done.
-Resolving deltas:   0% (0/211)   Resolving deltas:   1% (3/211)   Resolving deltas:   2% (5/211)   Resolving deltas:   9% (20/211)   Resolving deltas:  28% (60/211)   Resolving deltas:  29% (63/211)   Resolving deltas:  30% (64/211)   Resolving deltas:  31% (67/211)   Resolving deltas:  32% (68/211)   Resolving deltas:  33% (70/211)   Resolving deltas:  34% (72/211)   Resolving deltas:  35% (74/211)   Resolving deltas:  57% (121/211)   Resolving deltas:  58% (124/211)   Resolving deltas:  59% (126/211)   Resolving deltas:  60% (128/211)   Resolving deltas:  62% (132/211)   Resolving deltas:  63% (134/211)   Resolving deltas:  64% (136/211)   Resolving deltas:  65% (138/211)   Resolving deltas:  66% (140/211)   Resolving deltas:  67% (142/211)   Resolving deltas:  70% (148/211)   Resolving deltas:  71% (151/211)   Resolving deltas:  72% (153/211)   Resolving deltas:  73% (155/211)   Resolving deltas:  74% (158/211)   Resolving deltas:  75% (160/211)   Resolving deltas:  76% (162/211)   Resolving deltas:  77% (163/211)   Resolving deltas:  78% (166/211)   Resolving deltas:  83% (177/211)   Resolving deltas:  84% (178/211)   Resolving deltas:  85% (181/211)   Resolving deltas:  86% (183/211)   Resolving deltas:  87% (184/211)   Resolving deltas:  89% (188/211)   Resolving deltas:  90% (190/211)   Resolving deltas:  91% (193/211)   Resolving deltas:  93% (197/211)   Resolving deltas:  94% (199/211)   Resolving deltas:  95% (201/211)   Resolving deltas:  96% (203/211)   Resolving deltas:  97% (205/211)   Resolving deltas:  98% (208/211)   Resolving deltas:  99% (210/211)   Resolving deltas: 100% (211/211)   Resolving deltas: 100% (211/211), done.
-Checking connectivity... done.
-
-travis_time:end:01fa444c:start=1484692160720606350,finish=1484692161841288939,duration=1120682589[0K$ cd rg3/youtube-dl
-travis_time:start:107b03be[0K$ git fetch origin +refs/pull/11565/merge:
-remote: Counting objects: 68523, done.[K
-remote: Compressing objects:   0% (1/16566)   [Kremote: Compressing objects:   1% (166/16566)   [Kremote: Compressing objects:   2% (332/16566)   [Kremote: Compressing objects:   3% (497/16566)   [Kremote: Compressing objects:   4% (663/16566)   [Kremote: Compressing objects:   5% (829/16566)   [Kremote: Compressing objects:   6% (994/16566)   [Kremote: Compressing objects:   7% (1160/16566)   [Kremote: Compressing objects:   8% (1326/16566)   [Kremote: Compressing objects:   9% (1491/16566)   [Kremote: Compressing objects:  10% (1657/16566)   [Kremote: Compressing objects:  11% (1823/16566)   [Kremote: Compressing objects:  12% (1988/16566)   [Kremote: Compressing objects:  13% (2154/16566)   [Kremote: Compressing objects:  14% (2320/16566)   [Kremote: Compressing objects:  15% (2485/16566)   [Kremote: Compressing objects:  16% (2651/16566)   [Kremote: Compressing objects:  17% (2817/16566)   [Kremote: Compressing objects:  18% (2982/16566)   [Kremote: Compressing objects:  19% (3148/16566)   [Kremote: Compressing objects:  20% (3314/16566)   [Kremote: Compressing objects:  21% (3479/16566)   [Kremote: Compressing objects:  22% (3645/16566)   [Kremote: Compressing objects:  23% (3811/16566)   [Kremote: Compressing objects:  24% (3976/16566)   [Kremote: Compressing objects:  25% (4142/16566)   [Kremote: Compressing objects:  26% (4308/16566)   [Kremote: Compressing objects:  27% (4473/16566)   [Kremote: Compressing objects:  28% (4639/16566)   [Kremote: Compressing objects:  29% (4805/16566)   [Kremote: Compressing objects:  30% (4970/16566)   [Kremote: Compressing objects:  31% (5136/16566)   [Kremote: Compressing objects:  32% (5302/16566)   [Kremote: Compressing objects:  33% (5467/16566)   [Kremote: Compressing objects:  34% (5633/16566)   [Kremote: Compressing objects:  35% (5799/16566)   [Kremote: Compressing objects:  36% (5964/16566)   [Kremote: Compressing objects:  37% (6130/16566)   [Kremote: Compressing objects:  38% (6296/16566)   [Kremote: Compressing objects:  39% (6461/16566)   [Kremote: Compressing objects:  40% (6627/16566)   [Kremote: Compressing objects:  41% (6793/16566)   [Kremote: Compressing objects:  42% (6958/16566)   [Kremote: Compressing objects:  43% (7124/16566)   [Kremote: Compressing objects:  44% (7290/16566)   [Kremote: Compressing objects:  45% (7455/16566)   [Kremote: Compressing objects:  46% (7621/16566)   [Kremote: Compressing objects:  47% (7787/16566)   [Kremote: Compressing objects:  48% (7952/16566)   [Kremote: Compressing objects:  49% (8118/16566)   [Kremote: Compressing objects:  50% (8283/16566)   [Kremote: Compressing objects:  51% (8449/16566)   [Kremote: Compressing objects:  52% (8615/16566)   [Kremote: Compressing objects:  53% (8780/16566)   [Kremote: Compressing objects:  54% (8946/16566)   [Kremote: Compressing objects:  55% (9112/16566)   [Kremote: Compressing objects:  56% (9277/16566)   [Kremote: Compressing objects:  57% (9443/16566)   [Kremote: Compressing objects:  58% (9609/16566)   [Kremote: Compressing objects:  59% (9774/16566)   [Kremote: Compressing objects:  60% (9940/16566)   [Kremote: Compressing objects:  61% (10106/16566)   [Kremote: Compressing objects:  62% (10271/16566)   [Kremote: Compressing objects:  63% (10437/16566)   [Kremote: Compressing objects:  64% (10603/16566)   [Kremote: Compressing objects:  65% (10768/16566)   [Kremote: Compressing objects:  66% (10934/16566)   [Kremote: Compressing objects:  67% (11100/16566)   [Kremote: Compressing objects:  68% (11265/16566)   [Kremote: Compressing objects:  69% (11431/16566)   [Kremote: Compressing objects:  70% (11597/16566)   [Kremote: Compressing objects:  71% (11762/16566)   [Kremote: Compressing objects:  72% (11928/16566)   [Kremote: Compressing objects:  73% (12094/16566)   [Kremote: Compressing objects:  74% (12259/16566)   [Kremote: Compressing objects:  75% (12425/16566)   [Kremote: Compressing objects:  76% (12591/16566)   [Kremote: Compressing objects:  77% (12756/16566)   [Kremote: Compressing objects:  78% (12922/16566)   [Kremote: Compressing objects:  79% (13088/16566)   [Kremote: Compressing objects:  80% (13253/16566)   [Kremote: Compressing objects:  81% (13419/16566)   [Kremote: Compressing objects:  82% (13585/16566)   [Kremote: Compressing objects:  83% (13750/16566)   [Kremote: Compressing objects:  84% (13916/16566)   [Kremote: Compressing objects:  85% (14082/16566)   [Kremote: Compressing objects:  86% (14247/16566)   [Kremote: Compressing objects:  87% (14413/16566)   [Kremote: Compressing objects:  88% (14579/16566)   [Kremote: Compressing objects:  89% (14744/16566)   [Kremote: Compressing objects:  90% (14910/16566)   [Kremote: Compressing objects:  91% (15076/16566)   [Kremote: Compressing objects:  92% (15241/16566)   [Kremote: Compressing objects:  93% (15407/16566)   [Kremote: Compressing objects:  94% (15573/16566)   [Kremote: Compressing objects:  95% (15738/16566)   [Kremote: Compressing objects:  96% (15904/16566)   [Kremote: Compressing objects:  97% (16070/16566)   [Kremote: Compressing objects:  98% (16235/16566)   [Kremote: Compressing objects:  99% (16401/16566)   [Kremote: Compressing objects: 100% (16566/16566)   [Kremote: Compressing objects: 100% (16566/16566), done.[K
-Receiving objects:   0% (1/68523)   Receiving objects:   1% (686/68523)   Receiving objects:   2% (1371/68523)   Receiving objects:   3% (2056/68523)   Receiving objects:   4% (2741/68523)   Receiving objects:   5% (3427/68523)   Receiving objects:   6% (4112/68523)   Receiving objects:   7% (4797/68523)   Receiving objects:   8% (5482/68523)   Receiving objects:   9% (6168/68523)   Receiving objects:  10% (6853/68523)   Receiving objects:  11% (7538/68523)   Receiving objects:  12% (8223/68523)   Receiving objects:  13% (8908/68523)   Receiving objects:  14% (9594/68523)   Receiving objects:  15% (10279/68523)   Receiving objects:  16% (10964/68523)   Receiving objects:  17% (11649/68523)   Receiving objects:  18% (12335/68523)   Receiving objects:  19% (13020/68523)   Receiving objects:  20% (13705/68523)   Receiving objects:  21% (14390/68523)   Receiving objects:  22% (15076/68523)   Receiving objects:  23% (15761/68523)   Receiving objects:  24% (16446/68523)   Receiving objects:  25% (17131/68523)   Receiving objects:  26% (17816/68523)   Receiving objects:  27% (18502/68523)   Receiving objects:  28% (19187/68523)   Receiving objects:  29% (19872/68523)   Receiving objects:  30% (20557/68523)   Receiving objects:  31% (21243/68523)   Receiving objects:  32% (21928/68523)   Receiving objects:  33% (22613/68523), 9.26 MiB | 18.41 MiB/s   Receiving objects:  34% (23298/68523), 9.26 MiB | 18.41 MiB/s   Receiving objects:  35% (23984/68523), 9.26 MiB | 18.41 MiB/s   Receiving objects:  36% (24669/68523), 9.26 MiB | 18.41 MiB/s   Receiving objects:  37% (25354/68523), 9.26 MiB | 18.41 MiB/s   Receiving objects:  38% (26039/68523), 9.26 MiB | 18.41 MiB/s   Receiving objects:  39% (26724/68523), 9.26 MiB | 18.41 MiB/s   Receiving objects:  40% (27410/68523), 9.26 MiB | 18.41 MiB/s   Receiving objects:  41% (28095/68523), 9.26 MiB | 18.41 MiB/s   Receiving objects:  42% (28780/68523), 9.26 MiB | 18.41 MiB/s   Receiving objects:  43% (29465/68523), 9.26 MiB | 18.41 MiB/s   Receiving objects:  44% (30151/68523), 9.26 MiB | 18.41 MiB/s   Receiving objects:  45% (30836/68523), 9.26 MiB | 18.41 MiB/s   Receiving objects:  46% (31521/68523), 9.26 MiB | 18.41 MiB/s   Receiving objects:  47% (32206/68523), 9.26 MiB | 18.41 MiB/s   Receiving objects:  48% (32892/68523), 9.26 MiB | 18.41 MiB/s   Receiving objects:  49% (33577/68523), 9.26 MiB | 18.41 MiB/s   Receiving objects:  50% (34262/68523), 9.26 MiB | 18.41 MiB/s   Receiving objects:  51% (34947/68523), 9.26 MiB | 18.41 MiB/s   Receiving objects:  52% (35632/68523), 9.26 MiB | 18.41 MiB/s   Receiving objects:  53% (36318/68523), 9.26 MiB | 18.41 MiB/s   Receiving objects:  54% (37003/68523), 9.26 MiB | 18.41 MiB/s   Receiving objects:  55% (37688/68523), 9.26 MiB | 18.41 MiB/s   Receiving objects:  56% (38373/68523), 9.26 MiB | 18.41 MiB/s   Receiving objects:  57% (39059/68523), 9.26 MiB | 18.41 MiB/s   Receiving objects:  58% (39744/68523), 9.26 MiB | 18.41 MiB/s   Receiving objects:  59% (40429/68523), 9.26 MiB | 18.41 MiB/s   Receiving objects:  60% (41114/68523), 9.26 MiB | 18.41 MiB/s   Receiving objects:  61% (41800/68523), 9.26 MiB | 18.41 MiB/s   Receiving objects:  62% (42485/68523), 9.26 MiB | 18.41 MiB/s   Receiving objects:  63% (43170/68523), 9.26 MiB | 18.41 MiB/s   Receiving objects:  64% (43855/68523), 9.26 MiB | 18.41 MiB/s   Receiving objects:  65% (44540/68523), 9.26 MiB | 18.41 MiB/s   Receiving objects:  66% (45226/68523), 9.26 MiB | 18.41 MiB/s   Receiving objects:  67% (45911/68523), 9.26 MiB | 18.41 MiB/s   Receiving objects:  68% (46596/68523), 9.26 MiB | 18.41 MiB/s   Receiving objects:  69% (47281/68523), 9.26 MiB | 18.41 MiB/s   Receiving objects:  70% (47967/68523), 9.26 MiB | 18.41 MiB/s   Receiving objects:  71% (48652/68523), 9.26 MiB | 18.41 MiB/s   Receiving objects:  72% (49337/68523), 9.26 MiB | 18.41 MiB/s   Receiving objects:  73% (50022/68523), 9.26 MiB | 18.41 MiB/s   Receiving objects:  74% (50708/68523), 9.26 MiB | 18.41 MiB/s   Receiving objects:  75% (51393/68523), 9.26 MiB | 18.41 MiB/s   Receiving objects:  76% (52078/68523), 9.26 MiB | 18.41 MiB/s   Receiving objects:  77% (52763/68523), 9.26 MiB | 18.41 MiB/s   Receiving objects:  78% (53448/68523), 9.26 MiB | 18.41 MiB/s   Receiving objects:  79% (54134/68523), 9.26 MiB | 18.41 MiB/s   Receiving objects:  80% (54819/68523), 9.26 MiB | 18.41 MiB/s   Receiving objects:  81% (55504/68523), 9.26 MiB | 18.41 MiB/s   Receiving objects:  82% (56189/68523), 9.26 MiB | 18.41 MiB/s   Receiving objects:  82% (56830/68523), 9.26 MiB | 18.41 MiB/s   Receiving objects:  83% (56875/68523), 9.26 MiB | 18.41 MiB/s   Receiving objects:  84% (57560/68523), 9.26 MiB | 18.41 MiB/s   Receiving objects:  85% (58245/68523), 20.10 MiB | 20.01 MiB/s   Receiving objects:  86% (58930/68523), 20.10 MiB | 20.01 MiB/s   Receiving objects:  87% (59616/68523), 20.10 MiB | 20.01 MiB/s   Receiving objects:  88% (60301/68523), 20.10 MiB | 20.01 MiB/s   Receiving objects:  89% (60986/68523), 20.10 MiB | 20.01 MiB/s   Receiving objects:  90% (61671/68523), 20.10 MiB | 20.01 MiB/s   Receiving objects:  91% (62356/68523), 20.10 MiB | 20.01 MiB/s   Receiving objects:  92% (63042/68523), 20.10 MiB | 20.01 MiB/s   Receiving objects:  93% (63727/68523), 20.10 MiB | 20.01 MiB/s   Receiving objects:  94% (64412/68523), 20.10 MiB | 20.01 MiB/s   Receiving objects:  95% (65097/68523), 20.10 MiB | 20.01 MiB/s   Receiving objects:  96% (65783/68523), 20.10 MiB | 20.01 MiB/s   Receiving objects:  97% (66468/68523), 20.10 MiB | 20.01 MiB/s   Receiving objects:  98% (67153/68523), 20.10 MiB | 20.01 MiB/s   Receiving objects:  99% (67838/68523), 32.85 MiB | 21.82 MiB/s   remote: Total 68523 (delta 52333), reused 67529 (delta 51340), pack-reused 0[K
-Receiving objects: 100% (68523/68523), 32.85 MiB | 21.82 MiB/s   Receiving objects: 100% (68523/68523), 33.28 MiB | 21.82 MiB/s, done.
-Resolving deltas:   0% (0/52333)   Resolving deltas:   1% (598/52333)   Resolving deltas:   2% (1539/52333)   Resolving deltas:   3% (1595/52333)   Resolving deltas:   4% (2170/52333)   Resolving deltas:   5% (2735/52333)   Resolving deltas:   6% (3230/52333)   Resolving deltas:   7% (3837/52333)   Resolving deltas:   8% (4210/52333)   Resolving deltas:   9% (4710/52333)   Resolving deltas:  10% (5265/52333)   Resolving deltas:  11% (5768/52333)   Resolving deltas:  13% (7218/52333)   Resolving deltas:  14% (7793/52333)   Resolving deltas:  15% (7879/52333)   Resolving deltas:  16% (8771/52333)   Resolving deltas:  17% (8951/52333)   Resolving deltas:  18% (9483/52333)   Resolving deltas:  19% (10158/52333)   Resolving deltas:  20% (10551/52333)   Resolving deltas:  22% (12014/52333)   Resolving deltas:  23% (12049/52333)   Resolving deltas:  25% (13143/52333)   Resolving deltas:  26% (13648/52333)   Resolving deltas:  27% (14197/52333)   Resolving deltas:  30% (15771/52333)   Resolving deltas:  31% (16250/52333)   Resolving deltas:  32% (16756/52333)   Resolving deltas:  33% (17318/52333)   Resolving deltas:  34% (17917/52333)   Resolving deltas:  35% (18647/52333)   Resolving deltas:  36% (19167/52333)   Resolving deltas:  37% (19662/52333)   Resolving deltas:  38% (19892/52333)   Resolving deltas:  39% (20417/52333)   Resolving deltas:  40% (21004/52333)   Resolving deltas:  41% (21458/52333)   Resolving deltas:  43% (22572/52333)   Resolving deltas:  44% (23035/52333)   Resolving deltas:  45% (23552/52333)   Resolving deltas:  46% (24082/52333)   Resolving deltas:  47% (24616/52333)   Resolving deltas:  48% (25174/52333)   Resolving deltas:  49% (25673/52333)   Resolving deltas:  50% (26252/52333)   Resolving deltas:  51% (26695/52333)   Resolving deltas:  52% (27414/52333)   Resolving deltas:  53% (27807/52333)   Resolving deltas:  54% (28514/52333)   Resolving deltas:  55% (28894/52333)   Resolving deltas:  56% (29312/52333)   Resolving deltas:  57% (29952/52333)   Resolving deltas:  58% (30523/52333)   Resolving deltas:  59% (30890/52333)   Resolving deltas:  60% (31410/52333)   Resolving deltas:  61% (32063/52333)   Resolving deltas:  62% (32587/52333)   Resolving deltas:  63% (33005/52333)   Resolving deltas:  64% (33645/52333)   Resolving deltas:  65% (34058/52333)   Resolving deltas:  66% (34558/52333)   Resolving deltas:  67% (35064/52333)   Resolving deltas:  68% (35588/52333)   Resolving deltas:  69% (36126/52333)   Resolving deltas:  70% (36636/52333)   Resolving deltas:  71% (37250/52333)   Resolving deltas:  72% (37791/52333)   Resolving deltas:  73% (38208/52333)   Resolving deltas:  74% (38958/52333)   Resolving deltas:  75% (39277/52333)   Resolving deltas:  76% (39780/52333)   Resolving deltas:  77% (40312/52333)   Resolving deltas:  77% (40445/52333)   Resolving deltas:  78% (40822/52333)   Resolving deltas:  79% (41524/52333)   Resolving deltas:  80% (41995/52333)   Resolving deltas:  81% (42574/52333)   Resolving deltas:  82% (42984/52333)   Resolving deltas:  83% (43452/52333)   Resolving deltas:  84% (43964/52333)   Resolving deltas:  85% (44497/52333)   Resolving deltas:  86% (45013/52333)   Resolving deltas:  87% (45531/52333)   Resolving deltas:  88% (46069/52333)   Resolving deltas:  89% (46585/52333)   Resolving deltas:  90% (47180/52333)   Resolving deltas:  91% (47674/52333)   Resolving deltas:  92% (48472/52333)   Resolving deltas:  93% (48698/52333)   Resolving deltas:  94% (49230/52333)   Resolving deltas:  95% (49732/52333)   Resolving deltas:  96% (50259/52333)   Resolving deltas:  97% (50768/52333)   Resolving deltas:  98% (51299/52333)   Resolving deltas:  99% (51811/52333)   Resolving deltas: 100% (52333/52333)   Resolving deltas: 100% (52333/52333), completed with 697 local objects.
-From https://github.com/rg3/youtube-dl
- * branch            refs/pull/11565/merge -> FETCH_HEAD
-
-travis_time:end:107b03be:start=1484692161847076365,finish=1484692166810300259,duration=4963223894[0K$ git checkout -qf FETCH_HEAD
-travis_fold:end:git.checkout[0K
-[33;1mThis job is running on container-based infrastructure, which does not allow use of 'sudo', setuid and setguid executables.[0m
-[33;1mIf you require sudo, add 'sudo: required' to your .travis.yml[0m
-[33;1mSee https://docs.travis-ci.com/user/workers/container-based-infrastructure/ for details.[0m
-travis_time:start:0a96c1dc[0K$ source ~/virtualenv/python2.6/bin/activate
-
-travis_time:end:0a96c1dc:start=1484692170845737089,finish=1484692170851110083,duration=5372994[0K$ python --version
-Python 2.6.9
-$ pip --version
-pip 6.0.7 from /home/travis/virtualenv/python2.6.9/lib/python2.6/site-packages (python 2.6)
-Could not locate requirements.txt. Override the install: key in your .travis.yml to install dependencies.
-travis_time:start:05237ba6[0K$ nosetests test --verbose
-test_download_json (test.test_InfoExtractor.TestInfoExtractor) ... [0;33mWARNING:[0m [Test] None: Failed to parse JSON Expecting object: line 1 column 8 (char 8)
-ok
-test_html_search_meta (test.test_InfoExtractor.TestInfoExtractor) ... ok
-test_html_search_regex (test.test_InfoExtractor.TestInfoExtractor) ... ok
-test_ie_key (test.test_InfoExtractor.TestInfoExtractor) ... ok
-test_opengraph (test.test_InfoExtractor.TestInfoExtractor) ... ok
-test_audio_only_extractor_format_selection (test.test_YoutubeDL.TestFormatSelection) ... ok
-test_format_filtering (test.test_YoutubeDL.TestFormatSelection) ... ok
-test_format_not_available (test.test_YoutubeDL.TestFormatSelection) ... ok
-test_format_selection (test.test_YoutubeDL.TestFormatSelection) ... ok
-test_format_selection_audio (test.test_YoutubeDL.TestFormatSelection) ... ok
-test_format_selection_audio_exts (test.test_YoutubeDL.TestFormatSelection) ... ok
-test_format_selection_video (test.test_YoutubeDL.TestFormatSelection) ... ok
-test_invalid_format_specs (test.test_YoutubeDL.TestFormatSelection) ... ok
-test_prefer_free_formats (test.test_YoutubeDL.TestFormatSelection) ... ok
-test_youtube_format_selection (test.test_YoutubeDL.TestFormatSelection) ... ok
-test_add_extra_info (test.test_YoutubeDL.TestYoutubeDL) ... ok
-test_do_not_override_ie_key_in_url_transparent (test.test_YoutubeDL.TestYoutubeDL) ... ok
-test_format_note (test.test_YoutubeDL.TestYoutubeDL) ... ok
-test_match_filter (test.test_YoutubeDL.TestYoutubeDL) ... ok
-test_playlist_items_selection (test.test_YoutubeDL.TestYoutubeDL) ... ok
-test_postprocessors (test.test_YoutubeDL.TestYoutubeDL) ... ok
-test_prepare_filename (test.test_YoutubeDL.TestYoutubeDL) ... ok
-test_subtitles (test.test_YoutubeDL.TestYoutubeDL) ... ok
-test_urlopen_no_file_protocol (test.test_YoutubeDL.TestYoutubeDL) ... ok
-test_cbc_decrypt (test.test_aes.TestAES) ... ok
-test_decrypt_text (test.test_aes.TestAES) ... ok
-test_encrypt (test.test_aes.TestAES) ... ok
-test_youporn (test.test_age_restriction.TestAgeRestriction) ... ok
-test_youtube (test.test_age_restriction.TestAgeRestriction) ... ok
-test_facebook_matching (test.test_all_urls.TestAllURLsMatching) ... ok
-test_keywords (test.test_all_urls.TestAllURLsMatching) ... ok
-test_no_duplicated_ie_names (test.test_all_urls.TestAllURLsMatching) ... ok
-test_no_duplicates (test.test_all_urls.TestAllURLsMatching) ... ok
-test_pbs (test.test_all_urls.TestAllURLsMatching) ... ok
-test_soundcloud_not_matching_sets (test.test_all_urls.TestAllURLsMatching) ... ok
-test_tumblr (test.test_all_urls.TestAllURLsMatching) ... ok
-test_vimeo_matching (test.test_all_urls.TestAllURLsMatching) ... ok
-test_yahoo_https (test.test_all_urls.TestAllURLsMatching) ... ok
-test_youtube_channel_matching (test.test_all_urls.TestAllURLsMatching) ... ok
-test_youtube_extract (test.test_all_urls.TestAllURLsMatching) ... ok
-test_youtube_feeds (test.test_all_urls.TestAllURLsMatching) ... ok
-test_youtube_matching (test.test_all_urls.TestAllURLsMatching) ... ok
-test_youtube_playlist_matching (test.test_all_urls.TestAllURLsMatching) ... ok
-test_youtube_search_matching (test.test_all_urls.TestAllURLsMatching) ... ok
-test_youtube_show_matching (test.test_all_urls.TestAllURLsMatching) ... ok
-test_youtube_user_matching (test.test_all_urls.TestAllURLsMatching) ... ok
-test_cache (test.test_cache.TestCache) ... ok
-test_all_present (test.test_compat.TestCompat) ... ok
-test_compat_etree_fromstring (test.test_compat.TestCompat) ... ok
-test_compat_etree_fromstring_doctype (test.test_compat.TestCompat) ... ok
-test_compat_expanduser (test.test_compat.TestCompat) ... ok
-test_compat_getenv (test.test_compat.TestCompat) ... ok
-test_compat_setenv (test.test_compat.TestCompat) ... ok
-test_compat_shlex_split (test.test_compat.TestCompat) ... ok
-test_compat_urllib_parse_unquote (test.test_compat.TestCompat) ... ok
-test_compat_urllib_parse_unquote_plus (test.test_compat.TestCompat) ... ok
-test_compat_urllib_parse_urlencode (test.test_compat.TestCompat) ... ok
-test_struct_unpack (test.test_compat.TestCompat) ... ok
-test_ABC (test.test_download.TestDownload) ... ok
-test_ABCIView (test.test_download.TestDownload) ... ok
-test_ABCOTVS (test.test_download.TestDownload) ... ok
-test_ABCOTVSClips (test.test_download.TestDownload) ... ok
-test_ABC_1 (test.test_download.TestDownload) ... ok
-test_ABC_2 (test.test_download.TestDownload) ... ok
-test_ACast (test.test_download.TestDownload) ... ok
-test_ACastChannel (test.test_download.TestDownload) ... ok
-test_ACast_1 (test.test_download.TestDownload) ... ok
-test_AENetworks (test.test_download.TestDownload) ... ok
-test_AENetworks_1 (test.test_download.TestDownload) ... FAIL
-test_AENetworks_2 (test.test_download.TestDownload) ... ok
-test_AMCNetworks (test.test_download.TestDownload) ... ok
-test_ARD (test.test_download.TestDownload) ... ok
-test_ARDMediathek (test.test_download.TestDownload) ... ok
-test_ARDMediathek_1 (test.test_download.TestDownload) ... ok
-test_ARDMediathek_2 (test.test_download.TestDownload) ... ok
-test_ARDMediathek_3 (test.test_download.TestDownload) ... ok
-test_ATTTechChannel (test.test_download.TestDownload) ... ok
-test_AWAANLive (test.test_download.TestDownload) ... ok
-test_AWAANSeason (test.test_download.TestDownload) ... ok
-test_AWAANVideo (test.test_download.TestDownload) ... ok
-test_AbcNews (test.test_download.TestDownload) ... ok
-test_AbcNewsVideo (test.test_download.TestDownload) ... ok
-test_AbcNews_1 (test.test_download.TestDownload) ... ok
-test_AcademicEarthCourse (test.test_download.TestDownload) ... ok
-test_AddAnime (test.test_download.TestDownload) ... ERROR
-test_AdobeTV (test.test_download.TestDownload) ... ok
-test_AdobeTVChannel (test.test_download.TestDownload) ... ok
-test_AdobeTVShow (test.test_download.TestDownload) ... ok
-test_AdobeTVVideo (test.test_download.TestDownload) ... ok
-test_AdultSwim (test.test_download.TestDownload) ... ok
-test_AdultSwim_1 (test.test_download.TestDownload) ... ok
-test_AdultSwim_2 (test.test_download.TestDownload) ... ERROR
-test_AdultSwim_3 (test.test_download.TestDownload) ... ERROR
-test_AdultSwim_4 (test.test_download.TestDownload) ... ERROR
-test_AfreecaTV (test.test_download.TestDownload) ... ERROR
-test_AfreecaTV_1 (test.test_download.TestDownload) ... ERROR
-test_AirMozilla (test.test_download.TestDownload) ... [0;33mWARNING:[0m Failed due to network errors, skipping...
-ok
-test_AlJazeera (test.test_download.TestDownload) ... ok
-test_Allocine (test.test_download.TestDownload) ... ok
-test_Allocine_1 (test.test_download.TestDownload) ... ok
-test_Allocine_2 (test.test_download.TestDownload) ... ok
-test_Allocine_3 (test.test_download.TestDownload) ... ok
-test_AlphaPorno (test.test_download.TestDownload) ... ok
-test_AndereTijden (test.test_download.TestDownload) ... ok
-test_AnimeOnDemand (test.test_download.TestDownload) ... ERROR
-test_Anitube (test.test_download.TestDownload) ... ok
-test_AnySex (test.test_download.TestDownload) ... ok
-test_Aol (test.test_download.TestDownload) ... ok
-test_Aol_1 (test.test_download.TestDownload) ... ok
-test_Aparat (test.test_download.TestDownload) ... ERROR
-test_AppleConnect (test.test_download.TestDownload) ... FAIL
-test_AppleDaily (test.test_download.TestDownload) ... ERROR
-test_AppleDaily_1 (test.test_download.TestDownload) ... ok
-test_AppleDaily_2 (test.test_download.TestDownload) ... ok
-test_AppleDaily_3 (test.test_download.TestDownload) ... ok
-test_AppleDaily_4 (test.test_download.TestDownload) ... ok
-test_AppleTrailers (test.test_download.TestDownload) ... ok
-test_AppleTrailersSection (test.test_download.TestDownload) ... ok
-test_AppleTrailersSection_1 (test.test_download.TestDownload) ... ok
-test_AppleTrailersSection_2 (test.test_download.TestDownload) ... ok
-test_AppleTrailersSection_3 (test.test_download.TestDownload) ... FAIL
-test_AppleTrailersSection_4 (test.test_download.TestDownload) ... ok
-test_AppleTrailers_1 (test.test_download.TestDownload) ... FAIL
-test_AppleTrailers_2 (test.test_download.TestDownload) ... ok
-test_ArchiveOrg (test.test_download.TestDownload) ... ok
-test_ArchiveOrg_1 (test.test_download.TestDownload) ... FAIL
-test_Arkena (test.test_download.TestDownload) ... ok
-test_ArteTVCinema (test.test_download.TestDownload) ... ok
-test_ArteTVConcert (test.test_download.TestDownload) ... FAIL
-test_ArteTVCreative (test.test_download.TestDownload) ... ok
-test_ArteTVCreative_1 (test.test_download.TestDownload) ... ok
-test_ArteTVFuture (test.test_download.TestDownload) ... ok
-test_ArteTVInfo (test.test_download.TestDownload) ... ok
-test_ArteTVMagazine (test.test_download.TestDownload) ... FAIL
-test_ArteTVMagazine_1 (test.test_download.TestDownload) ... FAIL
-test_ArteTVPlaylist (test.test_download.TestDownload) ... ERROR
-test_AtresPlayer (test.test_download.TestDownload) ... ok
-test_AtresPlayer_1 (test.test_download.TestDownload) ... FAIL
-test_AudiMedia (test.test_download.TestDownload) ... ok
-test_AudioBoom (test.test_download.TestDownload) ... FAIL
-test_Audiomack (test.test_download.TestDownload) ... ok
-test_AudiomackAlbum (test.test_download.TestDownload) ... ok
-test_AudiomackAlbum_1 (test.test_download.TestDownload) ... ok
-test_Audiomack_1 (test.test_download.TestDownload) ... ok
-test_AuroraVid (test.test_download.TestDownload) ... ok
-test_Azubu (test.test_download.TestDownload) ... ok
-test_Azubu_1 (test.test_download.TestDownload) ... ok
-test_BBC (test.test_download.TestDownload) ... ok
-test_BBCCoUk (test.test_download.TestDownload) ... ok
-test_BBCCoUkArticle (test.test_download.TestDownload) ... ok
-test_BBCCoUkIPlayerPlaylist (test.test_download.TestDownload) ... ok
-test_BBCCoUkIPlayerPlaylist_1 (test.test_download.TestDownload) ... ok
-test_BBCCoUkPlaylist (test.test_download.TestDownload) ... ok
-test_BBCCoUkPlaylist_1 (test.test_download.TestDownload) ... ok
-test_BBCCoUkPlaylist_2 (test.test_download.TestDownload) ... ok
-test_BBCCoUk_1 (test.test_download.TestDownload) ... ok
-test_BBCCoUk_10 (test.test_download.TestDownload) ... ok
-test_BBCCoUk_2 (test.test_download.TestDownload) ... ok
-test_BBCCoUk_3 (test.test_download.TestDownload) ... ok
-test_BBCCoUk_4 (test.test_download.TestDownload) ... ok
-test_BBCCoUk_5 (test.test_download.TestDownload) ... ok
-test_BBCCoUk_6 (test.test_download.TestDownload) ... ok
-test_BBCCoUk_7 (test.test_download.TestDownload) ... ok
-test_BBCCoUk_8 (test.test_download.TestDownload) ... ok
-test_BBCCoUk_9 (test.test_download.TestDownload) ... ok
-test_BBC_1 (test.test_download.TestDownload) ... ok
-test_BBC_10 (test.test_download.TestDownload) ... ERROR
-test_BBC_11 (test.test_download.TestDownload) ... ok
-test_BBC_12 (test.test_download.TestDownload) ... ok
-test_BBC_2 (test.test_download.TestDownload) ... ok
-test_BBC_3 (test.test_download.TestDownload) ... ok
-test_BBC_4 (test.test_download.TestDownload) ... ok
-test_BBC_5 (test.test_download.TestDownload) ... ok
-test_BBC_6 (test.test_download.TestDownload) ... ok
-test_BBC_7 (test.test_download.TestDownload) ... ok
-test_BBC_8 (test.test_download.TestDownload) ... ok
-test_BBC_9 (test.test_download.TestDownload) ... ok
-test_BIQLE (test.test_download.TestDownload) ... ERROR
-test_BIQLE_1 (test.test_download.TestDownload) ... ok
-test_BR (test.test_download.TestDownload) ... ok
-test_BR_1 (test.test_download.TestDownload) ... ok
-test_BR_2 (test.test_download.TestDownload) ... ok
-test_BR_3 (test.test_download.TestDownload) ... ok
-test_BR_4 (test.test_download.TestDownload) ... FAIL
-test_BTArticle (test.test_download.TestDownload) ... ok
-test_BTVestlendingen (test.test_download.TestDownload) ... ok
-test_BTVestlendingen_1 (test.test_download.TestDownload) ... ok
-test_BYUtv (test.test_download.TestDownload) ... ok
-test_BYUtvEvent (test.test_download.TestDownload) ... ERROR
-test_BaiduVideo (test.test_download.TestDownload) ... ok
-test_BaiduVideo_1 (test.test_download.TestDownload) ... ok
-test_Bambuser (test.test_download.TestDownload) ... ok
-test_BambuserChannel (test.test_download.TestDownload) ... ok
-test_Bandcamp (test.test_download.TestDownload) ... ok
-test_BandcampAlbum (test.test_download.TestDownload) ... ok
-test_BandcampAlbum_1 (test.test_download.TestDownload) ... ok
-test_BandcampAlbum_2 (test.test_download.TestDownload) ... ok
-test_BandcampAlbum_3 (test.test_download.TestDownload) ... ok
-test_Bandcamp_1 (test.test_download.TestDownload) ... FAIL
-test_BeamProLive (test.test_download.TestDownload) ... ok
-test_Beatport (test.test_download.TestDownload) ... ok
-test_Beatport_1 (test.test_download.TestDownload) ... ok
-test_Beatport_2 (test.test_download.TestDownload) ... ok
-test_Beeg (test.test_download.TestDownload) ... FAIL
-test_BehindKink (test.test_download.TestDownload) ... [0;33mWARNING:[0m Failed due to network errors, skipping...
-ok
-test_BellMedia (test.test_download.TestDownload) ... ERROR
-test_Bet (test.test_download.TestDownload) ... FAIL
-test_Bet_1 (test.test_download.TestDownload) ... FAIL
-test_Bigflix (test.test_download.TestDownload) ... ok
-test_Bild (test.test_download.TestDownload) ... ok
-test_BiliBili (test.test_download.TestDownload) ... ERROR
-test_BioBioChileTV (test.test_download.TestDownload) ... ok
-test_BioBioChileTV_1 (test.test_download.TestDownload) ... ok
-test_BioBioChileTV_2 (test.test_download.TestDownload) ... ok
-test_BleacherReport (test.test_download.TestDownload) ... ok
-test_BleacherReportCMS (test.test_download.TestDownload) ... FAIL
-test_BleacherReport_1 (test.test_download.TestDownload) ... FAIL
-test_Blinkx (test.test_download.TestDownload) ... [0;33mWARNING:[0m Failed due to network errors, skipping...
-ok
-test_Bloomberg (test.test_download.TestDownload) ... ok
-test_Bloomberg_1 (test.test_download.TestDownload) ... ok
-test_BokeCC (test.test_download.TestDownload) ... ERROR
-test_Bpb (test.test_download.TestDownload) ... FAIL
-test_BravoTV (test.test_download.TestDownload) ... ok
-test_Break (test.test_download.TestDownload) ... ok
-test_Break_1 (test.test_download.TestDownload) ... ok
-test_Break_2 (test.test_download.TestDownload) ... ok
-test_Break_3 (test.test_download.TestDownload) ... ok
-test_BrightcoveLegacy (test.test_download.TestDownload) ... ok
-test_BrightcoveLegacy_1 (test.test_download.TestDownload) ... ok
-test_BrightcoveLegacy_2 (test.test_download.TestDownload) ... ok
-test_BrightcoveLegacy_3 (test.test_download.TestDownload) ... ok
-test_BrightcoveLegacy_4 (test.test_download.TestDownload) ... ERROR
-test_BrightcoveLegacy_5 (test.test_download.TestDownload) ... ok
-test_BrightcoveLegacy_6 (test.test_download.TestDownload) ... ok
-test_BrightcoveNew (test.test_download.TestDownload) ... ok
-test_BrightcoveNew_1 (test.test_download.TestDownload) ... ok
-test_BuzzFeed (test.test_download.TestDownload) ... ok
-test_BuzzFeed_1 (test.test_download.TestDownload) ... ok
-test_BuzzFeed_2 (test.test_download.TestDownload) ... FAIL
-test_C56 (test.test_download.TestDownload) ... ok
-test_C56_1 (test.test_download.TestDownload) ... ok
-test_CBC (test.test_download.TestDownload) ... ok
-test_CBCPlayer (test.test_download.TestDownload) ... ok
-test_CBCPlayer_1 (test.test_download.TestDownload) ... ok
-test_CBCPlayer_2 (test.test_download.TestDownload) ... FAIL
-test_CBCWatch (test.test_download.TestDownload) ... ok
-test_CBCWatch_1 (test.test_download.TestDownload) ... ok
-test_CBC_1 (test.test_download.TestDownload) ... ok
-test_CBC_2 (test.test_download.TestDownload) ... ok
-test_CBC_3 (test.test_download.TestDownload) ... ok
-test_CBC_4 (test.test_download.TestDownload) ... 
-'info_dict': {
-    'id': 'dog-indoor-exercise-winter-1.3928238',
-    'title': 'Keep Rover active during the deep freeze with doggie pushups and other fun indoor tasks',
-
-    'description': 'Doggie push ups, indoor barrel races, and other simple techniques to keep Rover mentally and physically active as Calgary\'s cold snap drags on.',
-},
-FAIL
-test_CBS (test.test_download.TestDownload) ... ok
-test_CBSInteractive (test.test_download.TestDownload) ... ok
-test_CBSInteractive_1 (test.test_download.TestDownload) ... ok
-test_CBSInteractive_2 (test.test_download.TestDownload) ... FAIL
-test_CBSLocal (test.test_download.TestDownload) ... ok
-test_CBSLocal_1 (test.test_download.TestDownload) ... ok
-test_CBSLocal_2 (test.test_download.TestDownload) ... FAIL
-test_CBSNews (test.test_download.TestDownload) ... ok
-test_CBSNewsLiveVideo (test.test_download.TestDownload) ... ok
-test_CBSNews_1 (test.test_download.TestDownload) ... ok
-test_CBSSports (test.test_download.TestDownload) ... ok
-test_CCC (test.test_download.TestDownload) ... ok
-test_CCMA (test.test_download.TestDownload) ... ok
-test_CCMA_1 (test.test_download.TestDownload) ... ok
-test_CCTV (test.test_download.TestDownload) ... FAIL
-test_CCTV_1 (test.test_download.TestDownload) ... ok
-test_CCTV_2 (test.test_download.TestDownload) ... ok
-test_CCTV_3 (test.test_download.TestDownload) ... ok
-test_CCTV_4 (test.test_download.TestDownload) ... ok
-test_CCTV_5 (test.test_download.TestDownload) ... ok
-test_CDA (test.test_download.TestDownload) ... ok
-test_CDA_1 (test.test_download.TestDownload) ... ok
-test_CMT (test.test_download.TestDownload) ... ok
-test_CMT_1 (test.test_download.TestDownload) ... ERROR
-test_CNBC (test.test_download.TestDownload) ... ok
-test_CNN (test.test_download.TestDownload) ... ok
-test_CNNArticle (test.test_download.TestDownload) ... ok
-test_CNNBlogs (test.test_download.TestDownload) ... ok
-test_CNN_1 (test.test_download.TestDownload) ... ok
-test_CNN_2 (test.test_download.TestDownload) ... ok
-test_CNN_3 (test.test_download.TestDownload) ... ok
-test_CSNNE (test.test_download.TestDownload) ... ok
-test_CSpan (test.test_download.TestDownload) ... ok
-test_CSpan_1 (test.test_download.TestDownload) ... [0;33mWARNING:[0m Failed due to network errors, skipping...
-ok
-test_CSpan_2 (test.test_download.TestDownload) ... [0;33mWARNING:[0m Failed due to network errors, skipping...
-ok
-test_CSpan_3 (test.test_download.TestDownload) ... [0;33mWARNING:[0m Failed due to network errors, skipping...
-ok
-test_CTVNews (test.test_download.TestDownload) ... ERROR
-test_CTVNews_1 (test.test_download.TestDownload) ... ok
-test_CTVNews_2 (test.test_download.TestDownload) ... ok
-test_CWTV (test.test_download.TestDownload) ... ok
-test_CWTV_1 (test.test_download.TestDownload) ... ok
-test_CamWithHer (test.test_download.TestDownload) ... ERROR
-test_Camdemy (test.test_download.TestDownload) ... ok
-test_CamdemyFolder (test.test_download.TestDownload) ... ok
-test_CamdemyFolder_1 (test.test_download.TestDownload) ... ok
-test_CamdemyFolder_2 (test.test_download.TestDownload) ... ok
-test_Camdemy_1 (test.test_download.TestDownload) ... ok
-test_Camdemy_2 (test.test_download.TestDownload) ... ok
-test_Canalc2 (test.test_download.TestDownload) ... FAIL
-test_Canalplus (test.test_download.TestDownload) ... ok
-test_Canalplus_1 (test.test_download.TestDownload) ... ok
-test_Canalplus_2 (test.test_download.TestDownload) ... ok
-test_Canalplus_3 (test.test_download.TestDownload) ... ok
-test_Canvas (test.test_download.TestDownload) ... FAIL
-test_Canvas_1 (test.test_download.TestDownload) ... ok
-test_Canvas_2 (test.test_download.TestDownload) ... ERROR
-test_CarambaTV (test.test_download.TestDownload) ... ok
-test_CarambaTVPage (test.test_download.TestDownload) ... FAIL
-test_CartoonNetwork (test.test_download.TestDownload) ... ERROR
-test_CeskaTelevize (test.test_download.TestDownload) ... FAIL
-test_CeskaTelevize_1 (test.test_download.TestDownload) ... ok
-test_CeskaTelevize_2 (test.test_download.TestDownload) ... ok
-test_CeskaTelevize_3 (test.test_download.TestDownload) ... ok
-test_Channel9 (test.test_download.TestDownload) ... ERROR
-test_Channel9_1 (test.test_download.TestDownload) ... FAIL
-test_Channel9_2 (test.test_download.TestDownload) ... FAIL
-test_Channel9_3 (test.test_download.TestDownload) ... FAIL
-test_CharlieRose (test.test_download.TestDownload) ... ok
-test_Chaturbate (test.test_download.TestDownload) ... ok
-test_Chilloutzone (test.test_download.TestDownload) ... ok
-test_Chilloutzone_1 (test.test_download.TestDownload) ... ok
-test_Chilloutzone_2 (test.test_download.TestDownload) ... FAIL
-test_Chirbit (test.test_download.TestDownload) ... ok
-test_ChirbitProfile (test.test_download.TestDownload) ... ok
-test_ClipRs (test.test_download.TestDownload) ... ok
-test_Clipfish (test.test_download.TestDownload) ... FAIL
-test_Cliphunter (test.test_download.TestDownload) ... ok
-test_Cliphunter_1 (test.test_download.TestDownload) ... ok
-test_Clipsyndicate (test.test_download.TestDownload) ... ok
-test_CloserToTruth (test.test_download.TestDownload) ... ok
-test_CloserToTruth_1 (test.test_download.TestDownload) ... ok
-test_CloserToTruth_2 (test.test_download.TestDownload) ... ok
-test_Cloudy (test.test_download.TestDownload) ... ok
-test_Clubic (test.test_download.TestDownload) ... ok
-test_Clyp (test.test_download.TestDownload) ... [0;33mWARNING:[0m Failed due to network errors, skipping...
-ok
-test_CollegeRama (test.test_download.TestDownload) ... FAIL
-test_CollegeRama_1 (test.test_download.TestDownload) ... ok
-test_ComCarCoff (test.test_download.TestDownload) ... ok
-test_ComedyCentral (test.test_download.TestDownload) ... ERROR
-test_ComedyCentralFullEpisodes (test.test_download.TestDownload) ... ok
-test_ComedyCentralTV (test.test_download.TestDownload) ... ERROR
-test_CondeNast (test.test_download.TestDownload) ... ERROR
-test_CondeNast_1 (test.test_download.TestDownload) ... ok
-test_Coub (test.test_download.TestDownload) ... FAIL
-test_Cracked (test.test_download.TestDownload) ... ERROR
-test_Cracked_1 (test.test_download.TestDownload) ... FAIL
-test_Crackle (test.test_download.TestDownload) ... ok
-test_Criterion (test.test_download.TestDownload) ... ok
-test_CrooksAndLiars (test.test_download.TestDownload) ... ok
-test_Crunchyroll (test.test_download.TestDownload) ... FAIL
-test_CrunchyrollShowPlaylist (test.test_download.TestDownload) ... ok
-test_CrunchyrollShowPlaylist_1 (test.test_download.TestDownload) ... ok
-test_Crunchyroll_1 (test.test_download.TestDownload) ... ok
-test_Crunchyroll_2 (test.test_download.TestDownload) ... ok
-test_CtsNews (test.test_download.TestDownload) ... ok
-test_CtsNews_1 (test.test_download.TestDownload) ... ok
-test_CtsNews_2 (test.test_download.TestDownload) ... ok
-test_CultureUnplugged (test.test_download.TestDownload) ... ok
-test_Culturebox (test.test_download.TestDownload) ... ERROR
-test_CuriosityStream (test.test_download.TestDownload) ... ok
-test_CuriosityStreamCollection (test.test_download.TestDownload) ... FAIL
-test_DBTV (test.test_download.TestDownload) ... ERROR
-test_DFB (test.test_download.TestDownload) ... FAIL
-test_DHM (test.test_download.TestDownload) ... ok
-test_DHM_1 (test.test_download.TestDownload) ... ok
-test_DPlay (test.test_download.TestDownload) ... ok
-test_DPlay_1 (test.test_download.TestDownload) ... ok
-test_DPlay_2 (test.test_download.TestDownload) ... ok
-test_DRBonanza (test.test_download.TestDownload) ... ERROR
-test_DRBonanza_1 (test.test_download.TestDownload) ... ERROR
-test_DRTV (test.test_download.TestDownload) ... ok
-test_DRTV_1 (test.test_download.TestDownload) ... ok
-test_DVTV (test.test_download.TestDownload) ... ok
-test_DVTV_1 (test.test_download.TestDownload) ... ok
-test_DVTV_2 (test.test_download.TestDownload) ... ok
-test_DW (test.test_download.TestDownload) ... FAIL
-test_DWArticle (test.test_download.TestDownload) ... ERROR
-test_DW_1 (test.test_download.TestDownload) ... ok
-test_DW_2 (test.test_download.TestDownload) ... ok
-test_DailyMail (test.test_download.TestDownload) ... ok
-test_Dailymotion (test.test_download.TestDownload) ... ERROR
-test_DailymotionPlaylist (test.test_download.TestDownload) ... ok
-test_DailymotionUser (test.test_download.TestDownload) ... ok
-test_DailymotionUser_1 (test.test_download.TestDownload) ... ok
-test_Dailymotion_1 (test.test_download.TestDownload) ... ok
-test_Dailymotion_2 (test.test_download.TestDownload) ... ok
-test_Daum (test.test_download.TestDownload) ... ok
-test_DaumClip (test.test_download.TestDownload) ... ok
-test_DaumPlaylist (test.test_download.TestDownload) ... ok
-test_DaumPlaylist_1 (test.test_download.TestDownload) ... ok
-test_DaumUser (test.test_download.TestDownload) ... ok
-test_DaumUser_1 (test.test_download.TestDownload) ... ok
-test_DaumUser_2 (test.test_download.TestDownload) ... ok
-test_Daum_1 (test.test_download.TestDownload) ... ok
-test_Daum_2 (test.test_download.TestDownload) ... ok
-test_Daum_3 (test.test_download.TestDownload) ... ok
-test_DctpTv (test.test_download.TestDownload) ... ok
-test_DeezerPlaylist (test.test_download.TestDownload) ... ok
-test_DefenseGouvFr (test.test_download.TestDownload) ... ERROR
-test_Democracynow (test.test_download.TestDownload) ... FAIL
-test_Democracynow_1 (test.test_download.TestDownload) ... ok
-test_DigitallySpeaking (test.test_download.TestDownload) ... ok
-test_Digiteka (test.test_download.TestDownload) ... ok
-test_Digiteka_1 (test.test_download.TestDownload) ... ok
-test_Discovery (test.test_download.TestDownload) ... ok
-test_DiscoveryGo (test.test_download.TestDownload) ... ERROR
-test_Discovery_1 (test.test_download.TestDownload) ... ok
-test_Discovery_2 (test.test_download.TestDownload) ... ok
-test_Dotsub (test.test_download.TestDownload) ... ok
-test_Dotsub_1 (test.test_download.TestDownload) ... ok
-test_DouyuTV (test.test_download.TestDownload) ... ok
-test_DouyuTV_1 (test.test_download.TestDownload) ... ok
-test_DouyuTV_2 (test.test_download.TestDownload) ... ok
-test_DrTuber (test.test_download.TestDownload) ... ERROR
-test_DramaFever (test.test_download.TestDownload) ... ok
-test_DramaFeverSeries (test.test_download.TestDownload) ... ok
-test_DramaFeverSeries_1 (test.test_download.TestDownload) ... ok
-test_DramaFever_1 (test.test_download.TestDownload) ... ok
-test_DreiSat (test.test_download.TestDownload) ... ok
-test_Dropbox (test.test_download.TestDownload) ... ok
-test_Dumpert (test.test_download.TestDownload) ... ok
-test_EHow (test.test_download.TestDownload) ... ok
-test_EMPFlix (test.test_download.TestDownload) ... ERROR
-test_ESPN (test.test_download.TestDownload) ... ok
-test_ESPN_1 (test.test_download.TestDownload) ... ok
-test_EaglePlatform (test.test_download.TestDownload) ... ok
-test_EaglePlatform_1 (test.test_download.TestDownload) ... ok
-test_EbaumsWorld (test.test_download.TestDownload) ... ok
-test_EchoMsk (test.test_download.TestDownload) ... ok
-test_EggheadCourse (test.test_download.TestDownload) ... ok
-test_EightTracks (test.test_download.TestDownload) ... ERROR
-test_Einthusan (test.test_download.TestDownload) ... [0;33mWARNING:[0m Failed due to network errors, skipping...
-ok
-test_Einthusan_1 (test.test_download.TestDownload) ... [0;33mWARNING:[0m Failed due to network errors, skipping...
-ok
-test_Eitb (test.test_download.TestDownload) ... ok
-test_ElPais (test.test_download.TestDownload) ... ok
-test_ElPais_1 (test.test_download.TestDownload) ... [0;33mWARNING:[0m Failed due to network errors, skipping...
-ok
-test_EllenTV (test.test_download.TestDownload) ... ok
-test_EllenTVClips (test.test_download.TestDownload) ... FAIL
-test_EllenTV_1 (test.test_download.TestDownload) ... ok
-test_Engadget (test.test_download.TestDownload) ... ERROR
-test_Eporner (test.test_download.TestDownload) ... ok
-test_EroProfile (test.test_download.TestDownload) ... ok
-test_EroProfile_1 (test.test_download.TestDownload) ... ok
-test_Escapist (test.test_download.TestDownload) ... [0;33mWARNING:[0m Failed due to network errors, skipping...
-ok
-test_Escapist_1 (test.test_download.TestDownload) ... [0;33mWARNING:[0m Failed due to network errors, skipping...
-ok
-test_EsriVideo (test.test_download.TestDownload) ... ERROR
-test_Europa (test.test_download.TestDownload) ... FAIL
-test_EveryonesMixtape (test.test_download.TestDownload) ... ok
-test_EveryonesMixtape_1 (test.test_download.TestDownload) ... ok
-test_ExpoTV (test.test_download.TestDownload) ... ERROR
-test_ExtremeTube (test.test_download.TestDownload) ... ok
-test_EyedoTV (test.test_download.TestDownload) ... ok
-test_FC2 (test.test_download.TestDownload) ... ok
-test_FC2Embed (test.test_download.TestDownload) ... ok
-test_FC2_1 (test.test_download.TestDownload) ... ok
-test_FKTV (test.test_download.TestDownload) ... ok
-test_FOX (test.test_download.TestDownload) ... ok
-test_FOX9 (test.test_download.TestDownload) ... ok
-test_FXNetworks (test.test_download.TestDownload) ... ERROR
-test_Facebook (test.test_download.TestDownload) ... ERROR
-test_FacebookPluginsVideo (test.test_download.TestDownload) ... ok
-test_Facebook_1 (test.test_download.TestDownload) ... ok
-test_Facebook_2 (test.test_download.TestDownload) ... ok
-test_Facebook_3 (test.test_download.TestDownload) ... ok
-test_Facebook_4 (test.test_download.TestDownload) ... ok
-test_Facebook_5 (test.test_download.TestDownload) ... ERROR
-test_Facebook_6 (test.test_download.TestDownload) ... ok
-test_Faz (test.test_download.TestDownload) ... ok
-test_Fczenit (test.test_download.TestDownload) ... ERROR
-test_FirstTV (test.test_download.TestDownload) ... ok
-test_FirstTV_1 (test.test_download.TestDownload) ... ok
-test_FirstTV_2 (test.test_download.TestDownload) ... FAIL
-test_Firstpost (test.test_download.TestDownload) ... ERROR
-test_FiveMin (test.test_download.TestDownload) ... ok
-test_FiveMin_1 (test.test_download.TestDownload) ... ok
-test_FiveTV (test.test_download.TestDownload) ... ok
-test_FiveTV_1 (test.test_download.TestDownload) ... ok
-test_FiveTV_2 (test.test_download.TestDownload) ... ERROR
-test_Flickr (test.test_download.TestDownload) ... ok
-test_Flipagram (test.test_download.TestDownload) ... ok
-test_Folketinget (test.test_download.TestDownload) ... ok
-test_FootyRoom (test.test_download.TestDownload) ... ok
-test_FootyRoom_1 (test.test_download.TestDownload) ... ok
-test_Formula1 (test.test_download.TestDownload) ... ok
-test_FourTube (test.test_download.TestDownload) ... ok
-test_FoxNews (test.test_download.TestDownload) ... ok
-test_FoxNewsArticle (test.test_download.TestDownload) ... ok
-test_FoxNewsInsider (test.test_download.TestDownload) ... ok
-test_FoxNews_1 (test.test_download.TestDownload) ... ok
-test_FoxSports (test.test_download.TestDownload) ... ERROR
-test_Foxgay (test.test_download.TestDownload) ... ok
-test_FranceCulture (test.test_download.TestDownload) ... ERROR
-test_FranceInter (test.test_download.TestDownload) ... ERROR
-test_FranceTV (test.test_download.TestDownload) ... ERROR
-test_FranceTV_1 (test.test_download.TestDownload) ... ERROR
-test_FranceTV_2 (test.test_download.TestDownload) ... ERROR
-test_FranceTV_3 (test.test_download.TestDownload) ... FAIL
-test_FranceTV_4 (test.test_download.TestDownload) ... FAIL
-test_FranceTV_5 (test.test_download.TestDownload) ... ERROR
-test_FranceTvInfo (test.test_download.TestDownload) ... ok
-test_FranceTvInfo_1 (test.test_download.TestDownload) ... ok
-test_FranceTvInfo_2 (test.test_download.TestDownload) ... ERROR
-test_FranceTvInfo_3 (test.test_download.TestDownload) ... ok
-test_FranceTvInfo_4 (test.test_download.TestDownload) ... ERROR
-test_Freesound (test.test_download.TestDownload) ... FAIL
-test_Freespeech (test.test_download.TestDownload) ... ok
-test_Funimation (test.test_download.TestDownload) ... ok
-test_Funimation_1 (test.test_download.TestDownload) ... ok
-test_Funimation_2 (test.test_download.TestDownload) ... ok
-test_FunnyOrDie (test.test_download.TestDownload) ... ok
-test_FunnyOrDie_1 (test.test_download.TestDownload) ... ok
-test_Fusion (test.test_download.TestDownload) ... ok
-test_GDCVault (test.test_download.TestDownload) ... ok
-test_GDCVault_1 (test.test_download.TestDownload) ... ok
-test_GDCVault_2 (test.test_download.TestDownload) ... ok
-test_GDCVault_3 (test.test_download.TestDownload) ... ok
-test_GDCVault_4 (test.test_download.TestDownload) ... ok
-test_GPUTechConf (test.test_download.TestDownload) ... ok
-test_GameInformer (test.test_download.TestDownload) ... ok
-test_GameOne (test.test_download.TestDownload) ... ERROR
-test_GameOnePlaylist (test.test_download.TestDownload) ... ERROR
-test_GameOne_1 (test.test_download.TestDownload) ... ERROR
-test_GameSpot (test.test_download.TestDownload) ... ERROR
-test_GameSpot_1 (test.test_download.TestDownload) ... ERROR
-test_GameStar (test.test_download.TestDownload) ... ERROR
-test_Gamersyde (test.test_download.TestDownload) ... ok
-test_Gazeta (test.test_download.TestDownload) ... ok
-test_Gazeta_1 (test.test_download.TestDownload) ... FAIL
-test_GenerationQuoi (test.test_download.TestDownload) ... ERROR
-test_Generic (test.test_download.TestDownload) ... ok
-test_Generic_1 (test.test_download.TestDownload) ... ok
-test_Generic_10 (test.test_download.TestDownload) ... ok
-test_Generic_100 (test.test_download.TestDownload) ... FAIL
-test_Generic_101 (test.test_download.TestDownload) ... ok
-test_Generic_11 (test.test_download.TestDownload) ... ok
-test_Generic_12 (test.test_download.TestDownload) ... ok
-test_Generic_13 (test.test_download.TestDownload) ... ok
-test_Generic_14 (test.test_download.TestDownload) ... ok
-test_Generic_15 (test.test_download.TestDownload) ... ok
-test_Generic_16 (test.test_download.TestDownload) ... ok
-test_Generic_17 (test.test_download.TestDownload) ... ok
-test_Generic_18 (test.test_download.TestDownload) ... ok
-test_Generic_19 (test.test_download.TestDownload) ... ERROR
-test_Generic_2 (test.test_download.TestDownload) ... ok
-test_Generic_20 (test.test_download.TestDownload) ... FAIL
-test_Generic_21 (test.test_download.TestDownload) ... ok
-test_Generic_22 (test.test_download.TestDownload) ... ERROR
-test_Generic_23 (test.test_download.TestDownload) ... ok
-test_Generic_24 (test.test_download.TestDownload) ... ok
-test_Generic_25 (test.test_download.TestDownload) ... ERROR
-test_Generic_26 (test.test_download.TestDownload) ... ok
-test_Generic_27 (test.test_download.TestDownload) ... ok
-test_Generic_28 (test.test_download.TestDownload) ... ok
-test_Generic_29 (test.test_download.TestDownload) ... ok
-test_Generic_3 (test.test_download.TestDownload) ... ok
-test_Generic_30 (test.test_download.TestDownload) ... ok
-test_Generic_31 (test.test_download.TestDownload) ... ok
-test_Generic_32 (test.test_download.TestDownload) ... ok
-test_Generic_33 (test.test_download.TestDownload) ... ok
-test_Generic_34 (test.test_download.TestDownload) ... FAIL
-test_Generic_35 (test.test_download.TestDownload) ... ERROR
-test_Generic_36 (test.test_download.TestDownload) ... [0;33mWARNING:[0m Failed due to network errors, skipping...
-ok
-test_Generic_37 (test.test_download.TestDownload) ... ok
-test_Generic_38 (test.test_download.TestDownload) ... ERROR
-test_Generic_39 (test.test_download.TestDownload) ... [0;33mWARNING:[0m Failed due to network errors, skipping...
-ok
-test_Generic_4 (test.test_download.TestDownload) ... ok
-test_Generic_40 (test.test_download.TestDownload) ... ERROR
-test_Generic_41 (test.test_download.TestDownload) ... ERROR
-test_Generic_42 (test.test_download.TestDownload) ... ERROR
-test_Generic_43 (test.test_download.TestDownload) ... FAIL
-test_Generic_44 (test.test_download.TestDownload) ... ok
-test_Generic_45 (test.test_download.TestDownload) ... FAIL
-test_Generic_46 (test.test_download.TestDownload) ... FAIL
-test_Generic_47 (test.test_download.TestDownload) ... ERROR
-test_Generic_48 (test.test_download.TestDownload) ... ok
-test_Generic_49 (test.test_download.TestDownload) ... ok
-test_Generic_5 (test.test_download.TestDownload) ... FAIL
-test_Generic_50 (test.test_download.TestDownload) ... FAIL
-test_Generic_51 (test.test_download.TestDownload) ... ok
-test_Generic_52 (test.test_download.TestDownload) ... ERROR
-test_Generic_53 (test.test_download.TestDownload) ... ok
-test_Generic_54 (test.test_download.TestDownload) ... ERROR
-test_Generic_55 (test.test_download.TestDownload) ... [0;33mWARNING:[0m Failed due to network errors, skipping...
-ok
-test_Generic_56 (test.test_download.TestDownload) ... FAIL
-test_Generic_57 (test.test_download.TestDownload) ... ERROR
-test_Generic_58 (test.test_download.TestDownload) ... FAIL
-test_Generic_59 (test.test_download.TestDownload) ... ERROR
-test_Generic_6 (test.test_download.TestDownload) ... ok
-test_Generic_60 (test.test_download.TestDownload) ... ok
-test_Generic_61 (test.test_download.TestDownload) ... [0;33mWARNING:[0m Failed due to network errors, skipping...
-ok
-test_Generic_62 (test.test_download.TestDownload) ... FAIL
-test_Generic_63 (test.test_download.TestDownload) ... ok
-test_Generic_64 (test.test_download.TestDownload) ... ok
-test_Generic_65 (test.test_download.TestDownload) ... ERROR
-test_Generic_66 (test.test_download.TestDownload) ... ok
-test_Generic_67 (test.test_download.TestDownload) ... ok
-test_Generic_68 (test.test_download.TestDownload) ... ok
-test_Generic_69 (test.test_download.TestDownload) ... ok
-test_Generic_7 (test.test_download.TestDownload) ... ok
-test_Generic_70 (test.test_download.TestDownload) ... ERROR
-test_Generic_71 (test.test_download.TestDownload) ... ERROR
-test_Generic_72 (test.test_download.TestDownload) ... ok
-test_Generic_73 (test.test_download.TestDownload) ... ERROR
-test_Generic_74 (test.test_download.TestDownload) ... ERROR
-test_Generic_75 (test.test_download.TestDownload) ... ok
-test_Generic_76 (test.test_download.TestDownload) ... ok
-test_Generic_77 (test.test_download.TestDownload) ... FAIL
-test_Generic_78 (test.test_download.TestDownload) ... FAIL
-test_Generic_79 (test.test_download.TestDownload) ... [0;33mWARNING:[0m Failed due to network errors, skipping...
-ok
-test_Generic_8 (test.test_download.TestDownload) ... ok
-test_Generic_80 (test.test_download.TestDownload) ... FAIL
-test_Generic_81 (test.test_download.TestDownload) ... ok
-test_Generic_82 (test.test_download.TestDownload) ... ERROR
-test_Generic_83 (test.test_download.TestDownload) ... ERROR
-test_Generic_84 (test.test_download.TestDownload) ... ERROR
-test_Generic_85 (test.test_download.TestDownload) ... FAIL
-test_Generic_86 (test.test_download.TestDownload) ... FAIL
-test_Generic_87 (test.test_download.TestDownload) ... FAIL
-test_Generic_88 (test.test_download.TestDownload) ... ERROR
-test_Generic_89 (test.test_download.TestDownload) ... ok
-test_Generic_9 (test.test_download.TestDownload) ... ERROR
-test_Generic_90 (test.test_download.TestDownload) ... [0;33mWARNING:[0m Failed due to network errors, skipping...
-ok
-test_Generic_91 (test.test_download.TestDownload) ... ok
-test_Generic_92 (test.test_download.TestDownload) ... ok
-test_Generic_93 (test.test_download.TestDownload) ... ok
-test_Generic_94 (test.test_download.TestDownload) ... 
-'info_dict': {
-    'upload_date': '20160618',
-    'uploader': 'Blue Stars Drum and Bugle Corps was live.',
-    'timestamp': 1466291122,
-},
-FAIL
-test_Generic_95 (test.test_download.TestDownload) ... FAIL
-test_Generic_96 (test.test_download.TestDownload) ... ok
-test_Generic_97 (test.test_download.TestDownload) ... FAIL
-test_Generic_98 (test.test_download.TestDownload) ... ok
-test_Generic_99 (test.test_download.TestDownload) ... 
-'info_dict': {
-    'title': 'НА КОСЪМ ОТ ВЗРИВ: Изтичане на газ на бензиностанция в Пловдив',
-    'id': '1c7141f46c',
-
-    'upload_date': '20160816',
-    'description': 'Инцидентът е станал на бензиностанция',
-    'uploader': 'novinitenanova',
-    'timestamp': 1471363634,
-},
-FAIL
-test_Gfycat (test.test_download.TestDownload) ... [0;33mWARNING:[0m Failed due to network errors, skipping...
-ok
-test_Gfycat_1 (test.test_download.TestDownload) ... [0;33mWARNING:[0m Failed due to network errors, skipping...
-ok
-test_GiantBomb (test.test_download.TestDownload) ... ERROR
-test_Giga (test.test_download.TestDownload) ... ERROR
-test_Glide (test.test_download.TestDownload) ... ok
-test_Globo (test.test_download.TestDownload) ... FAIL
-test_GloboArticle (test.test_download.TestDownload) ... ok
-test_GloboArticle_1 (test.test_download.TestDownload) ... ok
-test_Globo_1 (test.test_download.TestDownload) ... FAIL
-test_Go (test.test_download.TestDownload) ... ERROR
-test_GodTV (test.test_download.TestDownload) ... ERROR
-test_GodTV_1 (test.test_download.TestDownload) ... ERROR
-test_GodTube (test.test_download.TestDownload) ... FAIL
-test_Golem (test.test_download.TestDownload) ... ok
-test_GoogleDrive (test.test_download.TestDownload) ... FAIL
-test_GooglePlus (test.test_download.TestDownload) ... ok
-test_GoogleSearch (test.test_download.TestDownload) ... ok
-test_Goshgay (test.test_download.TestDownload) ... ok
-test_Groupon (test.test_download.TestDownload) ... FAIL
-test_HBO (test.test_download.TestDownload) ... FAIL
-test_HBOEpisode (test.test_download.TestDownload) ... FAIL
-test_HGTV (test.test_download.TestDownload) ... ERROR
-test_HGTVComShow (test.test_download.TestDownload) ... ok
-test_HRTi (test.test_download.TestDownload) ... ok
-test_HRTiPlaylist (test.test_download.TestDownload) ... ok
-test_Hark (test.test_download.TestDownload) ... ok
-test_HearThisAt (test.test_download.TestDownload) ... ERROR
-test_HearThisAt_1 (test.test_download.TestDownload) ... ERROR
-test_Heise (test.test_download.TestDownload) ... [0;33mWARNING:[0m Failed due to network errors, skipping...
-ok
-test_HellPorno (test.test_download.TestDownload) ... ok
-test_Helsinki (test.test_download.TestDownload) ... ERROR
-test_HentaiStigma (test.test_download.TestDownload) ... ok
-test_HistoricFilms (test.test_download.TestDownload) ... FAIL
-test_HistoryTopic (test.test_download.TestDownload) ... ERROR
-test_HistoryTopic_1 (test.test_download.TestDownload) ... ok
-test_HitRecord (test.test_download.TestDownload) ... ok
-test_Hitbox (test.test_download.TestDownload) ... FAIL
-test_HitboxLive (test.test_download.TestDownload) ... FAIL
-test_HornBunny (test.test_download.TestDownload) ... ok
-test_HotNewHipHop (test.test_download.TestDownload) ... ERROR
-test_HotStar (test.test_download.TestDownload) ... ERROR
-test_HowStuffWorks (test.test_download.TestDownload) ... ok
-test_HowStuffWorks_1 (test.test_download.TestDownload) ... ERROR
-test_HowStuffWorks_2 (test.test_download.TestDownload) ... ERROR
-test_Howcast (test.test_download.TestDownload) ... ok
-test_Huajiao (test.test_download.TestDownload) ... FAIL
-test_HuffPost (test.test_download.TestDownload) ... [0;33mWARNING:[0m Failed due to network errors, skipping...
-ok
-test_Hypem (test.test_download.TestDownload) ... [0;33mWARNING:[0m Failed due to network errors, skipping...
-ok
-test_IGN (test.test_download.TestDownload) ... ok
-test_IGN_1 (test.test_download.TestDownload) ... ERROR
-test_IGN_2 (test.test_download.TestDownload) ... ok
-test_IPrima (test.test_download.TestDownload) ... ok
-test_Iconosquare (test.test_download.TestDownload) ... ERROR
-test_Imdb (test.test_download.TestDownload) ... ok
-test_ImdbList (test.test_download.TestDownload) ... ERROR
-test_Imgur (test.test_download.TestDownload) ... ok
-test_ImgurAlbum (test.test_download.TestDownload) ... ok
-test_Imgur_1 (test.test_download.TestDownload) ... ok
-test_Imgur_2 (test.test_download.TestDownload) ... ok
-test_Ina (test.test_download.TestDownload) ... ok
-test_Inc (test.test_download.TestDownload) ... ok
-test_Indavideo (test.test_download.TestDownload) ... ERROR
-test_IndavideoEmbed (test.test_download.TestDownload) ... ERROR
-test_InfoQ (test.test_download.TestDownload) ... [0;33mWARNING:[0m Failed due to network errors, skipping...
-ok
-test_InfoQ_1 (test.test_download.TestDownload) ... ok
-test_Instagram (test.test_download.TestDownload) ... ok
-test_InstagramUser (test.test_download.TestDownload) ... ok
-test_Instagram_1 (test.test_download.TestDownload) ... ok
-test_InternetVideoArchive (test.test_download.TestDownload) ... ok
-test_Iqiyi (test.test_download.TestDownload) ... ok
-test_Iqiyi_1 (test.test_download.TestDownload) ... ok
-test_Iqiyi_2 (test.test_download.TestDownload) ... ok
-test_Iqiyi_3 (test.test_download.TestDownload) ... ok
-test_Ir90Tv (test.test_download.TestDownload) ... FAIL
-test_Ivi (test.test_download.TestDownload) ... ok
-test_IviCompilation (test.test_download.TestDownload) ... FAIL
-test_IviCompilation_1 (test.test_download.TestDownload) ... FAIL
-test_Ivi_1 (test.test_download.TestDownload) ... ok
-test_Ivi_2 (test.test_download.TestDownload) ... ok
-test_Ivideon (test.test_download.TestDownload) ... ok
-test_Iwara (test.test_download.TestDownload) ... ERROR
-test_Iwara_1 (test.test_download.TestDownload) ... ok
-test_Iwara_2 (test.test_download.TestDownload) ... FAIL
-test_Izlesene (test.test_download.TestDownload) ... ok
-test_Izlesene_1 (test.test_download.TestDownload) ... 
-'info_dict': {
-    'upload_date': '20061112',
-    'title': 'Tarkan Dortmund 2006 Konseri',
-    'timestamp': 1163318593,
-    'id': '17997',
-    'uploader_id': 'parlayankiz',
-
-    'description': 'Tarkan Dortmund 2006 Konseri Videosunu İzlemek için İzlesene.com\'a Tıkla!',
-},
-FAIL
-test_JWPlatform (test.test_download.TestDownload) ... [0;33mWARNING:[0m Failed due to network errors, skipping...
-ok
-test_Jamendo (test.test_download.TestDownload) ... ok
-test_JamendoAlbum (test.test_download.TestDownload) ... ok
-test_JeuxVideo (test.test_download.TestDownload) ... ok
-test_Jove (test.test_download.TestDownload) ... ok
-test_Jove_1 (test.test_download.TestDownload) ... ok
-test_Jpopsuki (test.test_download.TestDownload) ... [0;33mWARNING:[0m Failed due to network errors, skipping...
-ok
-test_KUSI (test.test_download.TestDownload) ... ok
-test_Kaltura (test.test_download.TestDownload) ... ok
-test_Kaltura_1 (test.test_download.TestDownload) ... ERROR
-test_Kamcord (test.test_download.TestDownload) ... ERROR
-test_KanalPlay (test.test_download.TestDownload) ... ok
-test_Kankan (test.test_download.TestDownload) ... ok
-test_Karaoketv (test.test_download.TestDownload) ... ERROR
-test_KarriereVideos (test.test_download.TestDownload) ... ok
-test_KarriereVideos_1 (test.test_download.TestDownload) ... ok
-test_Keek (test.test_download.TestDownload) ... ERROR
-test_KeezMovies (test.test_download.TestDownload) ... ok
-test_Ketnet (test.test_download.TestDownload) ... FAIL
-test_KhanAcademy (test.test_download.TestDownload) ... ok
-test_KhanAcademy_1 (test.test_download.TestDownload) ... ok
-test_KickStarter (test.test_download.TestDownload) ... ok
-test_KickStarter_1 (test.test_download.TestDownload) ... FAIL
-test_KickStarter_2 (test.test_download.TestDownload) ... ok
-test_KonserthusetPlay (test.test_download.TestDownload) ... ERROR
-test_KontrTube (test.test_download.TestDownload) ... ok
-test_KrasView (test.test_download.TestDownload) ... [0;33mWARNING:[0m Failed due to network errors, skipping...
-ok
-test_Ku6 (test.test_download.TestDownload) ... ERROR
-test_Kuwo (test.test_download.TestDownload) ... ok
-test_KuwoAlbum (test.test_download.TestDownload) ... ok
-test_KuwoCategory (test.test_download.TestDownload) ... ERROR
-test_KuwoChart (test.test_download.TestDownload) ... ok
-test_KuwoMv (test.test_download.TestDownload) ... ok
-test_KuwoSinger (test.test_download.TestDownload) ... FAIL
-test_KuwoSinger_1 (test.test_download.TestDownload) ... ok
-test_Kuwo_1 (test.test_download.TestDownload) ... ok
-test_LA7 (test.test_download.TestDownload) ... ok
-test_LA7_1 (test.test_download.TestDownload) ... ERROR
-test_LCI (test.test_download.TestDownload) ... FAIL
-test_LEGO (test.test_download.TestDownload) ... [0;33mWARNING:[0m Failed due to network errors, skipping...
-ok
-test_LEGO_1 (test.test_download.TestDownload) ... [0;33mWARNING:[0m Failed due to network errors, skipping...
-ok
-test_LEGO_2 (test.test_download.TestDownload) ... [0;33mWARNING:[0m Failed due to network errors, skipping...
-ok
-test_LRT (test.test_download.TestDownload) ... ok
-test_LRT_1 (test.test_download.TestDownload) ... ok
-test_Laola1Tv (test.test_download.TestDownload) ... ERROR
-test_Laola1TvEmbed (test.test_download.TestDownload) ... ok
-test_Laola1Tv_1 (test.test_download.TestDownload) ... ERROR
-test_Laola1Tv_2 (test.test_download.TestDownload) ... ok
-test_Lcp (test.test_download.TestDownload) ... ok
-test_LcpPlay (test.test_download.TestDownload) ... ok
-test_Lcp_1 (test.test_download.TestDownload) ... ERROR
-test_Le (test.test_download.TestDownload) ... FAIL
-test_LePlaylist (test.test_download.TestDownload) ... FAIL
-test_LePlaylist_1 (test.test_download.TestDownload) ... ok
-test_Le_1 (test.test_download.TestDownload) ... FAIL
-test_Le_2 (test.test_download.TestDownload) ... ok
-test_Learnr (test.test_download.TestDownload) ... ERROR
-test_Lecture2Go (test.test_download.TestDownload) ... ERROR
-test_Lemonde (test.test_download.TestDownload) ... FAIL
-test_LetvCloud (test.test_download.TestDownload) ... ok
-test_LetvCloud_1 (test.test_download.TestDownload) ... ok
-test_LetvCloud_2 (test.test_download.TestDownload) ... ok
-test_LiTV (test.test_download.TestDownload) ... ok
-test_LiTV_1 (test.test_download.TestDownload) ... ok
-test_LiTV_2 (test.test_download.TestDownload) ... ok
-test_LibraryOfCongress (test.test_download.TestDownload) ... ok
-test_LibraryOfCongress_1 (test.test_download.TestDownload) ... ok
-test_LibraryOfCongress_2 (test.test_download.TestDownload) ... ok
-test_Libsyn (test.test_download.TestDownload) ... ok
-test_Libsyn_1 (test.test_download.TestDownload) ... ok
-test_LifeEmbed (test.test_download.TestDownload) ... FAIL
-test_LifeNews (test.test_download.TestDownload) ... ok
-test_LifeNews_1 (test.test_download.TestDownload) ... ok
-test_LifeNews_2 (test.test_download.TestDownload) ... FAIL
-test_LimelightChannel (test.test_download.TestDownload) ... ok
-test_LimelightChannelList (test.test_download.TestDownload) ... ok
-test_LimelightMedia (test.test_download.TestDownload) ... ok
-test_LimelightMedia_1 (test.test_download.TestDownload) ... ok
-test_LiveLeak (test.test_download.TestDownload) ... ok
-test_LiveLeak_1 (test.test_download.TestDownload) ... ok
-test_LiveLeak_2 (test.test_download.TestDownload) ... ERROR
-test_LiveLeak_3 (test.test_download.TestDownload) ... ok
-test_LiveLeak_4 (test.test_download.TestDownload) ... ok
-test_Livestream (test.test_download.TestDownload) ... FAIL
-test_LivestreamOriginal (test.test_download.TestDownload) ... FAIL
-test_LivestreamOriginal_1 (test.test_download.TestDownload) ... ok
-test_Livestream_1 (test.test_download.TestDownload) ... ok
-test_Livestream_2 (test.test_download.TestDownload) ... ok
-test_LnkGo (test.test_download.TestDownload) ... FAIL
-test_LnkGo_1 (test.test_download.TestDownload) ... ok
-test_LocalNews8 (test.test_download.TestDownload) ... ERROR
-test_LoveHomePorn (test.test_download.TestDownload) ... ok
-test_Lynda (test.test_download.TestDownload) ... ok
-test_M6 (test.test_download.TestDownload) ... ok
-test_MDR (test.test_download.TestDownload) ... ERROR
-test_MDR_1 (test.test_download.TestDownload) ... ERROR
-test_MDR_2 (test.test_download.TestDownload) ... FAIL
-test_META (test.test_download.TestDownload) ... FAIL
-test_MGTV (test.test_download.TestDownload) ... ERROR
-test_MIT (test.test_download.TestDownload) ... ERROR
-test_MLB (test.test_download.TestDownload) ... ok
-test_MLB_1 (test.test_download.TestDownload) ... ok
-test_MLB_2 (test.test_download.TestDownload) ... ok
-test_MLB_3 (test.test_download.TestDownload) ... ok
-test_MLB_4 (test.test_download.TestDownload) ... FAIL
-test_MSN (test.test_download.TestDownload) ... ok
-test_MTV (test.test_download.TestDownload) ... ERROR
-test_MTVDE (test.test_download.TestDownload) ... ok
-test_MTVDE_1 (test.test_download.TestDownload) ... ok
-test_MTVDE_2 (test.test_download.TestDownload) ... ok
-test_MTVServicesEmbedded (test.test_download.TestDownload) ... ERROR
-test_MTVVideo (test.test_download.TestDownload) ... FAIL
-test_MacGameStore (test.test_download.TestDownload) ... ok
-test_MailRu (test.test_download.TestDownload) ... ok
-test_MailRu_1 (test.test_download.TestDownload) ... ok
-test_MailRu_2 (test.test_download.TestDownload) ... ok
-test_MakerTV (test.test_download.TestDownload) ... ERROR
-test_MakersChannel (test.test_download.TestDownload) ... ok
-test_MatchTV (test.test_download.TestDownload) ... ERROR
-test_Meipai (test.test_download.TestDownload) ... FAIL
-test_Meipai_1 (test.test_download.TestDownload) ... ok
-test_MelonVOD (test.test_download.TestDownload) ... ok
-test_Metacafe (test.test_download.TestDownload) ... ERROR
-test_Metacafe_1 (test.test_download.TestDownload) ... ok
-test_Metacafe_2 (test.test_download.TestDownload) ... ERROR
-test_Metacafe_3 (test.test_download.TestDownload) ... ERROR
-test_Metacafe_4 (test.test_download.TestDownload) ... ok
-test_Metacafe_5 (test.test_download.TestDownload) ... ERROR
-test_Metacritic (test.test_download.TestDownload) ... ok
-test_Metacritic_1 (test.test_download.TestDownload) ... ok
-test_Mgoon (test.test_download.TestDownload) ... ok
-test_MiTele (test.test_download.TestDownload) ... ok
-test_MiTele_1 (test.test_download.TestDownload) ... ok
-test_MiaoPai (test.test_download.TestDownload) ... FAIL
-test_MicrosoftVirtualAcademy (test.test_download.TestDownload) ... ok
-test_MicrosoftVirtualAcademyCourse (test.test_download.TestDownload) ... ok
-test_MicrosoftVirtualAcademyCourse_1 (test.test_download.TestDownload) ... ok
-test_Minhateca (test.test_download.TestDownload) ... ERROR
-test_MinistryGrid (test.test_download.TestDownload) ... ok
-test_MioMio (test.test_download.TestDownload) ... ok
-test_MioMio_1 (test.test_download.TestDownload) ... ok
-test_MioMio_2 (test.test_download.TestDownload) ... ok
-test_MioMio_3 (test.test_download.TestDownload) ... ERROR
-test_Mixcloud (test.test_download.TestDownload) ... ERROR
-test_MixcloudPlaylist (test.test_download.TestDownload) ... ERROR
-test_MixcloudPlaylist_1 (test.test_download.TestDownload) ... ERROR
-test_MixcloudStream (test.test_download.TestDownload) ... ERROR
-test_MixcloudUser (test.test_download.TestDownload) ... ERROR
-test_MixcloudUser_1 (test.test_download.TestDownload) ... ERROR
-test_MixcloudUser_2 (test.test_download.TestDownload) ... ERROR
-test_MixcloudUser_3 (test.test_download.TestDownload) ... ERROR
-test_Mixcloud_1 (test.test_download.TestDownload) ... ERROR
-test_Mms (test.test_download.TestDownload) ... ok
-test_Mnet (test.test_download.TestDownload) ... ok
-test_MoeVideo (test.test_download.TestDownload) ... ok
-test_MoeVideo_1 (test.test_download.TestDownload) ... ok
-test_Mofosex (test.test_download.TestDownload) ... ok
-test_Mojvideo (test.test_download.TestDownload) ... FAIL
-test_Moniker (test.test_download.TestDownload) ... ERROR
-test_Moniker_1 (test.test_download.TestDownload) ... ERROR
-test_Moniker_2 (test.test_download.TestDownload) ... ERROR
-test_Moniker_3 (test.test_download.TestDownload) ... ERROR
-test_Morningstar (test.test_download.TestDownload) ... ok
-test_Motherless (test.test_download.TestDownload) ... ok
-test_Motherless_1 (test.test_download.TestDownload) ... ok
-test_Motherless_2 (test.test_download.TestDownload) ... ok
-test_Motorsport (test.test_download.TestDownload) ... FAIL
-test_MovieClips (test.test_download.TestDownload) ... FAIL
-test_MovieFap (test.test_download.TestDownload) ... ok
-test_MovieFap_1 (test.test_download.TestDownload) ... ok
-test_Moviezine (test.test_download.TestDownload) ... ERROR
-test_MovingImage (test.test_download.TestDownload) ... ok
-test_Mpora (test.test_download.TestDownload) ... [0;33mWARNING:[0m Failed due to network errors, skipping...
-ok
-test_MuenchenTV (test.test_download.TestDownload) ... ok
-test_MusicPlayOn (test.test_download.TestDownload) ... FAIL
-test_Mwave (test.test_download.TestDownload) ... ok
-test_MwaveMeetGreet (test.test_download.TestDownload) ... ok
-test_MySpace (test.test_download.TestDownload) ... ok
-test_MySpaceAlbum (test.test_download.TestDownload) ... ok
-test_MySpaceAlbum_1 (test.test_download.TestDownload) ... ok
-test_MySpace_1 (test.test_download.TestDownload) ... ok
-test_MySpace_2 (test.test_download.TestDownload) ... ok
-test_MySpace_3 (test.test_download.TestDownload) ... ok
-test_MySpass (test.test_download.TestDownload) ... FAIL
-test_MyVideo (test.test_download.TestDownload) ... ok
-test_MyVidster (test.test_download.TestDownload) ... ERROR
-test_Myvi (test.test_download.TestDownload) ... ok
-test_NBA (test.test_download.TestDownload) ... ERROR
-test_NBA_1 (test.test_download.TestDownload) ... FAIL
-test_NBA_2 (test.test_download.TestDownload) ... ok
-test_NBA_3 (test.test_download.TestDownload) ... ok
-test_NBA_4 (test.test_download.TestDownload) ... ok
-test_NBC (test.test_download.TestDownload) ... ok
-test_NBCNews (test.test_download.TestDownload) ... ok
-test_NBCNews_1 (test.test_download.TestDownload) ... ok
-test_NBCNews_2 (test.test_download.TestDownload) ... ok
-test_NBCNews_3 (test.test_download.TestDownload) ... ok
-test_NBCNews_4 (test.test_download.TestDownload) ... ok
-test_NBCNews_5 (test.test_download.TestDownload) ... ok
-test_NBCNews_6 (test.test_download.TestDownload) ... ok
-test_NBCOlympics (test.test_download.TestDownload) ... ok
-test_NBCSports (test.test_download.TestDownload) ... FAIL
-test_NBCSportsVPlayer (test.test_download.TestDownload) ... FAIL
-test_NBC_1 (test.test_download.TestDownload) ... ok
-test_NBC_2 (test.test_download.TestDownload) ... ok
-test_NBC_3 (test.test_download.TestDownload) ... ok
-test_NDR (test.test_download.TestDownload) ... FAIL
-test_NDREmbed (test.test_download.TestDownload) ... ERROR
-test_NDREmbed_1 (test.test_download.TestDownload) ... ERROR
-test_NDREmbed_2 (test.test_download.TestDownload) ... ok
-test_NDREmbed_3 (test.test_download.TestDownload) ... ERROR
-test_NDREmbed_4 (test.test_download.TestDownload) ... FAIL
-test_NDR_1 (test.test_download.TestDownload) ... ERROR
-test_NDR_2 (test.test_download.TestDownload) ... FAIL
-test_NDTV (test.test_download.TestDownload) ... ok
-test_NFB (test.test_download.TestDownload) ... FAIL
-test_NFL (test.test_download.TestDownload) ... ok
-test_NFL_1 (test.test_download.TestDownload) ... ok
-test_NFL_2 (test.test_download.TestDownload) ... ok
-test_NFL_3 (test.test_download.TestDownload) ... FAIL
-test_NFL_4 (test.test_download.TestDownload) ... ok
-test_NHL (test.test_download.TestDownload) ... [0;33mWARNING:[0m Failed due to network errors, skipping...
-ok
-test_NHLNews (test.test_download.TestDownload) ... ERROR
-test_NHLNews_1 (test.test_download.TestDownload) ... ERROR
-test_NHLVideocenter (test.test_download.TestDownload) ... ERROR
-test_NHLVideocenterCategory (test.test_download.TestDownload) ... ERROR
-test_NHLVideocenter_1 (test.test_download.TestDownload) ... ERROR
-test_NHLVideocenter_2 (test.test_download.TestDownload) ... ERROR
-test_NHLVideocenter_3 (test.test_download.TestDownload) ... ERROR
-test_NHLVideocenter_4 (test.test_download.TestDownload) ... ERROR
-test_NHL_1 (test.test_download.TestDownload) ... [0;33mWARNING:[0m Failed due to network errors, skipping...
-ok
-test_NHL_2 (test.test_download.TestDownload) ... [0;33mWARNING:[0m Failed due to network errors, skipping...
-ok
-test_NJoy (test.test_download.TestDownload) ... ERROR
-test_NJoyEmbed (test.test_download.TestDownload) ... FAIL
-test_NJoyEmbed_1 (test.test_download.TestDownload) ... ERROR
-test_NJoyEmbed_2 (test.test_download.TestDownload) ... ok
-test_NJoy_1 (test.test_download.TestDownload) ... ERROR
-test_NPO (test.test_download.TestDownload) ... ok
-test_NPOLive (test.test_download.TestDownload) ... FAIL
-test_NPORadio (test.test_download.TestDownload) ... ERROR
-test_NPORadioFragment (test.test_download.TestDownload) ... ERROR
-test_NPO_1 (test.test_download.TestDownload) ... ok
-test_NPO_2 (test.test_download.TestDownload) ... FAIL
-test_NPO_3 (test.test_download.TestDownload) ... FAIL
-test_NPO_4 (test.test_download.TestDownload) ... ok
-test_NPO_5 (test.test_download.TestDownload) ... ok
-test_NPO_6 (test.test_download.TestDownload) ... ok
-test_NRK (test.test_download.TestDownload) ... ok
-test_NRKPlaylist (test.test_download.TestDownload) ... FAIL
-test_NRKPlaylist_1 (test.test_download.TestDownload) ... FAIL
-test_NRKSkole (test.test_download.TestDownload) ... ok
-test_NRKTV (test.test_download.TestDownload) ... ok
-test_NRKTVEpisodes (test.test_download.TestDownload) ... ok
-test_NRKTV_1 (test.test_download.TestDownload) ... ok
-test_NRKTV_2 (test.test_download.TestDownload) ... ok
-test_NRKTV_3 (test.test_download.TestDownload) ... ok
-test_NRK_1 (test.test_download.TestDownload) ... ok
-test_NTVDe (test.test_download.TestDownload) ... ok
-test_NTVRu (test.test_download.TestDownload) ... ok
-test_NTVRu_1 (test.test_download.TestDownload) ... ok
-test_NTVRu_2 (test.test_download.TestDownload) ... ok
-test_NTVRu_3 (test.test_download.TestDownload) ... ERROR
-test_NTVRu_4 (test.test_download.TestDownload) ... ok
-test_NYTimes (test.test_download.TestDownload) ... ok
-test_NYTimesArticle (test.test_download.TestDownload) ... ok
-test_NYTimesArticle_1 (test.test_download.TestDownload) ... [0;33mWARNING:[0m Failed due to network errors, skipping...
-ok
-test_NYTimesArticle_2 (test.test_download.TestDownload) ... ok
-test_NZZ (test.test_download.TestDownload) ... ok
-test_NationalGeographic (test.test_download.TestDownload) ... ok
-test_NationalGeographicEpisodeGuide (test.test_download.TestDownload) ... FAIL
-test_NationalGeographicEpisodeGuide_1 (test.test_download.TestDownload) ... ok
-test_NationalGeographicVideo (test.test_download.TestDownload) ... ok
-test_NationalGeographicVideo_1 (test.test_download.TestDownload) ... ok
-test_NationalGeographic_1 (test.test_download.TestDownload) ... ok
-test_Naver (test.test_download.TestDownload) ... ok
-test_Naver_1 (test.test_download.TestDownload) ... ok
-test_NerdCubedFeed (test.test_download.TestDownload) ... [0;33mWARNING:[0m Failed due to network errors, skipping...
-ok
-test_NetEaseMusic (test.test_download.TestDownload) ... ok
-test_NetEaseMusicAlbum (test.test_download.TestDownload) ... ok
-test_NetEaseMusicDjRadio (test.test_download.TestDownload) ... ok
-test_NetEaseMusicList (test.test_download.TestDownload) ... ok
-test_NetEaseMusicList_1 (test.test_download.TestDownload) ... ok
-test_NetEaseMusicMv (test.test_download.TestDownload) ... ok
-test_NetEaseMusicProgram (test.test_download.TestDownload) ... ok
-test_NetEaseMusicProgram_1 (test.test_download.TestDownload) ... ok
-test_NetEaseMusicProgram_2 (test.test_download.TestDownload) ... ok
-test_NetEaseMusicSinger (test.test_download.TestDownload) ... ok
-test_NetEaseMusicSinger_1 (test.test_download.TestDownload) ... ok
-test_NetEaseMusic_1 (test.test_download.TestDownload) ... ok
-test_NetEaseMusic_2 (test.test_download.TestDownload) ... ok
-test_NetEaseMusic_3 (test.test_download.TestDownload) ... ok
-test_Netzkino (test.test_download.TestDownload) ... ok
-test_Newgrounds (test.test_download.TestDownload) ... ok
-test_Newgrounds_1 (test.test_download.TestDownload) ... ok
-test_Newstube (test.test_download.TestDownload) ... ERROR
-test_NextMedia (test.test_download.TestDownload) ... ok
-test_NextMediaActionNews (test.test_download.TestDownload) ... ok
-test_NhkVod (test.test_download.TestDownload) ... ok
-test_Nick (test.test_download.TestDownload) ... ERROR
-test_Niconico (test.test_download.TestDownload) ... ok
-test_NiconicoPlaylist (test.test_download.TestDownload) ... ok
-test_Niconico_1 (test.test_download.TestDownload) ... ok
-test_Niconico_2 (test.test_download.TestDownload) ... ok
-test_Niconico_3 (test.test_download.TestDownload) ... ok
-test_NineGag (test.test_download.TestDownload) ... ok
-test_NineGag_1 (test.test_download.TestDownload) ... ok
-test_NineNow (test.test_download.TestDownload) ... ok
-test_Nintendo (test.test_download.TestDownload) ... ok
-test_Nintendo_1 (test.test_download.TestDownload) ... [0;33mWARNING:[0m Failed due to network errors, skipping...
-ok
-test_NobelPrize (test.test_download.TestDownload) ... ok
-test_Noco (test.test_download.TestDownload) ... ok
-test_Noco_1 (test.test_download.TestDownload) ... ok
-test_Normalboots (test.test_download.TestDownload) ... [0;33mWARNING:[0m Failed due to network errors, skipping...
-ok
-test_NosVideo (test.test_download.TestDownload) ... ERROR
-test_Nova (test.test_download.TestDownload) ... ERROR
-test_Nova_1 (test.test_download.TestDownload) ... ok
-test_Nova_2 (test.test_download.TestDownload) ... ERROR
-test_Nova_3 (test.test_download.TestDownload) ... ERROR
-test_Nova_4 (test.test_download.TestDownload) ... ok
-test_NowTV (test.test_download.TestDownload) ... ok
-test_NowTVList (test.test_download.TestDownload) ... [0;33mWARNING:[0m Failed due to network errors, skipping...
-ok
-test_NowTVList_1 (test.test_download.TestDownload) ... [0;33mWARNING:[0m Failed due to network errors, skipping...
-ok
-test_NowTV_1 (test.test_download.TestDownload) ... ok
-test_NowTV_2 (test.test_download.TestDownload) ... ok
-test_NowTV_3 (test.test_download.TestDownload) ... ok
-test_NowTV_4 (test.test_download.TestDownload) ... ok
-test_NowTV_5 (test.test_download.TestDownload) ... ok
-test_NowVideo (test.test_download.TestDownload) ... ERROR
-test_Nowness (test.test_download.TestDownload) ... ok
-test_NownessPlaylist (test.test_download.TestDownload) ... ok
-test_NownessSeries (test.test_download.TestDownload) ... ok
-test_Nowness_1 (test.test_download.TestDownload) ... ok
-test_Nowness_2 (test.test_download.TestDownload) ... FAIL
-test_Noz (test.test_download.TestDownload) ... ok
-test_Npr (test.test_download.TestDownload) ... ok
-test_Npr_1 (test.test_download.TestDownload) ... ok
-test_Nuvid (test.test_download.TestDownload) ... ok
-test_OCWMIT (test.test_download.TestDownload) ... ok
-test_OCWMIT_1 (test.test_download.TestDownload) ... FAIL
-test_ORFFM4 (test.test_download.TestDownload) ... ok
-test_ORFIPTV (test.test_download.TestDownload) ... ERROR
-test_ORFTVthek (test.test_download.TestDownload) ... ok
-test_ORFTVthek_1 (test.test_download.TestDownload) ... ERROR
-test_ORFTVthek_2 (test.test_download.TestDownload) ... ERROR
-test_ORFTVthek_3 (test.test_download.TestDownload) ... ERROR
-test_OdaTV (test.test_download.TestDownload) ... ERROR
-test_Odnoklassniki (test.test_download.TestDownload) ... ok
-test_Odnoklassniki_1 (test.test_download.TestDownload) ... ok
-test_Odnoklassniki_2 (test.test_download.TestDownload) ... FAIL
-test_Odnoklassniki_3 (test.test_download.TestDownload) ... ok
-test_OktoberfestTV (test.test_download.TestDownload) ... ERROR
-test_OnDemandKorea (test.test_download.TestDownload) ... ok
-test_OneUP (test.test_download.TestDownload) ... ERROR
-test_Onet (test.test_download.TestDownload) ... ok
-test_OnetChannel (test.test_download.TestDownload) ... FAIL
-test_OnionStudios (test.test_download.TestDownload) ... ok
-test_Ooyala (test.test_download.TestDownload) ... ok
-test_OoyalaExternal (test.test_download.TestDownload) ... ok
-test_Ooyala_1 (test.test_download.TestDownload) ... ok
-test_Ooyala_2 (test.test_download.TestDownload) ... ok
-test_Openload (test.test_download.TestDownload) ... ok
-test_Openload_1 (test.test_download.TestDownload) ... ok
-test_OraTV (test.test_download.TestDownload) ... [0;33mWARNING:[0m Failed due to network errors, skipping...
-ok
-test_PBS (test.test_download.TestDownload) ... ERROR
-test_PBS_1 (test.test_download.TestDownload) ... ok
-test_PBS_10 (test.test_download.TestDownload) ... ok
-test_PBS_2 (test.test_download.TestDownload) ... ok
-test_PBS_3 (test.test_download.TestDownload) ... FAIL
-test_PBS_4 (test.test_download.TestDownload) ... FAIL
-test_PBS_5 (test.test_download.TestDownload) ... ok
-test_PBS_6 (test.test_download.TestDownload) ... ok
-test_PBS_7 (test.test_download.TestDownload) ... FAIL
-test_PBS_8 (test.test_download.TestDownload) ... ok
-test_PBS_9 (test.test_download.TestDownload) ... ok
-test_PCMag (test.test_download.TestDownload) ... FAIL
-test_PCMag_1 (test.test_download.TestDownload) ... ERROR
-test_PandaTV (test.test_download.TestDownload) ... ok
-test_PandoraTV (test.test_download.TestDownload) ... ok
-test_ParliamentLiveUK (test.test_download.TestDownload) ... ok
-test_Patreon (test.test_download.TestDownload) ... ERROR
-test_Patreon_1 (test.test_download.TestDownload) ... ERROR
-test_Patreon_2 (test.test_download.TestDownload) ... ERROR
-test_People (test.test_download.TestDownload) ... ok
-test_Periscope (test.test_download.TestDownload) ... ok
-test_PeriscopeUser (test.test_download.TestDownload) ... FAIL
-test_PhilharmonieDeParis (test.test_download.TestDownload) ... FAIL
-test_Phoenix (test.test_download.TestDownload) ... ERROR
-test_Photobucket (test.test_download.TestDownload) ... ok
-test_Piksel (test.test_download.TestDownload) ... ok
-test_Pinkbike (test.test_download.TestDownload) ... ERROR
-test_Pladform (test.test_download.TestDownload) ... FAIL
-test_PlayFM (test.test_download.TestDownload) ... ok
-test_PlaysTV (test.test_download.TestDownload) ... 
-'info_dict': {
-    'title': 'Bjergsen - When you outplay the Azir wall',
-    'id': '56af17f56c95335490',
-    'description': 'Posted by Bjergsen',
-
-    'upload_date': '20160201',
-    'timestamp': 1454315509,
-},
-FAIL
-test_Playtvak (test.test_download.TestDownload) ... FAIL
-test_Playtvak_1 (test.test_download.TestDownload) ... ok
-test_Playtvak_2 (test.test_download.TestDownload) ... ok
-test_Playtvak_3 (test.test_download.TestDownload) ... ok
-test_Playtvak_4 (test.test_download.TestDownload) ... ok
-test_Playvid (test.test_download.TestDownload) ... ok
-test_Playvid_1 (test.test_download.TestDownload) ... ok
-test_Playwire (test.test_download.TestDownload) ... ok
-test_Playwire_1 (test.test_download.TestDownload) ... ok
-test_Pluralsight (test.test_download.TestDownload) ... ok
-test_PluralsightCourse (test.test_download.TestDownload) ... ok
-test_Podomatic (test.test_download.TestDownload) ... ok
-test_Podomatic_1 (test.test_download.TestDownload) ... ERROR
-test_Pokemon (test.test_download.TestDownload) ... ok
-test_PolskieRadio (test.test_download.TestDownload) ... FAIL
-test_PolskieRadioCategory (test.test_download.TestDownload) ... ok
-test_PolskieRadioCategory_1 (test.test_download.TestDownload) ... ok
-test_PolskieRadioCategory_2 (test.test_download.TestDownload) ... ok
-test_PolskieRadioCategory_3 (test.test_download.TestDownload) ... ok
-test_PolskieRadio_1 (test.test_download.TestDownload) ... ok
-test_Porn91 (test.test_download.TestDownload) ... FAIL
-test_PornCom (test.test_download.TestDownload) ... ok
-test_PornHd (test.test_download.TestDownload) ... FAIL
-test_PornHd_1 (test.test_download.TestDownload) ... ok
-test_PornHub (test.test_download.TestDownload) ... ok
-test_PornHubPlaylist (test.test_download.TestDownload) ... ok
-test_PornHubUserVideos (test.test_download.TestDownload) ... ok
-test_PornHub_1 (test.test_download.TestDownload) ... FAIL
-test_PornoVoisines (test.test_download.TestDownload) ... ok
-test_PornoXO (test.test_download.TestDownload) ... ok
-test_Pornotube (test.test_download.TestDownload) ... FAIL
-test_PressTV (test.test_download.TestDownload) ... ok
-test_PrimeShareTV (test.test_download.TestDownload) ... [0;33mWARNING:[0m Failed due to network errors, skipping...
-ok
-test_ProSiebenSat1 (test.test_download.TestDownload) ... ERROR
-test_ProSiebenSat1_1 (test.test_download.TestDownload) ... ok
-test_ProSiebenSat1_10 (test.test_download.TestDownload) ... FAIL
-test_ProSiebenSat1_2 (test.test_download.TestDownload) ... ok
-test_ProSiebenSat1_3 (test.test_download.TestDownload) ... ok
-test_ProSiebenSat1_4 (test.test_download.TestDownload) ... ok
-test_ProSiebenSat1_5 (test.test_download.TestDownload) ... ok
-test_ProSiebenSat1_6 (test.test_download.TestDownload) ... ok
-test_ProSiebenSat1_7 (test.test_download.TestDownload) ... ERROR
-test_ProSiebenSat1_8 (test.test_download.TestDownload) ... FAIL
-test_ProSiebenSat1_9 (test.test_download.TestDownload) ... ERROR
-test_PromptFile (test.test_download.TestDownload) ... ERROR
-test_Puls4 (test.test_download.TestDownload) ... ERROR
-test_Pyvideo (test.test_download.TestDownload) ... ok
-test_Pyvideo_1 (test.test_download.TestDownload) ... ok
-test_QQMusic (test.test_download.TestDownload) ... FAIL
-test_QQMusicAlbum (test.test_download.TestDownload) ... ok
-test_QQMusicAlbum_1 (test.test_download.TestDownload) ... ok
-test_QQMusicPlaylist (test.test_download.TestDownload) ... ok
-test_QQMusicPlaylist_1 (test.test_download.TestDownload) ... ok
-test_QQMusicSinger (test.test_download.TestDownload) ... ok
-test_QQMusicToplist (test.test_download.TestDownload) ... 
-'info_dict': {
-    'id': 'global_123',
-    'title': '美国iTunes榜',
-
-    'description': 'iTunes是美国苹果公司开发的音乐下载软件，,iTunes单曲榜是结合了下载、收听和销售数据，进行的全美流行音乐综合排名，于每周一更新。',
-},
-FAIL
-test_QQMusicToplist_1 (test.test_download.TestDownload) ... FAIL
-test_QQMusicToplist_2 (test.test_download.TestDownload) ... 
-'info_dict': {
-    'id': 'global_106',
-    'title': '韩国Mnet榜',
-
-    'description': 'Mnet是韩国最权威的音乐电台，其榜单较为客观、翔实的展现了每周韩国音乐的排行状况。',
-},
-FAIL
-test_QQMusic_1 (test.test_download.TestDownload) ... ok
-test_QQMusic_2 (test.test_download.TestDownload) ... FAIL
-test_R7 (test.test_download.TestDownload) ... ok
-test_RBMARadio (test.test_download.TestDownload) ... [0;33mWARNING:[0m Failed due to network errors, skipping...
-ok
-test_RDS (test.test_download.TestDownload) ... ERROR
-test_RENTV (test.test_download.TestDownload) ... ok
-test_RENTVArticle (test.test_download.TestDownload) ... ok
-test_RENTVArticle_1 (test.test_download.TestDownload) ... ok
-test_RICE (test.test_download.TestDownload) ... ok
-test_RMCDecouverte (test.test_download.TestDownload) ... ok
-test_RTBF (test.test_download.TestDownload) ... FAIL
-test_RTL2 (test.test_download.TestDownload) ... ERROR
-test_RTL2_1 (test.test_download.TestDownload) ... ERROR
-test_RTP (test.test_download.TestDownload) ... ok
-test_RTS (test.test_download.TestDownload) ... ok
-test_RTS_1 (test.test_download.TestDownload) ... ok
-test_RTS_2 (test.test_download.TestDownload) ... ok
-test_RTS_3 (test.test_download.TestDownload) ... ok
-test_RTS_4 (test.test_download.TestDownload) ... ok
-test_RTS_5 (test.test_download.TestDownload) ... ERROR
-test_RTVEALaCarta (test.test_download.TestDownload) ... ok
-test_RTVEALaCarta_1 (test.test_download.TestDownload) ... ok
-test_RTVEInfantil (test.test_download.TestDownload) ... ERROR
-test_RTVELive (test.test_download.TestDownload) ... ERROR
-test_RTVETelevision (test.test_download.TestDownload) ... ERROR
-test_RTVNH (test.test_download.TestDownload) ... FAIL
-test_RUHD (test.test_download.TestDownload) ... ok
-test_RUTV (test.test_download.TestDownload) ... ok
-test_RUTV_1 (test.test_download.TestDownload) ... ok
-test_RUTV_2 (test.test_download.TestDownload) ... ok
-test_RUTV_3 (test.test_download.TestDownload) ... ok
-test_RUTV_4 (test.test_download.TestDownload) ... ok
-test_RUTV_5 (test.test_download.TestDownload) ... ok
-test_RadioBremen (test.test_download.TestDownload) ... ERROR
-test_RadioCanada (test.test_download.TestDownload) ... ok
-test_RadioCanadaAudioVideo (test.test_download.TestDownload) ... ok
-test_RadioDe (test.test_download.TestDownload) ... FAIL
-test_RadioFrance (test.test_download.TestDownload) ... ERROR
-test_RadioJavan (test.test_download.TestDownload) ... ok
-test_Rai (test.test_download.TestDownload) ... ok
-test_RaiTV (test.test_download.TestDownload) ... ok
-test_RaiTV_1 (test.test_download.TestDownload) ... ok
-test_RaiTV_2 (test.test_download.TestDownload) ... ok
-test_RaiTV_3 (test.test_download.TestDownload) ... ok
-test_RaiTV_4 (test.test_download.TestDownload) ... ok
-test_Rai_1 (test.test_download.TestDownload) ... ok
-test_Rai_2 (test.test_download.TestDownload) ... FAIL
-test_Rai_3 (test.test_download.TestDownload) ... FAIL
-test_RedTube (test.test_download.TestDownload) ... ok
-test_RegioTV (test.test_download.TestDownload) ... ERROR
-test_Restudy (test.test_download.TestDownload) ... ok
-test_Reuters (test.test_download.TestDownload) ... ok
-test_ReverbNation (test.test_download.TestDownload) ... ok
-test_Revision3 (test.test_download.TestDownload) ... ok
-test_Revision3Embed (test.test_download.TestDownload) ... ok
-test_RingTV (test.test_download.TestDownload) ... ERROR
-test_Ro220 (test.test_download.TestDownload) ... ERROR
-test_RockstarGames (test.test_download.TestDownload) ... FAIL
-test_RoosterTeeth (test.test_download.TestDownload) ... ok
-test_RottenTomatoes (test.test_download.TestDownload) ... [0;33mWARNING:[0m Failed due to network errors, skipping...
-ok
-test_Roxwel (test.test_download.TestDownload) ... [0;33mWARNING:[0m Failed due to network errors, skipping...
-ok
-test_Rozhlas (test.test_download.TestDownload) ... ok
-test_Rozhlas_1 (test.test_download.TestDownload) ... ERROR
-test_Rte (test.test_download.TestDownload) ... ok
-test_RteRadio (test.test_download.TestDownload) ... ok
-test_RteRadio_1 (test.test_download.TestDownload) ... ok
-test_RtlNl (test.test_download.TestDownload) ... FAIL
-test_RtlNl_1 (test.test_download.TestDownload) ... ok
-test_RtlNl_2 (test.test_download.TestDownload) ... ok
-test_Rudo (test.test_download.TestDownload) ... FAIL
-test_RulePorn (test.test_download.TestDownload) ... ERROR
-test_Rutube (test.test_download.TestDownload) ... FAIL
-test_RutubeChannel (test.test_download.TestDownload) ... ok
-test_RutubeEmbed (test.test_download.TestDownload) ... FAIL
-test_RutubePerson (test.test_download.TestDownload) ... ok
-test_Ruutu (test.test_download.TestDownload) ... FAIL
-test_Ruutu_1 (test.test_download.TestDownload) ... FAIL
-test_Ruutu_2 (test.test_download.TestDownload) ... FAIL
-test_SBS (test.test_download.TestDownload) ... ok
-test_SRGSSRPlay (test.test_download.TestDownload) ... ok
-test_SRGSSRPlay_1 (test.test_download.TestDownload) ... ERROR
-test_SRGSSRPlay_2 (test.test_download.TestDownload) ... ok
-test_SRGSSRPlay_3 (test.test_download.TestDownload) ... ok
-test_SRMediathek (test.test_download.TestDownload) ... ok
-test_SRMediathek_1 (test.test_download.TestDownload) ... ERROR
-test_SVT (test.test_download.TestDownload) ... FAIL
-test_SVTPlay (test.test_download.TestDownload) ... FAIL
-test_SWRMediathek (test.test_download.TestDownload) ... ok
-test_SWRMediathek_1 (test.test_download.TestDownload) ... ok
-test_SWRMediathek_2 (test.test_download.TestDownload) ... ok
-test_Safari (test.test_download.TestDownload) ... FAIL
-test_SafariCourse (test.test_download.TestDownload) ... ok
-test_Sandia (test.test_download.TestDownload) ... ok
-test_Sapo (test.test_download.TestDownload) ... ok
-test_Sapo_1 (test.test_download.TestDownload) ... ok
-test_Sapo_2 (test.test_download.TestDownload) ... ok
-test_SaveFrom (test.test_download.TestDownload) ... ok
-test_SchoolTV (test.test_download.TestDownload) ... ERROR
-test_SciVee (test.test_download.TestDownload) ... ok
-test_Screencast (test.test_download.TestDownload) ... ok
-test_ScreencastOMatic (test.test_download.TestDownload) ... ok
-test_Screencast_1 (test.test_download.TestDownload) ... ERROR
-test_Screencast_2 (test.test_download.TestDownload) ... ERROR
-test_Screencast_3 (test.test_download.TestDownload) ... ERROR
-test_Seeker (test.test_download.TestDownload) ... ok
-test_Seeker_1 (test.test_download.TestDownload) ... ok
-test_SenateISVP (test.test_download.TestDownload) ... ok
-test_SenateISVP_1 (test.test_download.TestDownload) ... ok
-test_SenateISVP_2 (test.test_download.TestDownload) ... ok
-test_SendtoNews (test.test_download.TestDownload) ... FAIL
-test_ServingSys (test.test_download.TestDownload) ... ERROR
-test_Sexu (test.test_download.TestDownload) ... ERROR
-test_Shahid (test.test_download.TestDownload) ... ok
-test_Shared (test.test_download.TestDownload) ... ERROR
-test_Sina (test.test_download.TestDownload) ... ok
-test_Sina_1 (test.test_download.TestDownload) ... ok
-test_Sina_2 (test.test_download.TestDownload) ... ok
-test_SixPlay (test.test_download.TestDownload) ... ERROR
-test_SkyNewsArabia (test.test_download.TestDownload) ... ERROR
-test_SkyNewsArabiaArticle (test.test_download.TestDownload) ... ERROR
-test_SkyNewsArabiaArticle_1 (test.test_download.TestDownload) ... ERROR
-test_SkySports (test.test_download.TestDownload) ... ok
-test_Slideshare (test.test_download.TestDownload) ... ERROR
-test_Slutload (test.test_download.TestDownload) ... ok
-test_Smotri (test.test_download.TestDownload) ... ok
-test_SmotriCommunity (test.test_download.TestDownload) ... ok
-test_SmotriUser (test.test_download.TestDownload) ... ok
-test_Smotri_1 (test.test_download.TestDownload) ... ok
-test_Smotri_2 (test.test_download.TestDownload) ... ok
-test_Smotri_3 (test.test_download.TestDownload) ... ERROR
-test_Smotri_4 (test.test_download.TestDownload) ... ok
-test_Smotri_5 (test.test_download.TestDownload) ... ok
-test_Smotri_6 (test.test_download.TestDownload) ... ok
-test_Snotr (test.test_download.TestDownload) ... ok
-test_Snotr_1 (test.test_download.TestDownload) ... ok
-test_Sohu (test.test_download.TestDownload) ... ok
-test_Sohu_1 (test.test_download.TestDownload) ... ok
-test_Sohu_2 (test.test_download.TestDownload) ... ok
-test_Sohu_3 (test.test_download.TestDownload) ... ok
-test_Sohu_4 (test.test_download.TestDownload) ... ok
-test_SonyLIV (test.test_download.TestDownload) ... ok
-test_Soundcloud (test.test_download.TestDownload) ... ok
-test_SoundcloudPlaylist (test.test_download.TestDownload) ... ok
-test_SoundcloudSearch (test.test_download.TestDownload) ... ERROR
-test_SoundcloudSet (test.test_download.TestDownload) ... FAIL
-test_SoundcloudUser (test.test_download.TestDownload) ... ok
-test_SoundcloudUser_1 (test.test_download.TestDownload) ... ok
-test_SoundcloudUser_2 (test.test_download.TestDownload) ... ok
-test_SoundcloudUser_3 (test.test_download.TestDownload) ... ok
-test_SoundcloudUser_4 (test.test_download.TestDownload) ... ok
-test_SoundcloudUser_5 (test.test_download.TestDownload) ... FAIL
-test_Soundcloud_1 (test.test_download.TestDownload) ... ok
-test_Soundcloud_2 (test.test_download.TestDownload) ... ok
-test_Soundcloud_3 (test.test_download.TestDownload) ... ok
-test_Soundcloud_4 (test.test_download.TestDownload) ... ok
-test_Soundgasm (test.test_download.TestDownload) ... ok
-test_SoundgasmProfile (test.test_download.TestDownload) ... ok
-test_SouthPark (test.test_download.TestDownload) ... ERROR
-test_SouthParkDe (test.test_download.TestDownload) ... ERROR
-test_SouthParkDe_1 (test.test_download.TestDownload) ... ok
-test_SouthParkDe_2 (test.test_download.TestDownload) ... ok
-test_SouthParkDk (test.test_download.TestDownload) ... ok
-test_SouthParkEs (test.test_download.TestDownload) ... ok
-test_SouthParkNl (test.test_download.TestDownload) ... ERROR
-test_SpankBang (test.test_download.TestDownload) ... ok
-test_Spankwire (test.test_download.TestDownload) ... ok
-test_Spankwire_1 (test.test_download.TestDownload) ... ok
-test_Spiegel (test.test_download.TestDownload) ... ok
-test_SpiegelArticle (test.test_download.TestDownload) ... FAIL
-test_SpiegelArticle_1 (test.test_download.TestDownload) ... ok
-test_Spiegel_1 (test.test_download.TestDownload) ... ERROR
-test_Spiegel_2 (test.test_download.TestDownload) ... ok
-test_Spiegeltv (test.test_download.TestDownload) ... ok
-test_Spike (test.test_download.TestDownload) ... ERROR
-test_Spike_1 (test.test_download.TestDownload) ... ERROR
-test_Sport5 (test.test_download.TestDownload) ... ok
-test_Sport5_1 (test.test_download.TestDownload) ... ok
-test_SportBox (test.test_download.TestDownload) ... ERROR
-test_SportBoxEmbed (test.test_download.TestDownload) ... ok
-test_SportDeutschland (test.test_download.TestDownload) ... ok
-test_SportDeutschland_1 (test.test_download.TestDownload) ... ERROR
-test_Sportschau (test.test_download.TestDownload) ... ok
-test_StanfordOpenClassroom (test.test_download.TestDownload) ... ok
-test_Steam (test.test_download.TestDownload) ... ERROR
-test_Steam_1 (test.test_download.TestDownload) ... FAIL
-test_Stitcher (test.test_download.TestDownload) ... FAIL
-test_Stitcher_1 (test.test_download.TestDownload) ... ok
-test_StreamCZ (test.test_download.TestDownload) ... FAIL
-test_StreamCZ_1 (test.test_download.TestDownload) ... FAIL
-test_Streamable (test.test_download.TestDownload) ... FAIL
-test_Streamable_1 (test.test_download.TestDownload) ... FAIL
-test_Streamcloud (test.test_download.TestDownload) ... ok
-test_StreetVoice (test.test_download.TestDownload) ... ok
-test_SunPorno (test.test_download.TestDownload) ... FAIL
-test_Syfy (test.test_download.TestDownload) ... ok
-test_SztvHu (test.test_download.TestDownload) ... FAIL
-test_TBS (test.test_download.TestDownload) ... ok
-test_TBS_1 (test.test_download.TestDownload) ... ERROR
-test_TDSLifeway (test.test_download.TestDownload) ... ok
-test_TED (test.test_download.TestDownload) ... FAIL
-test_TED_1 (test.test_download.TestDownload) ... FAIL
-test_TED_2 (test.test_download.TestDownload) ... ok
-test_TED_3 (test.test_download.TestDownload) ... ok
-test_TED_4 (test.test_download.TestDownload) ... ok
-test_TED_5 (test.test_download.TestDownload) ... FAIL
-test_TF1 (test.test_download.TestDownload) ... ok
-test_TF1_1 (test.test_download.TestDownload) ... ok
-test_TFO (test.test_download.TestDownload) ... ok
-test_TMZ (test.test_download.TestDownload) ... ERROR
-test_TMZArticle (test.test_download.TestDownload) ... ERROR
-test_TNAFlix (test.test_download.TestDownload) ... FAIL
-test_TNAFlixNetworkEmbed (test.test_download.TestDownload) ... ERROR
-test_TNAFlix_1 (test.test_download.TestDownload) ... FAIL
-test_TOnline (test.test_download.TestDownload) ... ERROR
-test_TV2 (test.test_download.TestDownload) ... ok
-test_TV2Article (test.test_download.TestDownload) ... ok
-test_TV3 (test.test_download.TestDownload) ... ERROR
-test_TV4 (test.test_download.TestDownload) ... ok
-test_TV4_1 (test.test_download.TestDownload) ... ok
-test_TVANouvelles (test.test_download.TestDownload) ... ok
-test_TVANouvellesArticle (test.test_download.TestDownload) ... ok
-test_TVC (test.test_download.TestDownload) ... FAIL
-test_TVCArticle (test.test_download.TestDownload) ... ok
-test_TVCArticle_1 (test.test_download.TestDownload) ... ok
-test_TVCArticle_2 (test.test_download.TestDownload) ... ok
-test_TVLand (test.test_download.TestDownload) ... ERROR
-test_TVLand_1 (test.test_download.TestDownload) ... ERROR
-test_TVNoe (test.test_download.TestDownload) ... ok
-test_TVP (test.test_download.TestDownload) ... ERROR
-test_TVPEmbed (test.test_download.TestDownload) ... ERROR
-test_TVPSeries (test.test_download.TestDownload) ... ERROR
-test_TVPSeries_1 (test.test_download.TestDownload) ... ERROR
-test_TVP_1 (test.test_download.TestDownload) ... ERROR
-test_TVP_2 (test.test_download.TestDownload) ... ERROR
-test_TVPlay (test.test_download.TestDownload) ... FAIL
-test_TVPlay_1 (test.test_download.TestDownload) ... ok
-test_TVPlay_2 (test.test_download.TestDownload) ... ERROR
-test_TVPlay_3 (test.test_download.TestDownload) ... FAIL
-test_TVPlay_4 (test.test_download.TestDownload) ... ok
-test_TVPlay_5 (test.test_download.TestDownload) ... ok
-test_TVPlay_6 (test.test_download.TestDownload) ... ERROR
-test_TVPlay_7 (test.test_download.TestDownload) ... ok
-test_TVPlay_8 (test.test_download.TestDownload) ... ERROR
-test_TVPlay_9 (test.test_download.TestDownload) ... ok
-test_Tagesschau (test.test_download.TestDownload) ... ok
-test_TagesschauPlayer (test.test_download.TestDownload) ... ok
-test_TagesschauPlayer_1 (test.test_download.TestDownload) ... ok
-test_Tagesschau_1 (test.test_download.TestDownload) ... ok
-test_Tagesschau_2 (test.test_download.TestDownload) ... ok
-test_Tagesschau_3 (test.test_download.TestDownload) ... ok
-test_Tagesschau_4 (test.test_download.TestDownload) ... ok
-test_Tass (test.test_download.TestDownload) ... ok
-test_TeacherTube (test.test_download.TestDownload) ... ok
-test_TeacherTubeUser (test.test_download.TestDownload) ... ok
-test_TeacherTube_1 (test.test_download.TestDownload) ... ok
-test_TeacherTube_2 (test.test_download.TestDownload) ... ok
-test_TeacherTube_3 (test.test_download.TestDownload) ... ERROR
-test_TeachingChannel (test.test_download.TestDownload) ... ok
-test_TeamFourStar (test.test_download.TestDownload) ... [0;33mWARNING:[0m Failed due to network errors, skipping...
-ok
-test_Teamcoco (test.test_download.TestDownload) ... ok
-test_Teamcoco_1 (test.test_download.TestDownload) ... ok
-test_Teamcoco_2 (test.test_download.TestDownload) ... ok
-test_Teamcoco_3 (test.test_download.TestDownload) ... ERROR
-test_TechTVMIT (test.test_download.TestDownload) ... ERROR
-test_TechTalks (test.test_download.TestDownload) ... ok
-test_Tele13 (test.test_download.TestDownload) ... ERROR
-test_Tele13_1 (test.test_download.TestDownload) ... ERROR
-test_TeleBruxelles (test.test_download.TestDownload) ... ok
-test_TeleBruxelles_1 (test.test_download.TestDownload) ... ok
-test_TeleMB (test.test_download.TestDownload) ... ok
-test_TeleMB_1 (test.test_download.TestDownload) ... ok
-test_TeleQuebec (test.test_download.TestDownload) ... ERROR
-test_TeleTask (test.test_download.TestDownload) ... ok
-test_Telecinco (test.test_download.TestDownload) ... ok
-test_Telecinco_1 (test.test_download.TestDownload) ... ok
-test_Telecinco_2 (test.test_download.TestDownload) ... ok
-test_Telegraaf (test.test_download.TestDownload) ... ok
-test_Telewebion (test.test_download.TestDownload) ... ok
-test_TheIntercept (test.test_download.TestDownload) ... [0;33mWARNING:[0m Failed due to network errors, skipping...
-ok
-test_TheOperaPlatform (test.test_download.TestDownload) ... ok
-test_ThePlatform (test.test_download.TestDownload) ... ok
-test_ThePlatformFeed (test.test_download.TestDownload) ... ok
-test_ThePlatform_1 (test.test_download.TestDownload) ... ok
-test_ThePlatform_2 (test.test_download.TestDownload) ... FAIL
-test_ThePlatform_3 (test.test_download.TestDownload) ... ok
-test_TheScene (test.test_download.TestDownload) ... [0;33mWARNING:[0m Failed due to network errors, skipping...
-ok
-test_TheSixtyOne (test.test_download.TestDownload) ... ok
-test_TheStar (test.test_download.TestDownload) ... ok
-test_TheWeatherChannel (test.test_download.TestDownload) ... ok
-test_ThisAV (test.test_download.TestDownload) ... ok
-test_ThisAV_1 (test.test_download.TestDownload) ... ERROR
-test_ThisAmericanLife (test.test_download.TestDownload) ... FAIL
-test_ThisOldHouse (test.test_download.TestDownload) ... [0;33mWARNING:[0m Failed due to network errors, skipping...
-ok
-test_ThreeQSDN (test.test_download.TestDownload) ... ok
-test_ThreeQSDN_1 (test.test_download.TestDownload) ... ok
-test_TinyPic (test.test_download.TestDownload) ... ok
-test_TlcDe (test.test_download.TestDownload) ... ERROR
-test_Toggle (test.test_download.TestDownload) ... FAIL
-test_Toggle_1 (test.test_download.TestDownload) ... FAIL
-test_Toggle_2 (test.test_download.TestDownload) ... ok
-test_Tosh (test.test_download.TestDownload) ... ERROR
-test_TouTv (test.test_download.TestDownload) ... ok
-test_Toypics (test.test_download.TestDownload) ... ERROR
-test_ToypicsUser (test.test_download.TestDownload) ... FAIL
-test_TrailerAddict (test.test_download.TestDownload) ... ok
-test_Trilulilu (test.test_download.TestDownload) ... FAIL
-test_Trilulilu_1 (test.test_download.TestDownload) ... ok
-test_TruTV (test.test_download.TestDownload) ... ok
-test_Tube8 (test.test_download.TestDownload) ... ok
-test_TubiTv (test.test_download.TestDownload) ... ERROR
-test_Tudou (test.test_download.TestDownload) ... [0;33mWARNING:[0m Failed due to network errors, skipping...
-ok
-test_TudouAlbum (test.test_download.TestDownload) ... ok
-test_TudouPlaylist (test.test_download.TestDownload) ... ok
-test_Tudou_1 (test.test_download.TestDownload) ... [0;33mWARNING:[0m Failed due to network errors, skipping...
-ok
-test_Tumblr (test.test_download.TestDownload) ... ok
-test_Tumblr_1 (test.test_download.TestDownload) ... ERROR
-test_Tumblr_2 (test.test_download.TestDownload) ... ok
-test_Tumblr_3 (test.test_download.TestDownload) ... ERROR
-test_Tumblr_4 (test.test_download.TestDownload) ... FAIL
-test_Tumblr_5 (test.test_download.TestDownload) ... ok
-test_Tumblr_6 (test.test_download.TestDownload) ... 
-'info_dict': {
-    'description': 'Invisibility or flight…which superpower would YOU choose? #VSFashionShow #ThisOrThat',
-    'title': 'Video by victoriassecret',
-    'uploader_id': 'victoriassecret',
-    'id': '-7LnUPGlSo',
-
-    'upload_date': '20151205',
-    'uploader': 'Victoria\'s Secret',
-    'timestamp': 1449349808,
-},
-FAIL
-test_TuneInClip (test.test_download.TestDownload) ... ok
-test_TuneInProgram (test.test_download.TestDownload) ... FAIL
-test_TuneInShortener (test.test_download.TestDownload) ... ERROR
-test_TuneInStation (test.test_download.TestDownload) ... FAIL
-test_TuneInTopic (test.test_download.TestDownload) ... ok
-test_Turbo (test.test_download.TestDownload) ... ok
-test_Tutv (test.test_download.TestDownload) ... FAIL
-test_Tvigle (test.test_download.TestDownload) ... ok
-test_Tvigle_1 (test.test_download.TestDownload) ... ok
-test_Tweakers (test.test_download.TestDownload) ... FAIL
-test_TwentyFourVideo (test.test_download.TestDownload) ... ERROR
-test_TwentyMinuten (test.test_download.TestDownload) ... ok
-test_TwentyMinuten_1 (test.test_download.TestDownload) ... ok
-test_TwentyMinuten_2 (test.test_download.TestDownload) ... FAIL
-test_TwitchAllVideos (test.test_download.TestDownload) ... FAIL
-test_TwitchChapter (test.test_download.TestDownload) ... ok
-test_TwitchClips (test.test_download.TestDownload) ... ok
-test_TwitchHighlights (test.test_download.TestDownload) ... ok
-test_TwitchPastBroadcasts (test.test_download.TestDownload) ... ok
-test_TwitchProfile (test.test_download.TestDownload) ... ok
-test_TwitchStream (test.test_download.TestDownload) ... ERROR
-test_TwitchUploads (test.test_download.TestDownload) ... ok
-test_TwitchVideo (test.test_download.TestDownload) ... ok
-test_TwitchVod (test.test_download.TestDownload) ... ok
-test_TwitchVod_1 (test.test_download.TestDownload) ... ok
-test_Twitter (test.test_download.TestDownload) ... ok
-test_TwitterAmplify (test.test_download.TestDownload) ... ok
-test_TwitterCard (test.test_download.TestDownload) ... ok
-test_TwitterCard_1 (test.test_download.TestDownload) ... ok
-test_TwitterCard_2 (test.test_download.TestDownload) ... ok
-test_TwitterCard_3 (test.test_download.TestDownload) ... ok
-test_TwitterCard_4 (test.test_download.TestDownload) ... ERROR
-test_Twitter_1 (test.test_download.TestDownload) ... ok
-test_Twitter_2 (test.test_download.TestDownload) ... ok
-test_Twitter_3 (test.test_download.TestDownload) ... FAIL
-test_Twitter_4 (test.test_download.TestDownload) ... FAIL
-test_Twitter_5 (test.test_download.TestDownload) ... ok
-test_Twitter_6 (test.test_download.TestDownload) ... ok
-test_Twitter_7 (test.test_download.TestDownload) ... ok
-test_UDNEmbed (test.test_download.TestDownload) ... [0;33mWARNING:[0m Failed due to network errors, skipping...
-ok
-test_UKTVPlay (test.test_download.TestDownload) ... ok
-test_UOL (test.test_download.TestDownload) ... FAIL
-test_UOL_1 (test.test_download.TestDownload) ... ERROR
-test_URPlay (test.test_download.TestDownload) ... ERROR
-test_USANetwork (test.test_download.TestDownload) ... ERROR
-test_USAToday (test.test_download.TestDownload) ... FAIL
-test_Udemy (test.test_download.TestDownload) ... ok
-test_Unistra (test.test_download.TestDownload) ... ok
-test_Unistra_1 (test.test_download.TestDownload) ... ok
-test_Uplynk (test.test_download.TestDownload) ... ok
-test_Urort (test.test_download.TestDownload) ... FAIL
-test_Ustream (test.test_download.TestDownload) ... ok
-test_UstreamChannel (test.test_download.TestDownload) ... ok
-test_Ustream_1 (test.test_download.TestDownload) ... ok
-test_Ustream_2 (test.test_download.TestDownload) ... ok
-test_Ustream_3 (test.test_download.TestDownload) ... ERROR
-test_Ustudio (test.test_download.TestDownload) ... ok
-test_UstudioEmbed (test.test_download.TestDownload) ... ok
-test_VGTV (test.test_download.TestDownload) ... ok
-test_VGTV_1 (test.test_download.TestDownload) ... ok
-test_VGTV_2 (test.test_download.TestDownload) ... ok
-test_VGTV_3 (test.test_download.TestDownload) ... ok
-test_VH1 (test.test_download.TestDownload) ... ok
-test_VH1_1 (test.test_download.TestDownload) ... ok
-test_VH1_2 (test.test_download.TestDownload) ... ok
-test_VH1_3 (test.test_download.TestDownload) ... ok
-test_VK (test.test_download.TestDownload) ... ok
-test_VKUserVideos (test.test_download.TestDownload) ... FAIL
-test_VKWallPost (test.test_download.TestDownload) ... ok
-test_VKWallPost_1 (test.test_download.TestDownload) ... ok
-test_VK_1 (test.test_download.TestDownload) ... ok
-test_VK_10 (test.test_download.TestDownload) ... FAIL
-test_VK_2 (test.test_download.TestDownload) ... ok
-test_VK_3 (test.test_download.TestDownload) ... ok
-test_VK_4 (test.test_download.TestDownload) ... ok
-test_VK_5 (test.test_download.TestDownload) ... ok
-test_VK_6 (test.test_download.TestDownload) ... ok
-test_VK_7 (test.test_download.TestDownload) ... FAIL
-test_VK_8 (test.test_download.TestDownload) ... ERROR
-test_VK_9 (test.test_download.TestDownload) ... ok
-test_VLive (test.test_download.TestDownload) ... ok
-test_VLive_1 (test.test_download.TestDownload) ... ok
-test_VODPlatform (test.test_download.TestDownload) ... FAIL
-test_VPRO (test.test_download.TestDownload) ... ok
-test_VPRO_1 (test.test_download.TestDownload) ... ok
-test_VPRO_2 (test.test_download.TestDownload) ... ok
-test_VPRO_3 (test.test_download.TestDownload) ... ok
-test_VPRO_4 (test.test_download.TestDownload) ... ok
-test_VRT (test.test_download.TestDownload) ... ok
-test_VRT_1 (test.test_download.TestDownload) ... ok
-test_VRT_2 (test.test_download.TestDownload) ... ok
-test_VRT_3 (test.test_download.TestDownload) ... FAIL
-test_VRT_4 (test.test_download.TestDownload) ... ok
-test_VVVVID (test.test_download.TestDownload) ... ERROR
-test_VVVVID_1 (test.test_download.TestDownload) ... ERROR
-test_Varzesh3 (test.test_download.TestDownload) ... ok
-test_Varzesh3_1 (test.test_download.TestDownload) ... FAIL
-test_Vbox7 (test.test_download.TestDownload) ... [0;33mWARNING:[0m Failed due to network errors, skipping...
-ok
-test_Vbox7_1 (test.test_download.TestDownload) ... ok
-test_VeeHD (test.test_download.TestDownload) ... ok
-test_VeeHD_1 (test.test_download.TestDownload) ... ERROR
-test_VeeHD_2 (test.test_download.TestDownload) ... ok
-test_Veoh (test.test_download.TestDownload) ... ok
-test_Veoh_1 (test.test_download.TestDownload) ... ok
-test_Veoh_2 (test.test_download.TestDownload) ... ok
-test_Vessel (test.test_download.TestDownload) ... ERROR
-test_Vesti (test.test_download.TestDownload) ... ok
-test_Vesti_1 (test.test_download.TestDownload) ... ok
-test_Vesti_2 (test.test_download.TestDownload) ... ok
-test_Vesti_3 (test.test_download.TestDownload) ... ok
-test_Vesti_4 (test.test_download.TestDownload) ... ok
-test_Vesti_5 (test.test_download.TestDownload) ... ok
-test_Vevo (test.test_download.TestDownload) ... ok
-test_VevoPlaylist (test.test_download.TestDownload) ... ok
-test_VevoPlaylist_1 (test.test_download.TestDownload) ... ok
-test_VevoPlaylist_2 (test.test_download.TestDownload) ... ERROR
-test_Vevo_1 (test.test_download.TestDownload) ... ok
-test_Vevo_2 (test.test_download.TestDownload) ... ok
-test_Vevo_3 (test.test_download.TestDownload) ... ok
-test_Vevo_4 (test.test_download.TestDownload) ... ok
-test_Vevo_5 (test.test_download.TestDownload) ... ERROR
-test_Viafree (test.test_download.TestDownload) ... FAIL
-test_Viafree_1 (test.test_download.TestDownload) ... ok
-test_Vice (test.test_download.TestDownload) ... ERROR
-test_ViceShow (test.test_download.TestDownload) ... FAIL
-test_Vice_1 (test.test_download.TestDownload) ... ERROR
-test_Vice_2 (test.test_download.TestDownload) ... [0;33mWARNING:[0m Failed due to network errors, skipping...
-ok
-test_Viceland (test.test_download.TestDownload) ... ERROR
-test_Vidbit (test.test_download.TestDownload) ... ERROR
-test_Viddler (test.test_download.TestDownload) ... ok
-test_Viddler_1 (test.test_download.TestDownload) ... ERROR
-test_Viddler_2 (test.test_download.TestDownload) ... ERROR
-test_Viddler_3 (test.test_download.TestDownload) ... ERROR
-test_Videa (test.test_download.TestDownload) ... ok
-test_VideoDetective (test.test_download.TestDownload) ... ok
-test_VideoMega (test.test_download.TestDownload) ... [0;33mWARNING:[0m Failed due to network errors, skipping...
-ok
-test_VideoPremium (test.test_download.TestDownload) ... ok
-test_VideoWeed (test.test_download.TestDownload) ... ERROR
-test_VideofyMe (test.test_download.TestDownload) ... ERROR
-test_Videomore (test.test_download.TestDownload) ... ERROR
-test_VideomoreSeason (test.test_download.TestDownload) ... ok
-test_VideomoreVideo (test.test_download.TestDownload) ... ERROR
-test_VideomoreVideo_1 (test.test_download.TestDownload) ... ERROR
-test_Videomore_1 (test.test_download.TestDownload) ... ERROR
-test_Videomore_2 (test.test_download.TestDownload) ... ERROR
-test_Vidio (test.test_download.TestDownload) ... FAIL
-test_Vidme (test.test_download.TestDownload) ... ok
-test_VidmeUser (test.test_download.TestDownload) ... ERROR
-test_VidmeUserLikes (test.test_download.TestDownload) ... 
-
-The job exceeded the maximum time limit for jobs, and has been terminated.
-

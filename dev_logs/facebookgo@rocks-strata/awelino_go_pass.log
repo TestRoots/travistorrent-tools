@@ -1,2634 +1,0 @@
-travis_fold:start:worker_info[0K[33;1mWorker information[0m
-hostname: ip-10-12-11-209:bcf243be-0380-4342-a0c8-d7be31d98c43
-version: v2.5.0-8-g19ea9c2 https://github.com/travis-ci/worker/tree/19ea9c20425c78100500c7cc935892b47024922c
-instance: ee7605a:travis:go
-startup: 532.82738ms
-travis_fold:end:worker_info[0Ktravis_fold:start:system_info[0K[33;1mBuild system information[0m
-Build language: go
-Build group: stable
-Build dist: precise
-Build id: 191270474
-Job id: 191270475
-travis-build version: 3be5a6407
-[34m[1mBuild image provisioning date and time[0m
-Thu Feb  5 15:09:33 UTC 2015
-[34m[1mOperating System Details[0m
-Distributor ID:	Ubuntu
-Description:	Ubuntu 12.04.5 LTS
-Release:	12.04
-Codename:	precise
-[34m[1mLinux Version[0m
-3.13.0-29-generic
-[34m[1mCookbooks Version[0m
-a68419e https://github.com/travis-ci/travis-cookbooks/tree/a68419e
-[34m[1mGCC version[0m
-gcc (Ubuntu/Linaro 4.6.3-1ubuntu5) 4.6.3
-Copyright (C) 2011 Free Software Foundation, Inc.
-This is free software; see the source for copying conditions.  There is NO
-warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-
-[34m[1mLLVM version[0m
-clang version 3.4 (tags/RELEASE_34/final)
-Target: x86_64-unknown-linux-gnu
-Thread model: posix
-[34m[1mPre-installed Ruby versions[0m
-ruby-1.9.3-p551
-[34m[1mPre-installed Node.js versions[0m
-v0.10.36
-[34m[1mPre-installed Go versions[0m
-1.4.1
-[34m[1mRedis version[0m
-redis-server 2.8.19
-[34m[1mriak version[0m
-2.0.2
-[34m[1mMongoDB version[0m
-MongoDB 2.4.12
-[34m[1mCouchDB version[0m
-couchdb 1.6.1
-[34m[1mNeo4j version[0m
-1.9.4
-[34m[1mRabbitMQ Version[0m
-3.4.3
-[34m[1mElasticSearch version[0m
-1.4.0
-[34m[1mInstalled Sphinx versions[0m
-2.0.10
-2.1.9
-2.2.6
-[34m[1mDefault Sphinx version[0m
-2.2.6
-[34m[1mInstalled Firefox version[0m
-firefox 31.0esr
-[34m[1mPhantomJS version[0m
-1.9.8
-[34m[1mant -version[0m
-Apache Ant(TM) version 1.8.2 compiled on December 3 2011
-[34m[1mmvn -version[0m
-Apache Maven 3.2.5 (12a6b3acb947671f09b81f49094c53f426d8cea1; 2014-12-14T17:29:23+00:00)
-Maven home: /usr/local/maven
-Java version: 1.7.0_76, vendor: Oracle Corporation
-Java home: /usr/lib/jvm/java-7-oracle/jre
-Default locale: en_US, platform encoding: ANSI_X3.4-1968
-OS name: "linux", version: "3.13.0-29-generic", arch: "amd64", family: "unix"
-travis_fold:end:system_info[0K
-travis_fold:start:fix.CVE-2015-7547[0K$ export DEBIAN_FRONTEND=noninteractive
-W: Size of file /var/lib/apt/lists/us.archive.ubuntu.com_ubuntu_dists_precise-updates_restricted_binary-amd64_Packages.gz is not what the server reported 19576 20785
-W: Size of file /var/lib/apt/lists/us.archive.ubuntu.com_ubuntu_dists_precise-updates_restricted_binary-i386_Packages.gz is not what the server reported 19521 20707
-W: Size of file /var/lib/apt/lists/us.archive.ubuntu.com_ubuntu_dists_precise-backports_multiverse_source_Sources.gz is not what the server reported 5886 5888
-W: Size of file /var/lib/apt/lists/ppa.launchpad.net_travis-ci_zero-mq_ubuntu_dists_precise_main_binary-amd64_Packages.gz is not what the server reported 832 1195
-W: Size of file /var/lib/apt/lists/ppa.launchpad.net_ubuntugis_ppa_ubuntu_dists_precise_main_binary-amd64_Packages.gz is not what the server reported 33653 36677
-W: Size of file /var/lib/apt/lists/ppa.launchpad.net_ubuntugis_ppa_ubuntu_dists_precise_main_binary-i386_Packages.gz is not what the server reported 33699 36733
-W: Size of file /var/lib/apt/lists/security.ubuntu.com_ubuntu_dists_precise-security_restricted_binary-amd64_Packages.gz is not what the server reported 13782 14904
-W: Size of file /var/lib/apt/lists/security.ubuntu.com_ubuntu_dists_precise-security_restricted_binary-i386_Packages.gz is not what the server reported 13751 14885
-Reading package lists...
-Building dependency tree...
-Reading state information...
-The following extra packages will be installed:
-  libc-bin libc-dev-bin libc6-dev
-Suggested packages:
-  glibc-doc
-The following packages will be upgraded:
-  libc-bin libc-dev-bin libc6 libc6-dev
-4 upgraded, 0 newly installed, 0 to remove and 250 not upgraded.
-Need to get 8,840 kB of archives.
-After this operation, 14.3 kB disk space will be freed.
-Get:1 http://us.archive.ubuntu.com/ubuntu/ precise-updates/main libc6-dev amd64 2.15-0ubuntu10.15 [2,943 kB]
-Get:2 http://us.archive.ubuntu.com/ubuntu/ precise-updates/main libc-dev-bin amd64 2.15-0ubuntu10.15 [84.7 kB]
-Get:3 http://us.archive.ubuntu.com/ubuntu/ precise-updates/main libc-bin amd64 2.15-0ubuntu10.15 [1,177 kB]
-Get:4 http://us.archive.ubuntu.com/ubuntu/ precise-updates/main libc6 amd64 2.15-0ubuntu10.15 [4,636 kB]
-Fetched 8,840 kB in 0s (36.9 MB/s)
-Preconfiguring packages ...
-(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 69991 files and directories currently installed.)
-Preparing to replace libc6-dev 2.15-0ubuntu10.10 (using .../libc6-dev_2.15-0ubuntu10.15_amd64.deb) ...
-Unpacking replacement libc6-dev ...
-Preparing to replace libc-dev-bin 2.15-0ubuntu10.10 (using .../libc-dev-bin_2.15-0ubuntu10.15_amd64.deb) ...
-Unpacking replacement libc-dev-bin ...
-Preparing to replace libc-bin 2.15-0ubuntu10.10 (using .../libc-bin_2.15-0ubuntu10.15_amd64.deb) ...
-Unpacking replacement libc-bin ...
-Processing triggers for man-db ...
-Setting up libc-bin (2.15-0ubuntu10.15) ...
-(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 69990 files and directories currently installed.)
-Preparing to replace libc6 2.15-0ubuntu10.10 (using .../libc6_2.15-0ubuntu10.15_amd64.deb) ...
-Unpacking replacement libc6 ...
-Setting up libc6 (2.15-0ubuntu10.15) ...
-Setting up libc-dev-bin (2.15-0ubuntu10.15) ...
-Setting up libc6-dev (2.15-0ubuntu10.15) ...
-Processing triggers for libc-bin ...
-ldconfig deferred processing now taking place
-travis_fold:end:fix.CVE-2015-7547[0Ktravis_fold:start:git.checkout[0Ktravis_time:start:0a7b3508[0K$ git clone --depth=50 https://github.com/avelino/awesome-go.git avelino/awesome-go
-Cloning into 'avelino/awesome-go'...
-remote: Counting objects: 896, done.[K
-remote: Compressing objects:   0% (1/543)   [Kremote: Compressing objects:   1% (6/543)   [Kremote: Compressing objects:   2% (11/543)   [Kremote: Compressing objects:   3% (17/543)   [Kremote: Compressing objects:   4% (22/543)   [Kremote: Compressing objects:   5% (28/543)   [Kremote: Compressing objects:   6% (33/543)   [Kremote: Compressing objects:   7% (39/543)   [Kremote: Compressing objects:   8% (44/543)   [Kremote: Compressing objects:   9% (49/543)   [Kremote: Compressing objects:  10% (55/543)   [Kremote: Compressing objects:  11% (60/543)   [Kremote: Compressing objects:  12% (66/543)   [Kremote: Compressing objects:  13% (71/543)   [Kremote: Compressing objects:  14% (77/543)   [Kremote: Compressing objects:  15% (82/543)   [Kremote: Compressing objects:  16% (87/543)   [Kremote: Compressing objects:  17% (93/543)   [Kremote: Compressing objects:  18% (98/543)   [Kremote: Compressing objects:  19% (104/543)   [Kremote: Compressing objects:  20% (109/543)   [Kremote: Compressing objects:  21% (115/543)   [Kremote: Compressing objects:  22% (120/543)   [Kremote: Compressing objects:  23% (125/543)   [Kremote: Compressing objects:  24% (131/543)   [Kremote: Compressing objects:  25% (136/543)   [Kremote: Compressing objects:  26% (142/543)   [Kremote: Compressing objects:  27% (147/543)   [Kremote: Compressing objects:  28% (153/543)   [Kremote: Compressing objects:  29% (158/543)   [Kremote: Compressing objects:  30% (163/543)   [Kremote: Compressing objects:  31% (169/543)   [Kremote: Compressing objects:  32% (174/543)   [Kremote: Compressing objects:  33% (180/543)   [Kremote: Compressing objects:  34% (185/543)   [Kremote: Compressing objects:  35% (191/543)   [Kremote: Compressing objects:  36% (196/543)   [Kremote: Compressing objects:  37% (201/543)   [Kremote: Compressing objects:  38% (207/543)   [Kremote: Compressing objects:  39% (212/543)   [Kremote: Compressing objects:  40% (218/543)   [Kremote: Compressing objects:  41% (223/543)   [Kremote: Compressing objects:  42% (229/543)   [Kremote: Compressing objects:  43% (234/543)   [Kremote: Compressing objects:  44% (239/543)   [Kremote: Compressing objects:  45% (245/543)   [Kremote: Compressing objects:  46% (250/543)   [Kremote: Compressing objects:  47% (256/543)   [Kremote: Compressing objects:  48% (261/543)   [Kremote: Compressing objects:  49% (267/543)   [Kremote: Compressing objects:  50% (272/543)   [Kremote: Compressing objects:  51% (277/543)   [Kremote: Compressing objects:  52% (283/543)   [Kremote: Compressing objects:  53% (288/543)   [Kremote: Compressing objects:  54% (294/543)   [Kremote: Compressing objects:  55% (299/543)   [Kremote: Compressing objects:  56% (305/543)   [Kremote: Compressing objects:  57% (310/543)   [Kremote: Compressing objects:  58% (315/543)   [Kremote: Compressing objects:  59% (321/543)   [Kremote: Compressing objects:  60% (326/543)   [Kremote: Compressing objects:  61% (332/543)   [Kremote: Compressing objects:  62% (337/543)   [Kremote: Compressing objects:  63% (343/543)   [Kremote: Compressing objects:  64% (348/543)   [Kremote: Compressing objects:  65% (353/543)   [Kremote: Compressing objects:  66% (359/543)   [Kremote: Compressing objects:  67% (364/543)   [Kremote: Compressing objects:  68% (370/543)   [Kremote: Compressing objects:  69% (375/543)   [Kremote: Compressing objects:  70% (381/543)   [Kremote: Compressing objects:  71% (386/543)   [Kremote: Compressing objects:  72% (391/543)   [Kremote: Compressing objects:  73% (397/543)   [Kremote: Compressing objects:  74% (402/543)   [Kremote: Compressing objects:  75% (408/543)   [Kremote: Compressing objects:  76% (413/543)   [Kremote: Compressing objects:  77% (419/543)   [Kremote: Compressing objects:  78% (424/543)   [Kremote: Compressing objects:  79% (429/543)   [Kremote: Compressing objects:  80% (435/543)   [Kremote: Compressing objects:  81% (440/543)   [Kremote: Compressing objects:  82% (446/543)   [Kremote: Compressing objects:  83% (451/543)   [Kremote: Compressing objects:  84% (457/543)   [Kremote: Compressing objects:  85% (462/543)   [Kremote: Compressing objects:  86% (467/543)   [Kremote: Compressing objects:  87% (473/543)   [Kremote: Compressing objects:  88% (478/543)   [Kremote: Compressing objects:  89% (484/543)   [Kremote: Compressing objects:  90% (489/543)   [Kremote: Compressing objects:  91% (495/543)   [Kremote: Compressing objects:  92% (500/543)   [Kremote: Compressing objects:  93% (505/543)   [Kremote: Compressing objects:  94% (511/543)   [Kremote: Compressing objects:  95% (516/543)   [Kremote: Compressing objects:  96% (522/543)   [Kremote: Compressing objects:  97% (527/543)   [Kremote: Compressing objects:  98% (533/543)   [Kremote: Compressing objects:  99% (538/543)   [Kremote: Compressing objects: 100% (543/543)   [Kremote: Compressing objects: 100% (543/543), done.[K
-Receiving objects:   0% (1/896)   Receiving objects:   1% (9/896)   Receiving objects:   2% (18/896)   Receiving objects:   3% (27/896)   Receiving objects:   4% (36/896)   Receiving objects:   5% (45/896)   Receiving objects:   6% (54/896)   Receiving objects:   7% (63/896)   Receiving objects:   8% (72/896)   Receiving objects:   9% (81/896)   Receiving objects:  10% (90/896)   Receiving objects:  11% (99/896)   Receiving objects:  12% (108/896)   Receiving objects:  13% (117/896)   Receiving objects:  14% (126/896)   Receiving objects:  15% (135/896)   Receiving objects:  16% (144/896)   Receiving objects:  17% (153/896)   Receiving objects:  18% (162/896)   Receiving objects:  19% (171/896)   Receiving objects:  20% (180/896)   Receiving objects:  21% (189/896)   Receiving objects:  22% (198/896)   Receiving objects:  23% (207/896)   Receiving objects:  24% (216/896)   Receiving objects:  25% (224/896)   Receiving objects:  26% (233/896)   Receiving objects:  27% (242/896)   Receiving objects:  28% (251/896)   Receiving objects:  29% (260/896)   Receiving objects:  30% (269/896)   Receiving objects:  31% (278/896)   Receiving objects:  32% (287/896)   Receiving objects:  33% (296/896)   Receiving objects:  34% (305/896)   Receiving objects:  35% (314/896)   Receiving objects:  36% (323/896)   Receiving objects:  37% (332/896)   Receiving objects:  38% (341/896)   Receiving objects:  39% (350/896)   Receiving objects:  40% (359/896)   Receiving objects:  41% (368/896)   Receiving objects:  42% (377/896)   Receiving objects:  43% (386/896)   Receiving objects:  44% (395/896)   Receiving objects:  45% (404/896)   Receiving objects:  46% (413/896)   Receiving objects:  47% (422/896)   Receiving objects:  48% (431/896)   Receiving objects:  49% (440/896)   Receiving objects:  50% (448/896)   Receiving objects:  51% (457/896)   Receiving objects:  52% (466/896)   Receiving objects:  53% (475/896)   Receiving objects:  54% (484/896)   Receiving objects:  55% (493/896)   Receiving objects:  56% (502/896)   Receiving objects:  57% (511/896)   Receiving objects:  58% (520/896)   Receiving objects:  59% (529/896)   Receiving objects:  60% (538/896)   Receiving objects:  61% (547/896)   Receiving objects:  62% (556/896)   Receiving objects:  63% (565/896)   Receiving objects:  64% (574/896)   Receiving objects:  65% (583/896)   Receiving objects:  66% (592/896)   Receiving objects:  67% (601/896)   Receiving objects:  68% (610/896)   Receiving objects:  69% (619/896)   Receiving objects:  70% (628/896)   Receiving objects:  71% (637/896)   Receiving objects:  72% (646/896)   Receiving objects:  73% (655/896)   Receiving objects:  74% (664/896)   Receiving objects:  75% (672/896)   Receiving objects:  76% (681/896)   Receiving objects:  77% (690/896)   Receiving objects:  78% (699/896)   Receiving objects:  79% (708/896)   Receiving objects:  80% (717/896)   Receiving objects:  81% (726/896)   Receiving objects:  82% (735/896)   Receiving objects:  83% (744/896)   Receiving objects:  84% (753/896)   Receiving objects:  85% (762/896)   Receiving objects:  86% (771/896)   Receiving objects:  87% (780/896)   Receiving objects:  88% (789/896)   Receiving objects:  89% (798/896)   Receiving objects:  90% (807/896)   remote: Total 896 (delta 507), reused 732 (delta 350), pack-reused 0[K
-Receiving objects:  91% (816/896)   Receiving objects:  92% (825/896)   Receiving objects:  93% (834/896)   Receiving objects:  94% (843/896)   Receiving objects:  95% (852/896)   Receiving objects:  96% (861/896)   Receiving objects:  97% (870/896)   Receiving objects:  98% (879/896)   Receiving objects:  99% (888/896)   Receiving objects: 100% (896/896)   Receiving objects: 100% (896/896), 1.21 MiB | 0 bytes/s, done.
-Resolving deltas:   0% (0/507)   Resolving deltas:   1% (6/507)   Resolving deltas:   5% (27/507)   Resolving deltas:   6% (33/507)   Resolving deltas:  14% (75/507)   Resolving deltas:  15% (79/507)   Resolving deltas:  16% (83/507)   Resolving deltas:  17% (88/507)   Resolving deltas:  21% (108/507)   Resolving deltas:  22% (116/507)   Resolving deltas:  23% (121/507)   Resolving deltas:  24% (125/507)   Resolving deltas:  25% (128/507)   Resolving deltas:  29% (151/507)   Resolving deltas:  36% (183/507)   Resolving deltas:  37% (190/507)   Resolving deltas:  43% (223/507)   Resolving deltas:  50% (257/507)   Resolving deltas:  52% (267/507)   Resolving deltas:  55% (280/507)   Resolving deltas:  62% (316/507)   Resolving deltas: 100% (507/507)   Resolving deltas: 100% (507/507), done.
-Checking connectivity... done.
-
-travis_time:end:0a7b3508:start=1484219646911759007,finish=1484219650069593113,duration=3157834106[0K$ cd avelino/awesome-go
-travis_time:start:01d8ce7a[0K$ git fetch origin +refs/pull/1255/merge:
-remote: Counting objects: 4, done.[K
-remote: Compressing objects:  50% (1/2)   [Kremote: Compressing objects: 100% (2/2)   [Kremote: Compressing objects: 100% (2/2), done.[K
-remote: Total 4 (delta 2), reused 3 (delta 2), pack-reused 0[K
-Unpacking objects:  25% (1/4)   Unpacking objects:  50% (2/4)   Unpacking objects:  75% (3/4)   Unpacking objects: 100% (4/4)   Unpacking objects: 100% (4/4), done.
-From https://github.com/avelino/awesome-go
- * branch            refs/pull/1255/merge -> FETCH_HEAD
-
-travis_time:end:01d8ce7a:start=1484219650074971369,finish=1484219650365055139,duration=290083770[0K$ git checkout -qf FETCH_HEAD
-travis_fold:end:git.checkout[0K
-[33;1mThis job is running on container-based infrastructure, which does not allow use of 'sudo', setuid and setguid executables.[0m
-[33;1mIf you require sudo, add 'sudo: required' to your .travis.yml[0m
-[33;1mSee https://docs.travis-ci.com/user/workers/container-based-infrastructure/ for details.[0m
-travis_time:start:13cf7a2d[0K$ GIMME_OUTPUT=$(gimme 1.7) && eval "$GIMME_OUTPUT"
-go version go1.7 linux/amd64
-
-travis_time:end:13cf7a2d:start=1484219655461537447,finish=1484219658904428718,duration=3442891271[0K$ export GOPATH=$HOME/gopath
-$ export PATH=$HOME/gopath/bin:$PATH
-$ mkdir -p $HOME/gopath/src/github.com/avelino/awesome-go
-$ rsync -az ${TRAVIS_BUILD_DIR}/ $HOME/gopath/src/github.com/avelino/awesome-go/
-$ export TRAVIS_BUILD_DIR=$HOME/gopath/src/github.com/avelino/awesome-go
-$ cd $HOME/gopath/src/github.com/avelino/awesome-go
-$ gimme version
-v0.2.2
-$ go version
-go version go1.7 linux/amd64
-travis_fold:start:go.env[0K$ go env
-GOARCH="amd64"
-GOBIN=""
-GOEXE=""
-GOHOSTARCH="amd64"
-GOHOSTOS="linux"
-GOOS="linux"
-GOPATH="/home/travis/gopath"
-GORACE=""
-GOROOT="/home/travis/.gimme/versions/go1.7.linux.amd64"
-GOTOOLDIR="/home/travis/.gimme/versions/go1.7.linux.amd64/pkg/tool/linux_amd64"
-CC="gcc"
-GOGCCFLAGS="-fPIC -m64 -pthread -fmessage-length=0 -fdebug-prefix-map=/tmp/go-build820709277=/tmp/go-build"
-CXX="g++"
-CGO_ENABLED="1"
-travis_fold:end:go.env[0Ktravis_fold:start:install.1[0Ktravis_time:start:1fca6900[0K$ go get github.com/russross/blackfriday
-
-travis_time:end:1fca6900:start=1484219659154930885,finish=1484219660345430677,duration=1190499792[0Ktravis_fold:end:install.1[0Ktravis_fold:start:install.2[0Ktravis_time:start:08211e7a[0K$ go get github.com/PuerkitoBio/goquery
-
-travis_time:end:08211e7a:start=1484219660349948255,finish=1484219663900939619,duration=3550991364[0Ktravis_fold:end:install.2[0Ktravis_fold:start:install.3[0Ktravis_time:start:28a2bd60[0K$ go get github.com/gorilla/mux
-
-travis_time:end:28a2bd60:start=1484219663905572081,finish=1484219664599145579,duration=693573498[0Ktravis_fold:end:install.3[0Ktravis_time:start:133235d0[0K$ go test -v ./...
-=== RUN   TestAlpha
-=== RUN   TestAlpha/Middlewares
-=== RUN   TestAlpha/Web_Frameworks
-=== RUN   TestAlpha/#00
-=== RUN   TestAlpha/Awesome_Go
-=== RUN   TestAlpha/#01
-=== RUN   TestAlpha/#02
-=== RUN   TestAlpha/Software_Packages
-=== RUN   TestAlpha/Tools
-=== RUN   TestAlpha/#03
-=== RUN   TestAlpha/Websites
-=== RUN   TestAlpha/Resources
-=== RUN   TestAlpha/#04
-=== RUN   TestAlpha/Contents
-=== RUN   TestAlpha/Libraries_for_manipulating_audio.
-=== RUN   TestAlpha/Libraries_for_implementing_authentications_schemes.
-=== RUN   TestAlpha/Libraries_for_building_standard_or_basic_Command_Line_applications
-=== RUN   TestAlpha/Libraries_for_building_Console_Applications_and_Console_User_Interfaces
-=== RUN   TestAlpha/Libraries_for_configuration_parsing
-=== RUN   TestAlpha/Tools_for_help_with_continuous_integration
-=== RUN   TestAlpha/Libraries_for_preprocessing_CSS_files
-=== RUN   TestAlpha/Generic_datastructures_and_algorithms_in_Go.
-=== RUN   TestAlpha/Databases_implemented_in_Go.
-=== RUN   TestAlpha/Database_schema_migration.
-=== RUN   TestAlpha/Database_tools.
-=== RUN   TestAlpha/SQL_query_builder,_libraries_for_building_and_using_SQL.
-=== RUN   TestAlpha/Relational_Databases
-=== RUN   TestAlpha/NoSQL_Databases
-=== RUN   TestAlpha/Search_and_Analytic_Databases
-=== RUN   TestAlpha/Libraries_for_connecting_and_operating_databases.
-=== RUN   TestAlpha/Libraries_for_working_with_dates_and_times.
-=== RUN   TestAlpha/torrent
-=== RUN   TestAlpha/Packages_that_help_with_building_Distributed_Systems.
-=== RUN   TestAlpha/Libraries_that_implement_email_creation_and_sending
-=== RUN   TestAlpha/Embedding_other_languages_inside_your_go_code
-=== RUN   TestAlpha/Packages_for_accounting_and_finance
-=== RUN   TestAlpha/Libraries_for_working_with_forms.
-=== RUN   TestAlpha/Awesome_game_development_libraries.
-=== RUN   TestAlpha/Tools_to_enhance_the_language_with_features_like_generics_via_code_generation
-=== RUN   TestAlpha/Tools_for_compiling_Go_to_other_languages
-=== RUN   TestAlpha/Tools_for_managing_and_working_with_Goroutines
-=== RUN   TestAlpha/Libraries_for_building_GUI_Applications
-=== RUN   TestAlpha/Libraries_for_manipulating_images.
-=== RUN   TestAlpha/Libraries_for_generating_and_working_with_log_files.
-=== RUN   TestAlpha/Libraries_for_Machine_Learning.
-=== RUN   TestAlpha/Libraries_that_implement_messaging_systems
-=== RUN   TestAlpha/These_libraries_were_placed_here_because_none_of_the_other_categories_seemed_to_fit
-=== RUN   TestAlpha/Libraries_for_working_with_human_languages.
-=== RUN   TestAlpha/Libraries_for_working_with_various_layers_of_the_network
-=== RUN   TestAlpha/Libraries_for_using_OpenGL_in_Go.
-=== RUN   TestAlpha/Libraries_that_implement_Object-Relational_Mapping_or_datamapping_techniques.
-=== RUN   TestAlpha/Libraries_for_package_and_dependency_management.
-=== RUN   TestAlpha/Query_Language
-=== RUN   TestAlpha/Resource_Embedding
-=== RUN   TestAlpha/Libraries_for_scientific_computing_and_data_analyzing.
-=== RUN   TestAlpha/Libraries_that_are_used_to_help_make_your_application_more_secure.
-=== RUN   TestAlpha/go-capnproto
-=== RUN   TestAlpha/Libraries_and_tools_for_binary_serialization
-=== RUN   TestAlpha/Server_Applications
-=== RUN   TestAlpha/Libraries_and_tools_for_templating_and_lexing.
-=== RUN   TestAlpha/Testing_Frameworks
-=== RUN   TestAlpha/Mock
-=== RUN   TestAlpha/Fuzzing_and_delta-debugging/reducing/shrinking
-=== RUN   TestAlpha/Libraries_for_testing_codebases_and_generating_test_data.
-=== RUN   TestAlpha/blackfriday
-=== RUN   TestAlpha/#05
-=== RUN   TestAlpha/#06
-=== RUN   TestAlpha/#07
-=== RUN   TestAlpha/Libraries_for_parsing_and_manipulating_texts.
-=== RUN   TestAlpha/Libraries_for_accessing_third_party_APIs.
-=== RUN   TestAlpha/General_utilities_and_tools_to_make_your_life_easier.
-=== RUN   TestAlpha/Libraries_for_validation.
-=== RUN   TestAlpha/Libraries_for_version_control.
-=== RUN   TestAlpha/Libraries_for_manipulating_video.
-=== RUN   TestAlpha/Full_stack_web_frameworks.
-=== RUN   TestAlpha/Actual_middlewares
-=== RUN   TestAlpha/Libraries_for_creating_HTTP_middlewares
-=== RUN   TestAlpha/Code_Analysis
-=== RUN   TestAlpha/Editor_Plugins
-=== RUN   TestAlpha/Go_Tools
-=== RUN   TestAlpha/DevOps_Tools
-=== RUN   TestAlpha/Other_Software
-=== RUN   TestAlpha/Benchmarks
-=== RUN   TestAlpha/Conferences
-=== RUN   TestAlpha/E-Books
-=== RUN   TestAlpha/Twitter
-=== RUN   TestAlpha/Websites#01
-=== RUN   TestAlpha/Tutorials
-=== RUN   TestAlpha/Windows
---- PASS: TestAlpha (0.02s)
-    --- PASS: TestAlpha/Middlewares (0.00s)
-    --- PASS: TestAlpha/Web_Frameworks (0.00s)
-    --- PASS: TestAlpha/#00 (0.00s)
-    --- PASS: TestAlpha/Awesome_Go (0.00s)
-    --- PASS: TestAlpha/#01 (0.00s)
-    --- PASS: TestAlpha/#02 (0.00s)
-    --- PASS: TestAlpha/Software_Packages (0.00s)
-    --- PASS: TestAlpha/Tools (0.00s)
-    --- PASS: TestAlpha/#03 (0.00s)
-    --- PASS: TestAlpha/Websites (0.00s)
-    --- PASS: TestAlpha/Resources (0.00s)
-    --- PASS: TestAlpha/#04 (0.00s)
-    --- PASS: TestAlpha/Contents (0.00s)
-    --- PASS: TestAlpha/Libraries_for_manipulating_audio. (0.00s)
-    --- PASS: TestAlpha/Libraries_for_implementing_authentications_schemes. (0.00s)
-    --- PASS: TestAlpha/Libraries_for_building_standard_or_basic_Command_Line_applications (0.00s)
-    --- PASS: TestAlpha/Libraries_for_building_Console_Applications_and_Console_User_Interfaces (0.00s)
-    --- PASS: TestAlpha/Libraries_for_configuration_parsing (0.00s)
-    --- PASS: TestAlpha/Tools_for_help_with_continuous_integration (0.00s)
-    --- PASS: TestAlpha/Libraries_for_preprocessing_CSS_files (0.00s)
-    --- PASS: TestAlpha/Generic_datastructures_and_algorithms_in_Go. (0.00s)
-    --- PASS: TestAlpha/Databases_implemented_in_Go. (0.00s)
-    --- PASS: TestAlpha/Database_schema_migration. (0.00s)
-    --- PASS: TestAlpha/Database_tools. (0.00s)
-    --- PASS: TestAlpha/SQL_query_builder,_libraries_for_building_and_using_SQL. (0.00s)
-    --- PASS: TestAlpha/Relational_Databases (0.00s)
-    --- PASS: TestAlpha/NoSQL_Databases (0.00s)
-    --- PASS: TestAlpha/Search_and_Analytic_Databases (0.00s)
-    --- PASS: TestAlpha/Libraries_for_connecting_and_operating_databases. (0.00s)
-    --- PASS: TestAlpha/Libraries_for_working_with_dates_and_times. (0.00s)
-    --- PASS: TestAlpha/torrent (0.00s)
-    --- PASS: TestAlpha/Packages_that_help_with_building_Distributed_Systems. (0.00s)
-    --- PASS: TestAlpha/Libraries_that_implement_email_creation_and_sending (0.00s)
-    --- PASS: TestAlpha/Embedding_other_languages_inside_your_go_code (0.00s)
-    --- PASS: TestAlpha/Packages_for_accounting_and_finance (0.00s)
-    --- PASS: TestAlpha/Libraries_for_working_with_forms. (0.00s)
-    --- PASS: TestAlpha/Awesome_game_development_libraries. (0.00s)
-    --- PASS: TestAlpha/Tools_to_enhance_the_language_with_features_like_generics_via_code_generation (0.00s)
-    --- PASS: TestAlpha/Tools_for_compiling_Go_to_other_languages (0.00s)
-    --- PASS: TestAlpha/Tools_for_managing_and_working_with_Goroutines (0.00s)
-    --- PASS: TestAlpha/Libraries_for_building_GUI_Applications (0.00s)
-    --- PASS: TestAlpha/Libraries_for_manipulating_images. (0.00s)
-    --- PASS: TestAlpha/Libraries_for_generating_and_working_with_log_files. (0.00s)
-    --- PASS: TestAlpha/Libraries_for_Machine_Learning. (0.00s)
-    --- PASS: TestAlpha/Libraries_that_implement_messaging_systems (0.00s)
-    --- PASS: TestAlpha/These_libraries_were_placed_here_because_none_of_the_other_categories_seemed_to_fit (0.00s)
-    --- PASS: TestAlpha/Libraries_for_working_with_human_languages. (0.00s)
-    --- PASS: TestAlpha/Libraries_for_working_with_various_layers_of_the_network (0.00s)
-    --- PASS: TestAlpha/Libraries_for_using_OpenGL_in_Go. (0.00s)
-    --- PASS: TestAlpha/Libraries_that_implement_Object-Relational_Mapping_or_datamapping_techniques. (0.00s)
-    --- PASS: TestAlpha/Libraries_for_package_and_dependency_management. (0.00s)
-    --- PASS: TestAlpha/Query_Language (0.00s)
-    --- PASS: TestAlpha/Resource_Embedding (0.00s)
-    --- PASS: TestAlpha/Libraries_for_scientific_computing_and_data_analyzing. (0.00s)
-    --- PASS: TestAlpha/Libraries_that_are_used_to_help_make_your_application_more_secure. (0.00s)
-    --- PASS: TestAlpha/go-capnproto (0.00s)
-    --- PASS: TestAlpha/Libraries_and_tools_for_binary_serialization (0.00s)
-    --- PASS: TestAlpha/Server_Applications (0.00s)
-    --- PASS: TestAlpha/Libraries_and_tools_for_templating_and_lexing. (0.00s)
-    --- PASS: TestAlpha/Testing_Frameworks (0.00s)
-    --- PASS: TestAlpha/Mock (0.00s)
-    --- PASS: TestAlpha/Fuzzing_and_delta-debugging/reducing/shrinking (0.00s)
-    --- PASS: TestAlpha/Libraries_for_testing_codebases_and_generating_test_data. (0.00s)
-    --- PASS: TestAlpha/blackfriday (0.00s)
-    --- PASS: TestAlpha/#05 (0.00s)
-    --- PASS: TestAlpha/#06 (0.00s)
-    --- PASS: TestAlpha/#07 (0.00s)
-    --- PASS: TestAlpha/Libraries_for_parsing_and_manipulating_texts. (0.00s)
-    --- PASS: TestAlpha/Libraries_for_accessing_third_party_APIs. (0.00s)
-    --- PASS: TestAlpha/General_utilities_and_tools_to_make_your_life_easier. (0.00s)
-    --- PASS: TestAlpha/Libraries_for_validation. (0.00s)
-    --- PASS: TestAlpha/Libraries_for_version_control. (0.00s)
-    --- PASS: TestAlpha/Libraries_for_manipulating_video. (0.00s)
-    --- PASS: TestAlpha/Full_stack_web_frameworks. (0.00s)
-    --- PASS: TestAlpha/Actual_middlewares (0.00s)
-    --- PASS: TestAlpha/Libraries_for_creating_HTTP_middlewares (0.00s)
-    --- PASS: TestAlpha/Code_Analysis (0.00s)
-    --- PASS: TestAlpha/Editor_Plugins (0.00s)
-    --- PASS: TestAlpha/Go_Tools (0.00s)
-    --- PASS: TestAlpha/DevOps_Tools (0.00s)
-    --- PASS: TestAlpha/Other_Software (0.00s)
-    --- PASS: TestAlpha/Benchmarks (0.00s)
-    --- PASS: TestAlpha/Conferences (0.00s)
-    --- PASS: TestAlpha/E-Books (0.00s)
-    --- PASS: TestAlpha/Twitter (0.00s)
-    --- PASS: TestAlpha/Websites#01 (0.00s)
-    --- PASS: TestAlpha/Tutorials (0.00s)
-    --- PASS: TestAlpha/Windows (0.00s)
-=== RUN   TestDuplicatedLinks
-=== RUN   TestDuplicatedLinks/#00
-=== RUN   TestDuplicatedLinks/#01
-=== RUN   TestDuplicatedLinks/#02
-=== RUN   TestDuplicatedLinks/awesome-python
-=== RUN   TestDuplicatedLinks/contribution_guidelines
-=== RUN   TestDuplicatedLinks/contributors
-=== RUN   TestDuplicatedLinks/Awesome_Go
-=== RUN   TestDuplicatedLinks/Audio_&_Music
-=== RUN   TestDuplicatedLinks/Authentication_&_OAuth
-=== RUN   TestDuplicatedLinks/Command_Line
-=== RUN   TestDuplicatedLinks/Configuration
-=== RUN   TestDuplicatedLinks/Continuous_Integration
-=== RUN   TestDuplicatedLinks/CSS_Preprocessors
-=== RUN   TestDuplicatedLinks/Data_Structures
-=== RUN   TestDuplicatedLinks/Database
-=== RUN   TestDuplicatedLinks/Database_Drivers
-=== RUN   TestDuplicatedLinks/Date_&_Time
-=== RUN   TestDuplicatedLinks/Distributed_Systems
-=== RUN   TestDuplicatedLinks/Email
-=== RUN   TestDuplicatedLinks/Embeddable_Scripting_Languages
-=== RUN   TestDuplicatedLinks/Financial
-=== RUN   TestDuplicatedLinks/Forms
-=== RUN   TestDuplicatedLinks/Game_Development
-=== RUN   TestDuplicatedLinks/Generation_&_Generics
-=== RUN   TestDuplicatedLinks/Go_Compilers
-=== RUN   TestDuplicatedLinks/Goroutines
-=== RUN   TestDuplicatedLinks/GUI
-=== RUN   TestDuplicatedLinks/Hardware
-=== RUN   TestDuplicatedLinks/Images
-=== RUN   TestDuplicatedLinks/Logging
-=== RUN   TestDuplicatedLinks/Machine_Learning
-=== RUN   TestDuplicatedLinks/Messaging
-=== RUN   TestDuplicatedLinks/Miscellaneous
-=== RUN   TestDuplicatedLinks/Natural_Language_Processing
-=== RUN   TestDuplicatedLinks/Networking
-=== RUN   TestDuplicatedLinks/OpenGL
-=== RUN   TestDuplicatedLinks/ORM
-=== RUN   TestDuplicatedLinks/Package_Management
-=== RUN   TestDuplicatedLinks/Query_Language
-=== RUN   TestDuplicatedLinks/Resource_Embedding
-=== RUN   TestDuplicatedLinks/Science_and_Data_Analysis
-=== RUN   TestDuplicatedLinks/Security
-=== RUN   TestDuplicatedLinks/Serialization
-=== RUN   TestDuplicatedLinks/Template_Engines
-=== RUN   TestDuplicatedLinks/Testing
-=== RUN   TestDuplicatedLinks/Text_Processing
-=== RUN   TestDuplicatedLinks/Third-party_APIs
-=== RUN   TestDuplicatedLinks/Utilities
-=== RUN   TestDuplicatedLinks/Validation
-=== RUN   TestDuplicatedLinks/Version_Control
-=== RUN   TestDuplicatedLinks/Video
-=== RUN   TestDuplicatedLinks/Web_Frameworks
-=== RUN   TestDuplicatedLinks/Middlewares
-=== RUN   TestDuplicatedLinks/Actual_middlewares
-=== RUN   TestDuplicatedLinks/Libraries_for_creating_HTTP_middlewares
-=== RUN   TestDuplicatedLinks/Windows
-=== RUN   TestDuplicatedLinks/Tools
-=== RUN   TestDuplicatedLinks/Code_Analysis
-=== RUN   TestDuplicatedLinks/Editor_Plugins
-=== RUN   TestDuplicatedLinks/Go_Tools
-=== RUN   TestDuplicatedLinks/Software_Packages
-=== RUN   TestDuplicatedLinks/DevOps_Tools
-=== RUN   TestDuplicatedLinks/Other_Software
-=== RUN   TestDuplicatedLinks/Server_Applications
-=== RUN   TestDuplicatedLinks/Resources
-=== RUN   TestDuplicatedLinks/Benchmarks
-=== RUN   TestDuplicatedLinks/Conferences
-=== RUN   TestDuplicatedLinks/E-Books
-=== RUN   TestDuplicatedLinks/Twitter
-=== RUN   TestDuplicatedLinks/Websites
-=== RUN   TestDuplicatedLinks/Tutorials
-=== RUN   TestDuplicatedLinks/flac
-=== RUN   TestDuplicatedLinks/flac#01
-=== RUN   TestDuplicatedLinks/gaad
-=== RUN   TestDuplicatedLinks/go-sox
-=== RUN   TestDuplicatedLinks/go_mediainfo
-=== RUN   TestDuplicatedLinks/gosamplerate
-=== RUN   TestDuplicatedLinks/id3v2
-=== RUN   TestDuplicatedLinks/mix
-=== RUN   TestDuplicatedLinks/mp3
-=== RUN   TestDuplicatedLinks/music-theory
-=== RUN   TestDuplicatedLinks/PortAudio
-=== RUN   TestDuplicatedLinks/portmidi
-=== RUN   TestDuplicatedLinks/taglib
-=== RUN   TestDuplicatedLinks/vorbis
-=== RUN   TestDuplicatedLinks/waveform
-=== RUN   TestDuplicatedLinks/authboss
-=== RUN   TestDuplicatedLinks/Go-AWS-Auth
-=== RUN   TestDuplicatedLinks/go-jose
-=== RUN   TestDuplicatedLinks/go-oauth2-server
-=== RUN   TestDuplicatedLinks/go.auth
-=== RUN   TestDuplicatedLinks/gologin
-=== RUN   TestDuplicatedLinks/gorbac
-=== RUN   TestDuplicatedLinks/goth
-=== RUN   TestDuplicatedLinks/httpauth
-=== RUN   TestDuplicatedLinks/jwt
-=== RUN   TestDuplicatedLinks/jwt-go
-=== RUN   TestDuplicatedLinks/oauth2
-=== RUN   TestDuplicatedLinks/osin
-=== RUN   TestDuplicatedLinks/permissions2
-=== RUN   TestDuplicatedLinks/yubigo
-=== RUN   TestDuplicatedLinks/cli
-=== RUN   TestDuplicatedLinks/cli-init
-=== RUN   TestDuplicatedLinks/climax
-=== RUN   TestDuplicatedLinks/cobra
-=== RUN   TestDuplicatedLinks/docopt.go
-=== RUN   TestDuplicatedLinks/drive
-=== RUN   TestDuplicatedLinks/go-arg
-=== RUN   TestDuplicatedLinks/go-flags
-=== RUN   TestDuplicatedLinks/kingpin
-=== RUN   TestDuplicatedLinks/liner
-=== RUN   TestDuplicatedLinks/mitchellh/cli
-=== RUN   TestDuplicatedLinks/mow.cli
-=== RUN   TestDuplicatedLinks/readline
-=== RUN   TestDuplicatedLinks/sflags
-=== RUN   TestDuplicatedLinks/ukautz/clif
-=== RUN   TestDuplicatedLinks/urfave/cli
-=== RUN   TestDuplicatedLinks/wlog
-=== RUN   TestDuplicatedLinks/wmenu
-=== RUN   TestDuplicatedLinks/aurora
-=== RUN   TestDuplicatedLinks/chalk
-=== RUN   TestDuplicatedLinks/color
-=== RUN   TestDuplicatedLinks/colourize
-=== RUN   TestDuplicatedLinks/go-colortext
-=== RUN   TestDuplicatedLinks/gocui
-=== RUN   TestDuplicatedLinks/gommon/color
-=== RUN   TestDuplicatedLinks/termbox-go
-=== RUN   TestDuplicatedLinks/termtables
-=== RUN   TestDuplicatedLinks/terminal-tables
-=== RUN   TestDuplicatedLinks/termui
-=== RUN   TestDuplicatedLinks/blessed-contrib
-=== RUN   TestDuplicatedLinks/uilive
-=== RUN   TestDuplicatedLinks/uiprogress
-=== RUN   TestDuplicatedLinks/uitable
-=== RUN   TestDuplicatedLinks/config
-=== RUN   TestDuplicatedLinks/configure
-=== RUN   TestDuplicatedLinks/env
-=== RUN   TestDuplicatedLinks/envcfg
-=== RUN   TestDuplicatedLinks/envconf
-=== RUN   TestDuplicatedLinks/envconfig
-=== RUN   TestDuplicatedLinks/gcfg
-=== RUN   TestDuplicatedLinks/gofigure
-=== RUN   TestDuplicatedLinks/hjson
-=== RUN   TestDuplicatedLinks/ingo
-=== RUN   TestDuplicatedLinks/ini
-=== RUN   TestDuplicatedLinks/mini
-=== RUN   TestDuplicatedLinks/store
-=== RUN   TestDuplicatedLinks/viper
-=== RUN   TestDuplicatedLinks/drone
-=== RUN   TestDuplicatedLinks/goveralls
-=== RUN   TestDuplicatedLinks/overalls
-=== RUN   TestDuplicatedLinks/c6
-=== RUN   TestDuplicatedLinks/gcss
-=== RUN   TestDuplicatedLinks/go-libsass
-=== RUN   TestDuplicatedLinks/binpacker
-=== RUN   TestDuplicatedLinks/bitset
-=== RUN   TestDuplicatedLinks/bloom
-=== RUN   TestDuplicatedLinks/boomfilters
-=== RUN   TestDuplicatedLinks/count-min-log
-=== RUN   TestDuplicatedLinks/cuckoofilter
-=== RUN   TestDuplicatedLinks/encoding
-=== RUN   TestDuplicatedLinks/go-adaptive-radix-tree
-=== RUN   TestDuplicatedLinks/go-datastructures
-=== RUN   TestDuplicatedLinks/go-geoindex
-=== RUN   TestDuplicatedLinks/gods
-=== RUN   TestDuplicatedLinks/golang-set
-=== RUN   TestDuplicatedLinks/goskiplist
-=== RUN   TestDuplicatedLinks/hilbert
-=== RUN   TestDuplicatedLinks/levenshtein
-=== RUN   TestDuplicatedLinks/mafsa
-=== RUN   TestDuplicatedLinks/roaring
-=== RUN   TestDuplicatedLinks/skiplist
-=== RUN   TestDuplicatedLinks/trie
-=== RUN   TestDuplicatedLinks/ttlcache
-=== RUN   TestDuplicatedLinks/willf/bloom
-=== RUN   TestDuplicatedLinks/BigCache
-=== RUN   TestDuplicatedLinks/bolt
-=== RUN   TestDuplicatedLinks/buntdb
-=== RUN   TestDuplicatedLinks/cache2go
-=== RUN   TestDuplicatedLinks/cockroach
-=== RUN   TestDuplicatedLinks/couchcache
-=== RUN   TestDuplicatedLinks/dgraph
-=== RUN   TestDuplicatedLinks/diskv
-=== RUN   TestDuplicatedLinks/eliasdb
-=== RUN   TestDuplicatedLinks/forestdb
-=== RUN   TestDuplicatedLinks/GCache
-=== RUN   TestDuplicatedLinks/geocache
-=== RUN   TestDuplicatedLinks/go-cache
-=== RUN   TestDuplicatedLinks/goleveldb
-=== RUN   TestDuplicatedLinks/LevelDB
-=== RUN   TestDuplicatedLinks/groupcache
-=== RUN   TestDuplicatedLinks/influxdb
-=== RUN   TestDuplicatedLinks/ledisdb
-=== RUN   TestDuplicatedLinks/levigo
-=== RUN   TestDuplicatedLinks/piladb
-=== RUN   TestDuplicatedLinks/pREST
-=== RUN   TestDuplicatedLinks/prometheus
-=== RUN   TestDuplicatedLinks/rqlite
-=== RUN   TestDuplicatedLinks/tidb
-=== RUN   TestDuplicatedLinks/tiedot
-=== RUN   TestDuplicatedLinks/Tile38
-=== RUN   TestDuplicatedLinks/darwin
-=== RUN   TestDuplicatedLinks/goose
-=== RUN   TestDuplicatedLinks/gormigrate
-=== RUN   TestDuplicatedLinks/migrate
-=== RUN   TestDuplicatedLinks/pravasan
-=== RUN   TestDuplicatedLinks/sql-migrate
-=== RUN   TestDuplicatedLinks/go-mysql
-=== RUN   TestDuplicatedLinks/go-mysql-elasticsearch
-=== RUN   TestDuplicatedLinks/kingshard
-=== RUN   TestDuplicatedLinks/myreplication
-=== RUN   TestDuplicatedLinks/orchestrator
-=== RUN   TestDuplicatedLinks/pgweb
-=== RUN   TestDuplicatedLinks/vitess
-=== RUN   TestDuplicatedLinks/dat
-=== RUN   TestDuplicatedLinks/Dotsql
-=== RUN   TestDuplicatedLinks/goqu
-=== RUN   TestDuplicatedLinks/igor
-=== RUN   TestDuplicatedLinks/ozzo-dbx
-=== RUN   TestDuplicatedLinks/scaneo
-=== RUN   TestDuplicatedLinks/sqrl
-=== RUN   TestDuplicatedLinks/Squirrel
-=== RUN   TestDuplicatedLinks/xo
-=== RUN   TestDuplicatedLinks/bgc
-=== RUN   TestDuplicatedLinks/firebirdsql
-=== RUN   TestDuplicatedLinks/go-adodb
-=== RUN   TestDuplicatedLinks/go-bqstreamer
-=== RUN   TestDuplicatedLinks/go-mssqldb
-=== RUN   TestDuplicatedLinks/go-oci8
-=== RUN   TestDuplicatedLinks/go-sql-driver/mysql
-=== RUN   TestDuplicatedLinks/go-sqlite3
-=== RUN   TestDuplicatedLinks/gofreetds
-=== RUN   TestDuplicatedLinks/FreeTDS
-=== RUN   TestDuplicatedLinks/pgx
-=== RUN   TestDuplicatedLinks/pq
-=== RUN   TestDuplicatedLinks/aerospike-client-go
-=== RUN   TestDuplicatedLinks/arangolite
-=== RUN   TestDuplicatedLinks/asc
-=== RUN   TestDuplicatedLinks/cayley
-=== RUN   TestDuplicatedLinks/dsc
-=== RUN   TestDuplicatedLinks/dynago
-=== RUN   TestDuplicatedLinks/go-couchbase
-=== RUN   TestDuplicatedLinks/go-couchdb
-=== RUN   TestDuplicatedLinks/gocb
-=== RUN   TestDuplicatedLinks/gocql
-=== RUN   TestDuplicatedLinks/gomemcache
-=== RUN   TestDuplicatedLinks/gorethink
-=== RUN   TestDuplicatedLinks/goriak
-=== RUN   TestDuplicatedLinks/mgo
-=== RUN   TestDuplicatedLinks/neo4j
-=== RUN   TestDuplicatedLinks/Neo4j-GO
-=== RUN   TestDuplicatedLinks/neoism
-=== RUN   TestDuplicatedLinks/redigo
-=== RUN   TestDuplicatedLinks/redis
-=== RUN   TestDuplicatedLinks/redis#01
-=== RUN   TestDuplicatedLinks/redis#02
-=== RUN   TestDuplicatedLinks/bleve
-=== RUN   TestDuplicatedLinks/elastic
-=== RUN   TestDuplicatedLinks/elastigo
-=== RUN   TestDuplicatedLinks/goes
-=== RUN   TestDuplicatedLinks/skizze
-=== RUN   TestDuplicatedLinks/carbon
-=== RUN   TestDuplicatedLinks/durafmt
-=== RUN   TestDuplicatedLinks/go-persian-calendar
-=== RUN   TestDuplicatedLinks/goweek
-=== RUN   TestDuplicatedLinks/now
-=== RUN   TestDuplicatedLinks/NullTime
-=== RUN   TestDuplicatedLinks/timeutil
-=== RUN   TestDuplicatedLinks/celeriac
-=== RUN   TestDuplicatedLinks/flowgraph
-=== RUN   TestDuplicatedLinks/gleam
-=== RUN   TestDuplicatedLinks/glow
-=== RUN   TestDuplicatedLinks/go-jump
-=== RUN   TestDuplicatedLinks/gorpc
-=== RUN   TestDuplicatedLinks/grpc-go
-=== RUN   TestDuplicatedLinks/hprose
-=== RUN   TestDuplicatedLinks/jsonrpc
-=== RUN   TestDuplicatedLinks/jsonrpc#01
-=== RUN   TestDuplicatedLinks/micro
-=== RUN   TestDuplicatedLinks/NATS
-=== RUN   TestDuplicatedLinks/raft
-=== RUN   TestDuplicatedLinks/raft#01
-=== RUN   TestDuplicatedLinks/ringpop-go
-=== RUN   TestDuplicatedLinks/rpcx
-=== RUN   TestDuplicatedLinks/sleuth
-=== RUN   TestDuplicatedLinks/ZeroMQ
-=== RUN   TestDuplicatedLinks/tendermint
-=== RUN   TestDuplicatedLinks/torrent
-=== RUN   TestDuplicatedLinks/dht
-=== RUN   TestDuplicatedLinks/go-peerflix
-=== RUN   TestDuplicatedLinks/douceur
-=== RUN   TestDuplicatedLinks/email
-=== RUN   TestDuplicatedLinks/go-dkim
-=== RUN   TestDuplicatedLinks/go-imap
-=== RUN   TestDuplicatedLinks/go-message
-=== RUN   TestDuplicatedLinks/Gomail
-=== RUN   TestDuplicatedLinks/Hectane
-=== RUN   TestDuplicatedLinks/MailHog
-=== RUN   TestDuplicatedLinks/SendGrid
-=== RUN   TestDuplicatedLinks/smtp
-=== RUN   TestDuplicatedLinks/agora
-=== RUN   TestDuplicatedLinks/anko
-=== RUN   TestDuplicatedLinks/gisp
-=== RUN   TestDuplicatedLinks/go-duktape
-=== RUN   TestDuplicatedLinks/go-lua
-=== RUN   TestDuplicatedLinks/go-php
-=== RUN   TestDuplicatedLinks/go-python
-=== RUN   TestDuplicatedLinks/golua
-=== RUN   TestDuplicatedLinks/gopher-lua
-=== RUN   TestDuplicatedLinks/ngaro
-=== RUN   TestDuplicatedLinks/otto
-=== RUN   TestDuplicatedLinks/purl
-=== RUN   TestDuplicatedLinks/accounting
-=== RUN   TestDuplicatedLinks/decimal
-=== RUN   TestDuplicatedLinks/vat
-=== RUN   TestDuplicatedLinks/bind
-=== RUN   TestDuplicatedLinks/binding
-=== RUN   TestDuplicatedLinks/conform
-=== RUN   TestDuplicatedLinks/form
-=== RUN   TestDuplicatedLinks/formam
-=== RUN   TestDuplicatedLinks/forms
-=== RUN   TestDuplicatedLinks/gorilla/csrf
-=== RUN   TestDuplicatedLinks/nosurf
-=== RUN   TestDuplicatedLinks/Azul3D
-=== RUN   TestDuplicatedLinks/Ebiten
-=== RUN   TestDuplicatedLinks/engo
-=== RUN   TestDuplicatedLinks/GarageEngine
-=== RUN   TestDuplicatedLinks/glop
-=== RUN   TestDuplicatedLinks/go-astar
-=== RUN   TestDuplicatedLinks/go-collada
-=== RUN   TestDuplicatedLinks/go-sdl2
-=== RUN   TestDuplicatedLinks/Simple_DirectMedia_Layer
-=== RUN   TestDuplicatedLinks/go3d
-=== RUN   TestDuplicatedLinks/gonet
-=== RUN   TestDuplicatedLinks/Leaf
-=== RUN   TestDuplicatedLinks/termloop
-=== RUN   TestDuplicatedLinks/efaceconv
-=== RUN   TestDuplicatedLinks/gen
-=== RUN   TestDuplicatedLinks/go-linq
-=== RUN   TestDuplicatedLinks/interfaces
-=== RUN   TestDuplicatedLinks/pkgreflect
-=== RUN   TestDuplicatedLinks/gopherjs
-=== RUN   TestDuplicatedLinks/llgo
-=== RUN   TestDuplicatedLinks/tardisgo
-=== RUN   TestDuplicatedLinks/go-flow
-=== RUN   TestDuplicatedLinks/goworker
-=== RUN   TestDuplicatedLinks/grpool
-=== RUN   TestDuplicatedLinks/pool
-=== RUN   TestDuplicatedLinks/tunny
-=== RUN   TestDuplicatedLinks/go-gtk
-=== RUN   TestDuplicatedLinks/go-qml
-=== RUN   TestDuplicatedLinks/goqt
-=== RUN   TestDuplicatedLinks/gosx-notifier
-=== RUN   TestDuplicatedLinks/gotk3
-=== RUN   TestDuplicatedLinks/qt
-=== RUN   TestDuplicatedLinks/sciter
-=== RUN   TestDuplicatedLinks/systray
-=== RUN   TestDuplicatedLinks/trayhost
-=== RUN   TestDuplicatedLinks/ui
-=== RUN   TestDuplicatedLinks/walk
-=== RUN   TestDuplicatedLinks/go-hardware
-=== RUN   TestDuplicatedLinks/bild
-=== RUN   TestDuplicatedLinks/bimg
-=== RUN   TestDuplicatedLinks/geopattern
-=== RUN   TestDuplicatedLinks/gg
-=== RUN   TestDuplicatedLinks/gift
-=== RUN   TestDuplicatedLinks/go-cairo
-=== RUN   TestDuplicatedLinks/go-gd
-=== RUN   TestDuplicatedLinks/go-nude
-=== RUN   TestDuplicatedLinks/go-opencv
-=== RUN   TestDuplicatedLinks/go-webcolors
-=== RUN   TestDuplicatedLinks/imagick
-=== RUN   TestDuplicatedLinks/imaginary
-=== RUN   TestDuplicatedLinks/imaging
-=== RUN   TestDuplicatedLinks/img
-=== RUN   TestDuplicatedLinks/ln
-=== RUN   TestDuplicatedLinks/mpo
-=== RUN   TestDuplicatedLinks/picfit
-=== RUN   TestDuplicatedLinks/pt
-=== RUN   TestDuplicatedLinks/resize
-=== RUN   TestDuplicatedLinks/rez
-=== RUN   TestDuplicatedLinks/smartcrop
-=== RUN   TestDuplicatedLinks/svgo
-=== RUN   TestDuplicatedLinks/tga
-=== RUN   TestDuplicatedLinks/glog
-=== RUN   TestDuplicatedLinks/go-log
-=== RUN   TestDuplicatedLinks/go-log#01
-=== RUN   TestDuplicatedLinks/go-logger
-=== RUN   TestDuplicatedLinks/gologger
-=== RUN   TestDuplicatedLinks/gone/log
-=== RUN   TestDuplicatedLinks/log
-=== RUN   TestDuplicatedLinks/log#01
-=== RUN   TestDuplicatedLinks/log-voyage
-=== RUN   TestDuplicatedLinks/log15
-=== RUN   TestDuplicatedLinks/logex
-=== RUN   TestDuplicatedLinks/logger
-=== RUN   TestDuplicatedLinks/logrus
-=== RUN   TestDuplicatedLinks/logrusly
-=== RUN   TestDuplicatedLinks/logrus#01
-=== RUN   TestDuplicatedLinks/Loggly
-=== RUN   TestDuplicatedLinks/logutils
-=== RUN   TestDuplicatedLinks/logxi
-=== RUN   TestDuplicatedLinks/lumberjack
-=== RUN   TestDuplicatedLinks/mlog
-=== RUN   TestDuplicatedLinks/ozzo-log
-=== RUN   TestDuplicatedLinks/seelog
-=== RUN   TestDuplicatedLinks/slf
-=== RUN   TestDuplicatedLinks/slog
-=== RUN   TestDuplicatedLinks/stdlog
-=== RUN   TestDuplicatedLinks/tail
-=== RUN   TestDuplicatedLinks/xlog
-=== RUN   TestDuplicatedLinks/xlog#01
-=== RUN   TestDuplicatedLinks/zap
-=== RUN   TestDuplicatedLinks/bayesian
-=== RUN   TestDuplicatedLinks/CloudForest
-=== RUN   TestDuplicatedLinks/gago
-=== RUN   TestDuplicatedLinks/go-fann
-=== RUN   TestDuplicatedLinks/go-galib
-=== RUN   TestDuplicatedLinks/go-pr
-=== RUN   TestDuplicatedLinks/gobrain
-=== RUN   TestDuplicatedLinks/godist
-=== RUN   TestDuplicatedLinks/goga
-=== RUN   TestDuplicatedLinks/GoLearn
-=== RUN   TestDuplicatedLinks/golinear
-=== RUN   TestDuplicatedLinks/goml
-=== RUN   TestDuplicatedLinks/goRecommend
-=== RUN   TestDuplicatedLinks/gorgonia
-=== RUN   TestDuplicatedLinks/libsvm
-=== RUN   TestDuplicatedLinks/mlgo
-=== RUN   TestDuplicatedLinks/neural-go
-=== RUN   TestDuplicatedLinks/probab
-=== RUN   TestDuplicatedLinks/regommend
-=== RUN   TestDuplicatedLinks/shield
-=== RUN   TestDuplicatedLinks/Centrifugo
-=== RUN   TestDuplicatedLinks/dbus
-=== RUN   TestDuplicatedLinks/drone-line
-=== RUN   TestDuplicatedLinks/Line
-=== RUN   TestDuplicatedLinks/emitter
-=== RUN   TestDuplicatedLinks/EventBus
-=== RUN   TestDuplicatedLinks/go-longpoll
-=== RUN   TestDuplicatedLinks/go-notify
-=== RUN   TestDuplicatedLinks/go-nsq
-=== RUN   TestDuplicatedLinks/gopush-cluster
-=== RUN   TestDuplicatedLinks/gorush
-=== RUN   TestDuplicatedLinks/APNs2
-=== RUN   TestDuplicatedLinks/GCM
-=== RUN   TestDuplicatedLinks/guble
-=== RUN   TestDuplicatedLinks/machinery
-=== RUN   TestDuplicatedLinks/mangos
-=== RUN   TestDuplicatedLinks/NATS_Go_Client
-=== RUN   TestDuplicatedLinks/oplog
-=== RUN   TestDuplicatedLinks/pubsub
-=== RUN   TestDuplicatedLinks/RapidMQ
-=== RUN   TestDuplicatedLinks/sarama
-=== RUN   TestDuplicatedLinks/Uniqush-Push
-=== RUN   TestDuplicatedLinks/zmq4
-=== RUN   TestDuplicatedLinks/version_3
-=== RUN   TestDuplicatedLinks/version_2
-=== RUN   TestDuplicatedLinks/afero
-=== RUN   TestDuplicatedLinks/archiver
-=== RUN   TestDuplicatedLinks/autoflags
-=== RUN   TestDuplicatedLinks/banner
-=== RUN   TestDuplicatedLinks/battery
-=== RUN   TestDuplicatedLinks/bitio
-=== RUN   TestDuplicatedLinks/browscap_go
-=== RUN   TestDuplicatedLinks/Browser_Capabilities_Project
-=== RUN   TestDuplicatedLinks/conv
-=== RUN   TestDuplicatedLinks/datacounter
-=== RUN   TestDuplicatedLinks/errors
-=== RUN   TestDuplicatedLinks/go-chat-bot
-=== RUN   TestDuplicatedLinks/go-commons-pool
-=== RUN   TestDuplicatedLinks/go-multierror
-=== RUN   TestDuplicatedLinks/go-openapi
-=== RUN   TestDuplicatedLinks/go-shortid
-=== RUN   TestDuplicatedLinks/go.uuid
-=== RUN   TestDuplicatedLinks/gopsutil
-=== RUN   TestDuplicatedLinks/gosms
-=== RUN   TestDuplicatedLinks/gountries
-=== RUN   TestDuplicatedLinks/hanu
-=== RUN   TestDuplicatedLinks/health
-=== RUN   TestDuplicatedLinks/indigo
-=== RUN   TestDuplicatedLinks/jobs
-=== RUN   TestDuplicatedLinks/margelet
-=== RUN   TestDuplicatedLinks/notify
-=== RUN   TestDuplicatedLinks/secdl
-=== RUN   TestDuplicatedLinks/stats
-=== RUN   TestDuplicatedLinks/werr
-=== RUN   TestDuplicatedLinks/xkg
-=== RUN   TestDuplicatedLinks/xstrings
-=== RUN   TestDuplicatedLinks/dpar
-=== RUN   TestDuplicatedLinks/go-eco
-=== RUN   TestDuplicatedLinks/go-i18n
-=== RUN   TestDuplicatedLinks/go-mystem
-=== RUN   TestDuplicatedLinks/go-nlp
-=== RUN   TestDuplicatedLinks/go-stem
-=== RUN   TestDuplicatedLinks/go-unidecode
-=== RUN   TestDuplicatedLinks/go2vec
-=== RUN   TestDuplicatedLinks/gojieba
-=== RUN   TestDuplicatedLinks/jieba
-=== RUN   TestDuplicatedLinks/golibstemmer
-=== RUN   TestDuplicatedLinks/gounidecode
-=== RUN   TestDuplicatedLinks/icu
-=== RUN   TestDuplicatedLinks/libtextcat
-=== RUN   TestDuplicatedLinks/MMSEGO
-=== RUN   TestDuplicatedLinks/MMSEG
-=== RUN   TestDuplicatedLinks/paicehusk
-=== RUN   TestDuplicatedLinks/porter
-=== RUN   TestDuplicatedLinks/porter2
-=== RUN   TestDuplicatedLinks/RAKE.go
-=== RUN   TestDuplicatedLinks/segment
-=== RUN   TestDuplicatedLinks/Unicode_Standard_Annex_#29
-=== RUN   TestDuplicatedLinks/sentences
-=== RUN   TestDuplicatedLinks/snowball
-=== RUN   TestDuplicatedLinks/Snowball_native
-=== RUN   TestDuplicatedLinks/stemmer
-=== RUN   TestDuplicatedLinks/textcat
-=== RUN   TestDuplicatedLinks/arp
-=== RUN   TestDuplicatedLinks/buffstreams
-=== RUN   TestDuplicatedLinks/canopus
-=== RUN   TestDuplicatedLinks/dhcp6
-=== RUN   TestDuplicatedLinks/dns
-=== RUN   TestDuplicatedLinks/ether
-=== RUN   TestDuplicatedLinks/ethernet
-=== RUN   TestDuplicatedLinks/fasthttp
-=== RUN   TestDuplicatedLinks/ftp
-=== RUN   TestDuplicatedLinks/RFC_959
-=== RUN   TestDuplicatedLinks/go-getter
-=== RUN   TestDuplicatedLinks/go-stun
-=== RUN   TestDuplicatedLinks/gobgp
-=== RUN   TestDuplicatedLinks/golibwireshark
-=== RUN   TestDuplicatedLinks/gopacket
-=== RUN   TestDuplicatedLinks/gopcap
-=== RUN   TestDuplicatedLinks/goshark
-=== RUN   TestDuplicatedLinks/gosnmp
-=== RUN   TestDuplicatedLinks/gotcp
-=== RUN   TestDuplicatedLinks/grab
-=== RUN   TestDuplicatedLinks/graval
-=== RUN   TestDuplicatedLinks/jazigo
-=== RUN   TestDuplicatedLinks/kcp-go
-=== RUN   TestDuplicatedLinks/kcptun
-=== RUN   TestDuplicatedLinks/lhttp
-=== RUN   TestDuplicatedLinks/linkio
-=== RUN   TestDuplicatedLinks/llb
-=== RUN   TestDuplicatedLinks/mdns
-=== RUN   TestDuplicatedLinks/mqttPaho
-=== RUN   TestDuplicatedLinks/portproxy
-=== RUN   TestDuplicatedLinks/publicip
-=== RUN   TestDuplicatedLinks/raw
-=== RUN   TestDuplicatedLinks/sftp
-=== RUN   TestDuplicatedLinks/https://filezilla-project.org/specs/draft-ietf-secsh-filexfer-02.txt
-=== RUN   TestDuplicatedLinks/ssh
-=== RUN   TestDuplicatedLinks/sslb
-=== RUN   TestDuplicatedLinks/tcp_server
-=== RUN   TestDuplicatedLinks/utp
-=== RUN   TestDuplicatedLinks/winrm
-=== RUN   TestDuplicatedLinks/xtcp
-=== RUN   TestDuplicatedLinks/gl
-=== RUN   TestDuplicatedLinks/glfw
-=== RUN   TestDuplicatedLinks/goxjs/gl
-=== RUN   TestDuplicatedLinks/goxjs/glfw
-=== RUN   TestDuplicatedLinks/mathgl
-=== RUN   TestDuplicatedLinks/beego_orm
-=== RUN   TestDuplicatedLinks/go-store
-=== RUN   TestDuplicatedLinks/gomodel
-=== RUN   TestDuplicatedLinks/GORM
-=== RUN   TestDuplicatedLinks/gorp
-=== RUN   TestDuplicatedLinks/QBS
-=== RUN   TestDuplicatedLinks/reform
-=== RUN   TestDuplicatedLinks/SQLBoiler
-=== RUN   TestDuplicatedLinks/Storm
-=== RUN   TestDuplicatedLinks/upper.io/db
-=== RUN   TestDuplicatedLinks/Xorm
-=== RUN   TestDuplicatedLinks/Zoom
-=== RUN   TestDuplicatedLinks/gigo
-=== RUN   TestDuplicatedLinks/glide
-=== RUN   TestDuplicatedLinks/godep
-=== RUN   TestDuplicatedLinks/gom
-=== RUN   TestDuplicatedLinks/goop
-=== RUN   TestDuplicatedLinks/gopm
-=== RUN   TestDuplicatedLinks/govendor
-=== RUN   TestDuplicatedLinks/gpm
-=== RUN   TestDuplicatedLinks/gvt
-=== RUN   TestDuplicatedLinks/johnny-deps
-=== RUN   TestDuplicatedLinks/nut
-=== RUN   TestDuplicatedLinks/VenGO
-=== RUN   TestDuplicatedLinks/graphql
-=== RUN   TestDuplicatedLinks/graphql#01
-=== RUN   TestDuplicatedLinks/graphql-go
-=== RUN   TestDuplicatedLinks/jsonql
-=== RUN   TestDuplicatedLinks/esc
-=== RUN   TestDuplicatedLinks/fileb0x
-=== RUN   TestDuplicatedLinks/go-bindata
-=== RUN   TestDuplicatedLinks/go-embed
-=== RUN   TestDuplicatedLinks/go-resources
-=== RUN   TestDuplicatedLinks/go.rice
-=== RUN   TestDuplicatedLinks/statics
-=== RUN   TestDuplicatedLinks/statik
-=== RUN   TestDuplicatedLinks/vfsgen
-=== RUN   TestDuplicatedLinks/blas
-=== RUN   TestDuplicatedLinks/chart
-=== RUN   TestDuplicatedLinks/evaler
-=== RUN   TestDuplicatedLinks/ewma
-=== RUN   TestDuplicatedLinks/geom
-=== RUN   TestDuplicatedLinks/go-dsp
-=== RUN   TestDuplicatedLinks/go-fn
-=== RUN   TestDuplicatedLinks/go-gt
-=== RUN   TestDuplicatedLinks/go.matrix
-=== RUN   TestDuplicatedLinks/gocomplex
-=== RUN   TestDuplicatedLinks/gofrac
-=== RUN   TestDuplicatedLinks/gohistogram
-=== RUN   TestDuplicatedLinks/gonum/mat64
-=== RUN   TestDuplicatedLinks/gonum/plot
-=== RUN   TestDuplicatedLinks/goraph
-=== RUN   TestDuplicatedLinks/gostat
-=== RUN   TestDuplicatedLinks/mudlark-go
-=== RUN   TestDuplicatedLinks/ode
-=== RUN   TestDuplicatedLinks/pagerank
-=== RUN   TestDuplicatedLinks/PiHex
-=== RUN   TestDuplicatedLinks/stats#01
-=== RUN   TestDuplicatedLinks/streamtools
-=== RUN   TestDuplicatedLinks/vectormath
-=== RUN   TestDuplicatedLinks/acmetool
-=== RUN   TestDuplicatedLinks/BadActor
-=== RUN   TestDuplicatedLinks/go-yara
-=== RUN   TestDuplicatedLinks/YARA
-=== RUN   TestDuplicatedLinks/lego
-=== RUN   TestDuplicatedLinks/passlib
-=== RUN   TestDuplicatedLinks/simple-scrypt
-=== RUN   TestDuplicatedLinks/asn1
-=== RUN   TestDuplicatedLinks/colfer
-=== RUN   TestDuplicatedLinks/go-capnproto
-=== RUN   TestDuplicatedLinks/bambam
-=== RUN   TestDuplicatedLinks/go-codec
-=== RUN   TestDuplicatedLinks/gogoprotobuf
-=== RUN   TestDuplicatedLinks/goprotobuf
-=== RUN   TestDuplicatedLinks/mapstructure
-=== RUN   TestDuplicatedLinks/php_session_decoder
-=== RUN   TestDuplicatedLinks/structomap
-=== RUN   TestDuplicatedLinks/algernon
-=== RUN   TestDuplicatedLinks/Caddy
-=== RUN   TestDuplicatedLinks/consul
-=== RUN   TestDuplicatedLinks/devd
-=== RUN   TestDuplicatedLinks/etcd
-=== RUN   TestDuplicatedLinks/minio
-=== RUN   TestDuplicatedLinks/nsq
-=== RUN   TestDuplicatedLinks/yakvs
-=== RUN   TestDuplicatedLinks/ace
-=== RUN   TestDuplicatedLinks/amber
-=== RUN   TestDuplicatedLinks/damsel
-=== RUN   TestDuplicatedLinks/ego
-=== RUN   TestDuplicatedLinks/fasttemplate
-=== RUN   TestDuplicatedLinks/text/template
-=== RUN   TestDuplicatedLinks/gofpdf
-=== RUN   TestDuplicatedLinks/jet
-=== RUN   TestDuplicatedLinks/kasia.go
-=== RUN   TestDuplicatedLinks/mustache
-=== RUN   TestDuplicatedLinks/pongo2
-=== RUN   TestDuplicatedLinks/quicktemplate
-=== RUN   TestDuplicatedLinks/raymond
-=== RUN   TestDuplicatedLinks/Razor
-=== RUN   TestDuplicatedLinks/Soy
-=== RUN   TestDuplicatedLinks/official_spec
-=== RUN   TestDuplicatedLinks/assert
-=== RUN   TestDuplicatedLinks/badio
-=== RUN   TestDuplicatedLinks/baloo
-=== RUN   TestDuplicatedLinks/bro
-=== RUN   TestDuplicatedLinks/dsunit
-=== RUN   TestDuplicatedLinks/frisby
-=== RUN   TestDuplicatedLinks/ginkgo
-=== RUN   TestDuplicatedLinks/go-carpet
-=== RUN   TestDuplicatedLinks/go-mutesting
-=== RUN   TestDuplicatedLinks/go-vcr
-=== RUN   TestDuplicatedLinks/goblin
-=== RUN   TestDuplicatedLinks/gocheck
-=== RUN   TestDuplicatedLinks/GoConvey
-=== RUN   TestDuplicatedLinks/godog
-=== RUN   TestDuplicatedLinks/gofight
-=== RUN   TestDuplicatedLinks/gomega
-=== RUN   TestDuplicatedLinks/GoSpec
-=== RUN   TestDuplicatedLinks/gospecify
-=== RUN   TestDuplicatedLinks/gosuite
-=== RUN   TestDuplicatedLinks/Hamcrest
-=== RUN   TestDuplicatedLinks/httpexpect
-=== RUN   TestDuplicatedLinks/restit
-=== RUN   TestDuplicatedLinks/testfixtures
-=== RUN   TestDuplicatedLinks/Testify
-=== RUN   TestDuplicatedLinks/counterfeiter
-=== RUN   TestDuplicatedLinks/go-sqlmock
-=== RUN   TestDuplicatedLinks/go-txdb
-=== RUN   TestDuplicatedLinks/gock
-=== RUN   TestDuplicatedLinks/gomock
-=== RUN   TestDuplicatedLinks/govcr
-=== RUN   TestDuplicatedLinks/mockhttp
-=== RUN   TestDuplicatedLinks/go-fuzz
-=== RUN   TestDuplicatedLinks/gofuzz
-=== RUN   TestDuplicatedLinks/Tavor
-=== RUN   TestDuplicatedLinks/allot
-=== RUN   TestDuplicatedLinks/bbConvert
-=== RUN   TestDuplicatedLinks/blackfriday
-=== RUN   TestDuplicatedLinks/github_flavored_markdown
-=== RUN   TestDuplicatedLinks/bluemonday
-=== RUN   TestDuplicatedLinks/editorconfig-core-go
-=== RUN   TestDuplicatedLinks/enca
-=== RUN   TestDuplicatedLinks/libenca
-=== RUN   TestDuplicatedLinks/genex
-=== RUN   TestDuplicatedLinks/go-humanize
-=== RUN   TestDuplicatedLinks/go-nmea
-=== RUN   TestDuplicatedLinks/go-pkg-rss
-=== RUN   TestDuplicatedLinks/go-pkg-xmlx
-=== RUN   TestDuplicatedLinks/go-runewidth
-=== RUN   TestDuplicatedLinks/go-slugify
-=== RUN   TestDuplicatedLinks/gofeed
-=== RUN   TestDuplicatedLinks/gographviz
-=== RUN   TestDuplicatedLinks/gommon/bytes
-=== RUN   TestDuplicatedLinks/gonameparts
-=== RUN   TestDuplicatedLinks/GoQuery
-=== RUN   TestDuplicatedLinks/goregen
-=== RUN   TestDuplicatedLinks/gotext
-=== RUN   TestDuplicatedLinks/guesslanguage
-=== RUN   TestDuplicatedLinks/inject
-=== RUN   TestDuplicatedLinks/mxj
-=== RUN   TestDuplicatedLinks/sh
-=== RUN   TestDuplicatedLinks/slug
-=== RUN   TestDuplicatedLinks/Slugify
-=== RUN   TestDuplicatedLinks/toml
-=== RUN   TestDuplicatedLinks/gotabulate
-=== RUN   TestDuplicatedLinks/kace
-=== RUN   TestDuplicatedLinks/parseargs-go
-=== RUN   TestDuplicatedLinks/parth
-=== RUN   TestDuplicatedLinks/xurls
-=== RUN   TestDuplicatedLinks/amazon-product-advertising-api
-=== RUN   TestDuplicatedLinks/Amazon_Product_Advertising_API
-=== RUN   TestDuplicatedLinks/anaconda
-=== RUN   TestDuplicatedLinks/aws-sdk-go
-=== RUN   TestDuplicatedLinks/brewerydb
-=== RUN   TestDuplicatedLinks/cachet
-=== RUN   TestDuplicatedLinks/Cachet_(open_source_status_page_system)
-=== RUN   TestDuplicatedLinks/circleci
-=== RUN   TestDuplicatedLinks/clarifai
-=== RUN   TestDuplicatedLinks/discordgo
-=== RUN   TestDuplicatedLinks/facebook
-=== RUN   TestDuplicatedLinks/fcm
-=== RUN   TestDuplicatedLinks/gads
-=== RUN   TestDuplicatedLinks/gami
-=== RUN   TestDuplicatedLinks/gcm
-=== RUN   TestDuplicatedLinks/geo-golang
-=== RUN   TestDuplicatedLinks/Google_Maps
-=== RUN   TestDuplicatedLinks/MapQuest
-=== RUN   TestDuplicatedLinks/Nominatim
-=== RUN   TestDuplicatedLinks/OpenCage
-=== RUN   TestDuplicatedLinks/HERE
-=== RUN   TestDuplicatedLinks/Bing
-=== RUN   TestDuplicatedLinks/Mapbox
-=== RUN   TestDuplicatedLinks/OpenStreetMap
-=== RUN   TestDuplicatedLinks/ghost
-=== RUN   TestDuplicatedLinks/github
-=== RUN   TestDuplicatedLinks/go-imgur
-=== RUN   TestDuplicatedLinks/imgur
-=== RUN   TestDuplicatedLinks/go-jira
-=== RUN   TestDuplicatedLinks/Atlassian_JIRA
-=== RUN   TestDuplicatedLinks/go-marathon
-=== RUN   TestDuplicatedLinks/go-tgbot
-=== RUN   TestDuplicatedLinks/go-trending
-=== RUN   TestDuplicatedLinks/trending_repositories
-=== RUN   TestDuplicatedLinks/developers
-=== RUN   TestDuplicatedLinks/go-twitch
-=== RUN   TestDuplicatedLinks/go-twitter
-=== RUN   TestDuplicatedLinks/go-xkcd
-=== RUN   TestDuplicatedLinks/goamz
-=== RUN   TestDuplicatedLinks/goamz#01
-=== RUN   TestDuplicatedLinks/golyrics
-=== RUN   TestDuplicatedLinks/GoMusicBrainz
-=== RUN   TestDuplicatedLinks/google
-=== RUN   TestDuplicatedLinks/google-analytics
-=== RUN   TestDuplicatedLinks/google-cloud
-=== RUN   TestDuplicatedLinks/google-email-audit-api
-=== RUN   TestDuplicatedLinks/Google_G_Suite_Email_Audit_API
-=== RUN   TestDuplicatedLinks/gostorm
-=== RUN   TestDuplicatedLinks/hipchat
-=== RUN   TestDuplicatedLinks/hipchat_(xmpp)
-=== RUN   TestDuplicatedLinks/Medium
-=== RUN   TestDuplicatedLinks/megos
-=== RUN   TestDuplicatedLinks/Apache_Mesos
-=== RUN   TestDuplicatedLinks/micha
-=== RUN   TestDuplicatedLinks/minio-go
-=== RUN   TestDuplicatedLinks/mixpanel
-=== RUN   TestDuplicatedLinks/paypal
-=== RUN   TestDuplicatedLinks/playlyfe
-=== RUN   TestDuplicatedLinks/pushover
-=== RUN   TestDuplicatedLinks/rrdaclient
-=== RUN   TestDuplicatedLinks/shopify
-=== RUN   TestDuplicatedLinks/slack
-=== RUN   TestDuplicatedLinks/smite
-=== RUN   TestDuplicatedLinks/spotify
-=== RUN   TestDuplicatedLinks/steam
-=== RUN   TestDuplicatedLinks/stripe
-=== RUN   TestDuplicatedLinks/tbot
-=== RUN   TestDuplicatedLinks/telebot
-=== RUN   TestDuplicatedLinks/telegram-bot-api
-=== RUN   TestDuplicatedLinks/telegraph
-=== RUN   TestDuplicatedLinks/textbelt
-=== RUN   TestDuplicatedLinks/TheMovieDb
-=== RUN   TestDuplicatedLinks/themoviedb.org
-=== RUN   TestDuplicatedLinks/translate
-=== RUN   TestDuplicatedLinks/tumblr
-=== RUN   TestDuplicatedLinks/webhooks
-=== RUN   TestDuplicatedLinks/abutil
-=== RUN   TestDuplicatedLinks/apm
-=== RUN   TestDuplicatedLinks/boilr
-=== RUN   TestDuplicatedLinks/command
-=== RUN   TestDuplicatedLinks/coop
-=== RUN   TestDuplicatedLinks/Death
-=== RUN   TestDuplicatedLinks/Deepcopier
-=== RUN   TestDuplicatedLinks/delve
-=== RUN   TestDuplicatedLinks/dlog
-=== RUN   TestDuplicatedLinks/excelize
-=== RUN   TestDuplicatedLinks/fastlz
-=== RUN   TestDuplicatedLinks/FastLz
-=== RUN   TestDuplicatedLinks/filetype
-=== RUN   TestDuplicatedLinks/fzf
-=== RUN   TestDuplicatedLinks/generate
-=== RUN   TestDuplicatedLinks/gentleman
-=== RUN   TestDuplicatedLinks/git-time-metric
-=== RUN   TestDuplicatedLinks/go-bind-plugin
-=== RUN   TestDuplicatedLinks/go-cron
-=== RUN   TestDuplicatedLinks/go-debug
-=== RUN   TestDuplicatedLinks/go-dry
-=== RUN   TestDuplicatedLinks/go-rate
-=== RUN   TestDuplicatedLinks/go-sitemap-generator
-=== RUN   TestDuplicatedLinks/go-torch
-=== RUN   TestDuplicatedLinks/go-trigger
-=== RUN   TestDuplicatedLinks/go-underscore
-=== RUN   TestDuplicatedLinks/goback
-=== RUN   TestDuplicatedLinks/godaemon
-=== RUN   TestDuplicatedLinks/godotenv
-=== RUN   TestDuplicatedLinks/godropbox
-=== RUN   TestDuplicatedLinks/gohper
-=== RUN   TestDuplicatedLinks/gojq
-=== RUN   TestDuplicatedLinks/golarm
-=== RUN   TestDuplicatedLinks/golog
-=== RUN   TestDuplicatedLinks/gopencils
-=== RUN   TestDuplicatedLinks/goplaceholder
-=== RUN   TestDuplicatedLinks/goreq
-=== RUN   TestDuplicatedLinks/goreq#01
-=== RUN   TestDuplicatedLinks/gorequest
-=== RUN   TestDuplicatedLinks/gotenv
-=== RUN   TestDuplicatedLinks/grequests
-=== RUN   TestDuplicatedLinks/htcat
-=== RUN   TestDuplicatedLinks/httpcontrol
-=== RUN   TestDuplicatedLinks/hystrix-go
-=== RUN   TestDuplicatedLinks/JobRunner
-=== RUN   TestDuplicatedLinks/jsonapi-errors
-=== RUN   TestDuplicatedLinks/jsonf
-=== RUN   TestDuplicatedLinks/jsongo
-=== RUN   TestDuplicatedLinks/kazaam
-=== RUN   TestDuplicatedLinks/lrserver
-=== RUN   TestDuplicatedLinks/mc
-=== RUN   TestDuplicatedLinks/mergo
-=== RUN   TestDuplicatedLinks/minify
-=== RUN   TestDuplicatedLinks/moldova
-=== RUN   TestDuplicatedLinks/mp
-=== RUN   TestDuplicatedLinks/multitick
-=== RUN   TestDuplicatedLinks/netbug
-=== RUN   TestDuplicatedLinks/ngrok
-=== RUN   TestDuplicatedLinks/okrun
-=== RUN   TestDuplicatedLinks/panicparse
-=== RUN   TestDuplicatedLinks/peco
-=== RUN   TestDuplicatedLinks/pester
-=== RUN   TestDuplicatedLinks/pm
-=== RUN   TestDuplicatedLinks/profile
-=== RUN   TestDuplicatedLinks/realize
-=== RUN   TestDuplicatedLinks/request
-=== RUN   TestDuplicatedLinks/rerate
-=== RUN   TestDuplicatedLinks/rerun
-=== RUN   TestDuplicatedLinks/resty
-=== RUN   TestDuplicatedLinks/robustly
-=== RUN   TestDuplicatedLinks/scheduler
-=== RUN   TestDuplicatedLinks/sling
-=== RUN   TestDuplicatedLinks/spinner
-=== RUN   TestDuplicatedLinks/sqlx
-=== RUN   TestDuplicatedLinks/toolbox
-=== RUN   TestDuplicatedLinks/ugo
-=== RUN   TestDuplicatedLinks/xferspdy
-=== RUN   TestDuplicatedLinks/xlsx
-=== RUN   TestDuplicatedLinks/govalidator
-=== RUN   TestDuplicatedLinks/ozzo-validation
-=== RUN   TestDuplicatedLinks/validator
-=== RUN   TestDuplicatedLinks/gh
-=== RUN   TestDuplicatedLinks/git2go
-=== RUN   TestDuplicatedLinks/go-vcs
-=== RUN   TestDuplicatedLinks/hgo
-=== RUN   TestDuplicatedLinks/gmf
-=== RUN   TestDuplicatedLinks/goav
-=== RUN   TestDuplicatedLinks/gst
-=== RUN   TestDuplicatedLinks/v4l
-=== RUN   TestDuplicatedLinks/alien
-=== RUN   TestDuplicatedLinks/Beego
-=== RUN   TestDuplicatedLinks/Bone
-=== RUN   TestDuplicatedLinks/Bxog
-=== RUN   TestDuplicatedLinks/chi
-=== RUN   TestDuplicatedLinks/Echo
-=== RUN   TestDuplicatedLinks/fasthttprouter
-=== RUN   TestDuplicatedLinks/Fireball
-=== RUN   TestDuplicatedLinks/Florest
-=== RUN   TestDuplicatedLinks/Gem
-=== RUN   TestDuplicatedLinks/Gin
-=== RUN   TestDuplicatedLinks/Gizmo
-=== RUN   TestDuplicatedLinks/Glue
-=== RUN   TestDuplicatedLinks/go-json-rest
-=== RUN   TestDuplicatedLinks/go-kit
-=== RUN   TestDuplicatedLinks/go-relax
-=== RUN   TestDuplicatedLinks/go-rest
-=== RUN   TestDuplicatedLinks/go-socket.io
-=== RUN   TestDuplicatedLinks/goa
-=== RUN   TestDuplicatedLinks/Goat
-=== RUN   TestDuplicatedLinks/gocraft/web
-=== RUN   TestDuplicatedLinks/Goji
-=== RUN   TestDuplicatedLinks/Golf
-=== RUN   TestDuplicatedLinks/golongpoll
-=== RUN   TestDuplicatedLinks/Gondola
-=== RUN   TestDuplicatedLinks/gongular
-=== RUN   TestDuplicatedLinks/goose#01
-=== RUN   TestDuplicatedLinks/Gorilla
-=== RUN   TestDuplicatedLinks/httprouter
-=== RUN   TestDuplicatedLinks/httptreemux
-=== RUN   TestDuplicatedLinks/lars
-=== RUN   TestDuplicatedLinks/Macaron
-=== RUN   TestDuplicatedLinks/mango
-=== RUN   TestDuplicatedLinks/medeina
-=== RUN   TestDuplicatedLinks/Microservice
-=== RUN   TestDuplicatedLinks/mux
-=== RUN   TestDuplicatedLinks/neo
-=== RUN   TestDuplicatedLinks/ozzo-routing
-=== RUN   TestDuplicatedLinks/pat
-=== RUN   TestDuplicatedLinks/Resoursea
-=== RUN   TestDuplicatedLinks/REST_Layer
-=== RUN   TestDuplicatedLinks/Revel
-=== RUN   TestDuplicatedLinks/rex
-=== RUN   TestDuplicatedLinks/sawsij
-=== RUN   TestDuplicatedLinks/session
-=== RUN   TestDuplicatedLinks/Siesta
-=== RUN   TestDuplicatedLinks/tango
-=== RUN   TestDuplicatedLinks/tigertonic
-=== RUN   TestDuplicatedLinks/traffic
-=== RUN   TestDuplicatedLinks/utron
-=== RUN   TestDuplicatedLinks/VarHandler
-=== RUN   TestDuplicatedLinks/vestigo
-=== RUN   TestDuplicatedLinks/Volatile
-=== RUN   TestDuplicatedLinks/xmux
-=== RUN   TestDuplicatedLinks/YARF
-=== RUN   TestDuplicatedLinks/Zerver
-=== RUN   TestDuplicatedLinks/zeus
-=== RUN   TestDuplicatedLinks/CORS
-=== RUN   TestDuplicatedLinks/formjson
-=== RUN   TestDuplicatedLinks/Limiter
-=== RUN   TestDuplicatedLinks/Tollbooth
-=== RUN   TestDuplicatedLinks/XFF
-=== RUN   TestDuplicatedLinks/alice
-=== RUN   TestDuplicatedLinks/catena
-=== RUN   TestDuplicatedLinks/chain
-=== RUN   TestDuplicatedLinks/go-wrap
-=== RUN   TestDuplicatedLinks/gores
-=== RUN   TestDuplicatedLinks/interpose
-=== RUN   TestDuplicatedLinks/muxchain
-=== RUN   TestDuplicatedLinks/negroni
-=== RUN   TestDuplicatedLinks/render
-=== RUN   TestDuplicatedLinks/rye
-=== RUN   TestDuplicatedLinks/stats#02
-=== RUN   TestDuplicatedLinks/apicompat
-=== RUN   TestDuplicatedLinks/dupl
-=== RUN   TestDuplicatedLinks/errcheck
-=== RUN   TestDuplicatedLinks/gcvis
-=== RUN   TestDuplicatedLinks/Go_Metalinter
-=== RUN   TestDuplicatedLinks/go-checkstyle
-=== RUN   TestDuplicatedLinks/go-outdated
-=== RUN   TestDuplicatedLinks/goast-viewer
-=== RUN   TestDuplicatedLinks/GoCover.io
-=== RUN   TestDuplicatedLinks/goimports
-=== RUN   TestDuplicatedLinks/GoLint
-=== RUN   TestDuplicatedLinks/Golint_online
-=== RUN   TestDuplicatedLinks/goreturns
-=== RUN   TestDuplicatedLinks/gostatus
-=== RUN   TestDuplicatedLinks/interfacer
-=== RUN   TestDuplicatedLinks/lint
-=== RUN   TestDuplicatedLinks/validate
-=== RUN   TestDuplicatedLinks/go-lang-idea-plugin
-=== RUN   TestDuplicatedLinks/go-plus
-=== RUN   TestDuplicatedLinks/Goclipse
-=== RUN   TestDuplicatedLinks/gocode
-=== RUN   TestDuplicatedLinks/GoSublime
-=== RUN   TestDuplicatedLinks/velour
-=== RUN   TestDuplicatedLinks/vim-compiler-go
-=== RUN   TestDuplicatedLinks/vim-go
-=== RUN   TestDuplicatedLinks/Watch
-=== RUN   TestDuplicatedLinks/colorgo
-=== RUN   TestDuplicatedLinks/gb
-=== RUN   TestDuplicatedLinks/go-callvis
-=== RUN   TestDuplicatedLinks/go-pkg-complete
-=== RUN   TestDuplicatedLinks/go-swagger
-=== RUN   TestDuplicatedLinks/rts
-=== RUN   TestDuplicatedLinks/aptly
-=== RUN   TestDuplicatedLinks/aurora#01
-=== RUN   TestDuplicatedLinks/awsenv
-=== RUN   TestDuplicatedLinks/Banshee
-=== RUN   TestDuplicatedLinks/bosun
-=== RUN   TestDuplicatedLinks/dogo
-=== RUN   TestDuplicatedLinks/drone-scp
-=== RUN   TestDuplicatedLinks/Dropship
-=== RUN   TestDuplicatedLinks/EasySSH
-=== RUN   TestDuplicatedLinks/Gitea
-=== RUN   TestDuplicatedLinks/Go_Metrics
-=== RUN   TestDuplicatedLinks/https://github.com/codahale/metrics
-=== RUN   TestDuplicatedLinks/go-selfupdate
-=== RUN   TestDuplicatedLinks/gobrew
-=== RUN   TestDuplicatedLinks/godbg
-=== RUN   TestDuplicatedLinks/Gogs
-=== RUN   TestDuplicatedLinks/gonative
-=== RUN   TestDuplicatedLinks/govvv
-=== RUN   TestDuplicatedLinks/gox
-=== RUN   TestDuplicatedLinks/goxc
-=== RUN   TestDuplicatedLinks/grapes
-=== RUN   TestDuplicatedLinks/GVM
-=== RUN   TestDuplicatedLinks/Hey
-=== RUN   TestDuplicatedLinks/kala
-=== RUN   TestDuplicatedLinks/kubernetes
-=== RUN   TestDuplicatedLinks/Mora
-=== RUN   TestDuplicatedLinks/ostent
-=== RUN   TestDuplicatedLinks/Packer
-=== RUN   TestDuplicatedLinks/Rodent
-=== RUN   TestDuplicatedLinks/s3gof3r
-=== RUN   TestDuplicatedLinks/Scaleway-cli
-=== RUN   TestDuplicatedLinks/sg
-=== RUN   TestDuplicatedLinks/Vegeta
-=== RUN   TestDuplicatedLinks/webhook
-=== RUN   TestDuplicatedLinks/Wide
-=== RUN   TestDuplicatedLinks/winrm-cli
-=== RUN   TestDuplicatedLinks/borg
-=== RUN   TestDuplicatedLinks/boxed
-=== RUN   TestDuplicatedLinks/Cherry
-=== RUN   TestDuplicatedLinks/Circuit
-=== RUN   TestDuplicatedLinks/Comcast
-=== RUN   TestDuplicatedLinks/confd
-=== RUN   TestDuplicatedLinks/Docker
-=== RUN   TestDuplicatedLinks/Documize
-=== RUN   TestDuplicatedLinks/fleet
-=== RUN   TestDuplicatedLinks/Go_Package_Store
-=== RUN   TestDuplicatedLinks/gocc
-=== RUN   TestDuplicatedLinks/GoDocTooltip
-=== RUN   TestDuplicatedLinks/Gor
-=== RUN   TestDuplicatedLinks/hsync
-=== RUN   TestDuplicatedLinks/hugo
-=== RUN   TestDuplicatedLinks/ipe
-=== RUN   TestDuplicatedLinks/Juju
-=== RUN   TestDuplicatedLinks/limetext
-=== RUN   TestDuplicatedLinks/LiteIDE
-=== RUN   TestDuplicatedLinks/mockingjay
-=== RUN   TestDuplicatedLinks/myLG
-=== RUN   TestDuplicatedLinks/naclpipe
-=== RUN   TestDuplicatedLinks/nes
-=== RUN   TestDuplicatedLinks/orange-cat
-=== RUN   TestDuplicatedLinks/peg
-=== RUN   TestDuplicatedLinks/Postman
-=== RUN   TestDuplicatedLinks/restic
-=== RUN   TestDuplicatedLinks/rkt
-=== RUN   TestDuplicatedLinks/Seaweed_File_System
-=== RUN   TestDuplicatedLinks/shell2http
-=== RUN   TestDuplicatedLinks/snap
-=== RUN   TestDuplicatedLinks/Stack_Up
-=== RUN   TestDuplicatedLinks/syncthing
-=== RUN   TestDuplicatedLinks/Tenyks
-=== RUN   TestDuplicatedLinks/toto
-=== RUN   TestDuplicatedLinks/toxiproxy
-=== RUN   TestDuplicatedLinks/tsuru
-=== RUN   TestDuplicatedLinks/websysd
-=== RUN   TestDuplicatedLinks/wellington
-=== RUN   TestDuplicatedLinks/XML-Comp
-=== RUN   TestDuplicatedLinks/autobench
-=== RUN   TestDuplicatedLinks/go-benchmarks
-=== RUN   TestDuplicatedLinks/go-http-routing-benchmark
-=== RUN   TestDuplicatedLinks/go-type-assertion-benchmark
-=== RUN   TestDuplicatedLinks/go-web-framework-benchmark
-=== RUN   TestDuplicatedLinks/go_serialization_benchmarks
-=== RUN   TestDuplicatedLinks/gocostmodel
-=== RUN   TestDuplicatedLinks/golang-micro-benchmarks
-=== RUN   TestDuplicatedLinks/golang-sql-benchmark
-=== RUN   TestDuplicatedLinks/gospeed
-=== RUN   TestDuplicatedLinks/kvbench
-=== RUN   TestDuplicatedLinks/skynet
-=== RUN   TestDuplicatedLinks/speedtest-resize
-=== RUN   TestDuplicatedLinks/dotGo
-=== RUN   TestDuplicatedLinks/GoCon
-=== RUN   TestDuplicatedLinks/GolangUK
-=== RUN   TestDuplicatedLinks/GopherChina
-=== RUN   TestDuplicatedLinks/GopherCon
-=== RUN   TestDuplicatedLinks/GopherCon_Brazil
-=== RUN   TestDuplicatedLinks/GopherCon_Dubai
-=== RUN   TestDuplicatedLinks/GopherCon_India
-=== RUN   TestDuplicatedLinks/GothamGo
-=== RUN   TestDuplicatedLinks/A_Go_Developer’s_Notebook
-=== RUN   TestDuplicatedLinks/An_Introduction_to_Programming_in_Go
-=== RUN   TestDuplicatedLinks/Build_Web_Application_with_Golang
-=== RUN   TestDuplicatedLinks/Building_Web_Apps_With_Go
-=== RUN   TestDuplicatedLinks/Go_Bootcamp
-=== RUN   TestDuplicatedLinks/GoBooks
-=== RUN   TestDuplicatedLinks/Learning_Go
-=== RUN   TestDuplicatedLinks/Network_Programming_With_Go
-=== RUN   TestDuplicatedLinks/The_Go_Programming_Language
-=== RUN   TestDuplicatedLinks/Web_Application_with_Go_the_Anti-Textbook
-=== RUN   TestDuplicatedLinks/@golang
-=== RUN   TestDuplicatedLinks/@golang_news
-=== RUN   TestDuplicatedLinks/@golangweekly
-=== RUN   TestDuplicatedLinks/Awesome_Go_@LibHunt
-=== RUN   TestDuplicatedLinks/Awesome_Remote_Job
-=== RUN   TestDuplicatedLinks/awesome-awesomeness
-=== RUN   TestDuplicatedLinks/Flipboard_-_Go_Magazine
-=== RUN   TestDuplicatedLinks/Go_Blog
-=== RUN   TestDuplicatedLinks/Go_Challenge
-=== RUN   TestDuplicatedLinks/Go_Forum
-=== RUN   TestDuplicatedLinks/Go_In_5_Minutes
-=== RUN   TestDuplicatedLinks/Go_Projects
-=== RUN   TestDuplicatedLinks/gocryforhelp
-=== RUN   TestDuplicatedLinks/godoc.org
-=== RUN   TestDuplicatedLinks/golang-graphics
-=== RUN   TestDuplicatedLinks/golang-nuts
-=== RUN   TestDuplicatedLinks/Google_Plus_Community
-=== RUN   TestDuplicatedLinks/gowalker.org
-=== RUN   TestDuplicatedLinks/r/Golang
-=== RUN   TestDuplicatedLinks/Trending_Go_repositories_on_GitHub_today
-=== RUN   TestDuplicatedLinks/A_Tour_of_Go
-=== RUN   TestDuplicatedLinks/Building_Go_Web_Applications_and_Microservices_Using_Gin
-=== RUN   TestDuplicatedLinks/Go_By_Example
-=== RUN   TestDuplicatedLinks/Go_database/sql_tutorial
-=== RUN   TestDuplicatedLinks/How_to_Use_Godog_for_Behavior-driven_Development_in_Go
-=== RUN   TestDuplicatedLinks/Working_with_Go
-=== RUN   TestDuplicatedLinks/d3d9
-=== RUN   TestDuplicatedLinks/go-ole
---- PASS: TestDuplicatedLinks (0.07s)
-    --- PASS: TestDuplicatedLinks/#00 (0.00s)
-    --- PASS: TestDuplicatedLinks/#01 (0.00s)
-    --- PASS: TestDuplicatedLinks/#02 (0.00s)
-    --- PASS: TestDuplicatedLinks/awesome-python (0.00s)
-    --- PASS: TestDuplicatedLinks/contribution_guidelines (0.00s)
-    --- PASS: TestDuplicatedLinks/contributors (0.00s)
-    --- PASS: TestDuplicatedLinks/Awesome_Go (0.00s)
-    --- PASS: TestDuplicatedLinks/Audio_&_Music (0.00s)
-    --- PASS: TestDuplicatedLinks/Authentication_&_OAuth (0.00s)
-    --- PASS: TestDuplicatedLinks/Command_Line (0.00s)
-    --- PASS: TestDuplicatedLinks/Configuration (0.00s)
-    --- PASS: TestDuplicatedLinks/Continuous_Integration (0.00s)
-    --- PASS: TestDuplicatedLinks/CSS_Preprocessors (0.00s)
-    --- PASS: TestDuplicatedLinks/Data_Structures (0.00s)
-    --- PASS: TestDuplicatedLinks/Database (0.00s)
-    --- PASS: TestDuplicatedLinks/Database_Drivers (0.00s)
-    --- PASS: TestDuplicatedLinks/Date_&_Time (0.00s)
-    --- PASS: TestDuplicatedLinks/Distributed_Systems (0.00s)
-    --- PASS: TestDuplicatedLinks/Email (0.00s)
-    --- PASS: TestDuplicatedLinks/Embeddable_Scripting_Languages (0.00s)
-    --- PASS: TestDuplicatedLinks/Financial (0.00s)
-    --- PASS: TestDuplicatedLinks/Forms (0.00s)
-    --- PASS: TestDuplicatedLinks/Game_Development (0.00s)
-    --- PASS: TestDuplicatedLinks/Generation_&_Generics (0.00s)
-    --- PASS: TestDuplicatedLinks/Go_Compilers (0.00s)
-    --- PASS: TestDuplicatedLinks/Goroutines (0.00s)
-    --- PASS: TestDuplicatedLinks/GUI (0.00s)
-    --- PASS: TestDuplicatedLinks/Hardware (0.00s)
-    --- PASS: TestDuplicatedLinks/Images (0.00s)
-    --- PASS: TestDuplicatedLinks/Logging (0.00s)
-    --- PASS: TestDuplicatedLinks/Machine_Learning (0.00s)
-    --- PASS: TestDuplicatedLinks/Messaging (0.00s)
-    --- PASS: TestDuplicatedLinks/Miscellaneous (0.00s)
-    --- PASS: TestDuplicatedLinks/Natural_Language_Processing (0.00s)
-    --- PASS: TestDuplicatedLinks/Networking (0.00s)
-    --- PASS: TestDuplicatedLinks/OpenGL (0.00s)
-    --- PASS: TestDuplicatedLinks/ORM (0.00s)
-    --- PASS: TestDuplicatedLinks/Package_Management (0.00s)
-    --- PASS: TestDuplicatedLinks/Query_Language (0.00s)
-    --- PASS: TestDuplicatedLinks/Resource_Embedding (0.00s)
-    --- PASS: TestDuplicatedLinks/Science_and_Data_Analysis (0.00s)
-    --- PASS: TestDuplicatedLinks/Security (0.00s)
-    --- PASS: TestDuplicatedLinks/Serialization (0.00s)
-    --- PASS: TestDuplicatedLinks/Template_Engines (0.00s)
-    --- PASS: TestDuplicatedLinks/Testing (0.00s)
-    --- PASS: TestDuplicatedLinks/Text_Processing (0.00s)
-    --- PASS: TestDuplicatedLinks/Third-party_APIs (0.00s)
-    --- PASS: TestDuplicatedLinks/Utilities (0.00s)
-    --- PASS: TestDuplicatedLinks/Validation (0.00s)
-    --- PASS: TestDuplicatedLinks/Version_Control (0.00s)
-    --- PASS: TestDuplicatedLinks/Video (0.00s)
-    --- PASS: TestDuplicatedLinks/Web_Frameworks (0.00s)
-    --- PASS: TestDuplicatedLinks/Middlewares (0.00s)
-    --- PASS: TestDuplicatedLinks/Actual_middlewares (0.00s)
-    --- PASS: TestDuplicatedLinks/Libraries_for_creating_HTTP_middlewares (0.00s)
-    --- PASS: TestDuplicatedLinks/Windows (0.00s)
-    --- PASS: TestDuplicatedLinks/Tools (0.00s)
-    --- PASS: TestDuplicatedLinks/Code_Analysis (0.00s)
-    --- PASS: TestDuplicatedLinks/Editor_Plugins (0.00s)
-    --- PASS: TestDuplicatedLinks/Go_Tools (0.00s)
-    --- PASS: TestDuplicatedLinks/Software_Packages (0.00s)
-    --- PASS: TestDuplicatedLinks/DevOps_Tools (0.00s)
-    --- PASS: TestDuplicatedLinks/Other_Software (0.00s)
-    --- PASS: TestDuplicatedLinks/Server_Applications (0.00s)
-    --- PASS: TestDuplicatedLinks/Resources (0.00s)
-    --- PASS: TestDuplicatedLinks/Benchmarks (0.00s)
-    --- PASS: TestDuplicatedLinks/Conferences (0.00s)
-    --- PASS: TestDuplicatedLinks/E-Books (0.00s)
-    --- PASS: TestDuplicatedLinks/Twitter (0.00s)
-    --- PASS: TestDuplicatedLinks/Websites (0.00s)
-    --- PASS: TestDuplicatedLinks/Tutorials (0.00s)
-    --- PASS: TestDuplicatedLinks/flac (0.00s)
-    --- PASS: TestDuplicatedLinks/flac#01 (0.00s)
-    --- PASS: TestDuplicatedLinks/gaad (0.00s)
-    --- PASS: TestDuplicatedLinks/go-sox (0.00s)
-    --- PASS: TestDuplicatedLinks/go_mediainfo (0.00s)
-    --- PASS: TestDuplicatedLinks/gosamplerate (0.00s)
-    --- PASS: TestDuplicatedLinks/id3v2 (0.00s)
-    --- PASS: TestDuplicatedLinks/mix (0.00s)
-    --- PASS: TestDuplicatedLinks/mp3 (0.00s)
-    --- PASS: TestDuplicatedLinks/music-theory (0.00s)
-    --- PASS: TestDuplicatedLinks/PortAudio (0.00s)
-    --- PASS: TestDuplicatedLinks/portmidi (0.00s)
-    --- PASS: TestDuplicatedLinks/taglib (0.00s)
-    --- PASS: TestDuplicatedLinks/vorbis (0.00s)
-    --- PASS: TestDuplicatedLinks/waveform (0.00s)
-    --- PASS: TestDuplicatedLinks/authboss (0.00s)
-    --- PASS: TestDuplicatedLinks/Go-AWS-Auth (0.00s)
-    --- PASS: TestDuplicatedLinks/go-jose (0.00s)
-    --- PASS: TestDuplicatedLinks/go-oauth2-server (0.00s)
-    --- PASS: TestDuplicatedLinks/go.auth (0.00s)
-    --- PASS: TestDuplicatedLinks/gologin (0.00s)
-    --- PASS: TestDuplicatedLinks/gorbac (0.00s)
-    --- PASS: TestDuplicatedLinks/goth (0.00s)
-    --- PASS: TestDuplicatedLinks/httpauth (0.00s)
-    --- PASS: TestDuplicatedLinks/jwt (0.00s)
-    --- PASS: TestDuplicatedLinks/jwt-go (0.00s)
-    --- PASS: TestDuplicatedLinks/oauth2 (0.00s)
-    --- PASS: TestDuplicatedLinks/osin (0.00s)
-    --- PASS: TestDuplicatedLinks/permissions2 (0.00s)
-    --- PASS: TestDuplicatedLinks/yubigo (0.00s)
-    --- PASS: TestDuplicatedLinks/cli (0.00s)
-    --- PASS: TestDuplicatedLinks/cli-init (0.00s)
-    --- PASS: TestDuplicatedLinks/climax (0.00s)
-    --- PASS: TestDuplicatedLinks/cobra (0.00s)
-    --- PASS: TestDuplicatedLinks/docopt.go (0.00s)
-    --- PASS: TestDuplicatedLinks/drive (0.00s)
-    --- PASS: TestDuplicatedLinks/go-arg (0.00s)
-    --- PASS: TestDuplicatedLinks/go-flags (0.00s)
-    --- PASS: TestDuplicatedLinks/kingpin (0.00s)
-    --- PASS: TestDuplicatedLinks/liner (0.00s)
-    --- PASS: TestDuplicatedLinks/mitchellh/cli (0.00s)
-    --- PASS: TestDuplicatedLinks/mow.cli (0.00s)
-    --- PASS: TestDuplicatedLinks/readline (0.00s)
-    --- PASS: TestDuplicatedLinks/sflags (0.00s)
-    --- PASS: TestDuplicatedLinks/ukautz/clif (0.00s)
-    --- PASS: TestDuplicatedLinks/urfave/cli (0.00s)
-    --- PASS: TestDuplicatedLinks/wlog (0.00s)
-    --- PASS: TestDuplicatedLinks/wmenu (0.00s)
-    --- PASS: TestDuplicatedLinks/aurora (0.00s)
-    --- PASS: TestDuplicatedLinks/chalk (0.00s)
-    --- PASS: TestDuplicatedLinks/color (0.00s)
-    --- PASS: TestDuplicatedLinks/colourize (0.00s)
-    --- PASS: TestDuplicatedLinks/go-colortext (0.00s)
-    --- PASS: TestDuplicatedLinks/gocui (0.00s)
-    --- PASS: TestDuplicatedLinks/gommon/color (0.00s)
-    --- PASS: TestDuplicatedLinks/termbox-go (0.00s)
-    --- PASS: TestDuplicatedLinks/termtables (0.00s)
-    --- PASS: TestDuplicatedLinks/terminal-tables (0.00s)
-    --- PASS: TestDuplicatedLinks/termui (0.00s)
-    --- PASS: TestDuplicatedLinks/blessed-contrib (0.00s)
-    --- PASS: TestDuplicatedLinks/uilive (0.00s)
-    --- PASS: TestDuplicatedLinks/uiprogress (0.00s)
-    --- PASS: TestDuplicatedLinks/uitable (0.00s)
-    --- PASS: TestDuplicatedLinks/config (0.00s)
-    --- PASS: TestDuplicatedLinks/configure (0.00s)
-    --- PASS: TestDuplicatedLinks/env (0.00s)
-    --- PASS: TestDuplicatedLinks/envcfg (0.00s)
-    --- PASS: TestDuplicatedLinks/envconf (0.00s)
-    --- PASS: TestDuplicatedLinks/envconfig (0.00s)
-    --- PASS: TestDuplicatedLinks/gcfg (0.00s)
-    --- PASS: TestDuplicatedLinks/gofigure (0.00s)
-    --- PASS: TestDuplicatedLinks/hjson (0.00s)
-    --- PASS: TestDuplicatedLinks/ingo (0.00s)
-    --- PASS: TestDuplicatedLinks/ini (0.00s)
-    --- PASS: TestDuplicatedLinks/mini (0.00s)
-    --- PASS: TestDuplicatedLinks/store (0.00s)
-    --- PASS: TestDuplicatedLinks/viper (0.00s)
-    --- PASS: TestDuplicatedLinks/drone (0.00s)
-    --- PASS: TestDuplicatedLinks/goveralls (0.00s)
-    --- PASS: TestDuplicatedLinks/overalls (0.00s)
-    --- PASS: TestDuplicatedLinks/c6 (0.00s)
-    --- PASS: TestDuplicatedLinks/gcss (0.00s)
-    --- PASS: TestDuplicatedLinks/go-libsass (0.00s)
-    --- PASS: TestDuplicatedLinks/binpacker (0.00s)
-    --- PASS: TestDuplicatedLinks/bitset (0.00s)
-    --- PASS: TestDuplicatedLinks/bloom (0.00s)
-    --- PASS: TestDuplicatedLinks/boomfilters (0.00s)
-    --- PASS: TestDuplicatedLinks/count-min-log (0.00s)
-    --- PASS: TestDuplicatedLinks/cuckoofilter (0.00s)
-    --- PASS: TestDuplicatedLinks/encoding (0.00s)
-    --- PASS: TestDuplicatedLinks/go-adaptive-radix-tree (0.00s)
-    --- PASS: TestDuplicatedLinks/go-datastructures (0.00s)
-    --- PASS: TestDuplicatedLinks/go-geoindex (0.00s)
-    --- PASS: TestDuplicatedLinks/gods (0.00s)
-    --- PASS: TestDuplicatedLinks/golang-set (0.00s)
-    --- PASS: TestDuplicatedLinks/goskiplist (0.00s)
-    --- PASS: TestDuplicatedLinks/hilbert (0.00s)
-    --- PASS: TestDuplicatedLinks/levenshtein (0.00s)
-    --- PASS: TestDuplicatedLinks/mafsa (0.00s)
-    --- PASS: TestDuplicatedLinks/roaring (0.00s)
-    --- PASS: TestDuplicatedLinks/skiplist (0.00s)
-    --- PASS: TestDuplicatedLinks/trie (0.00s)
-    --- PASS: TestDuplicatedLinks/ttlcache (0.00s)
-    --- PASS: TestDuplicatedLinks/willf/bloom (0.00s)
-    --- PASS: TestDuplicatedLinks/BigCache (0.00s)
-    --- PASS: TestDuplicatedLinks/bolt (0.00s)
-    --- PASS: TestDuplicatedLinks/buntdb (0.00s)
-    --- PASS: TestDuplicatedLinks/cache2go (0.00s)
-    --- PASS: TestDuplicatedLinks/cockroach (0.00s)
-    --- PASS: TestDuplicatedLinks/couchcache (0.00s)
-    --- PASS: TestDuplicatedLinks/dgraph (0.00s)
-    --- PASS: TestDuplicatedLinks/diskv (0.00s)
-    --- PASS: TestDuplicatedLinks/eliasdb (0.00s)
-    --- PASS: TestDuplicatedLinks/forestdb (0.00s)
-    --- PASS: TestDuplicatedLinks/GCache (0.00s)
-    --- PASS: TestDuplicatedLinks/geocache (0.00s)
-    --- PASS: TestDuplicatedLinks/go-cache (0.00s)
-    --- PASS: TestDuplicatedLinks/goleveldb (0.00s)
-    --- PASS: TestDuplicatedLinks/LevelDB (0.00s)
-    --- PASS: TestDuplicatedLinks/groupcache (0.00s)
-    --- PASS: TestDuplicatedLinks/influxdb (0.00s)
-    --- PASS: TestDuplicatedLinks/ledisdb (0.00s)
-    --- PASS: TestDuplicatedLinks/levigo (0.00s)
-    --- PASS: TestDuplicatedLinks/piladb (0.00s)
-    --- PASS: TestDuplicatedLinks/pREST (0.00s)
-    --- PASS: TestDuplicatedLinks/prometheus (0.00s)
-    --- PASS: TestDuplicatedLinks/rqlite (0.00s)
-    --- PASS: TestDuplicatedLinks/tidb (0.00s)
-    --- PASS: TestDuplicatedLinks/tiedot (0.00s)
-    --- PASS: TestDuplicatedLinks/Tile38 (0.00s)
-    --- PASS: TestDuplicatedLinks/darwin (0.00s)
-    --- PASS: TestDuplicatedLinks/goose (0.00s)
-    --- PASS: TestDuplicatedLinks/gormigrate (0.00s)
-    --- PASS: TestDuplicatedLinks/migrate (0.00s)
-    --- PASS: TestDuplicatedLinks/pravasan (0.00s)
-    --- PASS: TestDuplicatedLinks/sql-migrate (0.00s)
-    --- PASS: TestDuplicatedLinks/go-mysql (0.00s)
-    --- PASS: TestDuplicatedLinks/go-mysql-elasticsearch (0.00s)
-    --- PASS: TestDuplicatedLinks/kingshard (0.00s)
-    --- PASS: TestDuplicatedLinks/myreplication (0.00s)
-    --- PASS: TestDuplicatedLinks/orchestrator (0.00s)
-    --- PASS: TestDuplicatedLinks/pgweb (0.00s)
-    --- PASS: TestDuplicatedLinks/vitess (0.00s)
-    --- PASS: TestDuplicatedLinks/dat (0.00s)
-    --- PASS: TestDuplicatedLinks/Dotsql (0.00s)
-    --- PASS: TestDuplicatedLinks/goqu (0.00s)
-    --- PASS: TestDuplicatedLinks/igor (0.00s)
-    --- PASS: TestDuplicatedLinks/ozzo-dbx (0.00s)
-    --- PASS: TestDuplicatedLinks/scaneo (0.00s)
-    --- PASS: TestDuplicatedLinks/sqrl (0.00s)
-    --- PASS: TestDuplicatedLinks/Squirrel (0.00s)
-    --- PASS: TestDuplicatedLinks/xo (0.00s)
-    --- PASS: TestDuplicatedLinks/bgc (0.00s)
-    --- PASS: TestDuplicatedLinks/firebirdsql (0.00s)
-    --- PASS: TestDuplicatedLinks/go-adodb (0.00s)
-    --- PASS: TestDuplicatedLinks/go-bqstreamer (0.00s)
-    --- PASS: TestDuplicatedLinks/go-mssqldb (0.00s)
-    --- PASS: TestDuplicatedLinks/go-oci8 (0.00s)
-    --- PASS: TestDuplicatedLinks/go-sql-driver/mysql (0.00s)
-    --- PASS: TestDuplicatedLinks/go-sqlite3 (0.00s)
-    --- PASS: TestDuplicatedLinks/gofreetds (0.00s)
-    --- PASS: TestDuplicatedLinks/FreeTDS (0.00s)
-    --- PASS: TestDuplicatedLinks/pgx (0.00s)
-    --- PASS: TestDuplicatedLinks/pq (0.00s)
-    --- PASS: TestDuplicatedLinks/aerospike-client-go (0.00s)
-    --- PASS: TestDuplicatedLinks/arangolite (0.00s)
-    --- PASS: TestDuplicatedLinks/asc (0.00s)
-    --- PASS: TestDuplicatedLinks/cayley (0.00s)
-    --- PASS: TestDuplicatedLinks/dsc (0.00s)
-    --- PASS: TestDuplicatedLinks/dynago (0.00s)
-    --- PASS: TestDuplicatedLinks/go-couchbase (0.00s)
-    --- PASS: TestDuplicatedLinks/go-couchdb (0.00s)
-    --- PASS: TestDuplicatedLinks/gocb (0.00s)
-    --- PASS: TestDuplicatedLinks/gocql (0.00s)
-    --- PASS: TestDuplicatedLinks/gomemcache (0.00s)
-    --- PASS: TestDuplicatedLinks/gorethink (0.00s)
-    --- PASS: TestDuplicatedLinks/goriak (0.00s)
-    --- PASS: TestDuplicatedLinks/mgo (0.00s)
-    --- PASS: TestDuplicatedLinks/neo4j (0.00s)
-    --- PASS: TestDuplicatedLinks/Neo4j-GO (0.00s)
-    --- PASS: TestDuplicatedLinks/neoism (0.00s)
-    --- PASS: TestDuplicatedLinks/redigo (0.00s)
-    --- PASS: TestDuplicatedLinks/redis (0.00s)
-    --- PASS: TestDuplicatedLinks/redis#01 (0.00s)
-    --- PASS: TestDuplicatedLinks/redis#02 (0.00s)
-    --- PASS: TestDuplicatedLinks/bleve (0.00s)
-    --- PASS: TestDuplicatedLinks/elastic (0.00s)
-    --- PASS: TestDuplicatedLinks/elastigo (0.00s)
-    --- PASS: TestDuplicatedLinks/goes (0.00s)
-    --- PASS: TestDuplicatedLinks/skizze (0.00s)
-    --- PASS: TestDuplicatedLinks/carbon (0.00s)
-    --- PASS: TestDuplicatedLinks/durafmt (0.00s)
-    --- PASS: TestDuplicatedLinks/go-persian-calendar (0.00s)
-    --- PASS: TestDuplicatedLinks/goweek (0.00s)
-    --- PASS: TestDuplicatedLinks/now (0.00s)
-    --- PASS: TestDuplicatedLinks/NullTime (0.00s)
-    --- PASS: TestDuplicatedLinks/timeutil (0.00s)
-    --- PASS: TestDuplicatedLinks/celeriac (0.00s)
-    --- PASS: TestDuplicatedLinks/flowgraph (0.00s)
-    --- PASS: TestDuplicatedLinks/gleam (0.00s)
-    --- PASS: TestDuplicatedLinks/glow (0.00s)
-    --- PASS: TestDuplicatedLinks/go-jump (0.00s)
-    --- PASS: TestDuplicatedLinks/gorpc (0.00s)
-    --- PASS: TestDuplicatedLinks/grpc-go (0.00s)
-    --- PASS: TestDuplicatedLinks/hprose (0.00s)
-    --- PASS: TestDuplicatedLinks/jsonrpc (0.00s)
-    --- PASS: TestDuplicatedLinks/jsonrpc#01 (0.00s)
-    --- PASS: TestDuplicatedLinks/micro (0.00s)
-    --- PASS: TestDuplicatedLinks/NATS (0.00s)
-    --- PASS: TestDuplicatedLinks/raft (0.00s)
-    --- PASS: TestDuplicatedLinks/raft#01 (0.00s)
-    --- PASS: TestDuplicatedLinks/ringpop-go (0.00s)
-    --- PASS: TestDuplicatedLinks/rpcx (0.00s)
-    --- PASS: TestDuplicatedLinks/sleuth (0.00s)
-    --- PASS: TestDuplicatedLinks/ZeroMQ (0.00s)
-    --- PASS: TestDuplicatedLinks/tendermint (0.00s)
-    --- PASS: TestDuplicatedLinks/torrent (0.00s)
-    --- PASS: TestDuplicatedLinks/dht (0.00s)
-    --- PASS: TestDuplicatedLinks/go-peerflix (0.00s)
-    --- PASS: TestDuplicatedLinks/douceur (0.00s)
-    --- PASS: TestDuplicatedLinks/email (0.00s)
-    --- PASS: TestDuplicatedLinks/go-dkim (0.00s)
-    --- PASS: TestDuplicatedLinks/go-imap (0.00s)
-    --- PASS: TestDuplicatedLinks/go-message (0.00s)
-    --- PASS: TestDuplicatedLinks/Gomail (0.00s)
-    --- PASS: TestDuplicatedLinks/Hectane (0.00s)
-    --- PASS: TestDuplicatedLinks/MailHog (0.00s)
-    --- PASS: TestDuplicatedLinks/SendGrid (0.00s)
-    --- PASS: TestDuplicatedLinks/smtp (0.00s)
-    --- PASS: TestDuplicatedLinks/agora (0.00s)
-    --- PASS: TestDuplicatedLinks/anko (0.00s)
-    --- PASS: TestDuplicatedLinks/gisp (0.00s)
-    --- PASS: TestDuplicatedLinks/go-duktape (0.00s)
-    --- PASS: TestDuplicatedLinks/go-lua (0.00s)
-    --- PASS: TestDuplicatedLinks/go-php (0.00s)
-    --- PASS: TestDuplicatedLinks/go-python (0.00s)
-    --- PASS: TestDuplicatedLinks/golua (0.00s)
-    --- PASS: TestDuplicatedLinks/gopher-lua (0.00s)
-    --- PASS: TestDuplicatedLinks/ngaro (0.00s)
-    --- PASS: TestDuplicatedLinks/otto (0.00s)
-    --- PASS: TestDuplicatedLinks/purl (0.00s)
-    --- PASS: TestDuplicatedLinks/accounting (0.00s)
-    --- PASS: TestDuplicatedLinks/decimal (0.00s)
-    --- PASS: TestDuplicatedLinks/vat (0.00s)
-    --- PASS: TestDuplicatedLinks/bind (0.00s)
-    --- PASS: TestDuplicatedLinks/binding (0.00s)
-    --- PASS: TestDuplicatedLinks/conform (0.00s)
-    --- PASS: TestDuplicatedLinks/form (0.00s)
-    --- PASS: TestDuplicatedLinks/formam (0.00s)
-    --- PASS: TestDuplicatedLinks/forms (0.00s)
-    --- PASS: TestDuplicatedLinks/gorilla/csrf (0.00s)
-    --- PASS: TestDuplicatedLinks/nosurf (0.00s)
-    --- PASS: TestDuplicatedLinks/Azul3D (0.00s)
-    --- PASS: TestDuplicatedLinks/Ebiten (0.00s)
-    --- PASS: TestDuplicatedLinks/engo (0.00s)
-    --- PASS: TestDuplicatedLinks/GarageEngine (0.00s)
-    --- PASS: TestDuplicatedLinks/glop (0.00s)
-    --- PASS: TestDuplicatedLinks/go-astar (0.00s)
-    --- PASS: TestDuplicatedLinks/go-collada (0.00s)
-    --- PASS: TestDuplicatedLinks/go-sdl2 (0.00s)
-    --- PASS: TestDuplicatedLinks/Simple_DirectMedia_Layer (0.00s)
-    --- PASS: TestDuplicatedLinks/go3d (0.00s)
-    --- PASS: TestDuplicatedLinks/gonet (0.00s)
-    --- PASS: TestDuplicatedLinks/Leaf (0.00s)
-    --- PASS: TestDuplicatedLinks/termloop (0.00s)
-    --- PASS: TestDuplicatedLinks/efaceconv (0.00s)
-    --- PASS: TestDuplicatedLinks/gen (0.00s)
-    --- PASS: TestDuplicatedLinks/go-linq (0.00s)
-    --- PASS: TestDuplicatedLinks/interfaces (0.00s)
-    --- PASS: TestDuplicatedLinks/pkgreflect (0.00s)
-    --- PASS: TestDuplicatedLinks/gopherjs (0.00s)
-    --- PASS: TestDuplicatedLinks/llgo (0.00s)
-    --- PASS: TestDuplicatedLinks/tardisgo (0.00s)
-    --- PASS: TestDuplicatedLinks/go-flow (0.00s)
-    --- PASS: TestDuplicatedLinks/goworker (0.00s)
-    --- PASS: TestDuplicatedLinks/grpool (0.00s)
-    --- PASS: TestDuplicatedLinks/pool (0.00s)
-    --- PASS: TestDuplicatedLinks/tunny (0.00s)
-    --- PASS: TestDuplicatedLinks/go-gtk (0.00s)
-    --- PASS: TestDuplicatedLinks/go-qml (0.00s)
-    --- PASS: TestDuplicatedLinks/goqt (0.00s)
-    --- PASS: TestDuplicatedLinks/gosx-notifier (0.00s)
-    --- PASS: TestDuplicatedLinks/gotk3 (0.00s)
-    --- PASS: TestDuplicatedLinks/qt (0.00s)
-    --- PASS: TestDuplicatedLinks/sciter (0.00s)
-    --- PASS: TestDuplicatedLinks/systray (0.00s)
-    --- PASS: TestDuplicatedLinks/trayhost (0.00s)
-    --- PASS: TestDuplicatedLinks/ui (0.00s)
-    --- PASS: TestDuplicatedLinks/walk (0.00s)
-    --- PASS: TestDuplicatedLinks/go-hardware (0.00s)
-    --- PASS: TestDuplicatedLinks/bild (0.00s)
-    --- PASS: TestDuplicatedLinks/bimg (0.00s)
-    --- PASS: TestDuplicatedLinks/geopattern (0.00s)
-    --- PASS: TestDuplicatedLinks/gg (0.00s)
-    --- PASS: TestDuplicatedLinks/gift (0.00s)
-    --- PASS: TestDuplicatedLinks/go-cairo (0.00s)
-    --- PASS: TestDuplicatedLinks/go-gd (0.00s)
-    --- PASS: TestDuplicatedLinks/go-nude (0.00s)
-    --- PASS: TestDuplicatedLinks/go-opencv (0.00s)
-    --- PASS: TestDuplicatedLinks/go-webcolors (0.00s)
-    --- PASS: TestDuplicatedLinks/imagick (0.00s)
-    --- PASS: TestDuplicatedLinks/imaginary (0.00s)
-    --- PASS: TestDuplicatedLinks/imaging (0.00s)
-    --- PASS: TestDuplicatedLinks/img (0.00s)
-    --- PASS: TestDuplicatedLinks/ln (0.00s)
-    --- PASS: TestDuplicatedLinks/mpo (0.00s)
-    --- PASS: TestDuplicatedLinks/picfit (0.00s)
-    --- PASS: TestDuplicatedLinks/pt (0.00s)
-    --- PASS: TestDuplicatedLinks/resize (0.00s)
-    --- PASS: TestDuplicatedLinks/rez (0.00s)
-    --- PASS: TestDuplicatedLinks/smartcrop (0.00s)
-    --- PASS: TestDuplicatedLinks/svgo (0.00s)
-    --- PASS: TestDuplicatedLinks/tga (0.00s)
-    --- PASS: TestDuplicatedLinks/glog (0.00s)
-    --- PASS: TestDuplicatedLinks/go-log (0.00s)
-    --- PASS: TestDuplicatedLinks/go-log#01 (0.00s)
-    --- PASS: TestDuplicatedLinks/go-logger (0.00s)
-    --- PASS: TestDuplicatedLinks/gologger (0.00s)
-    --- PASS: TestDuplicatedLinks/gone/log (0.00s)
-    --- PASS: TestDuplicatedLinks/log (0.00s)
-    --- PASS: TestDuplicatedLinks/log#01 (0.00s)
-    --- PASS: TestDuplicatedLinks/log-voyage (0.00s)
-    --- PASS: TestDuplicatedLinks/log15 (0.00s)
-    --- PASS: TestDuplicatedLinks/logex (0.00s)
-    --- PASS: TestDuplicatedLinks/logger (0.00s)
-    --- PASS: TestDuplicatedLinks/logrus (0.00s)
-    --- PASS: TestDuplicatedLinks/logrusly (0.00s)
-    --- PASS: TestDuplicatedLinks/logrus#01 (0.00s)
-    --- PASS: TestDuplicatedLinks/Loggly (0.00s)
-    --- PASS: TestDuplicatedLinks/logutils (0.00s)
-    --- PASS: TestDuplicatedLinks/logxi (0.00s)
-    --- PASS: TestDuplicatedLinks/lumberjack (0.00s)
-    --- PASS: TestDuplicatedLinks/mlog (0.00s)
-    --- PASS: TestDuplicatedLinks/ozzo-log (0.00s)
-    --- PASS: TestDuplicatedLinks/seelog (0.00s)
-    --- PASS: TestDuplicatedLinks/slf (0.00s)
-    --- PASS: TestDuplicatedLinks/slog (0.00s)
-    --- PASS: TestDuplicatedLinks/stdlog (0.00s)
-    --- PASS: TestDuplicatedLinks/tail (0.00s)
-    --- PASS: TestDuplicatedLinks/xlog (0.00s)
-    --- PASS: TestDuplicatedLinks/xlog#01 (0.00s)
-    --- PASS: TestDuplicatedLinks/zap (0.00s)
-    --- PASS: TestDuplicatedLinks/bayesian (0.00s)
-    --- PASS: TestDuplicatedLinks/CloudForest (0.00s)
-    --- PASS: TestDuplicatedLinks/gago (0.00s)
-    --- PASS: TestDuplicatedLinks/go-fann (0.00s)
-    --- PASS: TestDuplicatedLinks/go-galib (0.00s)
-    --- PASS: TestDuplicatedLinks/go-pr (0.00s)
-    --- PASS: TestDuplicatedLinks/gobrain (0.00s)
-    --- PASS: TestDuplicatedLinks/godist (0.00s)
-    --- PASS: TestDuplicatedLinks/goga (0.00s)
-    --- PASS: TestDuplicatedLinks/GoLearn (0.00s)
-    --- PASS: TestDuplicatedLinks/golinear (0.00s)
-    --- PASS: TestDuplicatedLinks/goml (0.00s)
-    --- PASS: TestDuplicatedLinks/goRecommend (0.00s)
-    --- PASS: TestDuplicatedLinks/gorgonia (0.00s)
-    --- PASS: TestDuplicatedLinks/libsvm (0.00s)
-    --- PASS: TestDuplicatedLinks/mlgo (0.00s)
-    --- PASS: TestDuplicatedLinks/neural-go (0.00s)
-    --- PASS: TestDuplicatedLinks/probab (0.00s)
-    --- PASS: TestDuplicatedLinks/regommend (0.00s)
-    --- PASS: TestDuplicatedLinks/shield (0.00s)
-    --- PASS: TestDuplicatedLinks/Centrifugo (0.00s)
-    --- PASS: TestDuplicatedLinks/dbus (0.00s)
-    --- PASS: TestDuplicatedLinks/drone-line (0.00s)
-    --- PASS: TestDuplicatedLinks/Line (0.00s)
-    --- PASS: TestDuplicatedLinks/emitter (0.00s)
-    --- PASS: TestDuplicatedLinks/EventBus (0.00s)
-    --- PASS: TestDuplicatedLinks/go-longpoll (0.00s)
-    --- PASS: TestDuplicatedLinks/go-notify (0.00s)
-    --- PASS: TestDuplicatedLinks/go-nsq (0.00s)
-    --- PASS: TestDuplicatedLinks/gopush-cluster (0.00s)
-    --- PASS: TestDuplicatedLinks/gorush (0.00s)
-    --- PASS: TestDuplicatedLinks/APNs2 (0.00s)
-    --- PASS: TestDuplicatedLinks/GCM (0.00s)
-    --- PASS: TestDuplicatedLinks/guble (0.00s)
-    --- PASS: TestDuplicatedLinks/machinery (0.00s)
-    --- PASS: TestDuplicatedLinks/mangos (0.00s)
-    --- PASS: TestDuplicatedLinks/NATS_Go_Client (0.00s)
-    --- PASS: TestDuplicatedLinks/oplog (0.00s)
-    --- PASS: TestDuplicatedLinks/pubsub (0.00s)
-    --- PASS: TestDuplicatedLinks/RapidMQ (0.00s)
-    --- PASS: TestDuplicatedLinks/sarama (0.00s)
-    --- PASS: TestDuplicatedLinks/Uniqush-Push (0.00s)
-    --- PASS: TestDuplicatedLinks/zmq4 (0.00s)
-    --- PASS: TestDuplicatedLinks/version_3 (0.00s)
-    --- PASS: TestDuplicatedLinks/version_2 (0.00s)
-    --- PASS: TestDuplicatedLinks/afero (0.00s)
-    --- PASS: TestDuplicatedLinks/archiver (0.00s)
-    --- PASS: TestDuplicatedLinks/autoflags (0.00s)
-    --- PASS: TestDuplicatedLinks/banner (0.00s)
-    --- PASS: TestDuplicatedLinks/battery (0.00s)
-    --- PASS: TestDuplicatedLinks/bitio (0.00s)
-    --- PASS: TestDuplicatedLinks/browscap_go (0.00s)
-    --- PASS: TestDuplicatedLinks/Browser_Capabilities_Project (0.00s)
-    --- PASS: TestDuplicatedLinks/conv (0.00s)
-    --- PASS: TestDuplicatedLinks/datacounter (0.00s)
-    --- PASS: TestDuplicatedLinks/errors (0.00s)
-    --- PASS: TestDuplicatedLinks/go-chat-bot (0.00s)
-    --- PASS: TestDuplicatedLinks/go-commons-pool (0.00s)
-    --- PASS: TestDuplicatedLinks/go-multierror (0.00s)
-    --- PASS: TestDuplicatedLinks/go-openapi (0.00s)
-    --- PASS: TestDuplicatedLinks/go-shortid (0.00s)
-    --- PASS: TestDuplicatedLinks/go.uuid (0.00s)
-    --- PASS: TestDuplicatedLinks/gopsutil (0.00s)
-    --- PASS: TestDuplicatedLinks/gosms (0.00s)
-    --- PASS: TestDuplicatedLinks/gountries (0.00s)
-    --- PASS: TestDuplicatedLinks/hanu (0.00s)
-    --- PASS: TestDuplicatedLinks/health (0.00s)
-    --- PASS: TestDuplicatedLinks/indigo (0.00s)
-    --- PASS: TestDuplicatedLinks/jobs (0.00s)
-    --- PASS: TestDuplicatedLinks/margelet (0.00s)
-    --- PASS: TestDuplicatedLinks/notify (0.00s)
-    --- PASS: TestDuplicatedLinks/secdl (0.00s)
-    --- PASS: TestDuplicatedLinks/stats (0.00s)
-    --- PASS: TestDuplicatedLinks/werr (0.00s)
-    --- PASS: TestDuplicatedLinks/xkg (0.00s)
-    --- PASS: TestDuplicatedLinks/xstrings (0.00s)
-    --- PASS: TestDuplicatedLinks/dpar (0.00s)
-    --- PASS: TestDuplicatedLinks/go-eco (0.00s)
-    --- PASS: TestDuplicatedLinks/go-i18n (0.00s)
-    --- PASS: TestDuplicatedLinks/go-mystem (0.00s)
-    --- PASS: TestDuplicatedLinks/go-nlp (0.00s)
-    --- PASS: TestDuplicatedLinks/go-stem (0.00s)
-    --- PASS: TestDuplicatedLinks/go-unidecode (0.00s)
-    --- PASS: TestDuplicatedLinks/go2vec (0.00s)
-    --- PASS: TestDuplicatedLinks/gojieba (0.00s)
-    --- PASS: TestDuplicatedLinks/jieba (0.00s)
-    --- PASS: TestDuplicatedLinks/golibstemmer (0.00s)
-    --- PASS: TestDuplicatedLinks/gounidecode (0.00s)
-    --- PASS: TestDuplicatedLinks/icu (0.00s)
-    --- PASS: TestDuplicatedLinks/libtextcat (0.00s)
-    --- PASS: TestDuplicatedLinks/MMSEGO (0.00s)
-    --- PASS: TestDuplicatedLinks/MMSEG (0.00s)
-    --- PASS: TestDuplicatedLinks/paicehusk (0.00s)
-    --- PASS: TestDuplicatedLinks/porter (0.00s)
-    --- PASS: TestDuplicatedLinks/porter2 (0.00s)
-    --- PASS: TestDuplicatedLinks/RAKE.go (0.00s)
-    --- PASS: TestDuplicatedLinks/segment (0.00s)
-    --- PASS: TestDuplicatedLinks/Unicode_Standard_Annex_#29 (0.00s)
-    --- PASS: TestDuplicatedLinks/sentences (0.00s)
-    --- PASS: TestDuplicatedLinks/snowball (0.00s)
-    --- PASS: TestDuplicatedLinks/Snowball_native (0.00s)
-    --- PASS: TestDuplicatedLinks/stemmer (0.00s)
-    --- PASS: TestDuplicatedLinks/textcat (0.00s)
-    --- PASS: TestDuplicatedLinks/arp (0.00s)
-    --- PASS: TestDuplicatedLinks/buffstreams (0.00s)
-    --- PASS: TestDuplicatedLinks/canopus (0.00s)
-    --- PASS: TestDuplicatedLinks/dhcp6 (0.00s)
-    --- PASS: TestDuplicatedLinks/dns (0.00s)
-    --- PASS: TestDuplicatedLinks/ether (0.00s)
-    --- PASS: TestDuplicatedLinks/ethernet (0.00s)
-    --- PASS: TestDuplicatedLinks/fasthttp (0.00s)
-    --- PASS: TestDuplicatedLinks/ftp (0.00s)
-    --- PASS: TestDuplicatedLinks/RFC_959 (0.00s)
-    --- PASS: TestDuplicatedLinks/go-getter (0.00s)
-    --- PASS: TestDuplicatedLinks/go-stun (0.00s)
-    --- PASS: TestDuplicatedLinks/gobgp (0.00s)
-    --- PASS: TestDuplicatedLinks/golibwireshark (0.00s)
-    --- PASS: TestDuplicatedLinks/gopacket (0.00s)
-    --- PASS: TestDuplicatedLinks/gopcap (0.00s)
-    --- PASS: TestDuplicatedLinks/goshark (0.00s)
-    --- PASS: TestDuplicatedLinks/gosnmp (0.00s)
-    --- PASS: TestDuplicatedLinks/gotcp (0.00s)
-    --- PASS: TestDuplicatedLinks/grab (0.00s)
-    --- PASS: TestDuplicatedLinks/graval (0.00s)
-    --- PASS: TestDuplicatedLinks/jazigo (0.00s)
-    --- PASS: TestDuplicatedLinks/kcp-go (0.00s)
-    --- PASS: TestDuplicatedLinks/kcptun (0.00s)
-    --- PASS: TestDuplicatedLinks/lhttp (0.00s)
-    --- PASS: TestDuplicatedLinks/linkio (0.00s)
-    --- PASS: TestDuplicatedLinks/llb (0.00s)
-    --- PASS: TestDuplicatedLinks/mdns (0.00s)
-    --- PASS: TestDuplicatedLinks/mqttPaho (0.00s)
-    --- PASS: TestDuplicatedLinks/portproxy (0.00s)
-    --- PASS: TestDuplicatedLinks/publicip (0.00s)
-    --- PASS: TestDuplicatedLinks/raw (0.00s)
-    --- PASS: TestDuplicatedLinks/sftp (0.00s)
-    --- PASS: TestDuplicatedLinks/https://filezilla-project.org/specs/draft-ietf-secsh-filexfer-02.txt (0.00s)
-    --- PASS: TestDuplicatedLinks/ssh (0.00s)
-    --- PASS: TestDuplicatedLinks/sslb (0.00s)
-    --- PASS: TestDuplicatedLinks/tcp_server (0.00s)
-    --- PASS: TestDuplicatedLinks/utp (0.00s)
-    --- PASS: TestDuplicatedLinks/winrm (0.00s)
-    --- PASS: TestDuplicatedLinks/xtcp (0.00s)
-    --- PASS: TestDuplicatedLinks/gl (0.00s)
-    --- PASS: TestDuplicatedLinks/glfw (0.00s)
-    --- PASS: TestDuplicatedLinks/goxjs/gl (0.00s)
-    --- PASS: TestDuplicatedLinks/goxjs/glfw (0.00s)
-    --- PASS: TestDuplicatedLinks/mathgl (0.00s)
-    --- PASS: TestDuplicatedLinks/beego_orm (0.00s)
-    --- PASS: TestDuplicatedLinks/go-store (0.00s)
-    --- PASS: TestDuplicatedLinks/gomodel (0.00s)
-    --- PASS: TestDuplicatedLinks/GORM (0.00s)
-    --- PASS: TestDuplicatedLinks/gorp (0.00s)
-    --- PASS: TestDuplicatedLinks/QBS (0.00s)
-    --- PASS: TestDuplicatedLinks/reform (0.00s)
-    --- PASS: TestDuplicatedLinks/SQLBoiler (0.00s)
-    --- PASS: TestDuplicatedLinks/Storm (0.00s)
-    --- PASS: TestDuplicatedLinks/upper.io/db (0.00s)
-    --- PASS: TestDuplicatedLinks/Xorm (0.00s)
-    --- PASS: TestDuplicatedLinks/Zoom (0.00s)
-    --- PASS: TestDuplicatedLinks/gigo (0.00s)
-    --- PASS: TestDuplicatedLinks/glide (0.00s)
-    --- PASS: TestDuplicatedLinks/godep (0.00s)
-    --- PASS: TestDuplicatedLinks/gom (0.00s)
-    --- PASS: TestDuplicatedLinks/goop (0.00s)
-    --- PASS: TestDuplicatedLinks/gopm (0.00s)
-    --- PASS: TestDuplicatedLinks/govendor (0.00s)
-    --- PASS: TestDuplicatedLinks/gpm (0.00s)
-    --- PASS: TestDuplicatedLinks/gvt (0.00s)
-    --- PASS: TestDuplicatedLinks/johnny-deps (0.00s)
-    --- PASS: TestDuplicatedLinks/nut (0.00s)
-    --- PASS: TestDuplicatedLinks/VenGO (0.00s)
-    --- PASS: TestDuplicatedLinks/graphql (0.00s)
-    --- PASS: TestDuplicatedLinks/graphql#01 (0.00s)
-    --- PASS: TestDuplicatedLinks/graphql-go (0.00s)
-    --- PASS: TestDuplicatedLinks/jsonql (0.00s)
-    --- PASS: TestDuplicatedLinks/esc (0.00s)
-    --- PASS: TestDuplicatedLinks/fileb0x (0.00s)
-    --- PASS: TestDuplicatedLinks/go-bindata (0.00s)
-    --- PASS: TestDuplicatedLinks/go-embed (0.00s)
-    --- PASS: TestDuplicatedLinks/go-resources (0.00s)
-    --- PASS: TestDuplicatedLinks/go.rice (0.00s)
-    --- PASS: TestDuplicatedLinks/statics (0.00s)
-    --- PASS: TestDuplicatedLinks/statik (0.00s)
-    --- PASS: TestDuplicatedLinks/vfsgen (0.00s)
-    --- PASS: TestDuplicatedLinks/blas (0.00s)
-    --- PASS: TestDuplicatedLinks/chart (0.00s)
-    --- PASS: TestDuplicatedLinks/evaler (0.00s)
-    --- PASS: TestDuplicatedLinks/ewma (0.00s)
-    --- PASS: TestDuplicatedLinks/geom (0.00s)
-    --- PASS: TestDuplicatedLinks/go-dsp (0.00s)
-    --- PASS: TestDuplicatedLinks/go-fn (0.00s)
-    --- PASS: TestDuplicatedLinks/go-gt (0.00s)
-    --- PASS: TestDuplicatedLinks/go.matrix (0.00s)
-    --- PASS: TestDuplicatedLinks/gocomplex (0.00s)
-    --- PASS: TestDuplicatedLinks/gofrac (0.00s)
-    --- PASS: TestDuplicatedLinks/gohistogram (0.00s)
-    --- PASS: TestDuplicatedLinks/gonum/mat64 (0.00s)
-    --- PASS: TestDuplicatedLinks/gonum/plot (0.00s)
-    --- PASS: TestDuplicatedLinks/goraph (0.00s)
-    --- PASS: TestDuplicatedLinks/gostat (0.00s)
-    --- PASS: TestDuplicatedLinks/mudlark-go (0.00s)
-    --- PASS: TestDuplicatedLinks/ode (0.00s)
-    --- PASS: TestDuplicatedLinks/pagerank (0.00s)
-    --- PASS: TestDuplicatedLinks/PiHex (0.00s)
-    --- PASS: TestDuplicatedLinks/stats#01 (0.00s)
-    --- PASS: TestDuplicatedLinks/streamtools (0.00s)
-    --- PASS: TestDuplicatedLinks/vectormath (0.00s)
-    --- PASS: TestDuplicatedLinks/acmetool (0.00s)
-    --- PASS: TestDuplicatedLinks/BadActor (0.00s)
-    --- PASS: TestDuplicatedLinks/go-yara (0.00s)
-    --- PASS: TestDuplicatedLinks/YARA (0.00s)
-    --- PASS: TestDuplicatedLinks/lego (0.00s)
-    --- PASS: TestDuplicatedLinks/passlib (0.00s)
-    --- PASS: TestDuplicatedLinks/simple-scrypt (0.00s)
-    --- PASS: TestDuplicatedLinks/asn1 (0.00s)
-    --- PASS: TestDuplicatedLinks/colfer (0.00s)
-    --- PASS: TestDuplicatedLinks/go-capnproto (0.00s)
-    --- PASS: TestDuplicatedLinks/bambam (0.00s)
-    --- PASS: TestDuplicatedLinks/go-codec (0.00s)
-    --- PASS: TestDuplicatedLinks/gogoprotobuf (0.00s)
-    --- PASS: TestDuplicatedLinks/goprotobuf (0.00s)
-    --- PASS: TestDuplicatedLinks/mapstructure (0.00s)
-    --- PASS: TestDuplicatedLinks/php_session_decoder (0.00s)
-    --- PASS: TestDuplicatedLinks/structomap (0.00s)
-    --- PASS: TestDuplicatedLinks/algernon (0.00s)
-    --- PASS: TestDuplicatedLinks/Caddy (0.00s)
-    --- PASS: TestDuplicatedLinks/consul (0.00s)
-    --- PASS: TestDuplicatedLinks/devd (0.00s)
-    --- PASS: TestDuplicatedLinks/etcd (0.00s)
-    --- PASS: TestDuplicatedLinks/minio (0.00s)
-    --- PASS: TestDuplicatedLinks/nsq (0.00s)
-    --- PASS: TestDuplicatedLinks/yakvs (0.00s)
-    --- PASS: TestDuplicatedLinks/ace (0.00s)
-    --- PASS: TestDuplicatedLinks/amber (0.00s)
-    --- PASS: TestDuplicatedLinks/damsel (0.00s)
-    --- PASS: TestDuplicatedLinks/ego (0.00s)
-    --- PASS: TestDuplicatedLinks/fasttemplate (0.00s)
-    --- PASS: TestDuplicatedLinks/text/template (0.00s)
-    --- PASS: TestDuplicatedLinks/gofpdf (0.00s)
-    --- PASS: TestDuplicatedLinks/jet (0.00s)
-    --- PASS: TestDuplicatedLinks/kasia.go (0.00s)
-    --- PASS: TestDuplicatedLinks/mustache (0.00s)
-    --- PASS: TestDuplicatedLinks/pongo2 (0.00s)
-    --- PASS: TestDuplicatedLinks/quicktemplate (0.00s)
-    --- PASS: TestDuplicatedLinks/raymond (0.00s)
-    --- PASS: TestDuplicatedLinks/Razor (0.00s)
-    --- PASS: TestDuplicatedLinks/Soy (0.00s)
-    --- PASS: TestDuplicatedLinks/official_spec (0.00s)
-    --- PASS: TestDuplicatedLinks/assert (0.00s)
-    --- PASS: TestDuplicatedLinks/badio (0.00s)
-    --- PASS: TestDuplicatedLinks/baloo (0.00s)
-    --- PASS: TestDuplicatedLinks/bro (0.00s)
-    --- PASS: TestDuplicatedLinks/dsunit (0.00s)
-    --- PASS: TestDuplicatedLinks/frisby (0.00s)
-    --- PASS: TestDuplicatedLinks/ginkgo (0.00s)
-    --- PASS: TestDuplicatedLinks/go-carpet (0.00s)
-    --- PASS: TestDuplicatedLinks/go-mutesting (0.00s)
-    --- PASS: TestDuplicatedLinks/go-vcr (0.00s)
-    --- PASS: TestDuplicatedLinks/goblin (0.00s)
-    --- PASS: TestDuplicatedLinks/gocheck (0.00s)
-    --- PASS: TestDuplicatedLinks/GoConvey (0.00s)
-    --- PASS: TestDuplicatedLinks/godog (0.00s)
-    --- PASS: TestDuplicatedLinks/gofight (0.00s)
-    --- PASS: TestDuplicatedLinks/gomega (0.00s)
-    --- PASS: TestDuplicatedLinks/GoSpec (0.00s)
-    --- PASS: TestDuplicatedLinks/gospecify (0.00s)
-    --- PASS: TestDuplicatedLinks/gosuite (0.00s)
-    --- PASS: TestDuplicatedLinks/Hamcrest (0.00s)
-    --- PASS: TestDuplicatedLinks/httpexpect (0.00s)
-    --- PASS: TestDuplicatedLinks/restit (0.00s)
-    --- PASS: TestDuplicatedLinks/testfixtures (0.00s)
-    --- PASS: TestDuplicatedLinks/Testify (0.00s)
-    --- PASS: TestDuplicatedLinks/counterfeiter (0.00s)
-    --- PASS: TestDuplicatedLinks/go-sqlmock (0.00s)
-    --- PASS: TestDuplicatedLinks/go-txdb (0.00s)
-    --- PASS: TestDuplicatedLinks/gock (0.00s)
-    --- PASS: TestDuplicatedLinks/gomock (0.00s)
-    --- PASS: TestDuplicatedLinks/govcr (0.00s)
-    --- PASS: TestDuplicatedLinks/mockhttp (0.00s)
-    --- PASS: TestDuplicatedLinks/go-fuzz (0.00s)
-    --- PASS: TestDuplicatedLinks/gofuzz (0.00s)
-    --- PASS: TestDuplicatedLinks/Tavor (0.00s)
-    --- PASS: TestDuplicatedLinks/allot (0.00s)
-    --- PASS: TestDuplicatedLinks/bbConvert (0.00s)
-    --- PASS: TestDuplicatedLinks/blackfriday (0.00s)
-    --- PASS: TestDuplicatedLinks/github_flavored_markdown (0.00s)
-    --- PASS: TestDuplicatedLinks/bluemonday (0.00s)
-    --- PASS: TestDuplicatedLinks/editorconfig-core-go (0.00s)
-    --- PASS: TestDuplicatedLinks/enca (0.00s)
-    --- PASS: TestDuplicatedLinks/libenca (0.00s)
-    --- PASS: TestDuplicatedLinks/genex (0.00s)
-    --- PASS: TestDuplicatedLinks/go-humanize (0.00s)
-    --- PASS: TestDuplicatedLinks/go-nmea (0.00s)
-    --- PASS: TestDuplicatedLinks/go-pkg-rss (0.00s)
-    --- PASS: TestDuplicatedLinks/go-pkg-xmlx (0.00s)
-    --- PASS: TestDuplicatedLinks/go-runewidth (0.00s)
-    --- PASS: TestDuplicatedLinks/go-slugify (0.00s)
-    --- PASS: TestDuplicatedLinks/gofeed (0.00s)
-    --- PASS: TestDuplicatedLinks/gographviz (0.00s)
-    --- PASS: TestDuplicatedLinks/gommon/bytes (0.00s)
-    --- PASS: TestDuplicatedLinks/gonameparts (0.00s)
-    --- PASS: TestDuplicatedLinks/GoQuery (0.00s)
-    --- PASS: TestDuplicatedLinks/goregen (0.00s)
-    --- PASS: TestDuplicatedLinks/gotext (0.00s)
-    --- PASS: TestDuplicatedLinks/guesslanguage (0.00s)
-    --- PASS: TestDuplicatedLinks/inject (0.00s)
-    --- PASS: TestDuplicatedLinks/mxj (0.00s)
-    --- PASS: TestDuplicatedLinks/sh (0.00s)
-    --- PASS: TestDuplicatedLinks/slug (0.00s)
-    --- PASS: TestDuplicatedLinks/Slugify (0.00s)
-    --- PASS: TestDuplicatedLinks/toml (0.00s)
-    --- PASS: TestDuplicatedLinks/gotabulate (0.00s)
-    --- PASS: TestDuplicatedLinks/kace (0.00s)
-    --- PASS: TestDuplicatedLinks/parseargs-go (0.00s)
-    --- PASS: TestDuplicatedLinks/parth (0.00s)
-    --- PASS: TestDuplicatedLinks/xurls (0.00s)
-    --- PASS: TestDuplicatedLinks/amazon-product-advertising-api (0.00s)
-    --- PASS: TestDuplicatedLinks/Amazon_Product_Advertising_API (0.00s)
-    --- PASS: TestDuplicatedLinks/anaconda (0.00s)
-    --- PASS: TestDuplicatedLinks/aws-sdk-go (0.00s)
-    --- PASS: TestDuplicatedLinks/brewerydb (0.00s)
-    --- PASS: TestDuplicatedLinks/cachet (0.00s)
-    --- PASS: TestDuplicatedLinks/Cachet_(open_source_status_page_system) (0.00s)
-    --- PASS: TestDuplicatedLinks/circleci (0.00s)
-    --- PASS: TestDuplicatedLinks/clarifai (0.00s)
-    --- PASS: TestDuplicatedLinks/discordgo (0.00s)
-    --- PASS: TestDuplicatedLinks/facebook (0.00s)
-    --- PASS: TestDuplicatedLinks/fcm (0.00s)
-    --- PASS: TestDuplicatedLinks/gads (0.00s)
-    --- PASS: TestDuplicatedLinks/gami (0.00s)
-    --- PASS: TestDuplicatedLinks/gcm (0.00s)
-    --- PASS: TestDuplicatedLinks/geo-golang (0.00s)
-    --- PASS: TestDuplicatedLinks/Google_Maps (0.00s)
-    --- PASS: TestDuplicatedLinks/MapQuest (0.00s)
-    --- PASS: TestDuplicatedLinks/Nominatim (0.00s)
-    --- PASS: TestDuplicatedLinks/OpenCage (0.00s)
-    --- PASS: TestDuplicatedLinks/HERE (0.00s)
-    --- PASS: TestDuplicatedLinks/Bing (0.00s)
-    --- PASS: TestDuplicatedLinks/Mapbox (0.00s)
-    --- PASS: TestDuplicatedLinks/OpenStreetMap (0.00s)
-    --- PASS: TestDuplicatedLinks/ghost (0.00s)
-    --- PASS: TestDuplicatedLinks/github (0.00s)
-    --- PASS: TestDuplicatedLinks/go-imgur (0.00s)
-    --- PASS: TestDuplicatedLinks/imgur (0.00s)
-    --- PASS: TestDuplicatedLinks/go-jira (0.00s)
-    --- PASS: TestDuplicatedLinks/Atlassian_JIRA (0.00s)
-    --- PASS: TestDuplicatedLinks/go-marathon (0.00s)
-    --- PASS: TestDuplicatedLinks/go-tgbot (0.00s)
-    --- PASS: TestDuplicatedLinks/go-trending (0.00s)
-    --- PASS: TestDuplicatedLinks/trending_repositories (0.00s)
-    --- PASS: TestDuplicatedLinks/developers (0.00s)
-    --- PASS: TestDuplicatedLinks/go-twitch (0.00s)
-    --- PASS: TestDuplicatedLinks/go-twitter (0.00s)
-    --- PASS: TestDuplicatedLinks/go-xkcd (0.00s)
-    --- PASS: TestDuplicatedLinks/goamz (0.00s)
-    --- PASS: TestDuplicatedLinks/goamz#01 (0.00s)
-    --- PASS: TestDuplicatedLinks/golyrics (0.00s)
-    --- PASS: TestDuplicatedLinks/GoMusicBrainz (0.00s)
-    --- PASS: TestDuplicatedLinks/google (0.00s)
-    --- PASS: TestDuplicatedLinks/google-analytics (0.00s)
-    --- PASS: TestDuplicatedLinks/google-cloud (0.00s)
-    --- PASS: TestDuplicatedLinks/google-email-audit-api (0.00s)
-    --- PASS: TestDuplicatedLinks/Google_G_Suite_Email_Audit_API (0.00s)
-    --- PASS: TestDuplicatedLinks/gostorm (0.00s)
-    --- PASS: TestDuplicatedLinks/hipchat (0.00s)
-    --- PASS: TestDuplicatedLinks/hipchat_(xmpp) (0.00s)
-    --- PASS: TestDuplicatedLinks/Medium (0.00s)
-    --- PASS: TestDuplicatedLinks/megos (0.00s)
-    --- PASS: TestDuplicatedLinks/Apache_Mesos (0.00s)
-    --- PASS: TestDuplicatedLinks/micha (0.00s)
-    --- PASS: TestDuplicatedLinks/minio-go (0.00s)
-    --- PASS: TestDuplicatedLinks/mixpanel (0.00s)
-    --- PASS: TestDuplicatedLinks/paypal (0.00s)
-    --- PASS: TestDuplicatedLinks/playlyfe (0.00s)
-    --- PASS: TestDuplicatedLinks/pushover (0.00s)
-    --- PASS: TestDuplicatedLinks/rrdaclient (0.00s)
-    --- PASS: TestDuplicatedLinks/shopify (0.00s)
-    --- PASS: TestDuplicatedLinks/slack (0.00s)
-    --- PASS: TestDuplicatedLinks/smite (0.00s)
-    --- PASS: TestDuplicatedLinks/spotify (0.00s)
-    --- PASS: TestDuplicatedLinks/steam (0.00s)
-    --- PASS: TestDuplicatedLinks/stripe (0.00s)
-    --- PASS: TestDuplicatedLinks/tbot (0.00s)
-    --- PASS: TestDuplicatedLinks/telebot (0.00s)
-    --- PASS: TestDuplicatedLinks/telegram-bot-api (0.00s)
-    --- PASS: TestDuplicatedLinks/telegraph (0.00s)
-    --- PASS: TestDuplicatedLinks/textbelt (0.00s)
-    --- PASS: TestDuplicatedLinks/TheMovieDb (0.00s)
-    --- PASS: TestDuplicatedLinks/themoviedb.org (0.00s)
-    --- PASS: TestDuplicatedLinks/translate (0.00s)
-    --- PASS: TestDuplicatedLinks/tumblr (0.00s)
-    --- PASS: TestDuplicatedLinks/webhooks (0.00s)
-    --- PASS: TestDuplicatedLinks/abutil (0.00s)
-    --- PASS: TestDuplicatedLinks/apm (0.00s)
-    --- PASS: TestDuplicatedLinks/boilr (0.00s)
-    --- PASS: TestDuplicatedLinks/command (0.00s)
-    --- PASS: TestDuplicatedLinks/coop (0.00s)
-    --- PASS: TestDuplicatedLinks/Death (0.00s)
-    --- PASS: TestDuplicatedLinks/Deepcopier (0.00s)
-    --- PASS: TestDuplicatedLinks/delve (0.00s)
-    --- PASS: TestDuplicatedLinks/dlog (0.00s)
-    --- PASS: TestDuplicatedLinks/excelize (0.00s)
-    --- PASS: TestDuplicatedLinks/fastlz (0.00s)
-    --- PASS: TestDuplicatedLinks/FastLz (0.00s)
-    --- PASS: TestDuplicatedLinks/filetype (0.00s)
-    --- PASS: TestDuplicatedLinks/fzf (0.00s)
-    --- PASS: TestDuplicatedLinks/generate (0.00s)
-    --- PASS: TestDuplicatedLinks/gentleman (0.00s)
-    --- PASS: TestDuplicatedLinks/git-time-metric (0.00s)
-    --- PASS: TestDuplicatedLinks/go-bind-plugin (0.00s)
-    --- PASS: TestDuplicatedLinks/go-cron (0.00s)
-    --- PASS: TestDuplicatedLinks/go-debug (0.00s)
-    --- PASS: TestDuplicatedLinks/go-dry (0.00s)
-    --- PASS: TestDuplicatedLinks/go-rate (0.00s)
-    --- PASS: TestDuplicatedLinks/go-sitemap-generator (0.00s)
-    --- PASS: TestDuplicatedLinks/go-torch (0.00s)
-    --- PASS: TestDuplicatedLinks/go-trigger (0.00s)
-    --- PASS: TestDuplicatedLinks/go-underscore (0.00s)
-    --- PASS: TestDuplicatedLinks/goback (0.00s)
-    --- PASS: TestDuplicatedLinks/godaemon (0.00s)
-    --- PASS: TestDuplicatedLinks/godotenv (0.00s)
-    --- PASS: TestDuplicatedLinks/godropbox (0.00s)
-    --- PASS: TestDuplicatedLinks/gohper (0.00s)
-    --- PASS: TestDuplicatedLinks/gojq (0.00s)
-    --- PASS: TestDuplicatedLinks/golarm (0.00s)
-    --- PASS: TestDuplicatedLinks/golog (0.00s)
-    --- PASS: TestDuplicatedLinks/gopencils (0.00s)
-    --- PASS: TestDuplicatedLinks/goplaceholder (0.00s)
-    --- PASS: TestDuplicatedLinks/goreq (0.00s)
-    --- PASS: TestDuplicatedLinks/goreq#01 (0.00s)
-    --- PASS: TestDuplicatedLinks/gorequest (0.00s)
-    --- PASS: TestDuplicatedLinks/gotenv (0.00s)
-    --- PASS: TestDuplicatedLinks/grequests (0.00s)
-    --- PASS: TestDuplicatedLinks/htcat (0.00s)
-    --- PASS: TestDuplicatedLinks/httpcontrol (0.00s)
-    --- PASS: TestDuplicatedLinks/hystrix-go (0.00s)
-    --- PASS: TestDuplicatedLinks/JobRunner (0.00s)
-    --- PASS: TestDuplicatedLinks/jsonapi-errors (0.00s)
-    --- PASS: TestDuplicatedLinks/jsonf (0.00s)
-    --- PASS: TestDuplicatedLinks/jsongo (0.00s)
-    --- PASS: TestDuplicatedLinks/kazaam (0.00s)
-    --- PASS: TestDuplicatedLinks/lrserver (0.00s)
-    --- PASS: TestDuplicatedLinks/mc (0.00s)
-    --- PASS: TestDuplicatedLinks/mergo (0.00s)
-    --- PASS: TestDuplicatedLinks/minify (0.00s)
-    --- PASS: TestDuplicatedLinks/moldova (0.00s)
-    --- PASS: TestDuplicatedLinks/mp (0.00s)
-    --- PASS: TestDuplicatedLinks/multitick (0.00s)
-    --- PASS: TestDuplicatedLinks/netbug (0.00s)
-    --- PASS: TestDuplicatedLinks/ngrok (0.00s)
-    --- PASS: TestDuplicatedLinks/okrun (0.00s)
-    --- PASS: TestDuplicatedLinks/panicparse (0.00s)
-    --- PASS: TestDuplicatedLinks/peco (0.00s)
-    --- PASS: TestDuplicatedLinks/pester (0.00s)
-    --- PASS: TestDuplicatedLinks/pm (0.00s)
-    --- PASS: TestDuplicatedLinks/profile (0.00s)
-    --- PASS: TestDuplicatedLinks/realize (0.00s)
-    --- PASS: TestDuplicatedLinks/request (0.00s)
-    --- PASS: TestDuplicatedLinks/rerate (0.00s)
-    --- PASS: TestDuplicatedLinks/rerun (0.00s)
-    --- PASS: TestDuplicatedLinks/resty (0.00s)
-    --- PASS: TestDuplicatedLinks/robustly (0.00s)
-    --- PASS: TestDuplicatedLinks/scheduler (0.00s)
-    --- PASS: TestDuplicatedLinks/sling (0.00s)
-    --- PASS: TestDuplicatedLinks/spinner (0.00s)
-    --- PASS: TestDuplicatedLinks/sqlx (0.00s)
-    --- PASS: TestDuplicatedLinks/toolbox (0.00s)
-    --- PASS: TestDuplicatedLinks/ugo (0.00s)
-    --- PASS: TestDuplicatedLinks/xferspdy (0.00s)
-    --- PASS: TestDuplicatedLinks/xlsx (0.00s)
-    --- PASS: TestDuplicatedLinks/govalidator (0.00s)
-    --- PASS: TestDuplicatedLinks/ozzo-validation (0.00s)
-    --- PASS: TestDuplicatedLinks/validator (0.00s)
-    --- PASS: TestDuplicatedLinks/gh (0.00s)
-    --- PASS: TestDuplicatedLinks/git2go (0.00s)
-    --- PASS: TestDuplicatedLinks/go-vcs (0.00s)
-    --- PASS: TestDuplicatedLinks/hgo (0.00s)
-    --- PASS: TestDuplicatedLinks/gmf (0.00s)
-    --- PASS: TestDuplicatedLinks/goav (0.00s)
-    --- PASS: TestDuplicatedLinks/gst (0.00s)
-    --- PASS: TestDuplicatedLinks/v4l (0.00s)
-    --- PASS: TestDuplicatedLinks/alien (0.00s)
-    --- PASS: TestDuplicatedLinks/Beego (0.00s)
-    --- PASS: TestDuplicatedLinks/Bone (0.00s)
-    --- PASS: TestDuplicatedLinks/Bxog (0.00s)
-    --- PASS: TestDuplicatedLinks/chi (0.00s)
-    --- PASS: TestDuplicatedLinks/Echo (0.00s)
-    --- PASS: TestDuplicatedLinks/fasthttprouter (0.00s)
-    --- PASS: TestDuplicatedLinks/Fireball (0.00s)
-    --- PASS: TestDuplicatedLinks/Florest (0.00s)
-    --- PASS: TestDuplicatedLinks/Gem (0.00s)
-    --- PASS: TestDuplicatedLinks/Gin (0.00s)
-    --- PASS: TestDuplicatedLinks/Gizmo (0.00s)
-    --- PASS: TestDuplicatedLinks/Glue (0.00s)
-    --- PASS: TestDuplicatedLinks/go-json-rest (0.00s)
-    --- PASS: TestDuplicatedLinks/go-kit (0.00s)
-    --- PASS: TestDuplicatedLinks/go-relax (0.00s)
-    --- PASS: TestDuplicatedLinks/go-rest (0.00s)
-    --- PASS: TestDuplicatedLinks/go-socket.io (0.00s)
-    --- PASS: TestDuplicatedLinks/goa (0.00s)
-    --- PASS: TestDuplicatedLinks/Goat (0.00s)
-    --- PASS: TestDuplicatedLinks/gocraft/web (0.00s)
-    --- PASS: TestDuplicatedLinks/Goji (0.00s)
-    --- PASS: TestDuplicatedLinks/Golf (0.00s)
-    --- PASS: TestDuplicatedLinks/golongpoll (0.00s)
-    --- PASS: TestDuplicatedLinks/Gondola (0.00s)
-    --- PASS: TestDuplicatedLinks/gongular (0.00s)
-    --- PASS: TestDuplicatedLinks/goose#01 (0.00s)
-    --- PASS: TestDuplicatedLinks/Gorilla (0.00s)
-    --- PASS: TestDuplicatedLinks/httprouter (0.00s)
-    --- PASS: TestDuplicatedLinks/httptreemux (0.00s)
-    --- PASS: TestDuplicatedLinks/lars (0.00s)
-    --- PASS: TestDuplicatedLinks/Macaron (0.00s)
-    --- PASS: TestDuplicatedLinks/mango (0.00s)
-    --- PASS: TestDuplicatedLinks/medeina (0.00s)
-    --- PASS: TestDuplicatedLinks/Microservice (0.00s)
-    --- PASS: TestDuplicatedLinks/mux (0.00s)
-    --- PASS: TestDuplicatedLinks/neo (0.00s)
-    --- PASS: TestDuplicatedLinks/ozzo-routing (0.00s)
-    --- PASS: TestDuplicatedLinks/pat (0.00s)
-    --- PASS: TestDuplicatedLinks/Resoursea (0.00s)
-    --- PASS: TestDuplicatedLinks/REST_Layer (0.00s)
-    --- PASS: TestDuplicatedLinks/Revel (0.00s)
-    --- PASS: TestDuplicatedLinks/rex (0.00s)
-    --- PASS: TestDuplicatedLinks/sawsij (0.00s)
-    --- PASS: TestDuplicatedLinks/session (0.00s)
-    --- PASS: TestDuplicatedLinks/Siesta (0.00s)
-    --- PASS: TestDuplicatedLinks/tango (0.00s)
-    --- PASS: TestDuplicatedLinks/tigertonic (0.00s)
-    --- PASS: TestDuplicatedLinks/traffic (0.00s)
-    --- PASS: TestDuplicatedLinks/utron (0.00s)
-    --- PASS: TestDuplicatedLinks/VarHandler (0.00s)
-    --- PASS: TestDuplicatedLinks/vestigo (0.00s)
-    --- PASS: TestDuplicatedLinks/Volatile (0.00s)
-    --- PASS: TestDuplicatedLinks/xmux (0.00s)
-    --- PASS: TestDuplicatedLinks/YARF (0.00s)
-    --- PASS: TestDuplicatedLinks/Zerver (0.00s)
-    --- PASS: TestDuplicatedLinks/zeus (0.00s)
-    --- PASS: TestDuplicatedLinks/CORS (0.00s)
-    --- PASS: TestDuplicatedLinks/formjson (0.00s)
-    --- PASS: TestDuplicatedLinks/Limiter (0.00s)
-    --- PASS: TestDuplicatedLinks/Tollbooth (0.00s)
-    --- PASS: TestDuplicatedLinks/XFF (0.00s)
-    --- PASS: TestDuplicatedLinks/alice (0.00s)
-    --- PASS: TestDuplicatedLinks/catena (0.00s)
-    --- PASS: TestDuplicatedLinks/chain (0.00s)
-    --- PASS: TestDuplicatedLinks/go-wrap (0.00s)
-    --- PASS: TestDuplicatedLinks/gores (0.00s)
-    --- PASS: TestDuplicatedLinks/interpose (0.00s)
-    --- PASS: TestDuplicatedLinks/muxchain (0.00s)
-    --- PASS: TestDuplicatedLinks/negroni (0.00s)
-    --- PASS: TestDuplicatedLinks/render (0.00s)
-    --- PASS: TestDuplicatedLinks/rye (0.00s)
-    --- PASS: TestDuplicatedLinks/stats#02 (0.00s)
-    --- PASS: TestDuplicatedLinks/apicompat (0.00s)
-    --- PASS: TestDuplicatedLinks/dupl (0.00s)
-    --- PASS: TestDuplicatedLinks/errcheck (0.00s)
-    --- PASS: TestDuplicatedLinks/gcvis (0.00s)
-    --- PASS: TestDuplicatedLinks/Go_Metalinter (0.00s)
-    --- PASS: TestDuplicatedLinks/go-checkstyle (0.00s)
-    --- PASS: TestDuplicatedLinks/go-outdated (0.00s)
-    --- PASS: TestDuplicatedLinks/goast-viewer (0.00s)
-    --- PASS: TestDuplicatedLinks/GoCover.io (0.00s)
-    --- PASS: TestDuplicatedLinks/goimports (0.00s)
-    --- PASS: TestDuplicatedLinks/GoLint (0.00s)
-    --- PASS: TestDuplicatedLinks/Golint_online (0.00s)
-    --- PASS: TestDuplicatedLinks/goreturns (0.00s)
-    --- PASS: TestDuplicatedLinks/gostatus (0.00s)
-    --- PASS: TestDuplicatedLinks/interfacer (0.00s)
-    --- PASS: TestDuplicatedLinks/lint (0.00s)
-    --- PASS: TestDuplicatedLinks/validate (0.00s)
-    --- PASS: TestDuplicatedLinks/go-lang-idea-plugin (0.00s)
-    --- PASS: TestDuplicatedLinks/go-plus (0.00s)
-    --- PASS: TestDuplicatedLinks/Goclipse (0.00s)
-    --- PASS: TestDuplicatedLinks/gocode (0.00s)
-    --- PASS: TestDuplicatedLinks/GoSublime (0.00s)
-    --- PASS: TestDuplicatedLinks/velour (0.00s)
-    --- PASS: TestDuplicatedLinks/vim-compiler-go (0.00s)
-    --- PASS: TestDuplicatedLinks/vim-go (0.00s)
-    --- PASS: TestDuplicatedLinks/Watch (0.00s)
-    --- PASS: TestDuplicatedLinks/colorgo (0.00s)
-    --- PASS: TestDuplicatedLinks/gb (0.00s)
-    --- PASS: TestDuplicatedLinks/go-callvis (0.00s)
-    --- PASS: TestDuplicatedLinks/go-pkg-complete (0.00s)
-    --- PASS: TestDuplicatedLinks/go-swagger (0.00s)
-    --- PASS: TestDuplicatedLinks/rts (0.00s)
-    --- PASS: TestDuplicatedLinks/aptly (0.00s)
-    --- PASS: TestDuplicatedLinks/aurora#01 (0.00s)
-    --- PASS: TestDuplicatedLinks/awsenv (0.00s)
-    --- PASS: TestDuplicatedLinks/Banshee (0.00s)
-    --- PASS: TestDuplicatedLinks/bosun (0.00s)
-    --- PASS: TestDuplicatedLinks/dogo (0.00s)
-    --- PASS: TestDuplicatedLinks/drone-scp (0.00s)
-    --- PASS: TestDuplicatedLinks/Dropship (0.00s)
-    --- PASS: TestDuplicatedLinks/EasySSH (0.00s)
-    --- PASS: TestDuplicatedLinks/Gitea (0.00s)
-    --- PASS: TestDuplicatedLinks/Go_Metrics (0.00s)
-    --- PASS: TestDuplicatedLinks/https://github.com/codahale/metrics (0.00s)
-    --- PASS: TestDuplicatedLinks/go-selfupdate (0.00s)
-    --- PASS: TestDuplicatedLinks/gobrew (0.00s)
-    --- PASS: TestDuplicatedLinks/godbg (0.00s)
-    --- PASS: TestDuplicatedLinks/Gogs (0.00s)
-    --- PASS: TestDuplicatedLinks/gonative (0.00s)
-    --- PASS: TestDuplicatedLinks/govvv (0.00s)
-    --- PASS: TestDuplicatedLinks/gox (0.00s)
-    --- PASS: TestDuplicatedLinks/goxc (0.00s)
-    --- PASS: TestDuplicatedLinks/grapes (0.00s)
-    --- PASS: TestDuplicatedLinks/GVM (0.00s)
-    --- PASS: TestDuplicatedLinks/Hey (0.00s)
-    --- PASS: TestDuplicatedLinks/kala (0.00s)
-    --- PASS: TestDuplicatedLinks/kubernetes (0.00s)
-    --- PASS: TestDuplicatedLinks/Mora (0.00s)
-    --- PASS: TestDuplicatedLinks/ostent (0.00s)
-    --- PASS: TestDuplicatedLinks/Packer (0.00s)
-    --- PASS: TestDuplicatedLinks/Rodent (0.00s)
-    --- PASS: TestDuplicatedLinks/s3gof3r (0.00s)
-    --- PASS: TestDuplicatedLinks/Scaleway-cli (0.00s)
-    --- PASS: TestDuplicatedLinks/sg (0.00s)
-    --- PASS: TestDuplicatedLinks/Vegeta (0.00s)
-    --- PASS: TestDuplicatedLinks/webhook (0.00s)
-    --- PASS: TestDuplicatedLinks/Wide (0.00s)
-    --- PASS: TestDuplicatedLinks/winrm-cli (0.00s)
-    --- PASS: TestDuplicatedLinks/borg (0.00s)
-    --- PASS: TestDuplicatedLinks/boxed (0.00s)
-    --- PASS: TestDuplicatedLinks/Cherry (0.00s)
-    --- PASS: TestDuplicatedLinks/Circuit (0.00s)
-    --- PASS: TestDuplicatedLinks/Comcast (0.00s)
-    --- PASS: TestDuplicatedLinks/confd (0.00s)
-    --- PASS: TestDuplicatedLinks/Docker (0.00s)
-    --- PASS: TestDuplicatedLinks/Documize (0.00s)
-    --- PASS: TestDuplicatedLinks/fleet (0.00s)
-    --- PASS: TestDuplicatedLinks/Go_Package_Store (0.00s)
-    --- PASS: TestDuplicatedLinks/gocc (0.00s)
-    --- PASS: TestDuplicatedLinks/GoDocTooltip (0.00s)
-    --- PASS: TestDuplicatedLinks/Gor (0.00s)
-    --- PASS: TestDuplicatedLinks/hsync (0.00s)
-    --- PASS: TestDuplicatedLinks/hugo (0.00s)
-    --- PASS: TestDuplicatedLinks/ipe (0.00s)
-    --- PASS: TestDuplicatedLinks/Juju (0.00s)
-    --- PASS: TestDuplicatedLinks/limetext (0.00s)
-    --- PASS: TestDuplicatedLinks/LiteIDE (0.00s)
-    --- PASS: TestDuplicatedLinks/mockingjay (0.00s)
-    --- PASS: TestDuplicatedLinks/myLG (0.00s)
-    --- PASS: TestDuplicatedLinks/naclpipe (0.00s)
-    --- PASS: TestDuplicatedLinks/nes (0.00s)
-    --- PASS: TestDuplicatedLinks/orange-cat (0.00s)
-    --- PASS: TestDuplicatedLinks/peg (0.00s)
-    --- PASS: TestDuplicatedLinks/Postman (0.00s)
-    --- PASS: TestDuplicatedLinks/restic (0.00s)
-    --- PASS: TestDuplicatedLinks/rkt (0.00s)
-    --- PASS: TestDuplicatedLinks/Seaweed_File_System (0.00s)
-    --- PASS: TestDuplicatedLinks/shell2http (0.00s)
-    --- PASS: TestDuplicatedLinks/snap (0.00s)
-    --- PASS: TestDuplicatedLinks/Stack_Up (0.00s)
-    --- PASS: TestDuplicatedLinks/syncthing (0.00s)
-    --- PASS: TestDuplicatedLinks/Tenyks (0.00s)
-    --- PASS: TestDuplicatedLinks/toto (0.00s)
-    --- PASS: TestDuplicatedLinks/toxiproxy (0.00s)
-    --- PASS: TestDuplicatedLinks/tsuru (0.00s)
-    --- PASS: TestDuplicatedLinks/websysd (0.00s)
-    --- PASS: TestDuplicatedLinks/wellington (0.00s)
-    --- PASS: TestDuplicatedLinks/XML-Comp (0.00s)
-    --- PASS: TestDuplicatedLinks/autobench (0.00s)
-    --- PASS: TestDuplicatedLinks/go-benchmarks (0.00s)
-    --- PASS: TestDuplicatedLinks/go-http-routing-benchmark (0.00s)
-    --- PASS: TestDuplicatedLinks/go-type-assertion-benchmark (0.00s)
-    --- PASS: TestDuplicatedLinks/go-web-framework-benchmark (0.00s)
-    --- PASS: TestDuplicatedLinks/go_serialization_benchmarks (0.00s)
-    --- PASS: TestDuplicatedLinks/gocostmodel (0.00s)
-    --- PASS: TestDuplicatedLinks/golang-micro-benchmarks (0.00s)
-    --- PASS: TestDuplicatedLinks/golang-sql-benchmark (0.00s)
-    --- PASS: TestDuplicatedLinks/gospeed (0.00s)
-    --- PASS: TestDuplicatedLinks/kvbench (0.00s)
-    --- PASS: TestDuplicatedLinks/skynet (0.00s)
-    --- PASS: TestDuplicatedLinks/speedtest-resize (0.00s)
-    --- PASS: TestDuplicatedLinks/dotGo (0.00s)
-    --- PASS: TestDuplicatedLinks/GoCon (0.00s)
-    --- PASS: TestDuplicatedLinks/GolangUK (0.00s)
-    --- PASS: TestDuplicatedLinks/GopherChina (0.00s)
-    --- PASS: TestDuplicatedLinks/GopherCon (0.00s)
-    --- PASS: TestDuplicatedLinks/GopherCon_Brazil (0.00s)
-    --- PASS: TestDuplicatedLinks/GopherCon_Dubai (0.00s)
-    --- PASS: TestDuplicatedLinks/GopherCon_India (0.00s)
-    --- PASS: TestDuplicatedLinks/GothamGo (0.00s)
-    --- PASS: TestDuplicatedLinks/A_Go_Developer’s_Notebook (0.00s)
-    --- PASS: TestDuplicatedLinks/An_Introduction_to_Programming_in_Go (0.00s)
-    --- PASS: TestDuplicatedLinks/Build_Web_Application_with_Golang (0.00s)
-    --- PASS: TestDuplicatedLinks/Building_Web_Apps_With_Go (0.00s)
-    --- PASS: TestDuplicatedLinks/Go_Bootcamp (0.00s)
-    --- PASS: TestDuplicatedLinks/GoBooks (0.00s)
-    --- PASS: TestDuplicatedLinks/Learning_Go (0.00s)
-    --- PASS: TestDuplicatedLinks/Network_Programming_With_Go (0.00s)
-    --- PASS: TestDuplicatedLinks/The_Go_Programming_Language (0.00s)
-    --- PASS: TestDuplicatedLinks/Web_Application_with_Go_the_Anti-Textbook (0.00s)
-    --- PASS: TestDuplicatedLinks/@golang (0.00s)
-    --- PASS: TestDuplicatedLinks/@golang_news (0.00s)
-    --- PASS: TestDuplicatedLinks/@golangweekly (0.00s)
-    --- PASS: TestDuplicatedLinks/Awesome_Go_@LibHunt (0.00s)
-    --- PASS: TestDuplicatedLinks/Awesome_Remote_Job (0.00s)
-    --- PASS: TestDuplicatedLinks/awesome-awesomeness (0.00s)
-    --- PASS: TestDuplicatedLinks/Flipboard_-_Go_Magazine (0.00s)
-    --- PASS: TestDuplicatedLinks/Go_Blog (0.00s)
-    --- PASS: TestDuplicatedLinks/Go_Challenge (0.00s)
-    --- PASS: TestDuplicatedLinks/Go_Forum (0.00s)
-    --- PASS: TestDuplicatedLinks/Go_In_5_Minutes (0.00s)
-    --- PASS: TestDuplicatedLinks/Go_Projects (0.00s)
-    --- PASS: TestDuplicatedLinks/gocryforhelp (0.00s)
-    --- PASS: TestDuplicatedLinks/godoc.org (0.00s)
-    --- PASS: TestDuplicatedLinks/golang-graphics (0.00s)
-    --- PASS: TestDuplicatedLinks/golang-nuts (0.00s)
-    --- PASS: TestDuplicatedLinks/Google_Plus_Community (0.00s)
-    --- PASS: TestDuplicatedLinks/gowalker.org (0.00s)
-    --- PASS: TestDuplicatedLinks/r/Golang (0.00s)
-    --- PASS: TestDuplicatedLinks/Trending_Go_repositories_on_GitHub_today (0.00s)
-    --- PASS: TestDuplicatedLinks/A_Tour_of_Go (0.00s)
-    --- PASS: TestDuplicatedLinks/Building_Go_Web_Applications_and_Microservices_Using_Gin (0.00s)
-    --- PASS: TestDuplicatedLinks/Go_By_Example (0.00s)
-    --- PASS: TestDuplicatedLinks/Go_database/sql_tutorial (0.00s)
-    --- PASS: TestDuplicatedLinks/How_to_Use_Godog_for_Behavior-driven_Development_in_Go (0.00s)
-    --- PASS: TestDuplicatedLinks/Working_with_Go (0.00s)
-    --- PASS: TestDuplicatedLinks/d3d9 (0.00s)
-    --- PASS: TestDuplicatedLinks/go-ole (0.00s)
-PASS
-ok  	github.com/avelino/awesome-go	0.091s
-
-travis_time:end:133235d0:start=1484219664603859315,finish=1484219665247839047,duration=643979732[0K
-[32;1mThe command "go test -v ./..." exited with 0.[0m
-
-Done. Your build exited with 0.

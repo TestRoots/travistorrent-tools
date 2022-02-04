@@ -1,0 +1,2 @@
+build_id,commit,pull_req,branch,status,duration,started_at,jobs,event_type
+504755208,47b06654ad90ded3eef97b1c8f3413075ab0a1a7,3612,master,failed,42,2019-03-11 15:34:44 UTC,504755209,pull_request

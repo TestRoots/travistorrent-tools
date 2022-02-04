@@ -22,7 +22,7 @@ require 'fileutils'
 
 load 'lib/csv_helper.rb'
 
-@date_threshold = Date.parse("2016-09-01")
+@date_threshold = Date.parse("2021-03-06")
 
 def download_job(job, name, wait_in_s = 1)
   if (wait_in_s > 64)
@@ -34,12 +34,12 @@ def download_job(job, name, wait_in_s = 1)
 
   begin
     begin
-      log_url = "http://s3.amazonaws.com/archive.travis-ci.org/jobs/#{job}/log.txt"
+      log_url = "https://api.travis-ci.org/v3/job/#{job}/log.txt"
       STDERR.puts "Attempt 1 #{log_url}"
       log = Net::HTTP.get_response(URI.parse(log_url)).body
     rescue
       # Workaround if log.body results in error.
-      log_url = "http://s3.amazonaws.com/archive.travis-ci.org/jobs/#{job}/log.txt"
+      log_url = "https://api.travis-ci.org/v3/job/#{job}/log.txt"
       STDERR.puts "Attempt 2 #{log_url}"
       log = Net::HTTP.get_response(URI.parse(log_url)).body
     end
@@ -133,7 +133,7 @@ def paginate_build(last_build, repo_id, wait_in_s = 1)
     url = "https://api.travis-ci.org/builds?after_number=#{last_build}&repository_id=#{repo_id}"
     STDERR.puts url
 
-    resp = open(url,
+    resp = URI.open(url,
                 'Content-Type' => 'application/json',
                 'Accept' => 'application/vnd.travis-ci.2+json')
     builds = JSON.parse(resp.read)
@@ -179,7 +179,7 @@ def get_travis(repo, build_logs = true, wait_in_s = 1)
       end
     end
 
-    repo_id = JSON.parse(open("https://api.travis-ci.org/repos/#{repo}").read)['id']
+    repo_id = JSON.parse(URI.open("https://api.travis-ci.org/repos/#{repo}").read)['id']
 
     (0..highest_build).select { |x| x % 25 == 0 }.reverse_each do |last_build|
       all_builds << paginate_build(last_build, repo_id)

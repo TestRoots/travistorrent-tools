@@ -1,0 +1,3 @@
+build_id,commit,pull_req,branch,status,duration,started_at,jobs,event_type
+756418039,9c0fb3893b97da328af9ca59575763ed363c38d2,,2-master,canceled,0,,756418040,756418041,api
+756245777,9c0fb3893b97da328af9ca59575763ed363c38d2,,2-master,failed,59,2021-01-26 13:42:48 UTC,756245778,api
